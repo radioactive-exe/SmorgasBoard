@@ -18,24 +18,63 @@
 }
 
 .panel {
+
+    --min-width: 200;
+    --min-height: 200;
+
     background: navy;
     position: absolute;
-    width: 20rem;
-    height: 20rem;
     left: var(--x);
     top: var(--y);
+    /* min-width: );
+    min-height: ; */
+    width: var(--width, calc(var(--min-width) * 1px));
+    height: var(--height, calc(var(--min-height) * 1px));
     /* grid-area: 1 / 2 / 4 / 4 ; */
-
+    border-radius: 2rem;
+    
+    &:has(.drag-handle:hover):not(.being-dragged) {
+        filter: brightness(1.2);
+    }
+    
     &.being-dragged {
         filter: brightness(0.8);
+        & .drag-handle {
+            width: 5rem;
+            height: 5rem;
+        }
+    }
+
+    &::before {
+        position: absolute;
+        inset: 0;
+        background: purple;
+        transform: translate(10px, 10px);
     }
 }
 
-.drag-handle {
+.handle {
+    border-radius: 1rem;
     width: 2rem;
     height: 2rem;
-    svg {
+    padding: 1rem;
+    position: absolute;
+    transition: 0.2s ease;
+    user-select: none;
+    background: red;
+    
+    &.resize-handle {
+        bottom: 0;
+        right: 0;
+        rotate: 90deg;
+    }
+
+    &:hover {
+        width: 5rem;
+        height: 5rem;
+    }
+    & object {
         width: 100%;
-        height: 100%;
+        pointer-events: none;
     }
 }
