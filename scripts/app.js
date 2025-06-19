@@ -12,13 +12,13 @@ function resizeElement(el, e, xInit, yInit, elWidthInit, elHeightInit) {
     el.style.setProperty("--height", clamp(elHeightInit + e.pageY - yInit, getNumericalValueOfCssProperty(el, "--min-height"), window.innerHeight - el.offsetTop) + "px");
 }
 
-function snapElementToGrid(el) {
+function snapElementToGrid(el, source) {
     el.classList.add("snapping");
-    el.style.setProperty("--x", roundToNearest(getNumericalValueOfCssProperty(el, "--x"), window.innerWidth / 3) + "px");
-    el.style.setProperty("--y", roundToNearest(getNumericalValueOfCssProperty(el, "--y"), window.innerHeight / 3) + "px");
+    el.style.setProperty("--x", roundToNearest(getNumericalValueOfCssProperty(source, "--x"), window.innerWidth / 3) + "px");
+    el.style.setProperty("--y", roundToNearest(getNumericalValueOfCssProperty(source, "--y"), window.innerHeight / 3) + "px");
 
-    el.style.setProperty("--width", clamp(roundToNearest(getNumericalValueOfCssProperty(el, "--width"), window.innerWidth / 3), getNumericalValueOfCssProperty(el, "--min-width"), window.innerWidth - el.offsetLeft) + "px");
-    el.style.setProperty("--height", clamp(roundToNearest(getNumericalValueOfCssProperty(el, "--height"), window.innerHeight / 3), getNumericalValueOfCssProperty(el, "--min-height"), window.innerHeight - el.offsetTop) + "px");
+    el.style.setProperty("--width", clamp(roundToNearest(getNumericalValueOfCssProperty(source, "--width"), window.innerWidth / 3), getNumericalValueOfCssProperty(el, "--min-width"), window.innerWidth - el.offsetLeft) + "px");
+    el.style.setProperty("--height", clamp(roundToNearest(getNumericalValueOfCssProperty(source, "--height"), window.innerHeight / 3), getNumericalValueOfCssProperty(el, "--min-height"), window.innerHeight - el.offsetTop) + "px");
     
     setTimeout(() => {
         el.classList.remove("snapping");
@@ -26,7 +26,7 @@ function snapElementToGrid(el) {
 }
 
 function updateElementDestinationPreview(el) {
-    snapElementToGrid(el.querySelector(".final-preview"));
+    snapElementToGrid(el.parentElement.querySelector(".final-preview"), el);
 }
 
 
@@ -49,7 +49,7 @@ panels.forEach((i) => {
             i.classList.remove("being-dragged");
             document.removeEventListener("mouseup", releaseHandler);
             document.removeEventListener("mousemove", dragHandler);
-            snapElementToGrid(i);
+            snapElementToGrid(i, i);
         }
 
         document.addEventListener("mouseup", releaseHandler);
