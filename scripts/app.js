@@ -17,8 +17,8 @@ function snapElementToGrid(el, source) {
     el.style.setProperty("--x", roundToNearest(getNumericalValueOfCssProperty(source, "--x"), window.innerWidth / 3) + "px");
     el.style.setProperty("--y", roundToNearest(getNumericalValueOfCssProperty(source, "--y"), window.innerHeight / 3) + "px");
 
-    el.style.setProperty("--width", clamp(roundToNearest(getNumericalValueOfCssProperty(source, "--width"), window.innerWidth / 3), getNumericalValueOfCssProperty(el, "--min-width"), window.innerWidth - el.offsetLeft) + "px");
-    el.style.setProperty("--height", clamp(roundToNearest(getNumericalValueOfCssProperty(source, "--height"), window.innerHeight / 3), getNumericalValueOfCssProperty(el, "--min-height"), window.innerHeight - el.offsetTop) + "px");
+    el.style.setProperty("--width", clamp(roundToNearest(getNumericalValueOfCssProperty(source, "--width"), window.innerWidth / 3), getNumericalValueOfCssProperty(source, "--min-width"), window.innerWidth - source.offsetLeft) + "px");
+    el.style.setProperty("--height", clamp(roundToNearest(getNumericalValueOfCssProperty(source, "--height"), window.innerHeight / 3), getNumericalValueOfCssProperty(source, "--min-height"), window.innerHeight - source.offsetTop) + "px");
     
     setTimeout(() => {
         el.classList.remove("snapping");
@@ -67,13 +67,14 @@ panels.forEach((i) => {
         const dragHandler = (e) => {
             e.preventDefault;
             resizeElement(i, e, xInit, yInit, panelWidthInit, panelHeightInit);
+            updateElementDestinationPreview(i)
         };
 
         const releaseHandler = (e) => {
             i.classList.remove("being-resized");
             document.removeEventListener("mouseup", releaseHandler);
             document.removeEventListener("mousemove", dragHandler);
-            snapElementToGrid(i);
+            snapElementToGrid(i, i);
         }
 
         document.addEventListener("mouseup", releaseHandler);

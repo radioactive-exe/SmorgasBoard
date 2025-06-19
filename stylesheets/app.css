@@ -15,17 +15,23 @@
     display: grid;
     grid-template: repeat(3, 1fr) / repeat(3, 1fr);
     gap: 1rem;
-    & .final-preview {
-        transition: 0.2s ease;
-        /* height: var(--height);
-        width: var(--width); */
-        height: 10rem;
-        width: 10rem;
-        position: absolute;
-        /* z-index: -1; */
-        left: calc(var(--x)); 
-        top: calc(var(--y));
-        background: purple;
+}
+
+.final-preview {
+    transition: 0.2s ease;
+    /* height: var(--height);
+    width: var(--width); */
+    opacity: 0;
+    position: absolute;
+    /* z-index: -1; */
+    left: calc(var(--x)); 
+    top: calc(var(--y));
+    background: purple;
+    width: var(--width);
+    height: var(--height);
+    border-radius: 2rem;
+    &:has(+ .being-dragged), &:has(+ .being-resized) {
+        opacity: 1;
     }
 }
 
