@@ -19,38 +19,49 @@
 
 .panel {
 
-    --min-width: 200;
-    --min-height: 200;
+    --min-width: 200px;
+    --min-height: 200px;
 
     background: navy;
-    position: absolute;
-    left: var(--x);
-    top: var(--y);
+    position: fixed;
+    left: calc(var(--x));
+    top: calc(var(--y));
     /* min-width: );
     min-height: ; */
-    width: var(--width, calc(var(--min-width) * 1px));
-    height: var(--height, calc(var(--min-height) * 1px));
+    isolation: isolate;
+    z-index: 0;
+    width: calc(var(--width, calc(var(--min-width))));
+    height: calc(var(--height, calc(var(--min-height))));
     /* grid-area: 1 / 2 / 4 / 4 ; */
     border-radius: 2rem;
-    
+    overflow: visible;
+
     &:has(.drag-handle:hover):not(.being-dragged) {
         filter: brightness(1.2);
     }
     
     &.being-dragged {
-        filter: brightness(0.8);
+        filter: brightness(0.8) drop-shadow(1.5rem 1.5rem 2rem black);
+        scale: 1.2;
+        transition: all 0.2s ease, left 0s linear, top 0s linear;
+
         & .drag-handle {
             width: 5rem;
             height: 5rem;
         }
+        & .final-preview {
+            transition: 0.2s ease;
+            /* content: ''; */
+            height: var(--height);
+            width: var(--width);
+            position: fixed;
+            z-index: -1;
+            left: calc(var(--x));
+            top: calc(var(--y));
+            background: purple;
+        }
     }
 
-    &::before {
-        position: absolute;
-        inset: 0;
-        background: purple;
-        transform: translate(10px, 10px);
-    }
 }
 
 .handle {
@@ -77,4 +88,16 @@
         width: 100%;
         pointer-events: none;
     }
+}
+
+.snapping {
+    transition: 0.3s ease;
+    pointer-events: none;
+}
+
+.cell {
+    border-radius: 2rem;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.305);
 }
