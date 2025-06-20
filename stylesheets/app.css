@@ -18,27 +18,26 @@
 }
 
 .final-preview {
-    transition: 0.2s ease;
-    /* height: var(--height);
-    width: var(--width); */
+    transition: all 0.2s ease;
     opacity: 0;
+    width: 0;
+    height: 0;
     position: absolute;
-    /* z-index: -1; */
     left: calc(var(--x)); 
     top: calc(var(--y));
     background: purple;
     width: var(--width);
     height: var(--height);
     border-radius: 2rem;
-    &:has(+ .being-dragged), &:has(+ .being-resized) {
+    &:has(~ .being-dragged), &:has(~ .being-resized) {
         opacity: 1;
     }
 }
 
 .panel {
 
-    --min-width: 200px;
-    --min-height: 200px;
+    --min-width: 20rem;
+    --min-height: 20rem;
 
     background: navy;
     position: fixed;
