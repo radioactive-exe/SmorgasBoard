@@ -5,8 +5,9 @@
     padding: 0;
 }
 
-/* :root {
-} */
+body {
+    overflow: hidden;
+}
 
 #dashboard {
     width: 100vw;
@@ -43,13 +44,22 @@
     position: fixed;
     left: calc(var(--x));
     top: calc(var(--y));
+    transition: transform 0.3s ease;
     isolation: isolate;
     z-index: 0;
+    border: 1rem transparent solid;
     width: calc(var(--width, calc(var(--min-width))));
     height: calc(var(--height, calc(var(--min-height))));
     /* grid-area: 1 / 2 / 4 / 4 ; */
     border-radius: 2rem;
     overflow: visible;
+    transform:
+        rotateX(var(--rotate-x))
+        rotateY(var(--rotate-y));
+
+    &.in-motion {
+        transition: all 0s;
+    }
 
     &:has(.drag-handle:hover):not(.being-dragged) {
         filter: brightness(1.2);
@@ -65,6 +75,8 @@
             height: 5rem;
         }
     }
+
+
 
 }
 
