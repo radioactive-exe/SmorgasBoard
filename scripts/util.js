@@ -40,6 +40,9 @@ function getNormalisedCssPropertyValue(el, property) {
         case "ms":
             return getCssPropertyValue(el, property);
             break;
+        case "fr":
+            if (property.toLowerCase().includes("width")) return getCssPropertyValue(el, property) * (window.innerWidth) / getCssPropertyValue(document.body, "--num-of-cols");
+            else if (property.toLowerCase().includes("height")) return getCssPropertyValue(el, property) * (window.innerHeight) / getCssPropertyValue(document.body, "--num-of-rows");
         default:
             return getCssPropertyValue(el, property);
 

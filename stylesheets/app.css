@@ -6,6 +6,9 @@
 }
 
 body {
+    --num-of-rows: 3;
+    --num-of-cols: 3;
+
     overflow: hidden;
 }
 
@@ -14,7 +17,7 @@ body {
     height: 100vh;
     background: rgb(50, 43, 97);
     display: grid;
-    grid-template: repeat(3, 1fr) / repeat(3, 1fr);
+    grid-template: repeat(var(--num-of-rows), 1fr) / repeat(var(--num-of-cols), 1fr);
     gap: 1rem;
 }
 
@@ -37,8 +40,8 @@ body {
 
 .panel {
 
-    --min-width: 20rem;
-    --min-height: 20rem;
+    --min-width: 1fr;
+    --min-height: 1fr;
 
     background: navy;
     position: fixed;
@@ -48,8 +51,8 @@ body {
     isolation: isolate;
     z-index: 0;
     border: 1rem transparent solid;
-    width: calc(var(--width, calc(var(--min-width))));
-    height: calc(var(--height, calc(var(--min-height))));
+    width: var(--width);
+    height: var(--height);
     /* grid-area: 1 / 2 / 4 / 4 ; */
     border-radius: 2rem;
     overflow: visible;
@@ -67,8 +70,10 @@ body {
     
     &.being-dragged {
         filter: brightness(0.8) drop-shadow(1.5rem 1.5rem 2rem black);
-        /* scale: 1.2; */
+        scale: 1.2;
         transition: all 0.2s ease, left 0s linear, top 0s linear;
+        opacity: 0.8;
+        z-index: 1;
 
         & .drag-handle {
             width: 5rem;
@@ -76,7 +81,9 @@ body {
         }
     }
 
-
+    &.snapping {
+        z-index: 1;
+    }
 
 }
 

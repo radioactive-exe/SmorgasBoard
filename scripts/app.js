@@ -3,8 +3,8 @@ var originalArea;
 
 function moveElementWithinScreen(el, e, eventCoordsInit, elPosInit) {
     
-    [xInit, yInit] = eventCoordsInit;
-    [elLeftInit, elTopInit] = elPosInit;
+    var [xInit, yInit] = eventCoordsInit;
+    var [elLeftInit, elTopInit] = elPosInit;
 
     el.style.setProperty("--x", clamp(elLeftInit + (e.pageX - xInit), 0, window.innerWidth - el.offsetWidth) + "px");
     el.style.setProperty("--y", clamp(elTopInit + (e.pageY - yInit), 0, window.innerHeight - el.offsetHeight) + "px");
@@ -12,20 +12,20 @@ function moveElementWithinScreen(el, e, eventCoordsInit, elPosInit) {
 
 function resizeElement(el, e, eventCoordsInit, elSizeInit) {
     
-    [xInit, yInit] = eventCoordsInit;
-    [elWidthInit, elHeightInit] = elSizeInit;
+    var [xInit, yInit] = eventCoordsInit;
+    var [elWidthInit, elHeightInit] = elSizeInit;
 
-    el.style.setProperty("--width", clamp(elWidthInit + e.pageX - xInit, getNormalisedCssPropertyValue(el, "--min-width"), window.innerWidth - el.offsetLeft) + "px");
-    el.style.setProperty("--height", clamp(elHeightInit + e.pageY - yInit, getNormalisedCssPropertyValue(el, "--min-height"), window.innerHeight - el.offsetTop) + "px");
+    el.style.setProperty("--width", clamp(elWidthInit + e.pageX - xInit, getNormalisedCssPropertyValue(el, "--min-width") - 10, window.innerWidth - el.offsetLeft) + "px");
+    el.style.setProperty("--height", clamp(elHeightInit + e.pageY - yInit, getNormalisedCssPropertyValue(el, "--min-height") - 10, window.innerHeight - el.offsetTop) + "px");
 }
 
-function setItemArea(el, destination) {
+function setItemArea(el, area) {
 
-    el.style.setProperty("--x", destination[0] + "px");
-    el.style.setProperty("--y", destination[1] + "px");
+    el.style.setProperty("--x", area[0] + "px");
+    el.style.setProperty("--y", area[1] + "px");
 
-    el.style.setProperty("--width", destination[2] + "px");
-    el.style.setProperty("--height", destination[3] + "px");
+    el.style.setProperty("--width", area[2] + "px");
+    el.style.setProperty("--height", area[3] + "px");
 
 }
 
@@ -40,10 +40,10 @@ function snapElementToGrid(el, source = el) {
 
     var originalArea = [roundToNearest(x, window.innerWidth / 3), roundToNearest(y, window.innerHeight / 3), width, height];
 
-    var potentialX = roundToNearest(getNormalisedCssPropertyValue(source, "--x"), window.innerWidth / 3);
-    var potentialY = roundToNearest(getNormalisedCssPropertyValue(source, "--y"), window.innerHeight / 3);
-    var potentialWidth = clamp(roundToNearest(getNormalisedCssPropertyValue(source, "--width"), window.innerWidth / 3), getNormalisedCssPropertyValue(source, "--min-width"), window.innerWidth - source.offsetLeft);
-    var potentialHeight = clamp(roundToNearest(getNormalisedCssPropertyValue(source, "--height"), window.innerHeight / 3), getNormalisedCssPropertyValue(source, "--min-height"), window.innerHeight - source.offsetTop);
+    var potentialX = roundToNearest(getNormalisedCssPropertyValue(source, "--x"), window.innerWidth / getCssPropertyValue(document.body, "--num-of-cols"));
+    var potentialY = roundToNearest(getNormalisedCssPropertyValue(source, "--y"), window.innerHeight / getCssPropertyValue(document.body, "--num-of-rows"));
+    var potentialWidth = clamp(roundToNearest(getNormalisedCssPropertyValue(source, "--width"), window.innerWidth / getCssPropertyValue(document.body, "--num-of-cols")), getNormalisedCssPropertyValue(source, "--min-width"), window.innerWidth - source.offsetLeft);
+    var potentialHeight = clamp(roundToNearest(getNormalisedCssPropertyValue(source, "--height"), window.innerHeight / getCssPropertyValue(document.body, "--num-of-rows")), getNormalisedCssPropertyValue(source, "--min-height"), window.innerHeight - source.offsetTop);
 
     var potentialArea = [potentialX, potentialY, potentialWidth, potentialHeight];
 
@@ -51,12 +51,6 @@ function snapElementToGrid(el, source = el) {
         setItemArea(el, originalArea);
     }
     else setItemArea(el, potentialArea);
-
-    // el.style.setProperty("--x", potentialX + "px");
-    // el.style.setProperty("--y", potentialY + "px");
-
-    // el.style.setProperty("--width", potentialWidth + "px");
-    // el.style.setProperty("--height", potentialHeight + "px");
     
     setTimeout(() => {
         el.classList.remove("snapping");
@@ -81,13 +75,16 @@ function updateElementDestinationPreview(el) {
     snapElementToGrid(el.parentElement.querySelector(".final-preview"), el);
 }
 
+function initPanel(panel) {
+    panel.style.setProperty("--x", "0px");
+    panel.style.setProperty("--y", "0px");
+    panel.style.setProperty("--width", getNormalisedCssPropertyValue(panel, "--min-width") + "px");
+    panel.style.setProperty("--height", getNormalisedCssPropertyValue(panel, "--min-height") + "px");
+}
 
 panels.forEach((i) => {
 
-    i.style.setProperty("--x", "0px");
-    i.style.setProperty("--y", "0px");
-    i.style.setProperty("--width", "var(--min-width)");
-    i.style.setProperty("--height", "var(--min-height)");
+    initPanel(i);
 
     const preview = document.createElement("div");
     preview.classList.add("final-preview");
@@ -104,7 +101,7 @@ panels.forEach((i) => {
         preview.style.setProperty("--height", getCssProperty(i, "--height"));
         updateElementDestinationPreview(i);
 
-        const initCoords = [xInit = e.pageX, yInit = e.pageY];
+        const initCoords = [e.pageX, e.pageY];
         const panelPosInit = [panelLeftInit = i.offsetLeft, panelTopInit = i.offsetTop];
         
         const dragHandler = (e) => {
@@ -128,9 +125,11 @@ panels.forEach((i) => {
         document.addEventListener("mousemove", dragHandler);
     })
     i.querySelector(".resize-handle").addEventListener("mousedown", (e) => {
+
         i.classList.add("being-resized");
         preview.dataset.callerId = i.dataset.panelId
         i.parentElement.prepend(preview);
+        updateElementDestinationPreview(i);
 
         const initCoords = [xInit = e.pageX, yInit = e.pageY];
         const panelSizeInit = [panelWidthInit = i.offsetWidth, panelHeightInit = i.offsetHeight];
