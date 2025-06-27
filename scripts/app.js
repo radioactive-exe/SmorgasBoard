@@ -38,7 +38,13 @@ function snapElementToGrid(el, source = el) {
     var width = el.offsetWidth;
     var height = el.offsetHeight;
 
-    var originalArea = [roundToNearest(x, window.innerWidth / 3), roundToNearest(y, window.innerHeight / 3), width, height];
+    var originalArea =
+    [
+        roundToNearest(x, window.innerWidth / getCssPropertyValue(document.body, "--num-of-cols")),
+        roundToNearest(y, window.innerHeight / getCssPropertyValue(document.body, "--num-of-rows")),
+        roundToNearest(width, window.innerWidth / getCssPropertyValue(document.body, "--num-of-cols")),
+        roundToNearest(height, window.innerHeight / getCssPropertyValue(document.body, "--num-of-rows"))
+    ];
 
     var potentialX = roundToNearest(getNormalisedCssPropertyValue(source, "--x"), window.innerWidth / getCssPropertyValue(document.body, "--num-of-cols"));
     var potentialY = roundToNearest(getNormalisedCssPropertyValue(source, "--y"), window.innerHeight / getCssPropertyValue(document.body, "--num-of-rows"));
@@ -158,7 +164,7 @@ panels.forEach((i) => {
 
 window.addEventListener("resize", () => {
     panels.forEach((i) => {
-        snapElementToGrid(i, i);
+        snapElementToGrid(i);
     })
 });
 
