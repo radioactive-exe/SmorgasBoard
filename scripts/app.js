@@ -29,9 +29,9 @@ function setItemArea(el, area) {
 
 }
 
-function snapElementToGrid(el, source = el) {
+function snapElementToGrid(el, source = el, shouldAnimate = true) {
 
-    el.classList.add("snapping");
+    if (shouldAnimate) el.classList.add("snapping");
 
     var x = el.offsetLeft;
     var y = el.offsetTop;
@@ -164,7 +164,7 @@ panels.forEach((i) => {
 
 window.addEventListener("resize", () => {
     panels.forEach((i) => {
-        snapElementToGrid(i);
+        snapElementToGrid(i, i, false);
     })
 });
 
