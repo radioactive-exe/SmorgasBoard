@@ -54,10 +54,9 @@ function areaCollisionWithElement(area, el) {
         ((area[1] + area[3]) <= (el.offsetTop) + 10) ||
         (area[1] >= (el.offsetTop + el.offsetHeight)) ||
         ((area[0] + area[2]) <= (el.offsetLeft)) ||
-        (area[0] >= (el.offsetLeft + el.offsetWidth))
+        (area[0] >= (el.offsetLeft + el.offsetWidth) - 10)
     );
 }
-
 
 function collidesWithAnyPanel(self, area, panels) {
     
@@ -71,7 +70,6 @@ function collidesWithAnyPanel(self, area, panels) {
 
     return flag;
 }
-
 
 function moveElementWithinScreen(el, e, eventCoordsInit, elPosInit) {
     

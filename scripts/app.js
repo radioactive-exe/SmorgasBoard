@@ -61,6 +61,12 @@ function initPanel(panel) {
     panel.style.setProperty("--height", getNormalisedCssPropertyValue(panel, "--min-height") + "px");
 }
 
+function initPreview(i, preview) {
+    preview.dataset.callerId = i.dataset.panelId;
+    i.parentElement.prepend(preview);
+    updateElementDestinationPreview(i);
+}
+
 panels.forEach((i) => {
 
     initPanel(i);
@@ -73,12 +79,9 @@ panels.forEach((i) => {
     })
 
     i.querySelector(".drag-handle").addEventListener("mousedown", (e) => {
+
         i.classList.add("being-dragged");
-        preview.dataset.callerId = i.dataset.panelId;
-        i.parentElement.prepend(preview);
-        preview.style.setProperty("--width", getCssProperty(i, "--width"));
-        preview.style.setProperty("--height", getCssProperty(i, "--height"));
-        updateElementDestinationPreview(i);
+        initPreview(i, preview);
 
         const initCoords = [e.pageX, e.pageY];
         const panelPosInit = [panelLeftInit = i.offsetLeft, panelTopInit = i.offsetTop];
@@ -99,19 +102,16 @@ panels.forEach((i) => {
             }, getNormalisedCssPropertyValue(preview, "transition-duration"));
         }
 
-        document.addEventListener("mouseup", releaseHandler);
-
         document.addEventListener("mousemove", dragHandler);
+        document.addEventListener("mouseup", releaseHandler);
     })
     i.querySelector(".resize-handle").addEventListener("mousedown", (e) => {
 
         i.classList.add("being-resized");
-        preview.dataset.callerId = i.dataset.panelId
-        i.parentElement.prepend(preview);
-        updateElementDestinationPreview(i);
+        initPreview(i, preview);
 
-        const initCoords = [xInit = e.pageX, yInit = e.pageY];
-        const panelSizeInit = [panelWidthInit = i.offsetWidth, panelHeightInit = i.offsetHeight];
+        const initCoords = [e.pageX, e.pageY];
+        const panelSizeInit = [i.offsetWidth, i.offsetHeight];
 
         const dragHandler = (e) => {
             e.preventDefault;
@@ -224,4 +224,3 @@ function rotateElement(e, elem) {
     elem.style.setProperty("--shadow-offset-x", shadowOffsetX + "rem");
     elem.style.setProperty("--shadow-offset-y", shadowOffsetY + "rem");
 }
-
