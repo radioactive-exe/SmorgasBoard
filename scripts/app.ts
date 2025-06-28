@@ -1,5 +1,7 @@
-const panels = [...document.querySelectorAll(".panel")];
-var originalArea;
+import * as utils from "./util";
+
+const panels = [...document.querySelectorAll<HTMLElement>(".panel")];
+var originalArea, releaseHandler, dragHandler;
 
 
 function snapElementToGrid(el, source = el, shouldAnimate = true) {
@@ -13,41 +15,41 @@ function snapElementToGrid(el, source = el, shouldAnimate = true) {
 
     var originalArea =
     [
-        roundToNearest(x, window.innerWidth / getCssPropertyValue(document.body, "--num-of-cols")),
-        roundToNearest(y, window.innerHeight / getCssPropertyValue(document.body, "--num-of-rows")),
-        roundToNearest(width, window.innerWidth / getCssPropertyValue(document.body, "--num-of-cols")),
-        roundToNearest(height, window.innerHeight / getCssPropertyValue(document.body, "--num-of-rows"))
+        utils.roundToNearest(x, window.innerWidth / utils.getCssPropertyValue(document.body, "--num-of-cols")),
+        utils.roundToNearest(y, window.innerHeight / utils.getCssPropertyValue(document.body, "--num-of-rows")),
+        utils.roundToNearest(width, window.innerWidth / utils.getCssPropertyValue(document.body, "--num-of-cols")),
+        utils.roundToNearest(height, window.innerHeight / utils.getCssPropertyValue(document.body, "--num-of-rows"))
     ];
 
-    var potentialX = roundToNearest(getNormalisedCssPropertyValue(source, "--x"), window.innerWidth / getCssPropertyValue(document.body, "--num-of-cols"));
-    var potentialY = roundToNearest(getNormalisedCssPropertyValue(source, "--y"), window.innerHeight / getCssPropertyValue(document.body, "--num-of-rows"));
-    var potentialWidth = clamp(roundToNearest(getNormalisedCssPropertyValue(source, "--width"), window.innerWidth / getCssPropertyValue(document.body, "--num-of-cols")), getNormalisedCssPropertyValue(source, "--min-width"), window.innerWidth - source.offsetLeft);
-    var potentialHeight = clamp(roundToNearest(getNormalisedCssPropertyValue(source, "--height"), window.innerHeight / getCssPropertyValue(document.body, "--num-of-rows")), getNormalisedCssPropertyValue(source, "--min-height"), window.innerHeight - source.offsetTop);
+    var potentialX = utils.roundToNearest(utils.getNormalisedCssPropertyValue(source, "--x"), window.innerWidth / utils.getCssPropertyValue(document.body, "--num-of-cols"));
+    var potentialY = utils.roundToNearest(utils.getNormalisedCssPropertyValue(source, "--y"), window.innerHeight / utils.getCssPropertyValue(document.body, "--num-of-rows"));
+    var potentialWidth = utils.clamp(utils.roundToNearest(utils.getNormalisedCssPropertyValue(source, "--width"), window.innerWidth / utils.getCssPropertyValue(document.body, "--num-of-cols")), utils.getNormalisedCssPropertyValue(source, "--min-width"), window.innerWidth - source.offsetLeft);
+    var potentialHeight = utils.clamp(utils.roundToNearest(utils.getNormalisedCssPropertyValue(source, "--height"), window.innerHeight / utils.getCssPropertyValue(document.body, "--num-of-rows")), utils.getNormalisedCssPropertyValue(source, "--min-height"), window.innerHeight - source.offsetTop);
 
     var potentialArea = [potentialX, potentialY, potentialWidth, potentialHeight];
 
-    if (collidesWithAnyPanel(el, potentialArea, panels)) {
-        setItemArea(el, originalArea);
+    if (utils.collidesWithAnyPanel(el, potentialArea, panels)) {
+        utils.setItemArea(el, originalArea);
     }
-    else setItemArea(el, potentialArea);
+    else utils.setItemArea(el, potentialArea);
     
     setTimeout(() => {
         el.classList.remove("snapping");
-    }, getNormalisedCssPropertyValue(el, "transition-duration"));
+    }, utils.getNormalisedCssPropertyValue(el, "transition-duration"));
 }
 
 function snapElementToTarget(el, target) {
 
     el.classList.add("snapping");
 
-    el.style.setProperty("--x", getCssProperty(target, "--x"));
-    el.style.setProperty("--y", getCssProperty(target, "--y"));
-    el.style.setProperty("--width", getCssProperty(target, "--width"));
-    el.style.setProperty("--height", getCssProperty(target, "--height"));
+    el.style.setProperty("--x", utils.getCssProperty(target, "--x"));
+    el.style.setProperty("--y", utils.getCssProperty(target, "--y"));
+    el.style.setProperty("--width", utils.getCssProperty(target, "--width"));
+    el.style.setProperty("--height", utils.getCssProperty(target, "--height"));
         
     setTimeout(() => {
         el.classList.remove("snapping");
-    }, getNormalisedCssPropertyValue(el, "transition-duration"));
+    }, utils.getNormalisedCssPropertyValue(el, "transition-duration"));
 }
 
 function updateElementDestinationPreview(el) {
@@ -57,14 +59,23 @@ function updateElementDestinationPreview(el) {
 function initPanel(panel) {
     panel.style.setProperty("--x", "0px");
     panel.style.setProperty("--y", "0px");
-    panel.style.setProperty("--width", getNormalisedCssPropertyValue(panel, "--min-width") + "px");
-    panel.style.setProperty("--height", getNormalisedCssPropertyValue(panel, "--min-height") + "px");
+    panel.style.setProperty("--width", utils.getNormalisedCssPropertyValue(panel, "--min-width") + "px");
+    panel.style.setProperty("--height", utils.getNormalisedCssPropertyValue(panel, "--min-height") + "px");
 }
 
 function initPreview(i, preview) {
     preview.dataset.callerId = i.dataset.panelId;
     i.parentElement.prepend(preview);
     updateElementDestinationPreview(i);
+}
+
+function commonReleaseHandler(i, preview) {
+    document.removeEventListener("mouseup", releaseHandler);
+    document.removeEventListener("mousemove", dragHandler);
+    snapElementToTarget(i, preview);
+    setTimeout(() => {
+        i.parentElement.removeChild(preview);
+    }, utils.getNormalisedCssPropertyValue(preview, "transition-duration"));
 }
 
 panels.forEach((i) => {
@@ -74,65 +85,72 @@ panels.forEach((i) => {
     const preview = document.createElement("div");
     preview.classList.add("final-preview");
     
-    i.querySelector(".drag-handle").addEventListener("hover", (e) => {
+    i.querySelector<HTMLElement>(".drag-handle")?.addEventListener("hover", (e) => {
         e.stopPropagation();
     })
 
-    i.querySelector(".drag-handle").addEventListener("mousedown", (e) => {
+    i.querySelector<HTMLElement>(".drag-handle")?.addEventListener('mousedown', (e) => {
 
         i.classList.add("being-dragged");
         initPreview(i, preview);
 
-        const initCoords = [e.pageX, e.pageY];
-        const panelPosInit = [panelLeftInit = i.offsetLeft, panelTopInit = i.offsetTop];
+        const initData = {
+            eventCoords : {
+                x: e.pageX, 
+                y: e.pageY
+            },
+            panelPos: {
+                x: i.offsetLeft, 
+                y: i.offsetTop
+            }
+        };
         
-        const dragHandler = (e) => {
+        dragHandler = (e) => {
             e.preventDefault;
-            moveElementWithinScreen(i, e, initCoords, panelPosInit);
+            utils.moveElementWithinScreen(i, e, initData);
             updateElementDestinationPreview(i);
         };
 
-        const releaseHandler = (e) => {
+        releaseHandler = (e) => {
             i.classList.remove("being-dragged");
-            document.removeEventListener("mouseup", releaseHandler);
-            document.removeEventListener("mousemove", dragHandler);
-            snapElementToTarget(i, preview);
-            setTimeout(() => {
-                i.parentElement.removeChild(preview);
-            }, getNormalisedCssPropertyValue(preview, "transition-duration"));
+            commonReleaseHandler(i, preview);
         }
 
         document.addEventListener("mousemove", dragHandler);
         document.addEventListener("mouseup", releaseHandler);
-    })
-    i.querySelector(".resize-handle").addEventListener("mousedown", (e) => {
+    });
+
+    i.querySelector<HTMLElement>(".resize-handle")?.addEventListener("mousedown", (e) => {
 
         i.classList.add("being-resized");
         initPreview(i, preview);
 
-        const initCoords = [e.pageX, e.pageY];
-        const panelSizeInit = [i.offsetWidth, i.offsetHeight];
+        const initData = {
+            eventCoords : {
+                x: e.pageX, 
+                y: e.pageY
+            },
+            panelSize: {
+                width: i.offsetWidth, 
+                height: i.offsetHeight
+            }
+        };
 
-        const dragHandler = (e) => {
+        dragHandler = (e) => {
             e.preventDefault;
-            resizeElement(i, e, initCoords, panelSizeInit);
+            utils.resizeElement(i, e, initData);
             updateElementDestinationPreview(i);
         };
 
-        const releaseHandler = (e) => {
+        releaseHandler = (e) => {
             i.classList.remove("being-resized");
-            document.removeEventListener("mouseup", releaseHandler);
-            document.removeEventListener("mousemove", dragHandler);
-            snapElementToTarget(i, preview);
-            setTimeout(() => {
-                i.parentElement.removeChild(preview);
-            }, getNormalisedCssPropertyValue(preview, "transition-duration"));
+            commonReleaseHandler(i, preview);
         }
 
         document.addEventListener("mouseup", releaseHandler);
 
         document.addEventListener("mousemove", dragHandler);
-    })
+    });
 });
 
 window.addEventListener("resize", () => {

@@ -25,7 +25,7 @@ function getNormalisedCssPropertyValue(el, property) {
 
     if (getCssProperty(el, property) == "0") return 0; // No unit is often specified with 0
 
-    const propertyUnit = /[a-zA-Z]+/.exec(getCssProperty(el, property))[0];
+    const propertyUnit = /[a-zA-Z]+/.exec(getCssProperty(el, property))?this[0] : null;
 
     switch (propertyUnit) {
         case "rem":
@@ -71,22 +71,16 @@ function collidesWithAnyPanel(self, area, panels) {
     return flag;
 }
 
-function moveElementWithinScreen(el, e, eventCoordsInit, elPosInit) {
+function moveElementWithinScreen(el, e, initData) {
     
-    var [xInit, yInit] = eventCoordsInit;
-    var [elLeftInit, elTopInit] = elPosInit;
-
-    el.style.setProperty("--x", clamp(elLeftInit + (e.pageX - xInit), 0, window.innerWidth - el.offsetWidth) + "px");
-    el.style.setProperty("--y", clamp(elTopInit + (e.pageY - yInit), 0, window.innerHeight - el.offsetHeight) + "px");
+    el.style.setProperty("--x", clamp(initData.panelPos.x + (e.pageX - initData.eventCoords.x), 0, window.innerWidth - el.offsetWidth) + "px");
+    el.style.setProperty("--y", clamp(initData.panelPos.y + (e.pageY - initData.eventCoords.y), 0, window.innerHeight - el.offsetHeight) + "px");
 }
 
-function resizeElement(el, e, eventCoordsInit, elSizeInit) {
-    
-    var [xInit, yInit] = eventCoordsInit;
-    var [elWidthInit, elHeightInit] = elSizeInit;
+function resizeElement(el, e, initData) {
 
-    el.style.setProperty("--width", clamp(elWidthInit + e.pageX - xInit, getNormalisedCssPropertyValue(el, "--min-width") - 10, window.innerWidth - el.offsetLeft) + "px");
-    el.style.setProperty("--height", clamp(elHeightInit + e.pageY - yInit, getNormalisedCssPropertyValue(el, "--min-height") - 10, window.innerHeight - el.offsetTop) + "px");
+    el.style.setProperty("--width", clamp(initData.panelSize.width + e.pageX - initData.eventCoords.x, getNormalisedCssPropertyValue(el, "--min-width") - 10, window.innerWidth - el.offsetLeft) + "px");
+    el.style.setProperty("--height", clamp(initData.panelSize.height + e.pageY - initData.eventCoords.y, getNormalisedCssPropertyValue(el, "--min-height") - 10, window.innerHeight - el.offsetTop) + "px");
 }
 
 function setItemArea(el, area) {
@@ -97,4 +91,16 @@ function setItemArea(el, area) {
     el.style.setProperty("--width", area[2] + "px");
     el.style.setProperty("--height", area[3] + "px");
 
+}
+
+export {
+    clamp,
+    getCssProperty,
+    roundToNearest,
+    getCssPropertyValue,
+    getNormalisedCssPropertyValue,
+    collidesWithAnyPanel,
+    moveElementWithinScreen,
+    resizeElement,
+    setItemArea
 }

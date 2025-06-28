@@ -1,3 +1,4 @@
 # Git Ignore files
 
 desktop.ini
+*.code-workspace
