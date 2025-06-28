@@ -7,7 +7,7 @@
         "strictNullChecks": true,
         "strictFunctionTypes": true,
         "sourceMap": true,
-        "outDir": "/dist",
+        "outDir": "dist"
     },
     "exclude": [
         "node_modules",

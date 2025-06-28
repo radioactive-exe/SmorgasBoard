@@ -1,33 +1,26 @@
 function clamp(num, min, max) {
     return Math.min(Math.max(num, min), max);
 }
-
 function getCssProperty(el, property) {
     return window.getComputedStyle(el).getPropertyValue(property);
 }
-
 function roundToNearest(num, stepSize) {
     let diminished = num / stepSize;
     diminished = Math.round(diminished);
     diminished *= stepSize;
     return diminished;
 }
-
 function getNumericalValue(string) {
-    return string.replace(/\D+$/g, "")
+    return string.replace(/\D+$/g, "");
 }
-
 function getCssPropertyValue(el, property) {
     return getNumericalValue(getCssProperty(el, property));
 }
-
 function getNormalisedCssPropertyValue(el, property) {
-
-    if (getCssProperty(el, property) == "0") return 0; // No unit is often specified with 0
-
-    const temp = /[a-zA-Z]+/.exec(getCssProperty(el, property))
+    if (getCssProperty(el, property) == "0")
+        return 0; // No unit is often specified with 0
+    const temp = /[a-zA-Z]+/.exec(getCssProperty(el, property));
     const propertyUnit = temp ? temp[0] : "";
-
     switch (propertyUnit) {
         case "rem":
             return getCssPropertyValue(el, property) * 10;
@@ -42,66 +35,42 @@ function getNormalisedCssPropertyValue(el, property) {
             return getCssPropertyValue(el, property);
             break;
         case "fr":
-            if (property.toLowerCase().includes("width")) return getCssPropertyValue(el, property) * (window.innerWidth) / getCssPropertyValue(document.body, "--num-of-cols");
-            else if (property.toLowerCase().includes("height")) return getCssPropertyValue(el, property) * (window.innerHeight) / getCssPropertyValue(document.body, "--num-of-rows");
+            if (property.toLowerCase().includes("width"))
+                return getCssPropertyValue(el, property) * (window.innerWidth) / getCssPropertyValue(document.body, "--num-of-cols");
+            else if (property.toLowerCase().includes("height"))
+                return getCssPropertyValue(el, property) * (window.innerHeight) / getCssPropertyValue(document.body, "--num-of-rows");
         default:
             return getCssPropertyValue(el, property);
-
     }
 }
-
 function areaCollisionWithElement(area, el) {
-    return !(
-        ((area[1] + area[3]) <= (el.offsetTop) + 10) ||
+    return !(((area[1] + area[3]) <= (el.offsetTop) + 10) ||
         (area[1] >= (el.offsetTop + el.offsetHeight)) ||
         ((area[0] + area[2]) <= (el.offsetLeft)) ||
-        (area[0] >= (el.offsetLeft + el.offsetWidth) - 10)
-    );
+        (area[0] >= (el.offsetLeft + el.offsetWidth) - 10));
 }
-
 function collidesWithAnyPanel(self, area, panels) {
-    
     var flag = false;
-    
     panels.forEach(i => {
         if (i.dataset.panelId != self.dataset.callerId && areaCollisionWithElement(area, i)) {
-            flag = true;  
+            flag = true;
         }
     });
-
     return flag;
 }
-
 function moveElementWithinScreen(el, e, initData) {
-    
     el.style.setProperty("--x", clamp(initData.panelPos.x + (e.pageX - initData.eventCoords.x), 0, window.innerWidth - el.offsetWidth) + "px");
     el.style.setProperty("--y", clamp(initData.panelPos.y + (e.pageY - initData.eventCoords.y), 0, window.innerHeight - el.offsetHeight) + "px");
 }
-
 function resizeElement(el, e, initData) {
-
     el.style.setProperty("--width", clamp(initData.panelSize.width + e.pageX - initData.eventCoords.x, getNormalisedCssPropertyValue(el, "--min-width") - 10, window.innerWidth - el.offsetLeft) + "px");
     el.style.setProperty("--height", clamp(initData.panelSize.height + e.pageY - initData.eventCoords.y, getNormalisedCssPropertyValue(el, "--min-height") - 10, window.innerHeight - el.offsetTop) + "px");
 }
-
 function setItemArea(el, area) {
-
     el.style.setProperty("--x", area[0] + "px");
     el.style.setProperty("--y", area[1] + "px");
-
     el.style.setProperty("--width", area[2] + "px");
     el.style.setProperty("--height", area[3] + "px");
-
 }
-
-export {
-    clamp,
-    getCssProperty,
-    roundToNearest,
-    getCssPropertyValue,
-    getNormalisedCssPropertyValue,
-    collidesWithAnyPanel,
-    moveElementWithinScreen,
-    resizeElement,
-    setItemArea
-}
+export { clamp, getCssProperty, roundToNearest, getCssPropertyValue, getNormalisedCssPropertyValue, collidesWithAnyPanel, moveElementWithinScreen, resizeElement, setItemArea };
+//# sourceMappingURL=util.js.map
