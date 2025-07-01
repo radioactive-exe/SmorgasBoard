@@ -1,6 +1,6 @@
 import * as utils from "./util.js";
 const panels = [...document.querySelectorAll(".panel")];
-var originalArea, releaseHandler, dragHandler;
+var releaseHandler, dragHandler;
 function snapElementToGrid(el, source = el, shouldAnimate = true) {
     if (shouldAnimate)
         el.classList.add("snapping");
@@ -8,17 +8,30 @@ function snapElementToGrid(el, source = el, shouldAnimate = true) {
     var y = el.offsetTop;
     var width = el.offsetWidth;
     var height = el.offsetHeight;
-    var originalArea = [
-        utils.roundToNearest(x, window.innerWidth / utils.getCssPropertyValue(document.body, "--num-of-cols")),
-        utils.roundToNearest(y, window.innerHeight / utils.getCssPropertyValue(document.body, "--num-of-rows")),
-        utils.roundToNearest(width, window.innerWidth / utils.getCssPropertyValue(document.body, "--num-of-cols")),
-        utils.roundToNearest(height, window.innerHeight / utils.getCssPropertyValue(document.body, "--num-of-rows"))
-    ];
-    var potentialX = utils.roundToNearest(utils.getNormalisedCssPropertyValue(source, "--x"), window.innerWidth / utils.getCssPropertyValue(document.body, "--num-of-cols"));
-    var potentialY = utils.roundToNearest(utils.getNormalisedCssPropertyValue(source, "--y"), window.innerHeight / utils.getCssPropertyValue(document.body, "--num-of-rows"));
-    var potentialWidth = utils.clamp(utils.roundToNearest(utils.getNormalisedCssPropertyValue(source, "--width"), window.innerWidth / utils.getCssPropertyValue(document.body, "--num-of-cols")), utils.getNormalisedCssPropertyValue(source, "--min-width"), window.innerWidth - source.offsetLeft);
-    var potentialHeight = utils.clamp(utils.roundToNearest(utils.getNormalisedCssPropertyValue(source, "--height"), window.innerHeight / utils.getCssPropertyValue(document.body, "--num-of-rows")), utils.getNormalisedCssPropertyValue(source, "--min-height"), window.innerHeight - source.offsetTop);
-    var potentialArea = [potentialX, potentialY, potentialWidth, potentialHeight];
+    var originalArea = {
+        x: utils.roundToNearest(x, window.innerWidth /
+            utils.getCssPropertyValue(document.body, "--num-of-cols")),
+        y: utils.roundToNearest(y, window.innerHeight /
+            utils.getCssPropertyValue(document.body, "--num-of-rows")),
+        width: utils.roundToNearest(width, window.innerWidth /
+            utils.getCssPropertyValue(document.body, "--num-of-cols")),
+        height: utils.roundToNearest(height, window.innerHeight /
+            utils.getCssPropertyValue(document.body, "--num-of-rows")),
+    };
+    var potentialX = utils.roundToNearest(utils.getNormalisedCssPropertyValue(source, "--x"), window.innerWidth /
+        utils.getCssPropertyValue(document.body, "--num-of-cols"));
+    var potentialY = utils.roundToNearest(utils.getNormalisedCssPropertyValue(source, "--y"), window.innerHeight /
+        utils.getCssPropertyValue(document.body, "--num-of-rows"));
+    var potentialWidth = utils.clamp(utils.roundToNearest(utils.getNormalisedCssPropertyValue(source, "--width"), window.innerWidth /
+        utils.getCssPropertyValue(document.body, "--num-of-cols")), utils.getNormalisedCssPropertyValue(source, "--min-width"), window.innerWidth - source.offsetLeft);
+    var potentialHeight = utils.clamp(utils.roundToNearest(utils.getNormalisedCssPropertyValue(source, "--height"), window.innerHeight /
+        utils.getCssPropertyValue(document.body, "--num-of-rows")), utils.getNormalisedCssPropertyValue(source, "--min-height"), window.innerHeight - source.offsetTop);
+    var potentialArea = {
+        x: potentialX,
+        y: potentialY,
+        width: potentialWidth,
+        height: potentialHeight,
+    };
     if (utils.collidesWithAnyPanel(el, potentialArea, panels)) {
         utils.setItemArea(el, originalArea);
     }
@@ -68,18 +81,18 @@ panels.forEach((i) => {
     i.querySelector(".drag-handle")?.addEventListener("hover", (e) => {
         e.stopPropagation();
     });
-    i.querySelector(".drag-handle")?.addEventListener('mousedown', (e) => {
+    i.querySelector(".drag-handle")?.addEventListener("mousedown", (e) => {
         i.classList.add("being-dragged");
         initPreview(i, preview);
         const initData = {
             eventCoords: {
                 x: e.pageX,
-                y: e.pageY
+                y: e.pageY,
             },
             panelPos: {
                 x: i.offsetLeft,
-                y: i.offsetTop
-            }
+                y: i.offsetTop,
+            },
         };
         dragHandler = (e) => {
             e.preventDefault;
@@ -99,12 +112,12 @@ panels.forEach((i) => {
         const initData = {
             eventCoords: {
                 x: e.pageX,
-                y: e.pageY
+                y: e.pageY,
             },
             panelSize: {
                 width: i.offsetWidth,
-                height: i.offsetHeight
-            }
+                height: i.offsetHeight,
+            },
         };
         dragHandler = (e) => {
             e.preventDefault;

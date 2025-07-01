@@ -1,3 +1,5 @@
+import * as type from "./defs.js";
+
 function clamp(num, min, max) {
     return Math.min(Math.max(num, min), max);
 }
@@ -50,12 +52,12 @@ function getNormalisedCssPropertyValue(el, property) {
     }
 }
 
-function areaCollisionWithElement(area, el) {
+function areaCollisionWithElement(area : type.Area, el) {
     return !(
-        ((area[1] + area[3]) <= (el.offsetTop) + 10) ||
-        (area[1] >= (el.offsetTop + el.offsetHeight)) ||
-        ((area[0] + area[2]) <= (el.offsetLeft)) ||
-        (area[0] >= (el.offsetLeft + el.offsetWidth) - 10)
+        ((area.x + area.height) <= (el.offsetTop) + 10) ||
+        (area.y >= (el.offsetTop + el.offsetHeight)) ||
+        ((area.x + area.width) <= (el.offsetLeft)) ||
+        (area.x >= (el.offsetLeft + el.offsetWidth) - 10)
     );
 }
 
@@ -84,13 +86,13 @@ function resizeElement(el, e, initData) {
     el.style.setProperty("--height", clamp(initData.panelSize.height + e.pageY - initData.eventCoords.y, getNormalisedCssPropertyValue(el, "--min-height") - 10, window.innerHeight - el.offsetTop) + "px");
 }
 
-function setItemArea(el, area) {
+function setItemArea(el, area : type.Area) {
 
-    el.style.setProperty("--x", area[0] + "px");
-    el.style.setProperty("--y", area[1] + "px");
+    el.style.setProperty("--x", area.x + "px");
+    el.style.setProperty("--y", area.y + "px");
 
-    el.style.setProperty("--width", area[2] + "px");
-    el.style.setProperty("--height", area[3] + "px");
+    el.style.setProperty("--width", area.width + "px");
+    el.style.setProperty("--height", area.height + "px");
 
 }
 

@@ -1,11 +1,10 @@
 import * as utils from "./util.js";
+import * as type from "./defs.js";
 
 const panels = [...document.querySelectorAll<HTMLElement>(".panel")];
-var originalArea, releaseHandler, dragHandler;
-
+var releaseHandler, dragHandler;
 
 function snapElementToGrid(el, source = el, shouldAnimate = true) {
-
     if (shouldAnimate) el.classList.add("snapping");
 
     var x = el.offsetLeft;
@@ -13,40 +12,82 @@ function snapElementToGrid(el, source = el, shouldAnimate = true) {
     var width = el.offsetWidth;
     var height = el.offsetHeight;
 
-    var originalArea =
-    [
-        utils.roundToNearest(x, window.innerWidth / utils.getCssPropertyValue(document.body, "--num-of-cols")),
-        utils.roundToNearest(y, window.innerHeight / utils.getCssPropertyValue(document.body, "--num-of-rows")),
-        utils.roundToNearest(width, window.innerWidth / utils.getCssPropertyValue(document.body, "--num-of-cols")),
-        utils.roundToNearest(height, window.innerHeight / utils.getCssPropertyValue(document.body, "--num-of-rows"))
-    ];
+    var originalArea: type.Area = {
+        x: utils.roundToNearest(
+            x,
+            window.innerWidth /
+                utils.getCssPropertyValue(document.body, "--num-of-cols")
+        ),
+        y: utils.roundToNearest(
+            y,
+            window.innerHeight /
+                utils.getCssPropertyValue(document.body, "--num-of-rows")
+        ),
+        width: utils.roundToNearest(
+            width,
+            window.innerWidth /
+                utils.getCssPropertyValue(document.body, "--num-of-cols")
+        ),
+        height: utils.roundToNearest(
+            height,
+            window.innerHeight /
+                utils.getCssPropertyValue(document.body, "--num-of-rows")
+        ),
+    };
 
-    var potentialX = utils.roundToNearest(utils.getNormalisedCssPropertyValue(source, "--x"), window.innerWidth / utils.getCssPropertyValue(document.body, "--num-of-cols"));
-    var potentialY = utils.roundToNearest(utils.getNormalisedCssPropertyValue(source, "--y"), window.innerHeight / utils.getCssPropertyValue(document.body, "--num-of-rows"));
-    var potentialWidth = utils.clamp(utils.roundToNearest(utils.getNormalisedCssPropertyValue(source, "--width"), window.innerWidth / utils.getCssPropertyValue(document.body, "--num-of-cols")), utils.getNormalisedCssPropertyValue(source, "--min-width"), window.innerWidth - source.offsetLeft);
-    var potentialHeight = utils.clamp(utils.roundToNearest(utils.getNormalisedCssPropertyValue(source, "--height"), window.innerHeight / utils.getCssPropertyValue(document.body, "--num-of-rows")), utils.getNormalisedCssPropertyValue(source, "--min-height"), window.innerHeight - source.offsetTop);
+    var potentialX = utils.roundToNearest(
+        utils.getNormalisedCssPropertyValue(source, "--x"),
+        window.innerWidth /
+            utils.getCssPropertyValue(document.body, "--num-of-cols")
+    );
+    var potentialY = utils.roundToNearest(
+        utils.getNormalisedCssPropertyValue(source, "--y"),
+        window.innerHeight /
+            utils.getCssPropertyValue(document.body, "--num-of-rows")
+    );
+    var potentialWidth = utils.clamp(
+        utils.roundToNearest(
+            utils.getNormalisedCssPropertyValue(source, "--width"),
+            window.innerWidth /
+                utils.getCssPropertyValue(document.body, "--num-of-cols")
+        ),
+        utils.getNormalisedCssPropertyValue(source, "--min-width"),
+        window.innerWidth - source.offsetLeft
+    );
+    var potentialHeight = utils.clamp(
+        utils.roundToNearest(
+            utils.getNormalisedCssPropertyValue(source, "--height"),
+            window.innerHeight /
+                utils.getCssPropertyValue(document.body, "--num-of-rows")
+        ),
+        utils.getNormalisedCssPropertyValue(source, "--min-height"),
+        window.innerHeight - source.offsetTop
+    );
 
-    var potentialArea = [potentialX, potentialY, potentialWidth, potentialHeight];
+    var potentialArea: type.Area = {
+        x: potentialX,
+        y: potentialY,
+        width: potentialWidth,
+        height: potentialHeight,
+    };
 
     if (utils.collidesWithAnyPanel(el, potentialArea, panels)) {
         utils.setItemArea(el, originalArea);
-    }
-    else utils.setItemArea(el, potentialArea);
-    
+    } else utils.setItemArea(el, potentialArea);
+
     setTimeout(() => {
         el.classList.remove("snapping");
     }, utils.getNormalisedCssPropertyValue(el, "transition-duration"));
 }
 
 function snapElementToTarget(el, target) {
-
     el.classList.add("snapping");
 
     el.style.setProperty("--x", utils.getCssProperty(target, "--x"));
     el.style.setProperty("--y", utils.getCssProperty(target, "--y"));
     el.style.setProperty("--width", utils.getCssProperty(target, "--width"));
     el.style.setProperty("--height", utils.getCssProperty(target, "--height"));
-        
+
     setTimeout(() => {
         el.classList.remove("snapping");
     }, utils.getNormalisedCssPropertyValue(el, "transition-duration"));
@@ -59,8 +100,14 @@ function updateElementDestinationPreview(el) {
 function initPanel(panel) {
     panel.style.setProperty("--x", "0px");
     panel.style.setProperty("--y", "0px");
-    panel.style.setProperty("--width", utils.getNormalisedCssPropertyValue(panel, "--min-width") + "px");
-    panel.style.setProperty("--height", utils.getNormalisedCssPropertyValue(panel, "--min-height") + "px");
+    panel.style.setProperty(
+        "--width",
+        utils.getNormalisedCssPropertyValue(panel, "--min-width") + "px"
+    );
+    panel.style.setProperty(
+        "--height",
+        utils.getNormalisedCssPropertyValue(panel, "--min-height") + "px"
+    );
 }
 
 function initPreview(i, preview) {
@@ -80,101 +127,99 @@ function commonReleaseHandler(i, preview) {
 }
 
 panels.forEach((i) => {
-
     initPanel(i);
 
     const preview = document.createElement("div");
     preview.classList.add("final-preview");
-    
-    i.querySelector<HTMLElement>(".drag-handle")?.addEventListener("hover", (e) => {
-        e.stopPropagation();
-    })
 
-    i.querySelector<HTMLElement>(".drag-handle")?.addEventListener('mousedown', (e) => {
-
-        i.classList.add("being-dragged");
-        initPreview(i, preview);
-
-        const initData = {
-            eventCoords : {
-                x: e.pageX, 
-                y: e.pageY
-            },
-            panelPos: {
-                x: i.offsetLeft, 
-                y: i.offsetTop
-            }
-        };
-        
-        dragHandler = (e) => {
-            e.preventDefault;
-            utils.moveElementWithinScreen(i, e, initData);
-            updateElementDestinationPreview(i);
-        };
-
-        releaseHandler = (e) => {
-            i.classList.remove("being-dragged");
-            commonReleaseHandler(i, preview);
+    i.querySelector<HTMLElement>(".drag-handle")?.addEventListener(
+        "hover",
+        (e) => {
+            e.stopPropagation();
         }
+    );
 
-        document.addEventListener("mousemove", dragHandler);
-        document.addEventListener("mouseup", releaseHandler);
-    });
+    i.querySelector<HTMLElement>(".drag-handle")?.addEventListener(
+        "mousedown",
+        (e) => {
+            i.classList.add("being-dragged");
+            initPreview(i, preview);
 
-    i.querySelector<HTMLElement>(".resize-handle")?.addEventListener("mousedown", (e) => {
+            const initData = {
+                eventCoords : {
+                    x: e.pageX,
+                    y: e.pageY,
+                },
+                panelPos: {
+                    x: i.offsetLeft,
+                    y: i.offsetTop,
+                },
+            };
 
-        i.classList.add("being-resized");
-        initPreview(i, preview);
+            dragHandler = (e) => {
+                e.preventDefault;
+                utils.moveElementWithinScreen(i, e, initData);
+                updateElementDestinationPreview(i);
+            };
 
-        const initData = {
-            eventCoords : {
-                x: e.pageX, 
-                y: e.pageY
-            },
-            panelSize: {
-                width: i.offsetWidth, 
-                height: i.offsetHeight
-            }
-        };
+            releaseHandler = (e) => {
+                i.classList.remove("being-dragged");
+                commonReleaseHandler(i, preview);
+            };
 
-        dragHandler = (e) => {
-            e.preventDefault;
-            utils.resizeElement(i, e, initData);
-            updateElementDestinationPreview(i);
-        };
-
-        releaseHandler = (e) => {
-            i.classList.remove("being-resized");
-            commonReleaseHandler(i, preview);
+            document.addEventListener("mousemove", dragHandler);
+            document.addEventListener("mouseup", releaseHandler);
         }
+    );
 
-        document.addEventListener("mouseup", releaseHandler);
+    i.querySelector<HTMLElement>(".resize-handle")?.addEventListener(
+        "mousedown",
+        (e) => {
+            i.classList.add("being-resized");
+            initPreview(i, preview);
 
-        document.addEventListener("mousemove", dragHandler);
-    });
+            const initData = {
+                eventCoords: {
+                    x: e.pageX,
+                    y: e.pageY,
+                },
+                panelSize: {
+                    width: i.offsetWidth,
+                    height: i.offsetHeight,
+                },
+            };
+
+            dragHandler = (e) => {
+                e.preventDefault;
+                utils.resizeElement(i, e, initData);
+                updateElementDestinationPreview(i);
+            };
+
+            releaseHandler = (e) => {
+                i.classList.remove("being-resized");
+                commonReleaseHandler(i, preview);
+            };
+
+            document.addEventListener("mouseup", releaseHandler);
+
+            document.addEventListener("mousemove", dragHandler);
+        }
+    );
 });
 
 window.addEventListener("resize", () => {
     panels.forEach((i) => {
         snapElementToGrid(i, i, false);
-    })
+    });
 });
-
-
-
 
 // ~ panel FANCY STUFF
 
-
-
-
-[...document.querySelectorAll(".panel")].forEach((i) =>
-        {
-            // i.addEventListener("mousemove", panelHoverHandler);
-            // i.addEventListener("mouseleave", resetPanelHoverHandler);
-            // i.addEventListener("mouseenter", enterPanelHoverHandler);
-        }
-    );
+[...document.querySelectorAll(".panel")].forEach((i) => {
+    // i.addEventListener("mousemove", panelHoverHandler);
+    // i.addEventListener("mouseleave", resetPanelHoverHandler);
+    // i.addEventListener("mouseenter", enterPanelHoverHandler);
+});
 
 function ignoreEventHandler(e) {
     e.stopPropagation();
@@ -207,7 +252,9 @@ function enterPanelHoverHandler(e) {
         target.classList.add("hovering");
         setTimeout(() => {
             // if (!e.currentTarget) {return};
-            if (target.classList.contains("hovering")) {panel.classList.add("in-motion");}
+            if (target.classList.contains("hovering")) {
+                panel.classList.add("in-motion");
+            }
         }, 300);
     }
     // console.log(panel);
@@ -216,21 +263,27 @@ function enterPanelHoverHandler(e) {
 function rotateElement(e, elem) {
     // if (elem.children.item(1).classList.contains("moving")) {return;}
 
-    if (!elem.classList.contains("hovering")) { elem.dispatchEvent(new Event("mouseenter"));}
-    
+    if (!elem.classList.contains("hovering")) {
+        elem.dispatchEvent(new Event("mouseenter"));
+    }
+
     const x = e.clientX;
     const y = e.clientY;
 
     var left, top, right, bottom;
 
     if (elem.classList.contains("focused")) {
-        left = -0.5 *  window.innerWidth; right = window.innerWidth * 1.5;
-        top = -0.5 * window.innerHeight; bottom = window.innerHeight * 1.5;
+        left = -0.5 * window.innerWidth;
+        right = window.innerWidth * 1.5;
+        top = -0.5 * window.innerHeight;
+        bottom = window.innerHeight * 1.5;
     } else {
         const box = elem.getBoundingClientRect();
-        left = box.left; right = box.right; top = box.top; bottom = box.bottom;
+        left = box.left;
+        right = box.right;
+        top = box.top;
+        bottom = box.bottom;
     }
-
 
     let centreX = (left + right) / 2;
     let centreY = (top + bottom) / 2;
