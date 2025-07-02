@@ -221,16 +221,11 @@ window.addEventListener("resize", () => {
     // i.addEventListener("mouseenter", enterPanelHoverHandler);
 });
 
-function ignoreEventHandler(e) {
-    e.stopPropagation();
-}
-
 function panelHoverHandler(e) {
     e.stopPropagation();
     if (!e.currentTarget.children.item(1).classList.contains("moving")) {
         rotateElement(e, e.currentTarget);
     }
-    // console.log(e.target);
 }
 
 function resetPanelHoverHandler(e) {
@@ -245,23 +240,20 @@ function resetPanelHoverHandler(e) {
 
 function enterPanelHoverHandler(e) {
     e.stopImmediatePropagation();
-    // console.log("Entered");
     const target = e.currentTarget;
     const panel = target.querySelector(".panel-wrap");
     if (!panel.classList.contains("moving")) {
         target.classList.add("hovering");
         setTimeout(() => {
-            // if (!e.currentTarget) {return};
             if (target.classList.contains("hovering")) {
+                
                 panel.classList.add("in-motion");
             }
         }, 300);
     }
-    // console.log(panel);
 }
 
 function rotateElement(e, elem) {
-    // if (elem.children.item(1).classList.contains("moving")) {return;}
 
     if (!elem.classList.contains("hovering")) {
         elem.dispatchEvent(new Event("mouseenter"));

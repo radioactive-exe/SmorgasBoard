@@ -1,5 +1,10 @@
 import * as type from "./defs.js";
 
+
+function ignoreEventHandler(e) {
+    e.stopPropagation();
+}
+
 function clamp(num, min, max) {
     return Math.min(Math.max(num, min), max);
 }
@@ -97,6 +102,7 @@ function setItemArea(el, area : type.Area) {
 }
 
 export {
+    ignoreEventHandler,
     clamp,
     getCssProperty,
     roundToNearest,
