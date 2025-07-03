@@ -43,6 +43,8 @@ body {
     --min-width: 1fr;
     --min-height: 1fr;
 
+    --forced-aspect-ratio: 1:1;
+
     background: navy;
     position: fixed;
     left: calc(var(--x));

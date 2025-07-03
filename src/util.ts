@@ -1,63 +1,23 @@
 import * as type from "./defs.js";
+import * as get from "./accessors.js"
 
 
-function ignoreEventHandler(e) {
+function ignoreEventHandler(e) : void {
     e.stopPropagation();
 }
 
-function clamp(num, min, max) {
+function clamp(num : number, min : number, max : number) : number {
     return Math.min(Math.max(num, min), max);
 }
 
-function getCssProperty(el, property) {
-    return window.getComputedStyle(el).getPropertyValue(property);
-}
-
-function roundToNearest(num, stepSize) {
+function roundToNearest(num : number, stepSize : number) : number {
     let diminished = num / stepSize;
     diminished = Math.round(diminished);
     diminished *= stepSize;
     return diminished;
 }
 
-function getNumericalValue(string) {
-    return string.replace(/\D+$/g, "")
-}
-
-function getCssPropertyValue(el, property) {
-    return getNumericalValue(getCssProperty(el, property));
-}
-
-function getNormalisedCssPropertyValue(el, property) {
-
-    if (getCssProperty(el, property) == "0") return 0; // No unit is often specified with 0
-
-    const temp = /[a-zA-Z]+/.exec(getCssProperty(el, property))
-    const propertyUnit = temp ? temp[0] : "";
-
-    switch (propertyUnit) {
-        case "rem":
-            return getCssPropertyValue(el, property) * 10;
-            break;
-        case "px":
-            return getCssPropertyValue(el, property);
-            break;
-        case "s":
-            return getCssPropertyValue(el, property) * 1000;
-            break;
-        case "ms":
-            return getCssPropertyValue(el, property);
-            break;
-        case "fr":
-            if (property.toLowerCase().includes("width")) return getCssPropertyValue(el, property) * (window.innerWidth) / getCssPropertyValue(document.body, "--num-of-cols");
-            else if (property.toLowerCase().includes("height")) return getCssPropertyValue(el, property) * (window.innerHeight) / getCssPropertyValue(document.body, "--num-of-rows");
-        default:
-            return getCssPropertyValue(el, property);
-
-    }
-}
-
-function areaCollisionWithElement(area : type.Area, el) {
+function areaCollisionWithElement(area : type.Area, el) : boolean {
     return !(
         ((area.x + area.height) <= (el.offsetTop) + 10) ||
         (area.y >= (el.offsetTop + el.offsetHeight)) ||
@@ -66,7 +26,7 @@ function areaCollisionWithElement(area : type.Area, el) {
     );
 }
 
-function collidesWithAnyPanel(self, area, panels) {
+function collidesWithAnyPanel(self : HTMLElement, area : type.Area, panels) : boolean {
     
     var flag = false;
     
@@ -79,35 +39,40 @@ function collidesWithAnyPanel(self, area, panels) {
     return flag;
 }
 
-function moveElementWithinScreen(el, e, initData) {
+function moveElementWithinScreen(el, e, initData) : void {
     
     el.style.setProperty("--x", clamp(initData.panelPos.x + (e.pageX - initData.eventCoords.x), 0, window.innerWidth - el.offsetWidth) + "px");
     el.style.setProperty("--y", clamp(initData.panelPos.y + (e.pageY - initData.eventCoords.y), 0, window.innerHeight - el.offsetHeight) + "px");
 }
 
-function resizeElement(el, e, initData) {
+function resizeElement(el : HTMLElement, e, initData) : void {
 
-    el.style.setProperty("--width", clamp(initData.panelSize.width + e.pageX - initData.eventCoords.x, getNormalisedCssPropertyValue(el, "--min-width") - 10, window.innerWidth - el.offsetLeft) + "px");
-    el.style.setProperty("--height", clamp(initData.panelSize.height + e.pageY - initData.eventCoords.y, getNormalisedCssPropertyValue(el, "--min-height") - 10, window.innerHeight - el.offsetTop) + "px");
+    const aspectRatio = get.elementAspectRatio(el);    
+
+    if (aspectRatio != 0) {
+        el.style.setProperty("--width", clamp((initData.panelSize.height + e.pageX - initData.eventCoords.x) * aspectRatio, get.normalisedCssPropertyValue(el, "--min-width") - 10, window.innerWidth - el.offsetLeft) + "px");
+        el.style.setProperty("--height", clamp(initData.panelSize.height + e.pageY - initData.eventCoords.y, get.normalisedCssPropertyValue(el, "--min-height") - 10, window.innerHeight - el.offsetTop) + "px");
+
+    }
+    else {
+        el.style.setProperty("--width", clamp(initData.panelSize.width + e.pageX - initData.eventCoords.x, get.normalisedCssPropertyValue(el, "--min-width") - 10, window.innerWidth - el.offsetLeft) + "px");
+        el.style.setProperty("--height", clamp(initData.panelSize.height + e.pageY - initData.eventCoords.y, get.normalisedCssPropertyValue(el, "--min-height") - 10, window.innerHeight - el.offsetTop) + "px");
+    }
+
 }
 
-function setItemArea(el, area : type.Area) {
-
+function setItemArea(el: HTMLElement, area: type.Area): void {
     el.style.setProperty("--x", area.x + "px");
     el.style.setProperty("--y", area.y + "px");
 
     el.style.setProperty("--width", area.width + "px");
     el.style.setProperty("--height", area.height + "px");
-
 }
 
 export {
     ignoreEventHandler,
     clamp,
-    getCssProperty,
     roundToNearest,
-    getCssPropertyValue,
-    getNormalisedCssPropertyValue,
     collidesWithAnyPanel,
     moveElementWithinScreen,
     resizeElement,

@@ -1,5 +1,6 @@
 import * as utils from "./util.js";
 import * as type from "./defs.js";
+import * as get from "./accessors.js"
 
 const panels = [...document.querySelectorAll<HTMLElement>(".panel")];
 var releaseHandler, dragHandler;
@@ -12,55 +13,55 @@ function snapElementToGrid(el, source = el, shouldAnimate = true) {
     var width = el.offsetWidth;
     var height = el.offsetHeight;
 
-    var originalArea: type.Area = {
+    var originalArea : type.Area = {
         x: utils.roundToNearest(
             x,
             window.innerWidth /
-                utils.getCssPropertyValue(document.body, "--num-of-cols")
+                get.cssPropertyValue(document.body, "--num-of-cols")
         ),
         y: utils.roundToNearest(
             y,
             window.innerHeight /
-                utils.getCssPropertyValue(document.body, "--num-of-rows")
+                get.cssPropertyValue(document.body, "--num-of-rows")
         ),
         width: utils.roundToNearest(
             width,
             window.innerWidth /
-                utils.getCssPropertyValue(document.body, "--num-of-cols")
+                get.cssPropertyValue(document.body, "--num-of-cols")
         ),
         height: utils.roundToNearest(
             height,
             window.innerHeight /
-                utils.getCssPropertyValue(document.body, "--num-of-rows")
+                get.cssPropertyValue(document.body, "--num-of-rows")
         ),
     };
 
     var potentialX = utils.roundToNearest(
-        utils.getNormalisedCssPropertyValue(source, "--x"),
+        get.normalisedCssPropertyValue(source, "--x"),
         window.innerWidth /
-            utils.getCssPropertyValue(document.body, "--num-of-cols")
+            get.cssPropertyValue(document.body, "--num-of-cols")
     );
     var potentialY = utils.roundToNearest(
-        utils.getNormalisedCssPropertyValue(source, "--y"),
+        get.normalisedCssPropertyValue(source, "--y"),
         window.innerHeight /
-            utils.getCssPropertyValue(document.body, "--num-of-rows")
+            get.cssPropertyValue(document.body, "--num-of-rows")
     );
     var potentialWidth = utils.clamp(
         utils.roundToNearest(
-            utils.getNormalisedCssPropertyValue(source, "--width"),
+            get.normalisedCssPropertyValue(source, "--width"),
             window.innerWidth /
-                utils.getCssPropertyValue(document.body, "--num-of-cols")
+                get.cssPropertyValue(document.body, "--num-of-cols")
         ),
-        utils.getNormalisedCssPropertyValue(source, "--min-width"),
+        get.normalisedCssPropertyValue(source, "--min-width"),
         window.innerWidth - source.offsetLeft
     );
     var potentialHeight = utils.clamp(
         utils.roundToNearest(
-            utils.getNormalisedCssPropertyValue(source, "--height"),
+            get.normalisedCssPropertyValue(source, "--height"),
             window.innerHeight /
-                utils.getCssPropertyValue(document.body, "--num-of-rows")
+                get.cssPropertyValue(document.body, "--num-of-rows")
         ),
-        utils.getNormalisedCssPropertyValue(source, "--min-height"),
+        get.normalisedCssPropertyValue(source, "--min-height"),
         window.innerHeight - source.offsetTop
     );
 
@@ -77,24 +78,33 @@ function snapElementToGrid(el, source = el, shouldAnimate = true) {
 
     setTimeout(() => {
         el.classList.remove("snapping");
-    }, utils.getNormalisedCssPropertyValue(el, "transition-duration"));
+    }, get.normalisedCssPropertyValue(el, "transition-duration"));
 }
 
 function snapElementToTarget(el, target) {
     el.classList.add("snapping");
 
-    el.style.setProperty("--x", utils.getCssProperty(target, "--x"));
-    el.style.setProperty("--y", utils.getCssProperty(target, "--y"));
-    el.style.setProperty("--width", utils.getCssProperty(target, "--width"));
-    el.style.setProperty("--height", utils.getCssProperty(target, "--height"));
+    el.style.setProperty("--x", get.cssProperty(target, "--x"));
+    el.style.setProperty("--y", get.cssProperty(target, "--y"));
+    el.style.setProperty("--width", get.cssProperty(target, "--width"));
+    el.style.setProperty("--height", get.cssProperty(target, "--height"));
 
     setTimeout(() => {
         el.classList.remove("snapping");
-    }, utils.getNormalisedCssPropertyValue(el, "transition-duration"));
+    }, get.normalisedCssPropertyValue(el, "transition-duration"));
 }
 
 function updateElementDestinationPreview(el) {
     snapElementToGrid(el.parentElement.querySelector(".final-preview"), el);
+}
+
+function init() : void {
+    const dashboard = document.querySelector<HTMLElement>("#dashboard");
+    for (var i = 0; i < (get.dashboardRows() * get.dashboardCols()); i++) {
+        const cell = document.createElement("div");
+        cell.classList.add("cell");
+        dashboard?.prepend(cell);
+    }
 }
 
 function initPanel(panel) {
@@ -102,11 +112,11 @@ function initPanel(panel) {
     panel.style.setProperty("--y", "0px");
     panel.style.setProperty(
         "--width",
-        utils.getNormalisedCssPropertyValue(panel, "--min-width") + "px"
+        get.normalisedCssPropertyValue(panel, "--min-width") + "px"
     );
     panel.style.setProperty(
         "--height",
-        utils.getNormalisedCssPropertyValue(panel, "--min-height") + "px"
+        get.normalisedCssPropertyValue(panel, "--min-height") + "px"
     );
 }
 
@@ -114,7 +124,6 @@ function initPreview(i, preview) {
     preview.dataset.callerId = i.dataset.panelId;
     i.parentElement.prepend(preview);
     updateElementDestinationPreview(i);
-    console.log("Preview initiated");
 }
 
 function commonReleaseHandler(i, preview) {
@@ -123,7 +132,7 @@ function commonReleaseHandler(i, preview) {
     snapElementToTarget(i, preview);
     setTimeout(() => {
         i.parentElement.removeChild(preview);
-    }, utils.getNormalisedCssPropertyValue(preview, "transition-duration"));
+    }, get.normalisedCssPropertyValue(preview, "transition-duration"));
 }
 
 panels.forEach((i) => {
@@ -144,6 +153,8 @@ panels.forEach((i) => {
         (e) => {
             i.classList.add("being-dragged");
             initPreview(i, preview);
+
+            console.log(get.cssProperty(i, "--forced-aspect-ratio"));
 
             const initData = {
                 eventCoords : {
@@ -181,11 +192,11 @@ panels.forEach((i) => {
             const initData = {
                 eventCoords: {
                     x: e.pageX,
-                    y: e.pageY,
+                    y: e.pageY
                 },
                 panelSize: {
                     width: i.offsetWidth,
-                    height: i.offsetHeight,
+                    height: i.offsetHeight
                 },
             };
 
@@ -288,3 +299,11 @@ function rotateElement(e, elem) {
     elem.style.setProperty("--shadow-offset-x", shadowOffsetX + "rem");
     elem.style.setProperty("--shadow-offset-y", shadowOffsetY + "rem");
 }
+
+
+
+
+
+// ~ Function Calls
+
+init();
