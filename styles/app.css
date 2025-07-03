@@ -6,8 +6,8 @@
 }
 
 body {
-    --num-of-rows: 3;
-    --num-of-cols: 3;
+    --num-of-rows: 5;
+    --num-of-cols: 5;
 
     overflow: hidden;
 }
@@ -40,7 +40,7 @@ body {
 
 .panel {
 
-    --min-width: 1fr;
+    --min-width: 2fr;
     --min-height: 1fr;
 
     --forced-aspect-ratio: 1:1;

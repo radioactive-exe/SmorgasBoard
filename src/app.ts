@@ -3,15 +3,17 @@ import * as type from "./defs.js";
 import * as get from "./accessors.js"
 
 const panels = [...document.querySelectorAll<HTMLElement>(".panel")];
-var releaseHandler, dragHandler;
+var releaseHandler, dragHandler, x, y, width, height, potentialX, potentialY, potentialWidth, potentialHeight;
 
 function snapElementToGrid(el, source = el, shouldAnimate = true) {
     if (shouldAnimate) el.classList.add("snapping");
 
-    var x = el.offsetLeft;
-    var y = el.offsetTop;
-    var width = el.offsetWidth;
-    var height = el.offsetHeight;
+    const aspectRatio = get.elementAspectRatio(source);
+
+    x = el.offsetLeft;
+    y = el.offsetTop;
+    width = el.offsetWidth;
+    height = el.offsetHeight;
 
     var originalArea : type.Area = {
         x: utils.roundToNearest(
@@ -36,17 +38,20 @@ function snapElementToGrid(el, source = el, shouldAnimate = true) {
         ),
     };
 
-    var potentialX = utils.roundToNearest(
+    
+    potentialX = utils.clamp(utils.roundToNearest(
         get.normalisedCssPropertyValue(source, "--x"),
         window.innerWidth /
-            get.cssPropertyValue(document.body, "--num-of-cols")
+            get.cssPropertyValue(document.body, "--num-of-cols")),
+        0,
+        window.innerWidth
     );
-    var potentialY = utils.roundToNearest(
+    potentialY = utils.roundToNearest(
         get.normalisedCssPropertyValue(source, "--y"),
         window.innerHeight /
-            get.cssPropertyValue(document.body, "--num-of-rows")
+        get.cssPropertyValue(document.body, "--num-of-rows")
     );
-    var potentialWidth = utils.clamp(
+    potentialWidth = utils.clamp(
         utils.roundToNearest(
             get.normalisedCssPropertyValue(source, "--width"),
             window.innerWidth /
@@ -55,7 +60,7 @@ function snapElementToGrid(el, source = el, shouldAnimate = true) {
         get.normalisedCssPropertyValue(source, "--min-width"),
         window.innerWidth - source.offsetLeft
     );
-    var potentialHeight = utils.clamp(
+    potentialHeight = utils.clamp(
         utils.roundToNearest(
             get.normalisedCssPropertyValue(source, "--height"),
             window.innerHeight /
@@ -63,7 +68,7 @@ function snapElementToGrid(el, source = el, shouldAnimate = true) {
         ),
         get.normalisedCssPropertyValue(source, "--min-height"),
         window.innerHeight - source.offsetTop
-    );
+    );   
 
     var potentialArea: type.Area = {
         x: potentialX,
@@ -72,7 +77,15 @@ function snapElementToGrid(el, source = el, shouldAnimate = true) {
         height: potentialHeight,
     };
 
-    if (utils.collidesWithAnyPanel(el, potentialArea, panels)) {
+    console.log(
+        (potentialWidth * get.dashboardCols()) /
+            window.innerWidth /
+            ((potentialHeight * get.dashboardRows()) / window.innerHeight)
+    );
+
+    var potentialRatio = parseFloat(((potentialWidth * get.dashboardCols() / window.innerWidth) /  (potentialHeight * get.dashboardRows() / window.innerHeight)).toFixed(3))
+
+    if (utils.collidesWithAnyPanel(el, potentialArea, panels) || (aspectRatio != 0 && potentialRatio != aspectRatio)) {
         utils.setItemArea(el, originalArea);
     } else utils.setItemArea(el, potentialArea);
 
@@ -153,8 +166,6 @@ panels.forEach((i) => {
         (e) => {
             i.classList.add("being-dragged");
             initPreview(i, preview);
-
-            console.log(get.cssProperty(i, "--forced-aspect-ratio"));
 
             const initData = {
                 eventCoords : {

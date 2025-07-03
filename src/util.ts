@@ -19,10 +19,10 @@ function roundToNearest(num : number, stepSize : number) : number {
 
 function areaCollisionWithElement(area : type.Area, el) : boolean {
     return !(
-        ((area.x + area.height) <= (el.offsetTop) + 10) ||
+        ((area.y + area.height) < (el.offsetTop + 10)) ||
         (area.y >= (el.offsetTop + el.offsetHeight)) ||
-        ((area.x + area.width) <= (el.offsetLeft)) ||
-        (area.x >= (el.offsetLeft + el.offsetWidth) - 10)
+        ((area.x + area.width) < (el.offsetLeft)) ||
+        (area.x > (el.offsetLeft + el.offsetWidth - 10))
     );
 }
 
@@ -47,17 +47,8 @@ function moveElementWithinScreen(el, e, initData) : void {
 
 function resizeElement(el : HTMLElement, e, initData) : void {
 
-    const aspectRatio = get.elementAspectRatio(el);    
-
-    if (aspectRatio != 0) {
-        el.style.setProperty("--width", clamp((initData.panelSize.height + e.pageX - initData.eventCoords.x) * aspectRatio, get.normalisedCssPropertyValue(el, "--min-width") - 10, window.innerWidth - el.offsetLeft) + "px");
-        el.style.setProperty("--height", clamp(initData.panelSize.height + e.pageY - initData.eventCoords.y, get.normalisedCssPropertyValue(el, "--min-height") - 10, window.innerHeight - el.offsetTop) + "px");
-
-    }
-    else {
-        el.style.setProperty("--width", clamp(initData.panelSize.width + e.pageX - initData.eventCoords.x, get.normalisedCssPropertyValue(el, "--min-width") - 10, window.innerWidth - el.offsetLeft) + "px");
-        el.style.setProperty("--height", clamp(initData.panelSize.height + e.pageY - initData.eventCoords.y, get.normalisedCssPropertyValue(el, "--min-height") - 10, window.innerHeight - el.offsetTop) + "px");
-    }
+    el.style.setProperty("--width", clamp(initData.panelSize.width + e.pageX - initData.eventCoords.x, get.normalisedCssPropertyValue(el, "--min-width") - 10, window.innerWidth - el.offsetLeft) + "px");
+    el.style.setProperty("--height", clamp(initData.panelSize.height + e.pageY - initData.eventCoords.y, get.normalisedCssPropertyValue(el, "--min-height") - 10, window.innerHeight - el.offsetTop) + "px");
 
 }
 
