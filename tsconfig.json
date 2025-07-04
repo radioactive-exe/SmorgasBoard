@@ -1,16 +1,16 @@
 {
     "compilerOptions": {
         "module": "ESNext",
-        "moduleResolution": "Bundler",
+        "moduleResolution": "bundler",
         "target": "ES2022",
         "jsx": "react-jsx",
         "strictNullChecks": true,
         "strictFunctionTypes": true,
         "sourceMap": true,
-        "outDir": "dist"
+        "outDir": "frontend/dist"
     },
     "exclude": [
-        "node_modules",
+        "backend/node_modules",
         "**/node_modules/*"
     ]
 }

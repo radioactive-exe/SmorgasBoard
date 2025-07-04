@@ -44,6 +44,8 @@ function commonReleaseHandler(i, preview) {
     document.removeEventListener("mouseup", releaseHandler);
     document.removeEventListener("mousemove", dragHandler);
     snapElementToTarget(i, preview);
+    preview.classList.add("disappearing");
+    preview.style.width;
     setTimeout(() => {
         i.parentElement.removeChild(preview);
     }, get.normalisedCssPropertyValue(preview, "transition-duration"));

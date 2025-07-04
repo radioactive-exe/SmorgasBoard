@@ -1,0 +1,26 @@
+{
+  "name": "smorgasboard",
+  "version": "0.0.1",
+  "description": "",
+  "homepage": "https://github.com/radioactive-exe/SmorgasBoard#readme",
+  "bugs": {
+    "url": "https://github.com/radioactive-exe/SmorgasBoard/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/radioactive-exe/SmorgasBoard.git"
+  },
+  "license": "ISC",
+  "author": "Radioactive-exe",
+  "type": "commonjs",
+  "main": "backend/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "@types/node": "^24.0.10",
+    "ts-node": "^10.9.2",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.8.3"
+  }
+}

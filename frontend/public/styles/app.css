@@ -27,18 +27,20 @@ body {
 }
 
 .final-preview {
-    transition: all 0.2s ease;
-    width: 0;
-    height: 0;
+    background: purple;
+    opacity: 0;
+
     position: absolute;
-    padding: 1rem;
+    
     left: calc(var(--x)); 
     top: calc(var(--y));
-    background: purple;
     width: var(--width);
     height: var(--height);
-    animation: 0.2s ease spawnIn both;
+    
+    transition: all 0.2s ease;
+    animation: 0.2s ease spawnIn forwards;
     border-radius: 2rem;
+
     &:has(~ .being-dragged), &:has(~ .being-resized) {
         opacity: 1;
     }
@@ -59,9 +61,7 @@ body {
     z-index: 0;
     width: var(--width);
     height: var(--height);
-    /* grid-area: 1 / 2 / 4 / 4 ; */
     overflow: visible;
-    /* background: yellow; */
     transform:
     rotateX(var(--rotate-x))
     rotateY(var(--rotate-y));
@@ -71,7 +71,7 @@ body {
         border-radius: 2rem;
         background: var(--panel-bg);
         position: absolute;
-        inset: 1rem;
+        inset: 0.5rem;
     }
 
     &.in-motion {
@@ -138,6 +138,10 @@ body {
     width: calc(100% - 2rem);
     height: calc(100% - 2rem);
     background: rgba(255, 255, 255, 0.305);
+}
+
+.disappearing {
+    animation: spawnIn backwards 0.2s ease;
 }
 
 @keyframes spawnIn {
