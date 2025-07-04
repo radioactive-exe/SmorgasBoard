@@ -4,43 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SmorgasBoard</title>
-    <link rel="stylesheet" href="styles/app.css">
+    <link id="app-style" rel="stylesheet" href="./styles/app.css">
+    <link id="app-theme" rel="stylesheet" href="./themes/default.css">
 </head>
 <body>
     
     <div id="dashboard">
         <div class="panel" data-panel-id="0">
-            <div class="handle drag-handle">
-                <object data="assets/arrows-alt.svg" type="image/svg+xml"></object>
-            </div>
-            <div class="handle resize-handle">
-                <object data="assets/arrow-up-right-and-arrow-down-left-from-center.svg" type="image/svg+xml"></object>
-            </div>
-        </div>
-        <!-- <div class="panel" data-panel-id="1">
-            <div class="handle drag-handle">
-                <object data="assets/arrows-alt.svg" type="image/svg+xml"></object>
-            </div>
-            <div class="handle resize-handle">
-                <object data="assets/arrow-up-right-and-arrow-down-left-from-center.svg" type="image/svg+xml"></object>
+            <div class="panel-body">
+                <div class="handle drag-handle">
+                    <object data="assets/arrows-alt.svg" type="image/svg+xml"></object>
+                </div>
+                <div class="handle resize-handle">
+                    <object data="assets/arrow-up-right-and-arrow-down-left-from-center.svg" type="image/svg+xml"></object>
+                </div>
             </div>
         </div>
-        <div class="panel" data-panel-id="2">
-            <div class="handle drag-handle">
-                <object data="assets/arrows-alt.svg" type="image/svg+xml"></object>
-            </div>
-            <div class="handle resize-handle">
-                <object data="assets/arrow-up-right-and-arrow-down-left-from-center.svg" type="image/svg+xml"></object>
-            </div>
-        </div>
-        <div class="panel" data-panel-id="3">
-            <div class="handle drag-handle">
-                <object data="assets/arrows-alt.svg" type="image/svg+xml"></object>
-            </div>
-            <div class="handle resize-handle">
-                <object data="assets/arrow-up-right-and-arrow-down-left-from-center.svg" type="image/svg+xml"></object>
-            </div>
-        </div> -->
+        
     </div>
 
     <script type="module" src="./dist/app.js"></script>

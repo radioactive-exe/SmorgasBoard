@@ -1,5 +1,5 @@
+import { currentTheme } from "./app.js";
 import * as type from "./defs.js";
-import * as get from "./accessors.js"
 
 
 function ignoreEventHandler(e) : void {
@@ -19,10 +19,10 @@ function roundToNearest(num : number, stepSize : number) : number {
 
 function areaCollisionWithElement(area : type.Area, el) : boolean {
     return !(
-        ((area.y + area.height) < (el.offsetTop + 10)) ||
-        (area.y >= (el.offsetTop + el.offsetHeight)) ||
-        ((area.x + area.width) < (el.offsetLeft)) ||
-        (area.x > (el.offsetLeft + el.offsetWidth - 10))
+        ((area.getY() + area.getHeight()) < (el.offsetTop + 10)) ||
+        (area.getY() >= (el.offsetTop + el.offsetHeight)) ||
+        ((area.getX() + area.getWidth()) < (el.offsetLeft)) ||
+        (area.getX() > (el.offsetLeft + el.offsetWidth - 10))
     );
 }
 
@@ -39,11 +39,23 @@ function collidesWithAnyPanel(self : HTMLElement, area : type.Area, panels) : bo
     return flag;
 }
 
+function setCssProperty(el : HTMLElement, property : string, value : string) {
+    window.getComputedStyle(el).setProperty(property, value);
+}
+
+function setCurrentTheme(theme : type.Theme) {
+    currentTheme;
+    const themeFileLink = document.querySelector<HTMLElement>("#app-theme");
+    if (themeFileLink == null) return;
+    themeFileLink.setAttribute("href", theme.getUrl())
+}
+
 
 export {
     ignoreEventHandler,
     clamp,
     roundToNearest,
     areaCollisionWithElement,
-    collidesWithAnyPanel
+    collidesWithAnyPanel,
+    setCurrentTheme
 }

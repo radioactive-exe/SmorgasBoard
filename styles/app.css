@@ -1,3 +1,8 @@
+:root {
+    --theme: default;
+    /* --panel-bg: pink; */
+}
+
 * {
     box-sizing: border-box;
     font-size: 62.5%;
@@ -18,20 +23,21 @@ body {
     background: rgb(50, 43, 97);
     display: grid;
     grid-template: repeat(var(--num-of-rows), 1fr) / repeat(var(--num-of-cols), 1fr);
-    gap: 1rem;
+    /* gap: 1rem; */
 }
 
 .final-preview {
     transition: all 0.2s ease;
-    opacity: 0;
     width: 0;
     height: 0;
     position: absolute;
+    padding: 1rem;
     left: calc(var(--x)); 
     top: calc(var(--y));
     background: purple;
     width: var(--width);
     height: var(--height);
+    animation: 0.2s ease spawnIn both;
     border-radius: 2rem;
     &:has(~ .being-dragged), &:has(~ .being-resized) {
         opacity: 1;
@@ -43,24 +49,30 @@ body {
     --min-width: 2fr;
     --min-height: 1fr;
 
-    --forced-aspect-ratio: 2:1;
+    /* --forced-aspect-ratio: 1:2; */
 
-    background: navy;
     position: fixed;
     left: calc(var(--x));
     top: calc(var(--y));
     transition: transform 0.3s ease;
     isolation: isolate;
     z-index: 0;
-    border: 1rem transparent solid;
     width: var(--width);
     height: var(--height);
     /* grid-area: 1 / 2 / 4 / 4 ; */
-    border-radius: 2rem;
     overflow: visible;
+    /* background: yellow; */
     transform:
-        rotateX(var(--rotate-x))
-        rotateY(var(--rotate-y));
+    rotateX(var(--rotate-x))
+    rotateY(var(--rotate-y));
+    padding: 1rem;
+    
+    & .panel-body {
+        border-radius: 2rem;
+        background: var(--panel-bg);
+        position: absolute;
+        inset: 1rem;
+    }
 
     &.in-motion {
         transition: all 0s;
@@ -122,7 +134,17 @@ body {
 
 .cell {
     border-radius: 2rem;
-    width: 100%;
-    height: 100%;
+    margin: 1rem;
+    width: calc(100% - 2rem);
+    height: calc(100% - 2rem);
     background: rgba(255, 255, 255, 0.305);
+}
+
+@keyframes spawnIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
 }

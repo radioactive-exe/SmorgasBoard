@@ -20,11 +20,11 @@ function resizeElement(el : HTMLElement, e, initData) : void {
 }
 
 function setItemArea(el: HTMLElement, area: type.Area): void {
-    el.style.setProperty("--x", area.x + "px");
-    el.style.setProperty("--y", area.y + "px");
+    el.style.setProperty("--x", area.getX() + "px");
+    el.style.setProperty("--y", area.getY() + "px");
 
-    el.style.setProperty("--width", area.width + "px");
-    el.style.setProperty("--height", area.height + "px");
+    el.style.setProperty("--width", area.getWidth() + "px");
+    el.style.setProperty("--height", area.getHeight() + "px");
 }
 
 function snapElementToGrid(el, source = el, shouldAnimate = true) {
@@ -37,28 +37,28 @@ function snapElementToGrid(el, source = el, shouldAnimate = true) {
     width = el.offsetWidth;
     height = el.offsetHeight;
 
-    var originalArea : type.Area = {
-        x: utils.roundToNearest(
+    var originalArea : type.Area = new type.Area(
+        utils.roundToNearest(
             x,
             window.innerWidth /
                 get.cssPropertyValue(document.body, "--num-of-cols")
         ),
-        y: utils.roundToNearest(
+        utils.roundToNearest(
             y,
             window.innerHeight /
                 get.cssPropertyValue(document.body, "--num-of-rows")
         ),
-        width: utils.roundToNearest(
+        utils.roundToNearest(
             width,
             window.innerWidth /
                 get.cssPropertyValue(document.body, "--num-of-cols")
         ),
-        height: utils.roundToNearest(
+        utils.roundToNearest(
             height,
             window.innerHeight /
                 get.cssPropertyValue(document.body, "--num-of-rows")
         ),
-    };
+    );
 
     
     potentialX = utils.clamp(utils.roundToNearest(
@@ -92,12 +92,7 @@ function snapElementToGrid(el, source = el, shouldAnimate = true) {
         window.innerHeight - source.offsetTop
     );   
 
-    var potentialArea: type.Area = {
-        x: potentialX,
-        y: potentialY,
-        width: potentialWidth,
-        height: potentialHeight,
-    };
+    var potentialArea : type.Area = new type.Area(potentialX, potentialY, potentialWidth, potentialHeight);
 
     var potentialRatio = parseFloat(((potentialWidth * get.dashboardCols() / window.innerWidth) /  (potentialHeight * get.dashboardRows() / window.innerHeight)).toFixed(3))
 

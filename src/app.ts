@@ -1,14 +1,15 @@
 import * as utils from "./util.js";
 import * as type from "./defs.js";
-import * as manip from "./manip.js"
 import * as get from "./accessors.js"
 
+import { resizeElement, moveElementWithinScreen, snapElementToGrid, snapElementToTarget } from "./manip.js";
+
 export const panels = [...document.querySelectorAll<HTMLElement>(".panel")];
-export var releaseHandler, dragHandler;
+export var releaseHandler, dragHandler, currentTheme : type.Theme;
 
 
 function updateElementDestinationPreview(el) {
-    manip.snapElementToGrid(el.parentElement.querySelector(".final-preview"), el);
+    snapElementToGrid(el.parentElement.querySelector(".final-preview"), el);
 }
 
 function init() : void {
@@ -42,7 +43,7 @@ function initPreview(i, preview) {
 function commonReleaseHandler(i, preview) {
     document.removeEventListener("mouseup", releaseHandler);
     document.removeEventListener("mousemove", dragHandler);
-    manip.snapElementToTarget(i, preview);
+    snapElementToTarget(i, preview);
     setTimeout(() => {
         i.parentElement.removeChild(preview);
     }, get.normalisedCssPropertyValue(preview, "transition-duration"));
@@ -80,7 +81,7 @@ panels.forEach((i) => {
 
             dragHandler = (e) => {
                 e.preventDefault;
-                manip.moveElementWithinScreen(i, e, initData);
+                moveElementWithinScreen(i, e, initData);
                 updateElementDestinationPreview(i);
             };
 
@@ -113,7 +114,7 @@ panels.forEach((i) => {
 
             dragHandler = (e) => {
                 e.preventDefault;
-                manip.resizeElement(i, e, initData);
+                resizeElement(i, e, initData);
                 updateElementDestinationPreview(i);
             };
 
@@ -129,9 +130,22 @@ panels.forEach((i) => {
     );
 });
 
+document.addEventListener("keydown", (e) => {
+    console.log(e.key);
+    switch (e.key) {
+        case "ArrowDown":
+            utils.setCurrentTheme(type.Theme.DEFAULT);
+            currentTheme = type.Theme.DEFAULT;
+            break;
+        case "ArrowUp":
+            utils.setCurrentTheme(type.Theme.YELLOW);
+            break;
+    }
+})
+
 window.addEventListener("resize", () => {
     panels.forEach((i) => {
-        manip.snapElementToGrid(i, i, false);
+        snapElementToGrid(i, i, false);
     });
 });
 
