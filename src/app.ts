@@ -1,5 +1,6 @@
 import * as utils from "./util.js";
 import * as type from "./defs.js";
+import * as manip from "./manip.js"
 import * as get from "./accessors.js"
 
 const panels = [...document.querySelectorAll<HTMLElement>(".panel")];
@@ -77,17 +78,11 @@ function snapElementToGrid(el, source = el, shouldAnimate = true) {
         height: potentialHeight,
     };
 
-    console.log(
-        (potentialWidth * get.dashboardCols()) /
-            window.innerWidth /
-            ((potentialHeight * get.dashboardRows()) / window.innerHeight)
-    );
-
     var potentialRatio = parseFloat(((potentialWidth * get.dashboardCols() / window.innerWidth) /  (potentialHeight * get.dashboardRows() / window.innerHeight)).toFixed(3))
 
     if (utils.collidesWithAnyPanel(el, potentialArea, panels) || (aspectRatio != 0 && potentialRatio != aspectRatio)) {
-        utils.setItemArea(el, originalArea);
-    } else utils.setItemArea(el, potentialArea);
+        manip.setItemArea(el, originalArea);
+    } else manip.setItemArea(el, potentialArea);
 
     setTimeout(() => {
         el.classList.remove("snapping");
@@ -180,7 +175,7 @@ panels.forEach((i) => {
 
             dragHandler = (e) => {
                 e.preventDefault;
-                utils.moveElementWithinScreen(i, e, initData);
+                manip.moveElementWithinScreen(i, e, initData);
                 updateElementDestinationPreview(i);
             };
 
@@ -213,7 +208,7 @@ panels.forEach((i) => {
 
             dragHandler = (e) => {
                 e.preventDefault;
-                utils.resizeElement(i, e, initData);
+                manip.resizeElement(i, e, initData);
                 updateElementDestinationPreview(i);
             };
 

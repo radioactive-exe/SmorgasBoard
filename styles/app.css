@@ -43,7 +43,7 @@ body {
     --min-width: 2fr;
     --min-height: 1fr;
 
-    --forced-aspect-ratio: 1:1;
+    --forced-aspect-ratio: 2:1;
 
     background: navy;
     position: fixed;
