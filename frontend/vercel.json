@@ -1,4 +1,5 @@
 {
     "$schema": "https://openapi.vercel.sh/vercel.json",
-    "buildCommand": "npm run build"
+    "buildCommand": "npm run build",
+    "installCommand": "npm install typescript ts-node @types/node ts-node-dev"
 }
