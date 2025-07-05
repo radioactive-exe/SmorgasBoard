@@ -2,16 +2,45 @@ import * as utils from "./util.js";
 import * as type from "./defs.js";
 import * as get from "./accessors.js"
 
-import { resizeElement, moveElementWithinScreen, snapElementToGrid, snapElementToTarget } from "./manip.js";
+import { resizeElement, moveElementWithinScreen, setItemArea, snapElementToGrid, snapElementToTarget, rotateElement } from "./manip.js";
 
 export const panels = [...document.querySelectorAll<HTMLElement>(".panel")];
+export const dashboard = document.querySelector("#dashboard");
 export var releaseHandler, dragHandler, currentTheme : type.Theme;
 
 const header = document.querySelector<HTMLElement>("#result");
 
 
+function toggleEditMode() {
+    dashboard?.classList.toggle("in-edit-mode");
+    if (dashboard?.classList.contains("in-edit-mode")) panels.forEach(i => {
+        removePanelHoverListeners(i);
+        console.log("bye bye");
+    }); 
+    else panels.forEach((i) => {
+        addPanelHoverListeners(i);
+        console.log("Hellooo");
+    }); 
+}
+
 function updateElementDestinationPreview(el) {
     snapElementToGrid(el.parentElement.querySelector(".final-preview"), el);
+}
+
+function addPanelHoverListeners(panel) {
+    panel.addEventListener("mousemove", panelHoverHandler);
+    panel.addEventListener("mouseleave", resetPanelHoverHandler);
+    panel.addEventListener("mouseenter", enterPanelHoverHandler);
+}
+
+function removePanelHoverListeners(panel) {
+    panel.removeEventListener("mouseenter", enterPanelHoverHandler);
+    panel.removeEventListener("mousemove", panelHoverHandler);
+    panel.dispatchEvent(new Event("mouseleave"));
+    setTimeout(() => {
+        
+    }, get.normalisedCssPropertyValue(panel, "transition;duration"));
+    panel.removeEventListener("mouseleave", resetPanelHoverHandler);
 }
 
 function init() : void {
@@ -34,6 +63,7 @@ function initPanel(panel) {
         "--height",
         get.normalisedCssPropertyValue(panel, "--min-height") + "px"
     );
+    addPanelHoverListeners(panel);
 }
 
 function initPreview(i, preview) {
@@ -59,10 +89,10 @@ panels.forEach((i) => {
     const preview = document.createElement("div");
     preview.classList.add("final-preview");
 
-    i.querySelector<HTMLElement>(".drag-handle")?.addEventListener(
+    i.addEventListener(
         "hover",
         (e) => {
-            e.stopPropagation();
+            e.stopImmediatePropagation();
         }
     );
 
@@ -135,7 +165,6 @@ panels.forEach((i) => {
 });
 
 document.addEventListener("keydown", async (e) => {
-    console.log(e.key);
     switch (e.key) {
         case "ArrowDown":
             utils.setCurrentTheme(type.Theme.DEFAULT);
@@ -144,11 +173,15 @@ document.addEventListener("keydown", async (e) => {
         case "ArrowUp":
             utils.setCurrentTheme(type.Theme.YELLOW);
             break;
-        case "ArrowLeft":
-            const result = await fetch(
-                "https://smorgas-board-backend.vercel.app/"
-            ).then((res) => res.json());
-            if (header != null) header.innerText = result;
+
+        case "ArrowRight":
+            toggleEditMode();
+        // case "ArrowLeft":
+        //     const result = await fetch(
+        //         "https://smorgas-board-backend.vercel.app/"
+        //     ).then((res) => res.text());
+        //     console.log(result);
+        //     if (header != null) header.innerText = result;
     }
 })
 
@@ -158,17 +191,9 @@ window.addEventListener("resize", () => {
     });
 });
 
-// ~ panel FANCY STUFF
-
-[...document.querySelectorAll(".panel")].forEach((i) => {
-    // i.addEventListener("mousemove", panelHoverHandler);
-    // i.addEventListener("mouseleave", resetPanelHoverHandler);
-    // i.addEventListener("mouseenter", enterPanelHoverHandler);
-});
-
 function panelHoverHandler(e) {
     e.stopPropagation();
-    if (!e.currentTarget.children.item(1).classList.contains("moving")) {
+    if (!e.currentTarget.querySelector(".panel-body").classList.contains("moving")) {
         rotateElement(e, e.currentTarget);
     }
 }
@@ -178,61 +203,29 @@ function resetPanelHoverHandler(e) {
     e.target.style.setProperty("--rotate-y", 0 + "deg");
     e.target.style.setProperty("--shadow-offset-x", 0 + "rem");
     e.target.style.setProperty("--shadow-offset-y", 0 + "rem");
-    const panel = e.currentTarget.querySelector(".panel-wrap");
+    const panel = e.currentTarget.querySelector(".panel-body");
     panel.classList.remove("in-motion");
     e.currentTarget.classList.remove("hovering");
 }
 
 function enterPanelHoverHandler(e) {
-    e.stopImmediatePropagation();
+    if (utils.isEditing()) return;
+
+    // console.log("Entered");
     const target = e.currentTarget;
-    const panel = target.querySelector(".panel-wrap");
+    const panel = target.querySelector(".panel-body");
     if (!panel.classList.contains("moving")) {
         target.classList.add("hovering");
         setTimeout(() => {
             if (target.classList.contains("hovering")) {
-                
                 panel.classList.add("in-motion");
             }
         }, 300);
     }
+    // console.log(panel);
 }
 
-function rotateElement(e, elem) {
 
-    if (!elem.classList.contains("hovering")) {
-        elem.dispatchEvent(new Event("mouseenter"));
-    }
-
-    const x = e.clientX;
-    const y = e.clientY;
-
-    var left, top, right, bottom;
-
-    if (elem.classList.contains("focused")) {
-        left = -0.5 * window.innerWidth;
-        right = window.innerWidth * 1.5;
-        top = -0.5 * window.innerHeight;
-        bottom = window.innerHeight * 1.5;
-    } else {
-        const box = elem.getBoundingClientRect();
-        left = box.left;
-        right = box.right;
-        top = box.top;
-        bottom = box.bottom;
-    }
-
-    let centreX = (left + right) / 2;
-    let centreY = (top + bottom) / 2;
-    const offsetX = ((x - centreX) / (right - left)) * 60;
-    const offsetY = ((y - centreY) / (bottom - top)) * 40;
-    const shadowOffsetX = ((x - centreX) / (right - left)) * -8;
-    const shadowOffsetY = ((y - centreY) / (top - bottom)) * -6;
-    elem.style.setProperty("--rotate-x", offsetY + "deg");
-    elem.style.setProperty("--rotate-y", offsetX + "deg");
-    elem.style.setProperty("--shadow-offset-x", shadowOffsetX + "rem");
-    elem.style.setProperty("--shadow-offset-y", shadowOffsetY + "rem");
-}
 
 
 

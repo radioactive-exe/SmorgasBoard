@@ -17,12 +17,6 @@ body {
     overflow: hidden;
 }
 
-#result {
-    font-size: xx-large;
-    z-index: 1;
-    position: fixed;
-}
-
 #dashboard {
     width: 100vw;
     height: 100vh;
@@ -30,120 +24,136 @@ body {
     display: grid;
     grid-template: repeat(var(--num-of-rows), 1fr) / repeat(var(--num-of-cols), 1fr);
     /* gap: 1rem; */
-}
-
-.final-preview {
-    background: purple;
-    opacity: 0;
-
-    position: absolute;
+    & .final-preview {
+        background: purple;
+        opacity: 0;
     
-    left: calc(var(--x)); 
-    top: calc(var(--y));
-    width: var(--width);
-    height: var(--height);
-    
-    transition: all 0.2s ease;
-    animation: 0.2s ease spawnIn forwards;
-    border-radius: 2rem;
-
-    &:has(~ .being-dragged), &:has(~ .being-resized) {
-        opacity: 1;
-    }
-}
-
-.panel {
-
-    --min-width: 2fr;
-    --min-height: 1fr;
-
-    /* --forced-aspect-ratio: 1:2; */
-
-    position: fixed;
-    left: calc(var(--x));
-    top: calc(var(--y));
-    transition: transform 0.3s ease;
-    isolation: isolate;
-    z-index: 0;
-    width: var(--width);
-    height: var(--height);
-    overflow: visible;
-    transform:
-    rotateX(var(--rotate-x))
-    rotateY(var(--rotate-y));
-    padding: 1rem;
-    
-    & .panel-body {
-        border-radius: 2rem;
-        background: var(--panel-bg);
         position: absolute;
-        inset: 0.5rem;
-    }
-
-    &.in-motion {
-        transition: all 0s;
-    }
-
-    &:has(.drag-handle:hover):not(.being-dragged) {
-        filter: brightness(1.2);
-    }
+        
+        left: calc(var(--x)); 
+        top: calc(var(--y));
+        width: var(--width);
+        height: var(--height);
+        
+        transition: all 0.2s ease;
+        animation: 0.2s ease spawnIn forwards;
+        border-radius: 2rem;
     
-    &.being-dragged {
-        filter: brightness(0.8) drop-shadow(1.5rem 1.5rem 2rem black);
-        scale: 1.2;
-        transition: all 0.2s ease, left 0s linear, top 0s linear;
-        opacity: 0.8;
-        z-index: 1;
-
-        & .drag-handle {
-            width: 5rem;
-            height: 5rem;
+        &:has(~ .being-dragged), &:has(~ .being-resized) {
+            opacity: 1;
         }
     }
 
-    &.snapping {
-        z-index: 1;
-    }
-
-}
-
-.handle {
-    border-radius: 1rem;
-    width: 2rem;
-    height: 2rem;
-    padding: 1rem;
-    position: absolute;
-    transition: 0.2s ease;
-    user-select: none;
-    background: red;
+    & .panel {
     
-    &.resize-handle {
-        bottom: 0;
-        right: 0;
-        rotate: 90deg;
+        --min-width: 2fr;
+        --min-height: 1fr;
+    
+        /* --forced-aspect-ratio: 1:2; */
+    
+        position: fixed;
+        left: calc(var(--x));
+        top: calc(var(--y));
+        isolation: isolate;
+        z-index: 0;
+        width: var(--width);
+        height: var(--height);
+        overflow: visible;
+        padding: 1rem;
+        
+        & .panel-body {
+            transform:
+                rotateX(var(--rotate-x))
+                rotateY(var(--rotate-y));
+            border-radius: 2rem;
+            background: var(--panel-bg);
+            position: absolute;
+            inset: 0.5rem;
+            transition: all 0.3s ease;
+
+            &.in-motion {
+                transition: rotate 0s linear;
+            }
+        }
+    
+        &:has(.drag-handle:hover):not(.being-dragged) {
+            filter: brightness(1.2);
+        }
+        
+        &.being-dragged {
+            filter: brightness(0.8) drop-shadow(1.5rem 1.5rem 2rem black);
+            scale: 1.2;
+            transition: all 0.2s ease, left 0s linear, top 0s linear;
+            opacity: 0.8;
+            z-index: 1;
+    
+            & .drag-handle {
+                width: 5rem;
+                height: 5rem;
+            }
+        }
+    
+        &.snapping {
+            z-index: 1;
+            transition: 0.3s ease;
+        }
+    
+        & .handle {
+            border-radius: 1rem;
+            width: 0;
+            height: 0;
+            padding: 0;
+            position: absolute;
+            transition: 0.2s ease;
+            user-select: none;
+            background: red;
+            
+            &.resize-handle {
+                bottom: 0;
+                right: 0;
+                rotate: 90deg;
+            }
+        
+            &:hover {
+                width: 5rem;
+                height: 5rem;
+            }
+            & object {
+                width: 100%;
+                pointer-events: none;
+            }
+        }
+    }
+    
+    & .cell {
+        border-radius: 2rem;
+        margin: 1rem;
+        opacity: 0.1;
+        width: calc(100% - 2rem);
+        height: calc(100% - 2rem);
+        background: rgba(255, 255, 255, 0.305);
+        transition: 0.3s ease;
     }
 
-    &:hover {
-        width: 5rem;
-        height: 5rem;
-    }
-    & object {
-        width: 100%;
-        pointer-events: none;
+    &.in-edit-mode {
+        & .handle {
+            height: 2rem;
+            width: 2rem;
+            padding: 1rem;
+        }
+
+        & .cell {
+            opacity: 1;
+        }
     }
 }
 
-.snapping {
+
+
+
+.snapping, .snapping > * {
     transition: 0.3s ease;
     pointer-events: none;
-}
-
-.cell {
-    border-radius: 2rem;
-    margin: 1rem;
-    width: calc(100% - 2rem);
-    height: calc(100% - 2rem);
-    background: rgba(255, 255, 255, 0.305);
 }
 
 .disappearing {

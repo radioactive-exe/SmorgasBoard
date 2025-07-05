@@ -19,6 +19,44 @@ function resizeElement(el : HTMLElement, e, initData) : void {
 
 }
 
+
+function rotateElement(e, elem) {
+    // if (elem.children.item(1).classList.contains("moving")) {return;}
+
+    if (!elem.classList.contains("hovering")) {
+        elem.dispatchEvent(new Event("mouseenter"));
+    }
+
+    const x = e.clientX;
+    const y = e.clientY;
+
+    var left, top, right, bottom;
+
+    if (elem.classList.contains("focused")) {
+        left = -0.5 * window.innerWidth;
+        right = window.innerWidth * 1.5;
+        top = -0.5 * window.innerHeight;
+        bottom = window.innerHeight * 1.5;
+    } else {
+        const box = elem.getBoundingClientRect();
+        left = box.left;
+        right = box.right;
+        top = box.top;
+        bottom = box.bottom;
+    }
+
+    let centreX = (left + right) / 2;
+    let centreY = (top + bottom) / 2;
+    const offsetX = ((x - centreX) / (right - left)) * 60;
+    const offsetY = ((y - centreY) / (bottom - top)) * 40;
+    const shadowOffsetX = ((x - centreX) / (right - left)) * -8;
+    const shadowOffsetY = ((y - centreY) / (top - bottom)) * -6;
+    elem.style.setProperty("--rotate-x", offsetY + "deg");
+    elem.style.setProperty("--rotate-y", offsetX + "deg");
+    elem.style.setProperty("--shadow-offset-x", shadowOffsetX + "rem");
+    elem.style.setProperty("--shadow-offset-y", shadowOffsetY + "rem");
+}
+
 function setItemArea(el: HTMLElement, area: type.Area): void {
     el.style.setProperty("--x", area.getX() + "px");
     el.style.setProperty("--y", area.getY() + "px");
@@ -121,6 +159,7 @@ function snapElementToTarget(el, target) {
 export {
     moveElementWithinScreen,
     resizeElement,
+    rotateElement,
     setItemArea,
     snapElementToGrid,
     snapElementToTarget

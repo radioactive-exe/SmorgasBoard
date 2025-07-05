@@ -1,4 +1,4 @@
-import { currentTheme } from "./app.js";
+import { currentTheme, dashboard } from "./app.js";
 import * as type from "./defs.js";
 
 
@@ -50,6 +50,9 @@ function setCurrentTheme(theme : type.Theme) {
     themeFileLink.setAttribute("href", theme.getUrl())
 }
 
+function isEditing() {
+    return dashboard?.classList.contains("in-edit-mode");
+}
 
 export {
     ignoreEventHandler,
@@ -57,5 +60,6 @@ export {
     roundToNearest,
     areaCollisionWithElement,
     collidesWithAnyPanel,
-    setCurrentTheme
+    setCurrentTheme,
+    isEditing
 }
