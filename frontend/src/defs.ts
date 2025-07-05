@@ -33,8 +33,8 @@ class Area {
 
 class Theme {
 
-    static readonly DEFAULT = new Theme(0, "default", "./themes/default.css");
-    static readonly YELLOW = new Theme(1, "yellow", "./themes/yellow.css");
+    static readonly DEFAULT = new Theme(0, "default", "/frontend/public/themes/default.css");
+    static readonly YELLOW = new Theme(1, "yellow", "/frontend/public/themes/yellow.css");
 
     private constructor(
         private readonly id: number,
