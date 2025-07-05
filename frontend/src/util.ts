@@ -21,8 +21,8 @@ function areaCollisionWithElement(area : type.Area, el) : boolean {
     return !(
         ((area.getY() + area.getHeight()) < (el.offsetTop + 10)) ||
         (area.getY() >= (el.offsetTop + el.offsetHeight) - 20) ||
-        ((area.getX() + area.getWidth()) < (el.offsetLeft)) ||
-        (area.getX() > (el.offsetLeft + el.offsetWidth - 10))
+        ((area.getX() + area.getWidth()) < (el.offsetLeft) + 10) ||
+        (area.getX() > (el.offsetLeft + el.offsetWidth - 20))
     );
 }
 
