@@ -12,6 +12,5 @@
             "dest": "backend/index.js"
         }
     ],
-    "buildCommand": "npm install --prefix backend && npm install --prefix frontend && npm run build --prefix frontend",
-    "trailingSlash": true
+    "buildCommand": "npm install --prefix backend && npm install --prefix frontend && npm run build --prefix frontend"
 }
