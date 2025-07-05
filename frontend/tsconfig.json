@@ -7,7 +7,7 @@
         "strictNullChecks": true,
         "strictFunctionTypes": true,
         "sourceMap": true,
-        "outDir": "frontend/dist"
+        "outDir": "dist"
     },
     "exclude": [
         "backend/node_modules",
