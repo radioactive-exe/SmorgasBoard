@@ -17,6 +17,12 @@ body {
     overflow: hidden;
 }
 
+#result {
+    font-size: xx-large;
+    z-index: 1;
+    position: fixed;
+}
+
 #dashboard {
     width: 100vw;
     height: 100vh;

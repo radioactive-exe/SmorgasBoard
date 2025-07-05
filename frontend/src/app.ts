@@ -7,6 +7,8 @@ import { resizeElement, moveElementWithinScreen, snapElementToGrid, snapElementT
 export const panels = [...document.querySelectorAll<HTMLElement>(".panel")];
 export var releaseHandler, dragHandler, currentTheme : type.Theme;
 
+const header = document.querySelector<HTMLElement>("#result");
+
 
 function updateElementDestinationPreview(el) {
     snapElementToGrid(el.parentElement.querySelector(".final-preview"), el);
@@ -132,7 +134,7 @@ panels.forEach((i) => {
     );
 });
 
-document.addEventListener("keydown", (e) => {
+document.addEventListener("keydown", async (e) => {
     console.log(e.key);
     switch (e.key) {
         case "ArrowDown":
@@ -142,6 +144,11 @@ document.addEventListener("keydown", (e) => {
         case "ArrowUp":
             utils.setCurrentTheme(type.Theme.YELLOW);
             break;
+        case "ArrowLeft":
+            const result = await fetch(
+                "https://smorgas-board-backend.vercel.app/"
+            ).then((res) => res.json());
+            if (header != null) header.innerText = result;
     }
 })
 
