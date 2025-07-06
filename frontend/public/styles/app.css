@@ -26,7 +26,7 @@ body {
     /* gap: 1rem; */
     & .final-preview {
         background: purple;
-        opacity: 0;
+        opacity: 1;
     
         position: absolute;
         
@@ -35,8 +35,7 @@ body {
         width: var(--width);
         height: var(--height);
         
-        transition: all 0.2s ease;
-        animation: 0.2s ease spawnIn forwards;
+        transition: 0.2s ease;
         border-radius: 2rem;
     
         &:has(~ .being-dragged), &:has(~ .being-resized) {
@@ -44,7 +43,7 @@ body {
         }
     }
 
-    & .panel {
+    & panel-element {
     
         --min-width: 2fr;
         --min-height: 1fr;
@@ -93,7 +92,7 @@ body {
             }
         }
     
-        &.snapping {
+        &.snapping:not(.final-preview) {
             z-index: 1;
             transition: 0.3s ease;
         }
@@ -157,14 +156,18 @@ body {
 }
 
 .disappearing {
-    animation: spawnIn backwards 0.2s ease;
+    animation: spawnIn reverse forwards 0.2s ease;
+}
+
+.appearing {
+    animation: spawnIn 0.2s ease;
 }
 
 @keyframes spawnIn {
-    from {
+    0% {
         opacity: 0;
     }
-    to {
+    100% {
         opacity: 1;
     }
 }

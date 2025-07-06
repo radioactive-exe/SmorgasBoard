@@ -26,7 +26,7 @@ function areaCollisionWithElement(area : type.Area, el) : boolean {
     );
 }
 
-function collidesWithAnyPanel(self : HTMLElement, area : type.Area, panels) : boolean {
+function collidesWithAnyPanel(self : HTMLElement, area : type.Area, panels : type.Panel[]) : boolean {
     
     var flag = false;
     
@@ -37,10 +37,6 @@ function collidesWithAnyPanel(self : HTMLElement, area : type.Area, panels) : bo
     });
 
     return flag;
-}
-
-function setCssProperty(el : HTMLElement, property : string, value : string) {
-    window.getComputedStyle(el).setProperty(property, value);
 }
 
 function setCurrentTheme(theme : type.Theme) {

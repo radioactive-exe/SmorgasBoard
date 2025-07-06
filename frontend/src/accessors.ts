@@ -4,7 +4,10 @@ function numericalValue(string) : number {
     return string.replace(/\D+$/g, "");
 }
 
-function cssPropertyValue(el: HTMLElement, property): number {
+function cssProperty(el, property): string {
+    return window.getComputedStyle(el).getPropertyValue(property);
+}
+function cssPropertyValue(el, property): number {
     return numericalValue(cssProperty(el, property));
 }
 
@@ -40,14 +43,6 @@ function normalisedCssPropertyValue(el, property) : number {
     return 1;
 }
 
-function dashboardRows(): number {
-    return cssPropertyValue(document.body, "--num-of-rows");
-}
-
-function dashboardCols(): number {
-    return cssPropertyValue(document.body, "--num-of-cols");
-}
-
 function elementAspectRatio(el: HTMLElement): number {
     var string = cssProperty(el, "--forced-aspect-ratio");
     if (string == "") {
@@ -58,8 +53,12 @@ function elementAspectRatio(el: HTMLElement): number {
     return parseInt(split[0]) / parseInt(split[1]);
 }
 
-function cssProperty(el: HTMLElement, property): string {
-    return window.getComputedStyle(el).getPropertyValue(property);
+function dashboardRows(): number {
+    return cssPropertyValue(document.body, "--num-of-rows");
+}
+
+function dashboardCols(): number {
+    return cssPropertyValue(document.body, "--num-of-cols");
 }
 
 export {
