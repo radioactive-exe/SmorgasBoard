@@ -10,10 +10,8 @@ import {
     rotateElement,
 } from "./manip.js";
 
-export var panels: type.Panel[] = [
-    ...document.querySelectorAll<type.Panel>("panel-element"),
-];
 export const dashboard = document.querySelector("#dashboard");
+export var panels : type.Panel[] = loadStoredPanels();
 export var releaseHandler, dragHandler, currentTheme: type.Theme;
 const header = document.querySelector<HTMLElement>("#result");
 
@@ -55,20 +53,24 @@ function init(): void {
 }
 
 function initPanel(panel: type.Panel) {
-    panel.setArea(
-        new type.Area(
-            {
-                x: get.normalisedCssPropertyValue(panel, "--x"),
-                y: get.normalisedCssPropertyValue(panel, "--y"),
-            },
-            {
-                width: get.normalisedCssPropertyValue(panel, "--min-width"),
-                height: get.normalisedCssPropertyValue(panel, "--min-height"),
-            }
-        )
-    );
+    // panel.setArea(
+    //     new type.Area(
+    //         {
+    //             x: 0,
+    //             y: 0,
+    //         },
+    //         {
+    //             width: get.normalisedCssPropertyValue(panel, "--min-width"),
+    //             height: get.normalisedCssPropertyValue(panel, "--min-height"),
+    //         }
+    //     )
+    // );
 
-    panel.setType(new type.PanelType("default", 0));
+    panel.updateArea();
+
+    panel.updateContent();
+
+    panel.setType(new type.PanelType(0));
 
     // addPanelHoverListeners(panel);
 }
@@ -85,9 +87,74 @@ function initPreview(i: type.Panel, preview: type.Panel) {
     }, get.normalisedCssPropertyValue(preview, "transition-duration"));
 }
 
+function updateStoredPanels() {
+    var panelStorage : type.PanelInstance[] = panels.map((i) : type.PanelInstance  => {
+        return {
+            panel_id: parseInt(i.dataset.panelId ? i.dataset.panelId : "0"),
+            panel_type_id: i.getType().getId(),
+            area: i.getArea().toJson(),
+            content: i.getContent()
+        }
+        
+    });
+
+    localStorage.setItem("local-panel-storage", JSON.stringify(panelStorage));
+
+}
+
+function loadStoredPanels() : type.Panel[] {
+
+    let queriedPanels : type.Panel[] = [...document.querySelectorAll<type.Panel>("panel-element")];
+
+    if (queriedPanels.length != 0) {
+        console.warn("Panels in body found. Failed to load panels from storage");
+        return queriedPanels;
+    }
+
+    let loadedString = localStorage.getItem("local-panel-storage");
+    if (loadedString == null) {
+        console.warn("No stored panels! Initiating base board.");
+        return [new type.Panel(
+            type.Area.INIT,
+            new type.PanelType(0),
+            0,
+            type.PanelContent.DEFAULT
+        )];
+    }
+
+    let loadedPanels : type.PanelInstance[] = JSON.parse(loadedString);
+
+    var index = 0;
+    const formattedPanels: type.Panel[] = loadedPanels.map(
+        (i: type.PanelInstance) => {
+            return new type.Panel(
+                new type.Area(
+                    {
+                        x: i.area.pos.x,
+                        y: i.area.pos.y
+                    },
+                    {
+                        width: i.area.size.width,
+                        height: i.area.size.height
+                    }
+                ),
+                new type.PanelType(i.panel_type_id),
+                index++,
+                i.content
+            );
+        }
+    );
+
+    dashboard?.append(...formattedPanels);
+
+    return formattedPanels;
+}
+
 function commonReleaseHandler(i, preview) {
     snapElementToTarget(i, preview);
     preview.classList.add("disappearing");
+
+    updateStoredPanels();
 
     setTimeout(() => {
         preview.classList.remove("disappearing");
@@ -106,9 +173,12 @@ function setDocumentHandlers() {
 panels.forEach((i) => {
     initPanel(i);
 
+    console.log(i.getArea());
+
     const preview: type.Panel = new type.Panel(
         i.getArea(),
-        new type.PanelType("preview", -1)
+        new type.PanelType(-1),
+        -1
     );
 
     preview.classList.add("final-preview");

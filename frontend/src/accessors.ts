@@ -61,11 +61,18 @@ function dashboardCols(): number {
     return cssPropertyValue(document.body, "--num-of-cols");
 }
 
+function enumEntryWValue(e : any, value : string | number) {
+    Object.values(e).forEach(i => {
+        if (i == value) return i;
+    });
+}
+
 export {
     cssProperty,
     cssPropertyValue,
     normalisedCssPropertyValue,
     dashboardRows,
     dashboardCols,
-    elementAspectRatio,
+    elementAspectRatio
+    // enumEntryWValue
 };

@@ -1,5 +1,6 @@
 import * as utils from "./util.js"
 import * as get from "./accessors.js"
+import { stringify } from "querystring";
 
 
 
@@ -11,20 +12,67 @@ type Size = {
     width : number, height : number
 }
 
+type AreaInstance = {
+    pos: {x : number , y : number},
+    size: {width : number, height : number}
+}
+
+type PanelInstance = {
+    panel_id : number,
+    panel_type_id : number,
+    area: AreaInstance,
+    content : string
+}
+
 enum PanelDataType {
     LOCAL = 0,
     GLOBAL = 1,
     EXTERNAL = 2
 }
 
+enum PanelTypeId {
+    PREVIEW = <number>-1,
+    DEFAULT = <number>0
+}
+
+enum PanelContent {
+    DEFAULT = `<div class="panel-body"><div class="handle drag-handle">
+                    <object data="assets/arrows-alt.svg" type="image/svg+xml"></object>
+                </div>
+                <div class="handle resize-handle">
+                    <object data="assets/arrow-up-right-and-arrow-down-left-from-center.svg" type="image/svg+xml"></object>
+                </div>
+            </div>`
+}
+
 class Area {
 
     static readonly INIT = new Area({ x: 0, y: 0 }, { width: 100, height: 100 });
 
+    private pos : Coordinate;
+    private size : Size;
+
     public constructor(
-        private pos : Coordinate,
-        private size : Size
-    ) {}    
+        arg0 : Coordinate | Area,
+        arg1? : Size
+    ) {
+        if (arg0 instanceof Area) {
+            if (arg1 != null) {
+                console.warn("Second parameter is unused. First argument (arg0) was a complete Area. To create a new Area with the coordinates of the first parameter and the size in the second parameter, use arg0.getPos().");
+            }
+            this.pos = arg0.pos;
+            this.size = arg0.size;
+        }
+        else if (!(arg0 instanceof Area) && arg1 == null) {
+            console.warn("No size passed. Area will be initialised with a width and height of 0.");
+            this.pos = arg0;
+            this.size = {width: 0, height: 0};
+        }
+        else {
+            this.pos = arg0;
+            this.size = <Size>arg1;
+        }
+    }    
 
     public getX() : number {
         return this.pos.x;
@@ -61,6 +109,13 @@ class Area {
     public getSize() : Size {
         return this.size;
     }
+
+    public toJson() : AreaInstance {
+        return {
+            pos: this.pos,
+            size: this.size
+        }
+    }
     
 };    
 
@@ -85,20 +140,45 @@ class Theme {
 }
 
 class PanelType {
+
+    private readonly dataType : PanelDataType;
+    private readonly typeName : string;
+    
     public constructor(
-        private readonly typeName : string,
         private readonly typeId : number,
-        private readonly dataType : PanelDataType | null = null
-    ) {}
+        arg1? : String | PanelDataType
+    ) {
+        if (arg1 == null) { this.typeName = PanelTypeId[this.typeId]}
+        else if (arg1 instanceof String) {this.typeName = arg1.toString();}
+        else if (arg1 in PanelDataType) this.dataType = arg1; 
+    }
+
+    public toString() {
+        return this.typeName;
+    }
+
+    public getId() {
+        return this.typeId;
+    }
 }
 
 class Panel extends HTMLElement {
 
+    private body : string;
+    
     public constructor(
         private area : Area,
         private type : PanelType,
+        private dashboardId : number,
+        body? : string
         // private readonly potentialAspectRatios : number[] | null
-    ) { super(); }
+    ) { super();
+        if (body == null) this.body = this.innerHTML;
+        else this.body = body;
+        this.setArea(area);
+        this.dashboardId = dashboardId;
+        this.dataset.panelId = dashboardId.toString();
+    }
 
     public getArea() : Area {
         return this.area;
@@ -119,7 +199,9 @@ class Panel extends HTMLElement {
     }
 
     public setArea(other : Area) {
-        this.area = other;
+        this.area = new Area(
+            other.getCoordinates(), other.getSize()
+        );
         
         this.style.setProperty("--x", other.getX() + "px");
         this.style.setProperty("--y", other.getY() + "px");
@@ -131,6 +213,33 @@ class Panel extends HTMLElement {
     public setType(type: PanelType) {
         this.type = type;
     }
+
+    public getType() : PanelType {
+        return this.type;
+    }
+
+    public getContent() : string {
+        return this.body;
+    }
+
+    public updateContent() : void {
+        this.innerHTML = this.body;
+    }
+
+    public updateArea() : void {
+        this.setArea(
+            new Area(
+                {
+                    x: get.normalisedCssPropertyValue(this, "--x"),
+                    y: get.normalisedCssPropertyValue(this, "--y"),
+                },
+                {
+                    width: get.normalisedCssPropertyValue(this, "--width"),
+                    height: get.normalisedCssPropertyValue(this, "--height"),
+                }
+            )
+        );
+    }
 }
 
 window.customElements.define("panel-element", Panel);
@@ -138,7 +247,11 @@ window.customElements.define("panel-element", Panel);
 export {
     Coordinate,
     Area,
+    AreaInstance,
     Theme,
     Panel,
-    PanelType
+    PanelInstance,
+    PanelType,
+    PanelDataType,
+    PanelContent
 }

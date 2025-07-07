@@ -3,14 +3,14 @@ import * as utils from "./util.js";
 import * as get from "./accessors.js";
 import { releaseHandler, dragHandler, panels } from "./app.js";
 
-var x,
-    y,
-    width,
-    height,
-    potentialX,
-    potentialY,
-    potentialWidth,
-    potentialHeight;
+var x : number,
+    y : number,
+    width : number,
+    height : number,
+    potentialX : number,
+    potentialY : number,
+    potentialWidth : number,
+    potentialHeight : number;
 
 function movePanelWithinScreen(panel : type.Panel, e, initData): void {
     panel.setPosition(
@@ -169,6 +169,7 @@ function snapElementToGrid(panel, source = panel, shouldAnimate = true) {
         panel.setArea(originalArea);
     } else panel.setArea(potentialArea);
 
+
     setTimeout(() => {
         panel.classList.remove("snapping");
     }, get.normalisedCssPropertyValue(panel, "transition-duration"));
@@ -177,14 +178,8 @@ function snapElementToGrid(panel, source = panel, shouldAnimate = true) {
 function snapElementToTarget(el: type.Panel, target) {
     el.classList.add("snapping");
 
-    el.setPosition(
-        get.normalisedCssPropertyValue(target, "--x"),
-        get.normalisedCssPropertyValue(target, "--y")
-    );
-    el.setSize(
-        get.normalisedCssPropertyValue(target, "--width"),
-        get.normalisedCssPropertyValue(target, "--height")
-    );
+
+    el.setArea(target.getArea());
 
     setTimeout(() => {
         el.classList.remove("snapping");
