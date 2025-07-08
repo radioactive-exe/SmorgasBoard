@@ -1,3 +1,5 @@
+import * as type from "./defs.js"
+
 function numericalValue(string): number {
     return string.replace(/\D+$/g, "");
 }
@@ -65,18 +67,11 @@ function dashboardCols(): number {
     return cssPropertyValue(document.body, "--num-of-cols");
 }
 
-function enumEntryWValue(e: any, value: string | number) {
-    Object.values(e).forEach((i) => {
-        if (i == value) return i;
-    });
-}
-
 export {
     cssProperty,
     cssPropertyValue,
     normalisedCssPropertyValue,
     dashboardRows,
     dashboardCols,
-    elementAspectRatio,
-    // enumEntryWValue
+    elementAspectRatio
 };

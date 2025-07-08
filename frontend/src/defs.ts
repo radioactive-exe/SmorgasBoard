@@ -1,6 +1,7 @@
 import * as utils from "./util.js";
 import * as get from "./accessors.js";
 import { stringify } from "querystring";
+import { movePanelWithinScreen } from "./manip.js";
 
 /**
  * DESC: A Coordinate object, stores the x and y positions of the item they belong to.
@@ -45,7 +46,8 @@ type PanelInstance = {
  *
  * @enum {number}
  */
-enum PanelDataType {
+enum PanelTypeData {
+    NONE = -1,
     LOCAL = 0,
     GLOBAL = 1,
     EXTERNAL = 2,
@@ -56,9 +58,11 @@ enum PanelDataType {
  *
  * @enum {number}
  */
-enum PanelTypeId {
+enum PanelTypeName {
     PREVIEW = -1,
     DEFAULT = 0,
+    NOTEPAD = 1,
+    PHOTO = 2
 }
 
 /**
@@ -304,35 +308,58 @@ class Theme {
     }
 }
 
+/**
+ * DESC: PanelType Class, this is class that unifies all information about a panel's type, including the name, data type, and other useful information and methods.
+ *
+ * @class PanelType
+ */
 class PanelType {
-    private readonly dataType: PanelDataType;
-    private readonly typeName: string;
+    /**
+     * DESC: These are all the Defined Panel Types in the project/application. New Types cannot be created during runtime unless needed.
+     *
+     * @this @alias (PanelDataTypes)
+     * @static
+     * @memberof PanelType
+     */
 
-    // TODO: FIX PANEL TYPE INSTANTIATION AND DATA TYPE DEDUCTION
+    static readonly PREVIEW = new PanelType(
+        -1,
+        PanelTypeData.NONE,
+        PanelTypeName.PREVIEW
+    );
+    static readonly DEFAULT = new PanelType(
+        0,
+        PanelTypeData.NONE,
+        PanelTypeName.DEFAULT
+    );
+    static readonly NOTEPAD = new PanelType(
+        1,
+        PanelTypeData.LOCAL,
+        PanelTypeName.NOTEPAD
+    );
+    static readonly PHOTO = new PanelType(
+        2,
+        PanelTypeData.LOCAL,
+        PanelTypeName.PHOTO
+    );
 
     /**
      * DESC: Creates an instance of PanelType.
      *
-     * NOTE: They can be instantiated in 2 ways:
-     * * With an ID number for @param {typeId} and the type name for @param {arg1}
-     * * With an ID number for @param {typeId}
+     * NOTE: Similarly to themes, these should not be created at runtime and will instead be set types with set data types and names, unless otherwise is required. All the necessary types are declared at @alias (PanelDataTypes)
      *
      * @constructor
      * @param {number} typeId
-     * @param {(String | PanelDataType)} [arg1]
+     * @param {PanelTypeData} typeData
+     * @param {PanelTypeName} typeName
      * @memberof PanelType
      */
-    public constructor(
+    private constructor(
         private readonly typeId: number,
-        arg1?: String | PanelDataType
-    ) {
-        if (arg1 == null) {
-            this.typeName = PanelTypeId[this.typeId];
-        } else if (arg1 instanceof String) {
-            this.typeName = arg1.toString();
-            // this.dataType = PanelDataType[arg1];
-        } else if (arg1 in PanelDataType) this.dataType = arg1;
-    }
+        private readonly typeData: PanelTypeData,
+        private readonly typeName: PanelTypeName
+    ) // private readonly content : PanelContent
+    {}
 
     /**
      * DESC: Returns the type name of the Panel type when used in @type {string} contexts
@@ -341,7 +368,7 @@ class PanelType {
      * @memberof PanelType
      */
     public toString(): string {
-        return this.typeName;
+        return this.typeName[this.typeId];
     }
 
     /**
@@ -352,6 +379,30 @@ class PanelType {
      */
     public getId(): number {
         return this.typeId;
+    }
+
+    /**
+     * DESC: Returns the panel from @alias (PanelDataTypes) that has @param {id} as a @member {typeId}
+     *
+     * @static
+     * @param {number} id
+     * @return {PanelType}
+     * @memberof PanelType
+     */
+    public static getTypeFromId(id: number): PanelType {
+        switch (id) {
+            case 0:
+                return PanelType.DEFAULT;
+                break;
+            case 1:
+                return PanelType.NOTEPAD;
+                break;
+            case 2:
+                return PanelType.PHOTO;
+                break;
+        }
+
+        return PanelType.PREVIEW;
     }
 }
 
@@ -554,6 +605,7 @@ export {
     Panel,
     PanelInstance,
     PanelType,
-    PanelDataType,
+    PanelTypeData,
+    PanelTypeName,
     PanelContent,
 };

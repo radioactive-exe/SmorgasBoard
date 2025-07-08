@@ -53,28 +53,15 @@ function init(): void {
 }
 
 function initPanel(panel: type.Panel) {
-    // panel.setArea(
-    //     new type.Area(
-    //         {
-    //             x: 0,
-    //             y: 0,
-    //         },
-    //         {
-    //             width: get.normalisedCssPropertyValue(panel, "--min-width"),
-    //             height: get.normalisedCssPropertyValue(panel, "--min-height"),
-    //         }
-    //     )
-    // );
-
-    // panel.updateArea();
 
     panel.updateContent();
+    panel.setType(type.PanelType.DEFAULT);
 
+    // console.log(panel.getType());
+    
     snapElementToGrid(panel, panel, false);
 
-    panel.setType(new type.PanelType(0));
-
-    // addPanelHoverListeners(panel);
+    addPanelHoverListeners(panel);
 }
 
 function initPreview(i: type.Panel, preview: type.Panel) {
@@ -117,13 +104,13 @@ function loadStoredPanels(): type.Panel[] {
     }
 
     let loadedString = localStorage.getItem("local-panel-storage");
-    
+
     if (loadedString == null) {
         console.warn("No stored panels! Initiating base board.");
 
         const createdPanel : type.Panel = new type.Panel(
                 type.Area.INIT,
-                new type.PanelType(0),
+                type.PanelType.DEFAULT,
                 0,
                 type.PanelContent.DEFAULT
             );
@@ -142,7 +129,7 @@ function loadStoredPanels(): type.Panel[] {
         (i: type.PanelInstance) => {
             return new type.Panel(
                 new type.Area(i.area.pos, i.area.size),
-                new type.PanelType(i.panel_type_id),
+                type.PanelType.getTypeFromId(i.panel_type_id),
                 index++,
                 i.content
             );
@@ -175,11 +162,12 @@ function setDocumentHandlers() {
 }
 
 panels.forEach((i) => {
+
     initPanel(i);
 
     const preview: type.Panel = new type.Panel(
         i.getArea(),
-        new type.PanelType(-1),
+        type.PanelType.PREVIEW,
         -1
     );
 
