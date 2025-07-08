@@ -3,16 +3,16 @@ import * as utils from "./util.js";
 import * as get from "./accessors.js";
 import { releaseHandler, dragHandler, panels } from "./app.js";
 
-var x : number,
-    y : number,
-    width : number,
-    height : number,
-    potentialX : number,
-    potentialY : number,
-    potentialWidth : number,
-    potentialHeight : number;
+var x: number,
+    y: number,
+    width: number,
+    height: number,
+    potentialX: number,
+    potentialY: number,
+    potentialWidth: number,
+    potentialHeight: number;
 
-function movePanelWithinScreen(panel : type.Panel, e, initData): void {
+function movePanelWithinScreen(panel: type.Panel, e, initData): void {
     panel.setPosition(
         utils.clamp(
             initData.panelPos.x + (e.pageX - initData.eventCoords.x),
@@ -169,7 +169,6 @@ function snapElementToGrid(panel, source = panel, shouldAnimate = true) {
         panel.setArea(originalArea);
     } else panel.setArea(potentialArea);
 
-
     setTimeout(() => {
         panel.classList.remove("snapping");
     }, get.normalisedCssPropertyValue(panel, "transition-duration"));
@@ -177,7 +176,6 @@ function snapElementToGrid(panel, source = panel, shouldAnimate = true) {
 
 function snapElementToTarget(el: type.Panel, target) {
     el.classList.add("snapping");
-
 
     el.setArea(target.getArea());
 

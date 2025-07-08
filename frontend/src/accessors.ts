@@ -1,6 +1,4 @@
-
-
-function numericalValue(string) : number {
+function numericalValue(string): number {
     return string.replace(/\D+$/g, "");
 }
 
@@ -11,11 +9,10 @@ function cssPropertyValue(el, property): number {
     return numericalValue(cssProperty(el, property));
 }
 
-function normalisedCssPropertyValue(el, property) : number {
-
+function normalisedCssPropertyValue(el, property): number {
     if (cssProperty(el, property) == "0") return 0; // No unit is often specified with 0
 
-    const temp = /[a-zA-Z]+/.exec(cssProperty(el, property))
+    const temp = /[a-zA-Z]+/.exec(cssProperty(el, property));
     const propertyUnit = temp ? temp[0] : "";
 
     switch (propertyUnit) {
@@ -32,12 +29,19 @@ function normalisedCssPropertyValue(el, property) : number {
             return cssPropertyValue(el, property);
             break;
         case "fr":
-            if (property.toLowerCase().includes("width")) return cssPropertyValue(el, property) * (window.innerWidth) / dashboardCols();
-            else if (property.toLowerCase().includes("height")) return cssPropertyValue(el, property) * (window.innerHeight) / dashboardRows();
+            if (property.toLowerCase().includes("width"))
+                return (
+                    (cssPropertyValue(el, property) * window.innerWidth) /
+                    dashboardCols()
+                );
+            else if (property.toLowerCase().includes("height"))
+                return (
+                    (cssPropertyValue(el, property) * window.innerHeight) /
+                    dashboardRows()
+                );
             break;
         default:
             return cssPropertyValue(el, property);
-
     }
 
     return 1;
@@ -61,8 +65,8 @@ function dashboardCols(): number {
     return cssPropertyValue(document.body, "--num-of-cols");
 }
 
-function enumEntryWValue(e : any, value : string | number) {
-    Object.values(e).forEach(i => {
+function enumEntryWValue(e: any, value: string | number) {
+    Object.values(e).forEach((i) => {
         if (i == value) return i;
     });
 }
@@ -73,6 +77,6 @@ export {
     normalisedCssPropertyValue,
     dashboardRows,
     dashboardCols,
-    elementAspectRatio
+    elementAspectRatio,
     // enumEntryWValue
 };

@@ -1,49 +1,54 @@
 import { currentTheme, dashboard } from "./app.js";
 import * as type from "./defs.js";
 
-
-function ignoreEventHandler(e) : void {
+function ignoreEventHandler(e: Event): void {
     e.stopPropagation();
 }
 
-function clamp(num : number, min : number, max : number) : number {
+function clamp(num: number, min: number, max: number): number {
     return Math.min(Math.max(num, min), max);
 }
 
-function roundToNearest(num : number, stepSize : number) : number {
+function roundToNearest(num: number, stepSize: number): number {
     let diminished = num / stepSize;
     diminished = Math.round(diminished);
     diminished *= stepSize;
     return diminished;
 }
 
-function areaCollisionWithElement(area : type.Area, el) : boolean {
+function areaCollisionWithElement(area: type.Area, el: type.Panel): boolean {
     return !(
-        ((area.getY() + area.getHeight()) < (el.offsetTop + 10)) ||
-        (area.getY() >= (el.offsetTop + el.offsetHeight) - 20) ||
-        ((area.getX() + area.getWidth()) < (el.offsetLeft) + 10) ||
-        (area.getX() > (el.offsetLeft + el.offsetWidth - 20))
+        area.getY() + area.getHeight() < el.offsetTop + 10 ||
+        area.getY() >= el.offsetTop + el.offsetHeight - 20 ||
+        area.getX() + area.getWidth() < el.offsetLeft + 10 ||
+        area.getX() > el.offsetLeft + el.offsetWidth - 20
     );
 }
 
-function collidesWithAnyPanel(self : HTMLElement, area : type.Area, panels : type.Panel[]) : boolean {
-    
+function collidesWithAnyPanel(
+    self: HTMLElement,
+    area: type.Area,
+    panels: type.Panel[]
+): boolean {
     var flag = false;
-    
-    panels.forEach(i => {
-        if (i.dataset.panelId != self.dataset.callerId && areaCollisionWithElement(area, i)) {
-            flag = true;  
+
+    panels.forEach((i) => {
+        if (
+            i.dataset.panelId != self.dataset.callerId &&
+            areaCollisionWithElement(area, i)
+        ) {
+            flag = true;
         }
     });
 
     return flag;
 }
 
-function setCurrentTheme(theme : type.Theme) {
+function setCurrentTheme(theme: type.Theme) {
     currentTheme;
     const themeFileLink = document.querySelector<HTMLElement>("#app-theme");
     if (themeFileLink == null) return;
-    themeFileLink.setAttribute("href", theme.getUrl())
+    themeFileLink.setAttribute("href", theme.getUrl());
 }
 
 function isEditing() {
@@ -57,5 +62,5 @@ export {
     areaCollisionWithElement,
     collidesWithAnyPanel,
     setCurrentTheme,
-    isEditing
-}
+    isEditing,
+};
