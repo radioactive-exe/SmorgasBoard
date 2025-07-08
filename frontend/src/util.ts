@@ -44,15 +44,15 @@ function collidesWithAnyPanel(
     return flag;
 }
 
-function setCurrentTheme(theme: type.Theme) {
-    currentTheme;
-    const themeFileLink = document.querySelector<HTMLElement>("#app-theme");
+function setCurrentTheme(theme: type.Theme) : void {
+    // currentTheme = theme;
+    const themeFileLink : HTMLElement | null = document.querySelector<HTMLElement>("#app-theme");
     if (themeFileLink == null) return;
     themeFileLink.setAttribute("href", theme.getUrl());
 }
 
-function isEditing() {
-    return dashboard?.classList.contains("in-edit-mode");
+function isEditing() : boolean {
+    return dashboard ? dashboard.classList.contains("in-edit-mode") : false;
 }
 
 export {

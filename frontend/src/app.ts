@@ -66,7 +66,7 @@ function initPanel(panel: type.Panel) {
     //     )
     // );
 
-    panel.updateArea();
+    // panel.updateArea();
 
     panel.updateContent();
 
@@ -117,15 +117,21 @@ function loadStoredPanels(): type.Panel[] {
     }
 
     let loadedString = localStorage.getItem("local-panel-storage");
+    
     if (loadedString == null) {
         console.warn("No stored panels! Initiating base board.");
-        return [
-            new type.Panel(
+
+        const createdPanel : type.Panel = new type.Panel(
                 type.Area.INIT,
                 new type.PanelType(0),
                 0,
                 type.PanelContent.DEFAULT
-            ),
+            );
+
+        dashboard?.append(createdPanel);
+
+        return [
+            createdPanel
         ];
     }
 
@@ -135,16 +141,7 @@ function loadStoredPanels(): type.Panel[] {
     const formattedPanels: type.Panel[] = loadedPanels.map(
         (i: type.PanelInstance) => {
             return new type.Panel(
-                new type.Area(
-                    {
-                        x: i.area.pos.x,
-                        y: i.area.pos.y,
-                    },
-                    {
-                        width: i.area.size.width,
-                        height: i.area.size.height,
-                    }
-                ),
+                new type.Area(i.area.pos, i.area.size),
                 new type.PanelType(i.panel_type_id),
                 index++,
                 i.content
