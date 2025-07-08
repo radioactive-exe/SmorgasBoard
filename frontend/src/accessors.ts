@@ -1,17 +1,17 @@
-import * as type from "./defs.js"
-
-function numericalValue(string): number {
-    return string.replace(/\D+$/g, "");
+function numericalValue(string : string): number {
+    return parseFloat(string.replace(/\D+$/g, ""));
 }
 
 function cssProperty(el, property): string {
     return window.getComputedStyle(el).getPropertyValue(property);
 }
+
 function cssPropertyValue(el, property): number {
     return numericalValue(cssProperty(el, property));
 }
 
 function normalisedCssPropertyValue(el, property): number {
+
     if (cssProperty(el, property) == "0") return 0; // No unit is often specified with 0
 
     const temp = /[a-zA-Z]+/.exec(cssProperty(el, property));
@@ -54,7 +54,7 @@ function elementAspectRatio(el: HTMLElement): number {
     if (string == "") {
         return 0;
     }
-    var split = string.split(":");
+    var split : string[] = string.split(":");
 
     return parseInt(split[0]) / parseInt(split[1]);
 }

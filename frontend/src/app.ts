@@ -7,15 +7,23 @@ import {
     movePanelWithinScreen,
     snapElementToGrid,
     snapElementToTarget,
-    rotateElement,
+    rotatePanel,
+    rotateElementStyle,
 } from "./manip.js";
 
-export const dashboard = document.querySelector("#dashboard");
+export const dashboard = document.querySelector<HTMLElement>("#dashboard") ? document.querySelector<HTMLElement>("#dashboard") : document.createElement("div");
 export var panels: type.Panel[] = loadStoredPanels();
-export var releaseHandler, dragHandler, currentTheme: type.Theme;
-const header = document.querySelector<HTMLElement>("#result");
+export var dragHandler, currentTheme: type.Theme;
 
-function toggleEditMode() {
+var flag : string, currentPanel : type.Panel;
+const preview: type.Panel = new type.Panel(
+    type.Area.INIT,
+    type.PanelType.PREVIEW,
+    -1
+);
+preview.classList.add("final-preview");
+
+function toggleEditMode() : void {
     dashboard?.classList.toggle("in-edit-mode");
     if (utils.isEditing())
         panels.forEach((i) => {
@@ -27,21 +35,28 @@ function toggleEditMode() {
         });
 }
 
-function updateElementDestinationPreview(el) {
-    snapElementToGrid(el.parentElement.querySelector(".final-preview"), el);
+function setCurrentTheme(theme: type.Theme) : void {
+    currentTheme = theme;
+    const themeFileLink : HTMLElement | null = document.querySelector<HTMLElement>("#app-theme");
+    if (themeFileLink == null) return;
+    themeFileLink.setAttribute("href", theme.getUrl());
 }
 
-function addPanelHoverListeners(panel) {
+function updateElementDestinationPreview(el) : void {
+    snapElementToGrid(<type.Panel>dashboard?.querySelector(".final-preview"), el);
+}
+
+function addPanelHoverListeners(panel : type.Panel) : void {
     panel.addEventListener("mousemove", panelHoverHandler);
-    panel.addEventListener("mouseleave", resetPanelHoverHandler);
+    panel.addEventListener("mouseleave", exitPanelHoverHandler);
     panel.addEventListener("mouseenter", enterPanelHoverHandler);
 }
 
-function removePanelHoverListeners(panel) {
+function removePanelHoverListeners(panel) : void {
     panel.removeEventListener("mouseenter", enterPanelHoverHandler);
     panel.removeEventListener("mousemove", panelHoverHandler);
     panel.dispatchEvent(new Event("mouseleave"));
-    panel.removeEventListener("mouseleave", resetPanelHoverHandler);
+    panel.removeEventListener("mouseleave", exitPanelHoverHandler);
 }
 
 function init(): void {
@@ -52,28 +67,25 @@ function init(): void {
     }
 }
 
-function initPanel(panel: type.Panel) {
+function initPanel(panel: type.Panel) : void {
 
     panel.updateContent();
     panel.setType(type.PanelType.DEFAULT);
-
-    // console.log(panel.getType());
     
     snapElementToGrid(panel, panel, false);
 
     addPanelHoverListeners(panel);
 }
 
-function initPreview(i: type.Panel, preview: type.Panel) {
+function initPreview(i: type.Panel) {
     preview.dataset.callerId = i.dataset.panelId;
     i.parentElement?.prepend(preview);
+    snapElementToTarget(preview, i, false);
 
     preview.classList.add("appearing");
     updateElementDestinationPreview(i);
 
-    setTimeout(() => {
-        preview.classList.remove("appearing");
-    }, get.normalisedCssPropertyValue(preview, "transition-duration"));
+    utils.removeClassAfterTransition(preview, "appearing");
 }
 
 function updateStoredPanels() {
@@ -141,16 +153,14 @@ function loadStoredPanels(): type.Panel[] {
     return formattedPanels;
 }
 
-function commonReleaseHandler(i, preview) {
-    snapElementToTarget(i, preview);
+export function releaseHandler(e) {
+    snapElementToTarget(currentPanel, preview);
     preview.classList.add("disappearing");
+    currentPanel.classList.remove(flag);
 
     updateStoredPanels();
 
-    setTimeout(() => {
-        preview.classList.remove("disappearing");
-        i.parentElement.removeChild(preview);
-    }, get.normalisedCssPropertyValue(preview, "transition-duration"));
+    utils.removeClassAfterTransition(preview, "disappearing", true);
 
     document.removeEventListener("mouseup", releaseHandler);
     document.removeEventListener("mousemove", dragHandler);
@@ -165,28 +175,18 @@ panels.forEach((i) => {
 
     initPanel(i);
 
-    const preview: type.Panel = new type.Panel(
-        i.getArea(),
-        type.PanelType.PREVIEW,
-        -1
-    );
-
-    preview.classList.add("final-preview");
-
-    i.addEventListener("hover", (e) => {
-        e.stopImmediatePropagation();
-    });
-
     i.querySelector<HTMLElement>(".drag-handle")?.addEventListener(
         "mousedown",
         (e) => {
-            i.classList.add("being-dragged");
+            flag = "being-dragged";
+            currentPanel = i;
+            i.classList.add(flag);
 
-            initPreview(i, preview);
+            initPreview(i);
 
             const initData = {
                 eventCoords: {
-                    x: e.pageX,
+                    x: e.clientX,
                     y: e.pageY,
                 },
                 panelPos: {
@@ -201,11 +201,6 @@ panels.forEach((i) => {
                 updateElementDestinationPreview(i);
             };
 
-            releaseHandler = (e) => {
-                i.classList.remove("being-dragged");
-                commonReleaseHandler(i, preview);
-            };
-
             setDocumentHandlers();
         }
     );
@@ -213,13 +208,16 @@ panels.forEach((i) => {
     i.querySelector<HTMLElement>(".resize-handle")?.addEventListener(
         "mousedown",
         (e) => {
-            i.classList.add("being-resized");
+            flag = "being-resized";
+            currentPanel = i;
 
-            initPreview(i, preview);
+            i.classList.add(flag);
+
+            initPreview(i);
 
             const initData = {
                 eventCoords: {
-                    x: e.pageX,
+                    x: e.clientX,
                     y: e.pageY,
                 },
                 panelSize: {
@@ -234,11 +232,6 @@ panels.forEach((i) => {
                 updateElementDestinationPreview(i);
             };
 
-            releaseHandler = (e) => {
-                i.classList.remove("being-resized");
-                commonReleaseHandler(i, preview);
-            };
-
             setDocumentHandlers();
         }
     );
@@ -247,11 +240,11 @@ panels.forEach((i) => {
 document.addEventListener("keydown", async (e) => {
     switch (e.key) {
         case "ArrowDown":
-            utils.setCurrentTheme(type.Theme.DEFAULT);
+            setCurrentTheme(type.Theme.DEFAULT);
             currentTheme = type.Theme.DEFAULT;
             break;
         case "ArrowUp":
-            utils.setCurrentTheme(type.Theme.YELLOW);
+            setCurrentTheme(type.Theme.YELLOW);
             break;
 
         case "ArrowRight":
@@ -278,15 +271,15 @@ function panelHoverHandler(e) {
             .querySelector(".panel-body")
             .classList.contains("moving")
     ) {
-        rotateElement(e, e.currentTarget);
+        rotatePanel(e);
     }
 }
 
-function resetPanelHoverHandler(e) {
-    e.target.style.setProperty("--rotate-x", 0 + "deg");
-    e.target.style.setProperty("--rotate-y", 0 + "deg");
-    e.target.style.setProperty("--shadow-offset-x", 0 + "rem");
-    e.target.style.setProperty("--shadow-offset-y", 0 + "rem");
+function exitPanelHoverHandler(e) {
+    rotateElementStyle(e.target, {
+        rotation: {x: 0, y: 0},
+        shadow: {x: 0, y: 0}
+    });
 
     const panel = e.currentTarget.querySelector(".panel-body");
     panel.classList.remove("in-motion");
@@ -296,6 +289,7 @@ function resetPanelHoverHandler(e) {
 function enterPanelHoverHandler(e) {
     const target = e.currentTarget;
     const panel = target.querySelector(".panel-body");
+
     if (!panel.classList.contains("moving")) {
         target.classList.add("hovering");
         setTimeout(() => {

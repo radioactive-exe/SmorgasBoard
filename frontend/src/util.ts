@@ -1,5 +1,6 @@
-import { currentTheme, dashboard } from "./app.js";
+import { panels, currentTheme, dashboard } from "./app.js";
 import * as type from "./defs.js";
+import * as get from "./accessors.js";
 
 function ignoreEventHandler(e: Event): void {
     e.stopPropagation();
@@ -27,8 +28,7 @@ function areaCollisionWithElement(area: type.Area, el: type.Panel): boolean {
 
 function collidesWithAnyPanel(
     self: HTMLElement,
-    area: type.Area,
-    panels: type.Panel[]
+    area: type.Area
 ): boolean {
     var flag = false;
 
@@ -44,15 +44,15 @@ function collidesWithAnyPanel(
     return flag;
 }
 
-function setCurrentTheme(theme: type.Theme) : void {
-    // currentTheme = theme;
-    const themeFileLink : HTMLElement | null = document.querySelector<HTMLElement>("#app-theme");
-    if (themeFileLink == null) return;
-    themeFileLink.setAttribute("href", theme.getUrl());
-}
-
 function isEditing() : boolean {
     return dashboard ? dashboard.classList.contains("in-edit-mode") : false;
+}
+
+function removeClassAfterTransition(el : Element, cl : string, removeFromDashboard? : boolean) : void {
+    setTimeout(() => {
+            el.classList.remove(cl);
+            if (removeFromDashboard) dashboard?.removeChild(el);
+        }, get.normalisedCssPropertyValue(el, "transition-duration"));
 }
 
 export {
@@ -61,6 +61,6 @@ export {
     roundToNearest,
     areaCollisionWithElement,
     collidesWithAnyPanel,
-    setCurrentTheme,
     isEditing,
+    removeClassAfterTransition
 };

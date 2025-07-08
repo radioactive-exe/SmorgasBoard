@@ -22,6 +22,19 @@ type Size = {
 };
 
 /**
+ * DESC: A RotationOffset object, stores the offset in degrees and offset to any shadow if needed. This is declared to make functions and eliminating code repetition easier.
+ *
+ * @this Size */
+type Offset = {
+    rotation : {
+        x : number, y : number
+    },
+    shadow : {
+        x : number, y : number
+    }
+}
+
+/**
  * DESC: A type that defines the structure of a @type {Area} in its stored format, either in localStorage or the cloud.
  *
  * @this AreaInstance */
@@ -598,7 +611,9 @@ class Panel extends HTMLElement {
 window.customElements.define("panel-element", Panel);
 
 export {
+    Offset,
     Coordinate,
+    Size,
     Area,
     AreaInstance,
     Theme,
@@ -606,6 +621,5 @@ export {
     PanelInstance,
     PanelType,
     PanelTypeData,
-    PanelTypeName,
     PanelContent,
 };
