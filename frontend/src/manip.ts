@@ -15,12 +15,12 @@ var x: number,
     potentialY: number,
     potentialWidth: number,
     potentialHeight: number,
-    panel : type.Panel;
+    panel: type.Panel;
 
 function movePanelWithinScreen(
     panel: type.Panel,
     e,
-    initData: { eventCoords: type.Coordinate, panelPos: type.Coordinate }
+    initData: { eventCoords: type.Coordinate; panelPos: type.Coordinate }
 ): void {
     panel.setPosition(
         utils.clamp(
@@ -39,9 +39,8 @@ function movePanelWithinScreen(
 function resizePanel(
     panel: type.Panel,
     e,
-    initData: { eventCoords: type.Coordinate, panelSize: type.Size }
+    initData: { eventCoords: type.Coordinate; panelSize: type.Size }
 ): void {
-    
     panel.setSize(
         utils.clamp(
             initData.panelSize.width + e.clientX - initData.eventCoords.x,
@@ -56,7 +55,7 @@ function resizePanel(
     );
 }
 
-function rotatePanel(e : MouseEvent) : void {
+function rotatePanel(e: MouseEvent): void {
     panel = <type.Panel>e.currentTarget;
     if (!panel.classList.contains("hovering")) {
         panel.dispatchEvent(new Event("mouseenter"));
@@ -98,7 +97,7 @@ function rotatePanel(e : MouseEvent) : void {
     });
 }
 
-function rotateElementStyle(el : HTMLElement, offset : type.Offset) {
+function rotateElementStyle(el: HTMLElement, offset: type.Offset) {
     el.style.setProperty("--rotate-x", offset.rotation.x + "deg");
     el.style.setProperty("--rotate-y", offset.rotation.y + "deg");
     el.style.setProperty("--shadow-offset-x", offset.shadow.x + "rem");
@@ -110,8 +109,6 @@ function snapElementToGrid(
     source: type.Panel = panel,
     shouldAnimate = true
 ) {
-
-
     const aspectRatio: number = get.elementAspectRatio(source);
 
     x = panel.offsetLeft;
@@ -121,63 +118,54 @@ function snapElementToGrid(
 
     var originalArea: type.Area = new type.Area(
         {
-            x: Math.round(x / get.fractionalWidth()),
-            y: Math.round(y / get.fractionalHeight())
+            x,
+            y,
+            isAbsolute: true,
         },
         {
-            width: Math.round(width / get.fractionalWidth()),
-            height: Math.round(height / get.fractionalHeight())
+            width,
+            height,
+            isAbsolute: true
         }
     );
 
-    potentialX = utils.roundToNearest(
-        get.normalisedCssPropertyValue(source, "--x"),
-        get.fractionalWidth()
-    );
-    potentialY = utils.roundToNearest(
-        get.normalisedCssPropertyValue(source, "--y"),
-        get.fractionalHeight()
-    );
+    potentialX = get.normalisedCssPropertyValue(source, "--x");
+    potentialY = get.normalisedCssPropertyValue(source, "--y");
     potentialWidth = utils.clamp(
-        utils.roundToNearest(
-            get.normalisedCssPropertyValue(source, "--width"),
-            get.fractionalWidth()
-        ),
+        get.normalisedCssPropertyValue(source, "--width"),
         get.normalisedCssPropertyValue(source, "--min-width"),
         window.innerWidth - source.offsetLeft
     );
     potentialHeight = utils.clamp(
-        utils.roundToNearest(
-            get.normalisedCssPropertyValue(source, "--height"),
-            get.fractionalHeight()
-        ),
+        get.normalisedCssPropertyValue(source, "--height"),
         get.normalisedCssPropertyValue(source, "--min-height"),
         window.innerHeight - source.offsetTop
     );
 
     var potentialArea: type.Area = new type.Area(
         {
-            x: Math.round(potentialX / get.fractionalWidth()),
-            y: Math.round(potentialY / get.fractionalHeight())
+            x: potentialX,
+            y: potentialY,
+            isAbsolute: true
         },
         {
-            width: Math.round(potentialWidth / get.fractionalWidth()),
-            height: Math.round(potentialHeight / get.fractionalHeight()),
+            width: potentialWidth,
+            height: potentialHeight,
+            isAbsolute: true
         }
     );
 
     var potentialRatio = utils.roundToNearest(
-
-        (potentialWidth / get.fractionalWidth()) /
-        (potentialHeight / get.fractionalHeight()),
+        potentialWidth /
+            get.fractionalWidth() /
+            (potentialHeight / get.fractionalHeight()),
         0.001
     );
 
     if (
-        (!utils.collidesWithAnyPanel(panel, potentialArea) &&
-        ((aspectRatio != 0
-            && potentialRatio == aspectRatio)
-            || aspectRatio == 0))
+        !utils.collidesWithAnyPanel(panel, potentialArea) &&
+        ((aspectRatio != 0 && potentialRatio == aspectRatio) ||
+            aspectRatio == 0)
     ) {
         if (shouldAnimate) panel.classList.add("snapping");
         panel.setArea(potentialArea);
@@ -186,7 +174,11 @@ function snapElementToGrid(
     utils.removeClassAfterTransition(panel, "snapping");
 }
 
-function snapElementToTarget(el : type.Panel, target : type.Panel, shouldAnimate : boolean = true) {
+function snapElementToTarget(
+    el: type.Panel,
+    target: type.Panel,
+    shouldAnimate: boolean = true
+) {
     if (shouldAnimate) el.classList.add("snapping");
 
     el.setArea(target.getArea());

@@ -66,5 +66,5 @@ export {
     areaCollisionWithElement,
     collidesWithAnyPanel,
     isEditing,
-    removeClassAfterTransition,
+    removeClassAfterTransition
 };

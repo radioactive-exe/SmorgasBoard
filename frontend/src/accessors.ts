@@ -76,6 +76,7 @@ function fractionalHeight() : number {
 export {
     cssProperty,
     cssPropertyValue,
+    normalisedValue,
     normalisedCssPropertyValue,
     dashboardRows,
     dashboardCols,

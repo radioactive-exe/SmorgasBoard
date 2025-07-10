@@ -6,19 +6,23 @@ import { movePanelWithinScreen } from "./manip.js";
 /**
  * DESC: A Coordinate object, stores the x and y positions of the item they belong to.
  *
+ *  @member {isAbsolute} - This member is passed when we are passing these types in functions and constructors. Having this optional member allows us to be able to instantiate and pass Areas and Coordinates in both fractional and absolute units without having to take in an extra parameter in the functions.
  * @this Coordinate */
 type Coordinate = {
     x: number;
     y: number;
+    isAbsolute?: boolean;
 };
 
 /**
  * DESC: A Size object, stores the width and height of the item they belong to.
  *
+ * @member {isAbsolute} - This member is passed when we are passing these types in functions and constructors. Having this optional member allows us to be able to instantiate and pass Areas and Sizes in both fractional and absolute units without having to take in an extra parameter in the functions.
  * @this Size */
 type Size = {
     width: number;
     height: number;
+    isAbsolute?: boolean;
 };
 
 /**
@@ -26,13 +30,15 @@ type Size = {
  *
  * @this Size */
 type Offset = {
-    rotation : {
-        x : number, y : number
-    },
-    shadow : {
-        x : number, y : number
-    }
-}
+    rotation: {
+        x: number;
+        y: number;
+    };
+    shadow: {
+        x: number;
+        y: number;
+    };
+};
 
 /**
  * DESC: A type that defines the structure of a @type {Area} in its stored format, either in localStorage or the cloud. It is stored in fractional units to later be instantiated appropriately
@@ -75,7 +81,7 @@ enum PanelTypeName {
     PREVIEW = -1,
     DEFAULT = 0,
     NOTEPAD = 1,
-    PHOTO = 2
+    PHOTO = 2,
 }
 
 /**
@@ -98,17 +104,14 @@ enum PanelContent {
  *
  * @class Area
  */
-class Area{
+class Area {
     /**
      * DESC: This is a contingency static member used when a Panel needs to be initialised, and the Area either (a) does not matter or (b) will be changed right after.
      *
      * @static
      * @memberof Area
      */
-    static readonly INIT = new Area(
-        { x: 0, y: 0 },
-        { width: 1, height: 1 }
-    );
+    static readonly INIT = new Area({ x: 0, y: 0 }, { width: 1, height: 1 });
 
     /**
      * DESC: Position of this Area.
@@ -147,15 +150,26 @@ class Area{
             }
             this.pos = arg0.pos;
             this.size = arg0.size;
-        } else if (!(arg0 instanceof Area) && arg1 == null) {
+        } else if (!(arg0 instanceof Area)) {
             console.warn(
-                "No size passed. Area will be initialised with a width and height of 0."
+                "No size passed. Area will be initialised with a width and height of 1 fraction."
             );
-            this.pos = arg0;
-            this.size = { width: 0, height: 0 };
-        } else {
-            this.pos = arg0;
-            this.size = <Size>arg1;
+            if (arg0.isAbsolute) {
+                this.pos = {
+                    x: Math.round(arg0.x / get.fractionalWidth()),
+                    y: Math.round(arg0.y / get.fractionalHeight()),
+                };
+            } else this.pos = arg0;
+
+            if (arg1 == null) this.size = { width: 1, height: 1 };
+            else if (arg1.isAbsolute) {
+                this.size = {
+                    width: Math.round(arg1.width / get.fractionalWidth()),
+                    height: Math.round(arg1.height / get.fractionalHeight()),
+                };
+            } else {
+                this.size = <Size>arg1;
+            }
         }
     }
 
@@ -215,9 +229,14 @@ class Area{
      * @param {Coordinate} coords
      * @memberof Area
      */
-    public setCoordinates(coords: Coordinate) : void {
-        this.pos.x = coords.x;
-        this.pos.y = coords.y;
+    public setCoordinates(coords: Coordinate): void {
+        if (coords.isAbsolute) {
+            this.pos.x = Math.round(coords.x / get.fractionalWidth()),
+            this.pos.y = Math.round(coords.y / get.fractionalHeight())
+        } else {
+            this.pos.x = coords.x;
+            this.pos.y = coords.y;
+        }
     }
 
     /**
@@ -226,7 +245,7 @@ class Area{
      * @return  {number}
      * @memberof Area
      */
-    public getWidth() : number {
+    public getWidth(): number {
         return this.size.width;
     }
 
@@ -236,7 +255,7 @@ class Area{
      * @return  {number}
      * @memberof Area
      */
-    public getAbsoluteWidth() : number {
+    public getAbsoluteWidth(): number {
         return this.size.width * get.fractionalWidth();
     }
 
@@ -277,8 +296,13 @@ class Area{
      * @memberof Area
      */
     public setSize(size: Size): void {
-        this.size.width = size.width;
-        this.size.height = size.height;
+        if (size.isAbsolute) {
+            (this.size.width = Math.round(size.width / get.fractionalWidth())),
+                (this.size.height = Math.round(size.height / get.fractionalHeight()));
+        } else {
+            this.size.width = size.width;
+            this.size.height = size.height;
+        }
     }
 
     /**
@@ -294,11 +318,14 @@ class Area{
         };
     }
 
-    public static fromJson(json : AreaInstance) : Area {
-        return new Area(
-            json.pos,
-            json.size
-        )
+    /**
+     * DESC: Returns an Area Object from an input JSON formatted AreaInstance, such as when loading from storage.
+     *
+     * @return  {Area}
+     * @memberof Area
+     */
+    public static fromJson(json: AreaInstance): Area {
+        return new Area(json.pos, json.size);
     }
 }
 
@@ -343,9 +370,8 @@ class Theme {
     private constructor(
         private readonly id: number,
         private readonly name: string,
-        private readonly url: string
-    ) // private readonly mode :
-    {}
+        private readonly url: string // private readonly mode :
+    ) {}
 
     /**
      * DESC: Returns the name of the theme if it is in a @type {string} context
@@ -417,9 +443,8 @@ class PanelType {
     private constructor(
         private readonly typeId: number,
         private readonly typeData: PanelTypeData,
-        private readonly typeName: PanelTypeName
-    ) // private readonly content : PanelContent
-    {}
+        private readonly typeName: PanelTypeName // private readonly content : PanelContent
+    ) {}
 
     /**
      * DESC: Returns the type name of the Panel type when used in @type {string} contexts
@@ -539,16 +564,10 @@ class Panel extends HTMLElement {
         this.area = new Area(other.getCoordinates(), other.getSize());
 
         this.style.setProperty("--x", other.getAbsoluteX() + "px");
-        this.style.setProperty("--y", other.getAbsoluteY()+ "px");
+        this.style.setProperty("--y", other.getAbsoluteY() + "px");
 
-        this.style.setProperty(
-            "--width",
-            other.getAbsoluteWidth() + "px"
-        );
-        this.style.setProperty(
-            "--height",
-            other.getAbsoluteHeight() + "px"
-        );
+        this.style.setProperty("--width", other.getAbsoluteWidth() + "px");
+        this.style.setProperty("--height", other.getAbsoluteHeight() + "px");
     }
 
     /**
@@ -560,12 +579,18 @@ class Panel extends HTMLElement {
         this.setArea(
             new Area(
                 {
-                    x: Math.round(get.normalisedCssPropertyValue(this, "--x") / get.fractionalWidth()),
-                    y: Math.round(get.normalisedCssPropertyValue(this, "--y") / get.fractionalHeight()),
+                    x:
+                        get.normalisedCssPropertyValue(this, "--x"),
+                    y:
+                        get.normalisedCssPropertyValue(this, "--y"),
+                    isAbsolute: true
                 },
                 {
-                    width: Math.round(get.normalisedCssPropertyValue(this, "--width") / get.fractionalWidth()),
-                    height: Math.round(get.normalisedCssPropertyValue(this, "--height") / get.fractionalHeight()),
+                    width:
+                        get.normalisedCssPropertyValue(this, "--width"),
+                    height:
+                        get.normalisedCssPropertyValue(this, "--height"),
+                    isAbsolute: true
                 }
             )
         );
@@ -589,7 +614,11 @@ class Panel extends HTMLElement {
      * @memberof Panel
      */
     public setPosition(x: number, y: number): void {
-        this.area.setCoordinates({ x: Math.round(x / get.fractionalWidth()), y: Math.round(y / get.fractionalHeight()) });
+        this.area.setCoordinates({
+            x,
+            y,
+            isAbsolute: true
+        });
 
         this.style.setProperty("--x", x + "px");
         this.style.setProperty("--y", y + "px");
@@ -613,7 +642,11 @@ class Panel extends HTMLElement {
      * @memberof Panel
      */
     public setSize(width: number, height: number): void {
-        this.area.setSize({ width: Math.round(width / get.fractionalWidth()), height: Math.round(height / get.fractionalHeight()) });
+        this.area.setSize({
+            width,
+            height,
+            isAbsolute: true
+        });
 
         this.style.setProperty("--width", width + "px");
         this.style.setProperty("--height", height + "px");
