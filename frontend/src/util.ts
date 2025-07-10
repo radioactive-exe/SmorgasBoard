@@ -11,30 +11,30 @@ function clamp(num: number, min: number, max: number): number {
 }
 
 function roundToNearest(num: number, stepSize: number): number {
-    let diminished = num / stepSize;
-    diminished = Math.round(diminished);
-    diminished *= stepSize;
-    return diminished;
+    let converted = num / stepSize;
+    converted = Math.round(converted);
+    converted *= stepSize;
+    return converted;
 }
 
 function areaCollisionWithElement(area: type.Area, el: type.Panel): boolean {
     return !(
-        area.getY() + area.getHeight() < el.offsetTop + 10 ||
-        area.getY() >= el.offsetTop + el.offsetHeight - 20 ||
-        area.getX() + area.getWidth() < el.offsetLeft + 10 ||
-        area.getX() > el.offsetLeft + el.offsetWidth - 20
+        area.getAbsoluteY() + area.getAbsoluteHeight() < el.offsetTop + 10 ||
+        area.getAbsoluteY() >= el.offsetTop + el.offsetHeight - 20 ||
+        area.getAbsoluteX() + area.getAbsoluteWidth() < el.offsetLeft + 10 ||
+        area.getAbsoluteX() > el.offsetLeft + el.offsetWidth - 20
     );
 }
 
-function collidesWithAnyPanel(
-    self: HTMLElement,
-    area: type.Area
-): boolean {
+function collidesWithAnyPanel(self: HTMLElement, area: type.Area): boolean {
     var flag = false;
 
     panels.forEach((i) => {
         if (
-            i.dataset.panelId != self.dataset.callerId &&
+            i.dataset.panelId !=
+                (self.dataset.callerId
+                    ? self.dataset.callerId
+                    : self.dataset.panelId) &&
             areaCollisionWithElement(area, i)
         ) {
             flag = true;
@@ -44,15 +44,19 @@ function collidesWithAnyPanel(
     return flag;
 }
 
-function isEditing() : boolean {
+function isEditing(): boolean {
     return dashboard ? dashboard.classList.contains("in-edit-mode") : false;
 }
 
-function removeClassAfterTransition(el : Element, cl : string, removeFromDashboard? : boolean) : void {
+function removeClassAfterTransition(
+    el: Element,
+    cl: string,
+    removeFromDashboard?: boolean
+): void {
     setTimeout(() => {
-            el.classList.remove(cl);
-            if (removeFromDashboard) dashboard?.removeChild(el);
-        }, get.normalisedCssPropertyValue(el, "transition-duration"));
+        el.classList.remove(cl);
+        if (removeFromDashboard) dashboard?.removeChild(el);
+    }, get.normalisedCssPropertyValue(el, "transition-duration"));
 }
 
 export {
@@ -62,5 +66,5 @@ export {
     areaCollisionWithElement,
     collidesWithAnyPanel,
     isEditing,
-    removeClassAfterTransition
+    removeClassAfterTransition,
 };

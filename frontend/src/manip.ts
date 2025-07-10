@@ -41,6 +41,7 @@ function resizePanel(
     e,
     initData: { eventCoords: type.Coordinate, panelSize: type.Size }
 ): void {
+    
     panel.setSize(
         utils.clamp(
             initData.panelSize.width + e.clientX - initData.eventCoords.x,
@@ -120,45 +121,27 @@ function snapElementToGrid(
 
     var originalArea: type.Area = new type.Area(
         {
-            x: utils.roundToNearest(
-                x,
-                window.innerWidth /
-                    get.cssPropertyValue(document.body, "--num-of-cols")
-            ),
-            y: utils.roundToNearest(
-                y,
-                window.innerHeight /
-                    get.cssPropertyValue(document.body, "--num-of-rows")
-            ),
+            x: Math.round(x / get.fractionalWidth()),
+            y: Math.round(y / get.fractionalHeight())
         },
         {
-            width: utils.roundToNearest(
-                width,
-                window.innerWidth /
-                    get.cssPropertyValue(document.body, "--num-of-cols")
-            ),
-            height: utils.roundToNearest(
-                height,
-                window.innerHeight /
-                    get.cssPropertyValue(document.body, "--num-of-rows")
-            ),
+            width: Math.round(width / get.fractionalWidth()),
+            height: Math.round(height / get.fractionalHeight())
         }
     );
 
     potentialX = utils.roundToNearest(
         get.normalisedCssPropertyValue(source, "--x"),
-        window.innerWidth / get.cssPropertyValue(document.body, "--num-of-cols")
+        get.fractionalWidth()
     );
     potentialY = utils.roundToNearest(
         get.normalisedCssPropertyValue(source, "--y"),
-        window.innerHeight /
-            get.cssPropertyValue(document.body, "--num-of-rows")
+        get.fractionalHeight()
     );
     potentialWidth = utils.clamp(
         utils.roundToNearest(
             get.normalisedCssPropertyValue(source, "--width"),
-            window.innerWidth /
-                get.cssPropertyValue(document.body, "--num-of-cols")
+            get.fractionalWidth()
         ),
         get.normalisedCssPropertyValue(source, "--min-width"),
         window.innerWidth - source.offsetLeft
@@ -166,35 +149,38 @@ function snapElementToGrid(
     potentialHeight = utils.clamp(
         utils.roundToNearest(
             get.normalisedCssPropertyValue(source, "--height"),
-            window.innerHeight /
-                get.cssPropertyValue(document.body, "--num-of-rows")
+            get.fractionalHeight()
         ),
         get.normalisedCssPropertyValue(source, "--min-height"),
         window.innerHeight - source.offsetTop
     );
 
     var potentialArea: type.Area = new type.Area(
-        { x: potentialX, y: potentialY },
-        { width: potentialWidth, height: potentialHeight }
+        {
+            x: Math.round(potentialX / get.fractionalWidth()),
+            y: Math.round(potentialY / get.fractionalHeight())
+        },
+        {
+            width: Math.round(potentialWidth / get.fractionalWidth()),
+            height: Math.round(potentialHeight / get.fractionalHeight()),
+        }
     );
 
-    var potentialRatio = parseFloat(
-        (
-            ((potentialWidth * get.dashboardCols()) /
-            window.innerWidth) /
-            ((potentialHeight * get.dashboardRows()) / window.innerHeight)
-        ).toFixed(3)
+    var potentialRatio = utils.roundToNearest(
+
+        (potentialWidth / get.fractionalWidth()) /
+        (potentialHeight / get.fractionalHeight()),
+        0.001
     );
 
     if (
-        !utils.collidesWithAnyPanel(panel, potentialArea) &&
-        ((aspectRatio != 0 && potentialRatio == aspectRatio) ||
-            aspectRatio == 0) &&
-        potentialArea != originalArea
+        (!utils.collidesWithAnyPanel(panel, potentialArea) &&
+        ((aspectRatio != 0
+            && potentialRatio == aspectRatio)
+            || aspectRatio == 0))
     ) {
         if (shouldAnimate) panel.classList.add("snapping");
         panel.setArea(potentialArea);
-        // panel.setArea(originalArea);
     }
 
     utils.removeClassAfterTransition(panel, "snapping");

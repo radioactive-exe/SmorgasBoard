@@ -10,43 +10,41 @@ function cssPropertyValue(el, property): number {
     return numericalValue(cssProperty(el, property));
 }
 
-function normalisedCssPropertyValue(el, property): number {
+function normalisedValue(input : string, property : string) : number {
 
-    if (cssProperty(el, property) == "0") return 0; // No unit is often specified with 0
+    if (input == "0") return 0; // No unit is often specified with 0
 
-    const temp = /[a-zA-Z]+/.exec(cssProperty(el, property));
+    const temp = /[a-zA-Z]+/.exec(input);
     const propertyUnit = temp ? temp[0] : "";
 
     switch (propertyUnit) {
         case "rem":
-            return cssPropertyValue(el, property) * 10;
+            return numericalValue(input) * 10;
             break;
         case "px":
-            return cssPropertyValue(el, property);
+            return numericalValue(input);
             break;
         case "s":
-            return cssPropertyValue(el, property) * 1000;
+            return numericalValue(input) * 1000;
             break;
         case "ms":
-            return cssPropertyValue(el, property);
+            return numericalValue(input);
             break;
         case "fr":
             if (property.toLowerCase().includes("width"))
-                return (
-                    (cssPropertyValue(el, property) * window.innerWidth) /
-                    dashboardCols()
-                );
+                return numericalValue(input) * fractionalWidth();
             else if (property.toLowerCase().includes("height"))
-                return (
-                    (cssPropertyValue(el, property) * window.innerHeight) /
-                    dashboardRows()
-                );
+                return numericalValue(input) * fractionalHeight();
             break;
         default:
-            return cssPropertyValue(el, property);
+            return numericalValue(input);
     }
 
     return 1;
+}
+
+function normalisedCssPropertyValue(el, property): number {
+    return normalisedValue(cssProperty(el, property), property);
 }
 
 function elementAspectRatio(el: HTMLElement): number {
@@ -59,12 +57,20 @@ function elementAspectRatio(el: HTMLElement): number {
     return parseInt(split[0]) / parseInt(split[1]);
 }
 
-function dashboardRows(): number {
+function dashboardRows() : number {
     return cssPropertyValue(document.body, "--num-of-rows");
 }
 
-function dashboardCols(): number {
+function dashboardCols() : number {
     return cssPropertyValue(document.body, "--num-of-cols");
+}
+
+function fractionalWidth() : number {
+    return window.innerWidth / dashboardCols();
+}
+
+function fractionalHeight() : number {
+    return window.innerHeight / dashboardRows();
 }
 
 export {
@@ -73,5 +79,7 @@ export {
     normalisedCssPropertyValue,
     dashboardRows,
     dashboardCols,
+    fractionalWidth,
+    fractionalHeight,
     elementAspectRatio
 };

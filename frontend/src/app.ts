@@ -112,6 +112,9 @@ function loadStoredPanels(): type.Panel[] {
         console.warn(
             "Panels in body found. Failed to load panels from storage"
         );
+        queriedPanels.forEach(i => {
+            i.updateArea();
+        });
         return queriedPanels;
     }
 
@@ -142,7 +145,7 @@ function loadStoredPanels(): type.Panel[] {
             return new type.Panel(
                 new type.Area(i.area.pos, i.area.size),
                 type.PanelType.getTypeFromId(i.panel_type_id),
-                index++,
+                i.panel_id,
                 i.content
             );
         }

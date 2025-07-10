@@ -35,7 +35,7 @@ type Offset = {
 }
 
 /**
- * DESC: A type that defines the structure of a @type {Area} in its stored format, either in localStorage or the cloud.
+ * DESC: A type that defines the structure of a @type {Area} in its stored format, either in localStorage or the cloud. It is stored in fractional units to later be instantiated appropriately
  *
  * @this AreaInstance */
 type AreaInstance = {
@@ -98,7 +98,7 @@ enum PanelContent {
  *
  * @class Area
  */
-class Area {
+class Area{
     /**
      * DESC: This is a contingency static member used when a Panel needs to be initialised, and the Area either (a) does not matter or (b) will be changed right after.
      *
@@ -107,7 +107,7 @@ class Area {
      */
     static readonly INIT = new Area(
         { x: 0, y: 0 },
-        { width: 100, height: 100 }
+        { width: 1, height: 1 }
     );
 
     /**
@@ -170,6 +170,16 @@ class Area {
     }
 
     /**
+     * DESC: Returns the X (horizontal) coordinate of the Area in pixels
+     *
+     * @return  {number}
+     * @memberof Area
+     */
+    public getAbsoluteX(): number {
+        return this.pos.x * get.fractionalWidth();
+    }
+
+    /**
      * DESC: Returns the Y (Vertical) coordinate of the Area
      *
      * @return  {number}
@@ -180,7 +190,17 @@ class Area {
     }
 
     /**
-     * DESC: Returns the complete position of this Area, as an object of @type {Coordinate}.
+     * DESC: Returns the Y (Vertical) coordinate of the Area in pixels
+     *
+     * @return  {number}
+     * @memberof Area
+     */
+    public getAbsoluteY(): number {
+        return this.pos.y * get.fractionalHeight();
+    }
+
+    /**
+     * DESC: Returns the complete position of this Area, as an object of @type {Coordinate}, expressed in absolute pixel quantities.
      *
      * @return  {Coordinate}
      * @memberof Area
@@ -195,23 +215,33 @@ class Area {
      * @param {Coordinate} coords
      * @memberof Area
      */
-    public setCoordinates(coords: Coordinate): void {
+    public setCoordinates(coords: Coordinate) : void {
         this.pos.x = coords.x;
         this.pos.y = coords.y;
     }
 
     /**
-     * DESC: Gets the width of the Area.
+     * DESC: Gets the fractional width of the Area.
      *
      * @return  {number}
      * @memberof Area
      */
-    public getWidth(): number {
+    public getWidth() : number {
         return this.size.width;
     }
 
     /**
-     * DESC: Gets the height of the Area.
+     * DESC: Gets the absolute width of the Area in pixels.
+     *
+     * @return  {number}
+     * @memberof Area
+     */
+    public getAbsoluteWidth() : number {
+        return this.size.width * get.fractionalWidth();
+    }
+
+    /**
+     * DESC: Gets the fractional height of the Area.
      *
      * @return  {number}
      * @memberof Area
@@ -221,7 +251,17 @@ class Area {
     }
 
     /**
-     * DESC: Returns the full Size of this Area, as an object of @type {Size}.
+     * DESC: Gets the absolute height of the Area in pixels.
+     *
+     * @return  {number}
+     * @memberof Area
+     */
+    public getAbsoluteHeight(): number {
+        return this.size.height * get.fractionalHeight();
+    }
+
+    /**
+     * DESC: Returns the fractional Size of this Area, as an object of @type {Size}.
      *
      * @return  {Size}
      * @memberof Area
@@ -252,6 +292,13 @@ class Area {
             pos: this.pos,
             size: this.size,
         };
+    }
+
+    public static fromJson(json : AreaInstance) : Area {
+        return new Area(
+            json.pos,
+            json.size
+        )
     }
 }
 
@@ -469,7 +516,7 @@ class Panel extends HTMLElement {
         this.setType(type);
 
         this.dashboardId = dashboardId;
-        this.dataset.panelId = dashboardId.toString();
+        this.dataset.panelId = dashboardId + "";
     }
 
     /**
@@ -491,11 +538,17 @@ class Panel extends HTMLElement {
     public setArea(other: Area): void {
         this.area = new Area(other.getCoordinates(), other.getSize());
 
-        this.style.setProperty("--x", other.getX() + "px");
-        this.style.setProperty("--y", other.getY() + "px");
+        this.style.setProperty("--x", other.getAbsoluteX() + "px");
+        this.style.setProperty("--y", other.getAbsoluteY()+ "px");
 
-        this.style.setProperty("--width", other.getWidth() + "px");
-        this.style.setProperty("--height", other.getHeight() + "px");
+        this.style.setProperty(
+            "--width",
+            other.getAbsoluteWidth() + "px"
+        );
+        this.style.setProperty(
+            "--height",
+            other.getAbsoluteHeight() + "px"
+        );
     }
 
     /**
@@ -507,12 +560,12 @@ class Panel extends HTMLElement {
         this.setArea(
             new Area(
                 {
-                    x: get.normalisedCssPropertyValue(this, "--x"),
-                    y: get.normalisedCssPropertyValue(this, "--y"),
+                    x: Math.round(get.normalisedCssPropertyValue(this, "--x") / get.fractionalWidth()),
+                    y: Math.round(get.normalisedCssPropertyValue(this, "--y") / get.fractionalHeight()),
                 },
                 {
-                    width: get.normalisedCssPropertyValue(this, "--width"),
-                    height: get.normalisedCssPropertyValue(this, "--height"),
+                    width: Math.round(get.normalisedCssPropertyValue(this, "--width") / get.fractionalWidth()),
+                    height: Math.round(get.normalisedCssPropertyValue(this, "--height") / get.fractionalHeight()),
                 }
             )
         );
@@ -536,7 +589,7 @@ class Panel extends HTMLElement {
      * @memberof Panel
      */
     public setPosition(x: number, y: number): void {
-        this.area.setCoordinates({ x: x, y: y });
+        this.area.setCoordinates({ x: Math.round(x / get.fractionalWidth()), y: Math.round(y / get.fractionalHeight()) });
 
         this.style.setProperty("--x", x + "px");
         this.style.setProperty("--y", y + "px");
@@ -560,7 +613,7 @@ class Panel extends HTMLElement {
      * @memberof Panel
      */
     public setSize(width: number, height: number): void {
-        this.area.setSize({ width: width, height: height });
+        this.area.setSize({ width: Math.round(width / get.fractionalWidth()), height: Math.round(height / get.fractionalHeight()) });
 
         this.style.setProperty("--width", width + "px");
         this.style.setProperty("--height", height + "px");
