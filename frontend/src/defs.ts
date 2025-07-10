@@ -6,7 +6,7 @@ import { movePanelWithinScreen } from "./manip.js";
 /**
  * DESC: A Coordinate object, stores the x and y positions of the item they belong to.
  *
- *  @member {isAbsolute} - This member is passed when we are passing these types in functions and constructors. Having this optional member allows us to be able to instantiate and pass Areas and Coordinates in both fractional and absolute units without having to take in an extra parameter in the functions.
+ *  @property {isAbsolute} - This member is passed when we are passing these types in functions and constructors. Having this optional member allows us to be able to instantiate and pass Areas and Coordinates in both fractional and absolute units without having to (a) do a lot of calculations in the function call scope, or (b) take in an extra parameter in the functions.
  * @this Coordinate */
 type Coordinate = {
     x: number;
@@ -17,7 +17,7 @@ type Coordinate = {
 /**
  * DESC: A Size object, stores the width and height of the item they belong to.
  *
- * @member {isAbsolute} - This member is passed when we are passing these types in functions and constructors. Having this optional member allows us to be able to instantiate and pass Areas and Sizes in both fractional and absolute units without having to take in an extra parameter in the functions.
+ * @property {isAbsolute} - This member is passed when we are passing these types in functions and constructors. Having this optional member allows us to be able to instantiate and pass Areas and Sizes in both fractional and absolute units without having to (a) do a lot of calculations in the function call scope, or (b) take in an extra parameter in the functions.
  * @this Size */
 type Size = {
     width: number;
@@ -52,7 +52,7 @@ type AreaInstance = {
 /**
  * DESC: A type that defines the structure of a @type {Panel} in its stored format, either in localStorage or the cloud.
  *
- * @this AreaInstance */
+ * @this PanelInstance */
 type PanelInstance = {
     panel_id: number;
     panel_type_id: number;
@@ -89,7 +89,7 @@ enum PanelTypeName {
  *
  * @enum {number}
  */
-enum PanelContent {
+enum PanelTypeContent {
     DEFAULT = `<div class="panel-body"><div class="handle drag-handle">
                     <object data="assets/arrows-alt.svg" type="image/svg+xml"></object>
                 </div>
@@ -106,7 +106,7 @@ enum PanelContent {
  */
 class Area {
     /**
-     * DESC: This is a contingency static member used when a Panel needs to be initialised, and the Area either (a) does not matter or (b) will be changed right after.
+     * DESC: This is a contingency static member used when a Panel needs to be initialised from scratch and either (a) does not have an Area or (b) has one that will be changed right after.
      *
      * @static
      * @memberof Area
@@ -132,9 +132,9 @@ class Area {
 
     /**
      * DESC: Creates an instance of Area.
-     * NOTE: If @param arg0 is a Coordinate, then we are creating an Area with an input of both a Coordinate and a Size.
-     * POINT: If @param arg0 is of @type {Area}, then @param arg1 is disregarded, and a new area is instantiated/created as a copy of the other. A console warning is sent out to inform of this. This is an unused instantiation method so far, and will be removed if it remains unused, sticking to Coord-Size instantiation.
-     * NOTE: @param arg1 is set as optional so that we do not have to input a dummy @param arg1 if instantiating with another Area
+     * NOTE: If @param {arg0} is a Coordinate, then we are creating an Area with an input of both a Coordinate and a Size.
+     * POINT: If @param {arg0} is of @type {Area}, then @param {arg1} is disregarded, and a new area is instantiated/created as a copy of the other. A console warning is sent out to inform of this. This is an unused instantiation method so far, and will be removed if it remains unused, sticking to Coord-Size instantiation.
+     * NOTE: @param {arg1} is set as optional so that we do not have to input a dummy @param {arg1} if instantiating with another Area
      *
      * @constructor
      * @param {(Coordinate | Area)} arg0
@@ -142,33 +142,33 @@ class Area {
      * @memberof Area
      */
     public constructor(arg0: Coordinate | Area, arg1?: Size) {
+        // INFO: If the passed @param {arg0} is a full Area
         if (arg0 instanceof Area) {
+            // INFO: If we passed an extra Size despite passing a full Area, it is announced and discarded.
             if (arg1 != null) {
                 console.warn(
                     "Second parameter is unused. First argument (arg0) was a complete Area. To create a new Area with the coordinates of the first parameter and the size in the second parameter, use arg0.getPos()."
                 );
             }
+
             this.pos = arg0.pos;
             this.size = arg0.size;
-        } else if (!(arg0 instanceof Area)) {
-            console.warn(
-                "No size passed. Area will be initialised with a width and height of 1 fraction."
-            );
-            if (arg0.isAbsolute) {
-                this.pos = {
-                    x: Math.round(arg0.x / get.fractionalWidth()),
-                    y: Math.round(arg0.y / get.fractionalHeight()),
-                };
-            } else this.pos = arg0;
 
-            if (arg1 == null) this.size = { width: 1, height: 1 };
-            else if (arg1.isAbsolute) {
-                this.size = {
-                    width: Math.round(arg1.width / get.fractionalWidth()),
-                    height: Math.round(arg1.height / get.fractionalHeight()),
-                };
+            // INFO: If the passed @param {arg0} is only a Coordinate
+        } else if (!(arg0 instanceof Area)) {
+            // INFO: The absolute/fractional nature is dealt with in setCoordinates()
+            this.setCoordinates(arg0);
+
+            // INFO: If the user passed only a Coordinate and no second parameter, a default size is created, and it is announced
+            if (arg1 == null) {
+                this.size = { width: 1, height: 1 };
+
+                console.warn(
+                    "No size passed. Area will be initialised with a width and height of 1 fraction."
+                );
             } else {
-                this.size = <Size>arg1;
+                // INFO: The absolute/fractional nature is dealt with in setSize()
+                this.setSize(arg1);
             }
         }
     }
@@ -231,11 +231,12 @@ class Area {
      */
     public setCoordinates(coords: Coordinate): void {
         if (coords.isAbsolute) {
-            this.pos.x = Math.round(coords.x / get.fractionalWidth()),
-            this.pos.y = Math.round(coords.y / get.fractionalHeight())
+            this.pos = {
+                x: Math.round(coords.x / get.fractionalWidth()),
+                y: Math.round(coords.y / get.fractionalHeight()),
+            };
         } else {
-            this.pos.x = coords.x;
-            this.pos.y = coords.y;
+            this.pos = coords;
         }
     }
 
@@ -297,11 +298,12 @@ class Area {
      */
     public setSize(size: Size): void {
         if (size.isAbsolute) {
-            (this.size.width = Math.round(size.width / get.fractionalWidth())),
-                (this.size.height = Math.round(size.height / get.fractionalHeight()));
+            this.size = {
+                width: Math.round(size.width / get.fractionalWidth()),
+                height: Math.round(size.height / get.fractionalHeight()),
+            };
         } else {
-            this.size.width = size.width;
-            this.size.height = size.height;
+            this.size = size;
         }
     }
 
@@ -534,7 +536,7 @@ class Panel extends HTMLElement {
         if (body == null) {
             // ? If the element contains no HTML, set the default content
             if (this.innerHTML == null) this.body = this.innerHTML;
-            else this.body = PanelContent.DEFAULT;
+            else this.body = PanelTypeContent.DEFAULT;
         } else this.body = body;
 
         this.setArea(area);
@@ -579,18 +581,14 @@ class Panel extends HTMLElement {
         this.setArea(
             new Area(
                 {
-                    x:
-                        get.normalisedCssPropertyValue(this, "--x"),
-                    y:
-                        get.normalisedCssPropertyValue(this, "--y"),
-                    isAbsolute: true
+                    x: get.normalisedCssPropertyValue(this, "--x"),
+                    y: get.normalisedCssPropertyValue(this, "--y"),
+                    isAbsolute: true,
                 },
                 {
-                    width:
-                        get.normalisedCssPropertyValue(this, "--width"),
-                    height:
-                        get.normalisedCssPropertyValue(this, "--height"),
-                    isAbsolute: true
+                    width: get.normalisedCssPropertyValue(this, "--width"),
+                    height: get.normalisedCssPropertyValue(this, "--height"),
+                    isAbsolute: true,
                 }
             )
         );
@@ -617,7 +615,7 @@ class Panel extends HTMLElement {
         this.area.setCoordinates({
             x,
             y,
-            isAbsolute: true
+            isAbsolute: true,
         });
 
         this.style.setProperty("--x", x + "px");
@@ -645,7 +643,7 @@ class Panel extends HTMLElement {
         this.area.setSize({
             width,
             height,
-            isAbsolute: true
+            isAbsolute: true,
         });
 
         this.style.setProperty("--width", width + "px");
@@ -707,5 +705,5 @@ export {
     PanelInstance,
     PanelType,
     PanelTypeData,
-    PanelContent,
+    PanelTypeContent as PanelContent,
 };
