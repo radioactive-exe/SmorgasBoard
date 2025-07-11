@@ -122,7 +122,6 @@ function init(): void {
 }
 
 function initPanel(panel: type.Panel): void {
-    panel.updateContent();
     panel.setType(type.PanelType.DEFAULT);
 
     snapElementToGrid(panel, panel, false);

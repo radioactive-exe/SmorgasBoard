@@ -155,14 +155,8 @@ enum PanelTypeName {
  * @enum {number}
  */
 enum PanelTypeTemplate {
-    DEFAULT = `<div class="panel-body">
-                <div class="handle drag-handle">
-                    <object data="assets/graphics/arrows-alt.svg" type="image/svg+xml"></object>
-                </div>
-                <div class="handle resize-handle">
-                    <object data="assets/graphics/arrow-up-right-and-arrow-down-left-from-center.svg" type="image/svg+xml"></object>
-                </div>
-            </div>`,
+    PREVIEW = "preview-panel-template",
+    DEFAULT = "default-panel-template",
 }
 
 /**
@@ -414,22 +408,26 @@ class PanelType {
     static readonly PREVIEW = new PanelType(
         -1,
         PanelTypeData.NONE,
-        PanelTypeName.PREVIEW
+        PanelTypeName.PREVIEW,
+        PanelTypeTemplate.PREVIEW
     );
     static readonly DEFAULT = new PanelType(
         0,
         PanelTypeData.NONE,
-        PanelTypeName.DEFAULT
+        PanelTypeName.DEFAULT,
+        PanelTypeTemplate.DEFAULT
     );
     static readonly NOTEPAD = new PanelType(
         1,
         PanelTypeData.LOCAL,
-        PanelTypeName.NOTEPAD
+        PanelTypeName.NOTEPAD,
+        PanelTypeTemplate.DEFAULT
     );
     static readonly PHOTO = new PanelType(
         2,
         PanelTypeData.LOCAL,
-        PanelTypeName.PHOTO
+        PanelTypeName.PHOTO,
+        PanelTypeTemplate.DEFAULT
     );
 
     /**
@@ -441,12 +439,14 @@ class PanelType {
      * @param {number} typeId
      * @param {PanelTypeData} typeData
      * @param {PanelTypeName} typeName
+     * @param {PanelTypeTemplate} typeTemplate
      * @memberof PanelType
      */
     private constructor(
         private readonly typeId: number,
         private readonly typeData: PanelTypeData,
-        private readonly typeName: PanelTypeName // private readonly content : PanelContent
+        private readonly typeName: PanelTypeName,
+        private readonly typeTemplate: PanelTypeTemplate
     ) {}
 
     /**
@@ -467,6 +467,16 @@ class PanelType {
      */
     public getId(): number {
         return this.typeId;
+    }
+
+    /**
+     * DESC: Returns the name of the template for this PanelType
+     *
+     * @return {string}
+     * @memberof PanelType
+     */
+    public getTemplate(): string {
+        return this.typeTemplate;
     }
 
     /**
@@ -533,19 +543,12 @@ class Panel extends HTMLElement {
     ) {
         super();
 
-        // // ? If @param {body} is not received
-        // if (body == null) {
-        //     // ? If the element contains no HTML, set the default content
-        //     if (this.innerHTML == null) this.body = this.innerHTML;
-        //     else this.body = PanelTypeTemplate.DEFAULT;
-        // } else this.body = body;
-
+        this.updateContent();
         this.setArea(area);
         this.setType(type);
 
         this.dashboardId = dashboardId;
         this.dataset.panelId = dashboardId + "";
-
     }
 
     /**
@@ -690,13 +693,9 @@ class Panel extends HTMLElement {
      * @memberof Panel
      */
     public updateContent(): void {
-        
         let shadow = this.attachShadow({ mode: "open" });
-        let template = <HTMLTemplateElement>(
-            document.getElementById("default-panel-template")
-        );
-        if (this.type == PanelType.DEFAULT)
-            shadow.appendChild(template.content.cloneNode(true));
+        let template = <HTMLTemplateElement>            document.getElementById(this.type.getTemplate());
+        if (this.type != PanelType.PREVIEW) shadow.appendChild(template.content.cloneNode(true));
     }
 }
 
