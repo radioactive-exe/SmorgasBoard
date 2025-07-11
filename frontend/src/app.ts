@@ -11,11 +11,13 @@ import {
     rotateElementStyle,
 } from "./manip.js";
 
-export const dashboard = document.querySelector<HTMLElement>("#dashboard") ? document.querySelector<HTMLElement>("#dashboard") : document.createElement("div");
+export const dashboard = document.querySelector<HTMLElement>("#dashboard")
+    ? document.querySelector<HTMLElement>("#dashboard")
+    : document.createElement("div");
 export var panels: type.Panel[] = loadStoredPanels();
 export var dragHandler, currentTheme: type.Theme;
 
-var flag : string, currentPanel : type.Panel;
+var flag: string, currentPanel: type.Panel;
 const preview: type.Panel = new type.Panel(
     type.Area.INIT,
     type.PanelType.PREVIEW,
@@ -23,7 +25,7 @@ const preview: type.Panel = new type.Panel(
 );
 preview.classList.add("final-preview");
 
-function toggleEditMode() : void {
+function toggleEditMode(): void {
     dashboard?.classList.toggle("in-edit-mode");
     if (utils.isEditing())
         panels.forEach((i) => {
@@ -35,26 +37,78 @@ function toggleEditMode() : void {
         });
 }
 
-function setCurrentTheme(theme: type.Theme) : void {
+function setCurrentTheme(theme: type.Theme): void {
     currentTheme = theme;
-    const themeFileLink : HTMLElement | null = document.querySelector<HTMLElement>("#app-theme");
+    const themeFileLink: HTMLElement | null =
+        document.querySelector<HTMLElement>("#app-theme");
     if (themeFileLink == null) return;
     themeFileLink.setAttribute("href", theme.getUrl());
 }
 
-function updateElementDestinationPreview(el) : void {
-    snapElementToGrid(<type.Panel>dashboard?.querySelector(".final-preview"), el);
+export function releaseHandler(e) {
+    snapElementToTarget(currentPanel, preview);
+
+    preview.classList.add("disappearing");
+    currentPanel.classList.remove(flag);
+
+    updateStoredPanels();
+
+    utils.removeClassAfterTransition(preview, "disappearing", true);
+
+    document.removeEventListener("mouseup", releaseHandler);
+    document.removeEventListener("mousemove", dragHandler);
 }
 
-function addPanelHoverListeners(panel : type.Panel) : void {
-    panel.addEventListener("mousemove", panelHoverHandler);
+function enterPanelHoverHandler(e) {
+    const target = e.currentTarget;
+    const panel = target.shadowRoot?.querySelector(".panel-body");
+
+    if (!panel.classList.contains("moving")) {
+        target.classList.add("hovering");
+        setTimeout(() => {
+            if (target.classList.contains("hovering")) {
+                panel.part = "panel-body in-motion";
+            }
+        }, get.normalisedCssPropertyValue(panel, "transition-duration"));
+    }
+}
+
+function movePanelHoverHandler(e) {
+    e.stopPropagation();
+    if (
+        !e.currentTarget
+            .shadowRoot?.querySelector(".panel-body")
+            .classList.contains("moving")
+    ) {
+        rotatePanel(e);
+    }
+}
+
+function exitPanelHoverHandler(e) {
+    rotateElementStyle(e.target, {
+        rotation: { x: 0, y: 0 },
+        shadow: { x: 0, y: 0 },
+    });
+
+    const panel = e.currentTarget.shadowRoot?.querySelector(".panel-body");
+    panel.part = "panel-body";
+    e.currentTarget.classList.remove("hovering");
+}
+
+function setDocumentHandlers() {
+    document.addEventListener("mousemove", dragHandler);
+    document.addEventListener("mouseup", releaseHandler);
+}
+
+function addPanelHoverListeners(panel: type.Panel): void {
+    panel.addEventListener("mousemove", movePanelHoverHandler);
     panel.addEventListener("mouseleave", exitPanelHoverHandler);
     panel.addEventListener("mouseenter", enterPanelHoverHandler);
 }
 
-function removePanelHoverListeners(panel) : void {
+function removePanelHoverListeners(panel): void {
     panel.removeEventListener("mouseenter", enterPanelHoverHandler);
-    panel.removeEventListener("mousemove", panelHoverHandler);
+    panel.removeEventListener("mousemove", movePanelHoverHandler);
     panel.dispatchEvent(new Event("mouseleave"));
     panel.removeEventListener("mouseleave", exitPanelHoverHandler);
 }
@@ -67,11 +121,10 @@ function init(): void {
     }
 }
 
-function initPanel(panel: type.Panel) : void {
-
+function initPanel(panel: type.Panel): void {
     panel.updateContent();
     panel.setType(type.PanelType.DEFAULT);
-    
+
     snapElementToGrid(panel, panel, false);
 
     addPanelHoverListeners(panel);
@@ -86,6 +139,13 @@ function initPreview(i: type.Panel) {
     updateElementDestinationPreview(i);
 
     utils.removeClassAfterTransition(preview, "appearing");
+}
+
+function updateElementDestinationPreview(el): void {
+    snapElementToGrid(
+        <type.Panel>dashboard?.querySelector(".final-preview"),
+        el
+    );
 }
 
 function updateStoredPanels() {
@@ -112,7 +172,7 @@ function loadStoredPanels(): type.Panel[] {
         console.warn(
             "Panels in body found. Failed to load panels from storage"
         );
-        queriedPanels.forEach(i => {
+        queriedPanels.forEach((i) => {
             i.updateArea();
         });
         return queriedPanels;
@@ -123,18 +183,16 @@ function loadStoredPanels(): type.Panel[] {
     if (loadedString == null) {
         console.warn("No stored panels! Initiating base board.");
 
-        const createdPanel : type.Panel = new type.Panel(
-                type.Area.INIT,
-                type.PanelType.DEFAULT,
-                0,
-                type.PanelContent.DEFAULT
-            );
+        const createdPanel: type.Panel = new type.Panel(
+            type.Area.INIT,
+            type.PanelType.DEFAULT,
+            0,
+            type.PanelTypeTemplate.DEFAULT
+        );
 
         dashboard?.append(createdPanel);
 
-        return [
-            createdPanel
-        ];
+        return [createdPanel];
     }
 
     let loadedPanels: type.PanelInstance[] = JSON.parse(loadedString);
@@ -156,29 +214,10 @@ function loadStoredPanels(): type.Panel[] {
     return formattedPanels;
 }
 
-export function releaseHandler(e) {
-    snapElementToTarget(currentPanel, preview);
-    preview.classList.add("disappearing");
-    currentPanel.classList.remove(flag);
-
-    updateStoredPanels();
-
-    utils.removeClassAfterTransition(preview, "disappearing", true);
-
-    document.removeEventListener("mouseup", releaseHandler);
-    document.removeEventListener("mousemove", dragHandler);
-}
-
-function setDocumentHandlers() {
-    document.addEventListener("mousemove", dragHandler);
-    document.addEventListener("mouseup", releaseHandler);
-}
-
 panels.forEach((i) => {
-
     initPanel(i);
 
-    i.querySelector<HTMLElement>(".drag-handle")?.addEventListener(
+    i.shadowRoot?.querySelector<HTMLElement>(".drag-handle")?.addEventListener(
         "mousedown",
         (e) => {
             flag = "being-dragged";
@@ -208,7 +247,7 @@ panels.forEach((i) => {
         }
     );
 
-    i.querySelector<HTMLElement>(".resize-handle")?.addEventListener(
+    i.shadowRoot?.querySelector<HTMLElement>(".resize-handle")?.addEventListener(
         "mousedown",
         (e) => {
             flag = "being-resized";
@@ -266,42 +305,6 @@ window.addEventListener("resize", () => {
         snapElementToGrid(i, i, false);
     });
 });
-
-function panelHoverHandler(e) {
-    e.stopPropagation();
-    if (
-        !e.currentTarget
-            .querySelector(".panel-body")
-            .classList.contains("moving")
-    ) {
-        rotatePanel(e);
-    }
-}
-
-function exitPanelHoverHandler(e) {
-    rotateElementStyle(e.target, {
-        rotation: {x: 0, y: 0},
-        shadow: {x: 0, y: 0}
-    });
-
-    const panel = e.currentTarget.querySelector(".panel-body");
-    panel.classList.remove("in-motion");
-    e.currentTarget.classList.remove("hovering");
-}
-
-function enterPanelHoverHandler(e) {
-    const target = e.currentTarget;
-    const panel = target.querySelector(".panel-body");
-
-    if (!panel.classList.contains("moving")) {
-        target.classList.add("hovering");
-        setTimeout(() => {
-            if (target.classList.contains("hovering")) {
-                panel.classList.add("in-motion");
-            }
-        }, get.normalisedCssPropertyValue(panel, "transition-duration"));
-    }
-}
 
 // ~ Function Calls
 

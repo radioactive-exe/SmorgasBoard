@@ -1,4 +1,4 @@
-function numericalValue(string : string): number {
+function numericalValue(string: string): number {
     return parseFloat(string.replace(/\D+$/g, ""));
 }
 
@@ -10,7 +10,8 @@ function cssPropertyValue(el, property): number {
     return numericalValue(cssProperty(el, property));
 }
 
-function normalisedValue(input : string, property : string) : number {
+function normalisedValue(input: string, property: string): number {
+    // INFO: This is separate so we can call this manually if we need to, and pass by "width" or "height" simply to give the function a flag to show which axis we need to get the fractional dimensions in
 
     if (input == "0") return 0; // No unit is often specified with 0
 
@@ -52,24 +53,24 @@ function elementAspectRatio(el: HTMLElement): number {
     if (string == "") {
         return 0;
     }
-    var split : string[] = string.split(":");
+    var split: string[] = string.split(":");
 
     return parseInt(split[0]) / parseInt(split[1]);
 }
 
-function dashboardRows() : number {
+function dashboardRows(): number {
     return cssPropertyValue(document.body, "--num-of-rows");
 }
 
-function dashboardCols() : number {
+function dashboardCols(): number {
     return cssPropertyValue(document.body, "--num-of-cols");
 }
 
-function fractionalWidth() : number {
+function fractionalWidth(): number {
     return window.innerWidth / dashboardCols();
 }
 
-function fractionalHeight() : number {
+function fractionalHeight(): number {
     return window.innerHeight / dashboardRows();
 }
 
@@ -82,5 +83,5 @@ export {
     dashboardCols,
     fractionalWidth,
     fractionalHeight,
-    elementAspectRatio
+    elementAspectRatio,
 };

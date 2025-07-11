@@ -125,7 +125,7 @@ function snapElementToGrid(
         {
             width,
             height,
-            isAbsolute: true
+            isAbsolute: true,
         }
     );
 
@@ -146,12 +146,12 @@ function snapElementToGrid(
         {
             x: potentialX,
             y: potentialY,
-            isAbsolute: true
+            isAbsolute: true,
         },
         {
             width: potentialWidth,
             height: potentialHeight,
-            isAbsolute: true
+            isAbsolute: true,
         }
     );
 

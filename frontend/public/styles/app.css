@@ -60,7 +60,7 @@ body {
         overflow: visible;
         padding: 1rem;
         
-        & .panel-body {
+        &::part(panel-body)  {
             transform:
                 rotateX(var(--rotate-x))
                 rotateY(var(--rotate-y));
@@ -70,12 +70,13 @@ body {
             inset: 0.5rem;
             transition: all 0.3s ease;
 
-            &.in-motion {
-                transition: rotate 0s linear;
-            }
         }
-    
-        &:has(.drag-handle:hover):not(.being-dragged) {
+        
+        &::part(panel-body in-motion) {
+            transition: all 0s linear;
+        }
+
+        &:has(::part(drag-handle):hover):not(.being-dragged) {
             filter: brightness(1.2);
         }
         
@@ -86,7 +87,7 @@ body {
             opacity: 0.8;
             z-index: 1;
     
-            & .drag-handle {
+            &::part(drag-handle) {
                 width: 5rem;
                 height: 5rem;
             }
@@ -97,7 +98,7 @@ body {
             transition: 0.3s ease;
         }
     
-        & .handle {
+        &::part(handle) {
             border-radius: 1rem;
             width: 0;
             height: 0;
@@ -105,22 +106,24 @@ body {
             position: absolute;
             transition: 0.2s ease;
             user-select: none;
+            box-sizing: border-box;
             background: red;
+        }
+
+        &::part(handle):hover {
+            width: 5rem;
+            height: 5rem;
+        }
             
-            &.resize-handle {
-                bottom: 0;
-                right: 0;
-                rotate: 90deg;
-            }
-        
-            &:hover {
-                width: 5rem;
-                height: 5rem;
-            }
-            & object {
-                width: 100%;
-                pointer-events: none;
-            }
+        &::part(resize-handle) {
+            bottom: 0;
+            right: 0;
+            rotate: 90deg;
+        }
+    
+        &::part(handle-icon) {
+            width: 100%;
+            /* pointer-events: none; */
         }
     }
     
@@ -135,7 +138,7 @@ body {
     }
 
     &.in-edit-mode {
-        & .handle {
+        & ::part(handle) {
             height: 2rem;
             width: 2rem;
             padding: 1rem;

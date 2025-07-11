@@ -8,7 +8,7 @@
     <link id="app-theme" rel="stylesheet" href="themes/default.css">
 </head>
 <body>
-    <div id="dashboard">
+    <div id="dashboard" class="in-edit-mode">
         <!-- <panel-element data-panel-id="0">
             <div class="panel-body">
                 <div class="handle drag-handle">
@@ -31,6 +31,23 @@
         </panel-element> -->
         
     </div>
+
+
+
+
+
+    <template id="default-panel-template">
+        <div part="panel-body" class="panel-body">
+                <div part="handle drag-handle" class="handle drag-handle">
+                    <object part="handle-icon" data="assets/graphics/arrows-alt.svg" type="image/svg+xml"></object>
+                </div>
+                <div part="handle resize-handle" class="handle resize-handle">
+                    <object part="handle-icon" data="assets/graphics/arrow-up-right-and-arrow-down-left-from-center.svg" type="image/svg+xml"></object>
+                </div>
+            </div>
+    </template>
+
+
 
     <script type="module" src="./dist/app.js"></script>
 </body>
