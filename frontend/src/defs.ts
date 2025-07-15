@@ -1,7 +1,6 @@
 import * as utils from "./util.js";
 import * as get from "./accessors.js";
-import { stringify } from "querystring";
-import { movePanelWithinScreen } from "./manip.js";
+import { setIframeSrc, templateIframe } from "./app.js";
 
 /**
  * DESC: A class to facilitate the storage and usage of Themes in the application, with useful fields and methods
@@ -156,7 +155,7 @@ enum PanelTypeName {
  */
 enum PanelTypeTemplate {
     PREVIEW = "preview-panel-template",
-    DEFAULT = "default-panel-template",
+    DEFAULT = "assets/templates/default.html",
 }
 
 /**
@@ -694,8 +693,18 @@ class Panel extends HTMLElement {
      */
     public updateContent(): void {
         let shadow = this.attachShadow({ mode: "open" });
-        let template = <HTMLTemplateElement>            document.getElementById(this.type.getTemplate());
-        if (this.type != PanelType.PREVIEW) shadow.appendChild(template.content.cloneNode(true));
+        let template = <HTMLTemplateElement>(
+            document.getElementById("default-panel-template")
+        );
+        if (this.type != PanelType.PREVIEW)
+            shadow.appendChild(template.content.cloneNode(true));
+
+        /* 
+                console.log(this.type.getTemplate());
+        templateIframe.setAttribute("src", this.type.getTemplate());
+        let template = await templateIframe?.contentDocument?.body.querySelector("template");
+        if (this.type != PanelType.PREVIEW && template) await shadow.appendChild(template.content.cloneNode(true));
+                */
     }
 }
 

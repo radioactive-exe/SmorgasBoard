@@ -11,11 +11,19 @@ import {
     rotateElementStyle,
 } from "./manip.js";
 
-export const dashboard = document.querySelector<HTMLElement>("#dashboard")
-    ? document.querySelector<HTMLElement>("#dashboard")
+export const dashboard: HTMLElement = document.querySelector<HTMLElement>(
+    "#dashboard"
+)
+    ? <HTMLElement>document.querySelector<HTMLElement>("#dashboard")
     : document.createElement("div");
 export var panels: type.Panel[] = loadStoredPanels();
 export var dragHandler, currentTheme: type.Theme;
+export var templateIframe: HTMLIFrameElement =
+    document.querySelector<HTMLIFrameElement>("#template-iframe")
+        ? <HTMLIFrameElement>(
+            document.querySelector<HTMLIFrameElement>("#template-iframe")
+        )
+        : document.createElement("iframe");
 
 var flag: string, currentPanel: type.Panel;
 const preview: type.Panel = new type.Panel(
@@ -76,8 +84,8 @@ function enterPanelHoverHandler(e) {
 function movePanelHoverHandler(e) {
     e.stopPropagation();
     if (
-        !e.currentTarget
-            .shadowRoot?.querySelector(".panel-body")
+        !e.currentTarget.shadowRoot
+            ?.querySelector(".panel-body")
             .classList.contains("moving")
     ) {
         rotatePanel(e);
@@ -213,12 +221,16 @@ function loadStoredPanels(): type.Panel[] {
     return formattedPanels;
 }
 
+export function setIframeSrc(src: string): void {
+    templateIframe.setAttribute("src", src);
+}
+
 panels.forEach((i) => {
     initPanel(i);
 
-    i.shadowRoot?.querySelector<HTMLElement>(".drag-handle")?.addEventListener(
-        "mousedown",
-        (e) => {
+    i.shadowRoot
+        ?.querySelector<HTMLElement>(".drag-handle")
+        ?.addEventListener("mousedown", (e) => {
             flag = "being-dragged";
             currentPanel = i;
             i.classList.add(flag);
@@ -243,12 +255,11 @@ panels.forEach((i) => {
             };
 
             setDocumentHandlers();
-        }
-    );
+        });
 
-    i.shadowRoot?.querySelector<HTMLElement>(".resize-handle")?.addEventListener(
-        "mousedown",
-        (e) => {
+    i.shadowRoot
+        ?.querySelector<HTMLElement>(".resize-handle")
+        ?.addEventListener("mousedown", (e) => {
             flag = "being-resized";
             currentPanel = i;
 
@@ -274,8 +285,7 @@ panels.forEach((i) => {
             };
 
             setDocumentHandlers();
-        }
-    );
+        });
 });
 
 document.addEventListener("keydown", async (e) => {
