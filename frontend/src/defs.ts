@@ -1,6 +1,6 @@
 import * as utils from "./util.js";
 import * as get from "./accessors.js";
-import { setIframeSrc, templateIframe } from "./app.js";
+import { initPanel } from "./app.js";
 
 /**
  * DESC: A class to facilitate the storage and usage of Themes in the application, with useful fields and methods
@@ -156,7 +156,8 @@ enum PanelTypeName {
 enum PanelTypeTemplate {
     PREVIEW = "/frontend/public/assets/templates/preview.html",
     DEFAULT = "/frontend/public/assets/templates/default.html",
-    PHOTO = "/frontend/public/assets/templates/photo.html"
+    PHOTO = "/frontend/public/assets/templates/photo.html",
+    NOTEPAD = "/frontend/public/assets/templates/notepad.html",
 }
 
 /**
@@ -421,13 +422,13 @@ class PanelType {
         1,
         PanelTypeData.LOCAL,
         PanelTypeName.NOTEPAD,
-        PanelTypeTemplate.DEFAULT
+        PanelTypeTemplate.NOTEPAD
     );
     static readonly PHOTO = new PanelType(
         2,
         PanelTypeData.LOCAL,
         PanelTypeName.PHOTO,
-        PanelTypeTemplate.DEFAULT
+        PanelTypeTemplate.PHOTO
     );
 
     /**
@@ -456,7 +457,7 @@ class PanelType {
      * @memberof PanelType
      */
     public toString(): string {
-        return this.typeName[this.typeId];
+        return PanelTypeName[this.typeId];
     }
 
     /**
@@ -511,7 +512,6 @@ class PanelType {
  * @extends {HTMLElement}
  */
 class Panel extends HTMLElement {
-
     /**
      * DESC: Creates an instance of a Panel.
      *
@@ -537,10 +537,11 @@ class Panel extends HTMLElement {
 
         this.setArea(area);
         this.setType(type);
-        this.initTemplate();
+        if (type != PanelType.PREVIEW) this.initTemplate();
 
         this.dashboardId = dashboardId;
         this.dataset.panelId = dashboardId + "";
+        this.dataset.panelType = type.toString();
 
         if (body) this.innerHTML = body;
     }
@@ -675,14 +676,33 @@ class Panel extends HTMLElement {
      * @memberof Panel
      */
     public initTemplate() {
-        let shadow = this.attachShadow({ mode: "open" });
+        try {let shadow = this.attachShadow({ mode: "open" });
+        let templateIframe = document.createElement("iframe");
+        document.body.append(templateIframe);
+        var template;
+        templateIframe.src = this.type.getTemplate();
         setTimeout(() => {
-            templateIframe.src = this.type.getTemplate();
-            let template =
+            template =
                 templateIframe?.contentDocument?.body.querySelector("template");
+        }, 200);
+        setTimeout(() => {
             if (this.type != PanelType.PREVIEW && template)
                 shadow.prepend(template.content.cloneNode(true));
-        }, 50);
+            document.body.removeChild(templateIframe);
+        }, 200);}
+        
+        catch (error) {
+            if (error instanceof TypeError) this.initTemplate();
+        }
+        
+    }
+
+    public static defaultPanel(): Panel {
+        return new Panel(
+            Area.INIT,
+            PanelType.DEFAULT,
+            0
+        );
     }
 }
 
@@ -698,6 +718,4 @@ export {
     Panel,
     PanelInstance,
     PanelType,
-    PanelTypeData,
-    PanelTypeTemplate,
 };

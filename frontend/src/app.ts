@@ -18,12 +18,6 @@ export const dashboard: HTMLElement = document.querySelector<HTMLElement>(
     : document.createElement("div");
 export var panels: type.Panel[] = loadStoredPanels();
 export var dragHandler, currentTheme: type.Theme;
-export var templateIframe: HTMLIFrameElement =
-    document.querySelector<HTMLIFrameElement>("#template-iframe")
-        ? <HTMLIFrameElement>(
-            document.querySelector<HTMLIFrameElement>("#template-iframe")
-        )
-        : document.createElement("iframe");
 
 var flag: string, currentPanel: type.Panel;
 const preview: type.Panel = new type.Panel(
@@ -108,7 +102,7 @@ function setDocumentHandlers() {
     document.addEventListener("mouseup", releaseHandler);
 }
 
-function addPanelHoverListeners(panel: type.Panel): void {
+export function addPanelHoverListeners(panel: type.Panel): void {
     panel.addEventListener("mousemove", movePanelHoverHandler);
     panel.addEventListener("mouseleave", exitPanelHoverHandler);
     panel.addEventListener("mouseenter", enterPanelHoverHandler);
@@ -121,7 +115,7 @@ function removePanelHoverListeners(panel): void {
     panel.removeEventListener("mouseleave", exitPanelHoverHandler);
 }
 
-function addPanelHandleListeners(panel : type.Panel) {
+export function addPanelHandleListeners(panel : type.Panel) {
     panel.shadowRoot
         ?.querySelector<HTMLElement>(".drag-handle")
         ?.addEventListener("mousedown", (e) => {
@@ -191,16 +185,22 @@ function init(): void {
     }
 }
 
-function initPanel(panel: type.Panel) {
-    panel.setType(type.PanelType.DEFAULT);
-
+export function initPanel(panel: type.Panel) {
     snapElementToGrid(panel, panel, false);
 
-    addPanelHoverListeners(panel);
+    if (!utils.isEditing()) addPanelHoverListeners(panel);
 
-    setTimeout(() => {
-        addPanelHandleListeners(panel);    
-    }, 50);
+    addPanelHandleListeners(panel);  
+}
+
+function spawnPanelOfType(panelType: type.PanelType) {
+    spawnPanel(new type.Panel(type.Area.INIT, panelType, panels.length));
+}
+
+function spawnPanel(panel: type.Panel) {
+    dashboard.append(panel);
+    panels.push(panel);
+    initPanel(panel);
 }
 
 function initPreview(i: type.Panel) {
@@ -256,11 +256,7 @@ function loadStoredPanels(): type.Panel[] {
     if (loadedString == null) {
         console.warn("No stored panels! Initiating base board.");
 
-        const createdPanel: type.Panel = new type.Panel(
-            type.Area.INIT,
-            type.PanelType.DEFAULT,
-            0
-        );
+        const createdPanel = type.Panel.defaultPanel();
 
         dashboard?.append(createdPanel);
 
@@ -286,10 +282,6 @@ function loadStoredPanels(): type.Panel[] {
     return formattedPanels;
 }
 
-export function setIframeSrc(src: string): void {
-    templateIframe.setAttribute("src", src);
-}
-
 panels.forEach((i) => {
     initPanel(i);
 });
@@ -308,7 +300,7 @@ document.addEventListener("keydown", async (e) => {
             toggleEditMode();
             break;
         case "ArrowLeft":
-            (<type.Panel>dashboard.querySelector("panel-element")).innerHTML = "<h1>Hello</h1>";
+            spawnPanelOfType(type.PanelType.NOTEPAD);
     }
 });
 
