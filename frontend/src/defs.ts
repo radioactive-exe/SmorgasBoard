@@ -154,8 +154,9 @@ enum PanelTypeName {
  * @enum {number}
  */
 enum PanelTypeTemplate {
-    PREVIEW = "preview-panel-template",
-    DEFAULT = "assets/templates/default.html",
+    PREVIEW = "/frontend/public/assets/templates/preview.html",
+    DEFAULT = "/frontend/public/assets/templates/default.html",
+    PHOTO = "/frontend/public/assets/templates/photo.html"
 }
 
 /**
@@ -510,14 +511,6 @@ class PanelType {
  * @extends {HTMLElement}
  */
 class Panel extends HTMLElement {
-    /**
-     * DESC: The content of the Panel, stored as a string of HTML
-     *
-     * @private
-     * @type {string}
-     * @memberof Panel
-     */
-    private body: string;
 
     /**
      * DESC: Creates an instance of a Panel.
@@ -542,12 +535,14 @@ class Panel extends HTMLElement {
     ) {
         super();
 
-        this.updateContent();
         this.setArea(area);
         this.setType(type);
+        this.initTemplate();
 
         this.dashboardId = dashboardId;
         this.dataset.panelId = dashboardId + "";
+
+        if (body) this.innerHTML = body;
     }
 
     /**
@@ -675,36 +670,19 @@ class Panel extends HTMLElement {
     }
 
     /**
-     * DESC: Gets the content of this panel, stored in @member {body}
-     *
-     * @return {*}  {string}
-     * @memberof Panel
-     */
-    public getContent(): string {
-        return this.body;
-    }
-
-    /**
-     * DESC: Sets the panel's HTML content to that of @member {body}, keeping the HTML and Objects synced
-     *
-     * NOTE: If through development this is seen as unimportant or avoidable, it will be removed.
+     * DESC: Initiates the panel's body based on its template
      *
      * @memberof Panel
      */
-    public updateContent(): void {
+    public initTemplate() {
         let shadow = this.attachShadow({ mode: "open" });
-        let template = <HTMLTemplateElement>(
-            document.getElementById("default-panel-template")
-        );
-        if (this.type != PanelType.PREVIEW)
-            shadow.appendChild(template.content.cloneNode(true));
-
-        /* 
-                console.log(this.type.getTemplate());
-        templateIframe.setAttribute("src", this.type.getTemplate());
-        let template = await templateIframe?.contentDocument?.body.querySelector("template");
-        if (this.type != PanelType.PREVIEW && template) await shadow.appendChild(template.content.cloneNode(true));
-                */
+        setTimeout(() => {
+            templateIframe.src = this.type.getTemplate();
+            let template =
+                templateIframe?.contentDocument?.body.querySelector("template");
+            if (this.type != PanelType.PREVIEW && template)
+                shadow.prepend(template.content.cloneNode(true));
+        }, 50);
     }
 }
 

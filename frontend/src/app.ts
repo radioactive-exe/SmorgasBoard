@@ -121,6 +121,68 @@ function removePanelHoverListeners(panel): void {
     panel.removeEventListener("mouseleave", exitPanelHoverHandler);
 }
 
+function addPanelHandleListeners(panel : type.Panel) {
+    panel.shadowRoot
+        ?.querySelector<HTMLElement>(".drag-handle")
+        ?.addEventListener("mousedown", (e) => {
+
+            flag = "being-dragged";
+            currentPanel = panel;
+            panel.classList.add(flag);
+
+            initPreview(panel);
+
+            const initData = {
+                eventCoords: {
+                    x: e.clientX,
+                    y: e.pageY,
+                },
+                panelPos: {
+                    x: panel.offsetLeft,
+                    y: panel.offsetTop,
+                },
+            };
+
+            dragHandler = (e) => {
+                e.preventDefault;
+                movePanelWithinScreen(panel, e, initData);
+                updateElementDestinationPreview(panel);
+            };
+
+            setDocumentHandlers();
+        });
+
+    panel.shadowRoot
+        ?.querySelector<HTMLElement>(".resize-handle")
+        ?.addEventListener("mousedown", (e) => {
+            flag = "being-resized";
+            currentPanel = panel;
+
+            panel.classList.add(flag);
+
+            initPreview(panel);
+
+            const initData = {
+                eventCoords: {
+                    x: e.clientX,
+                    y: e.pageY,
+                },
+                panelSize: {
+                    width: panel.offsetWidth,
+                    height: panel.offsetHeight,
+                },
+            };
+
+            dragHandler = (e) => {
+                e.preventDefault;
+                resizePanel(panel, e, initData);
+                updateElementDestinationPreview(panel);
+            };
+
+            setDocumentHandlers();
+        });
+}
+
 function init(): void {
     for (var i = 0; i < get.dashboardRows() * get.dashboardCols(); i++) {
         const cell = document.createElement("div");
@@ -129,12 +191,16 @@ function init(): void {
     }
 }
 
-function initPanel(panel: type.Panel): void {
+function initPanel(panel: type.Panel) {
     panel.setType(type.PanelType.DEFAULT);
 
     snapElementToGrid(panel, panel, false);
 
     addPanelHoverListeners(panel);
+
+    setTimeout(() => {
+        addPanelHandleListeners(panel);    
+    }, 50);
 }
 
 function initPreview(i: type.Panel) {
@@ -162,7 +228,7 @@ function updateStoredPanels() {
                 panel_id: parseInt(i.dataset.panelId ? i.dataset.panelId : "0"),
                 panel_type_id: i.getType().getId(),
                 area: i.getArea().toJson(),
-                content: i.getContent(),
+                content: i.innerHTML,
             };
         }
     );
@@ -193,8 +259,7 @@ function loadStoredPanels(): type.Panel[] {
         const createdPanel: type.Panel = new type.Panel(
             type.Area.INIT,
             type.PanelType.DEFAULT,
-            0,
-            type.PanelTypeTemplate.DEFAULT
+            0
         );
 
         dashboard?.append(createdPanel);
@@ -227,65 +292,6 @@ export function setIframeSrc(src: string): void {
 
 panels.forEach((i) => {
     initPanel(i);
-
-    i.shadowRoot
-        ?.querySelector<HTMLElement>(".drag-handle")
-        ?.addEventListener("mousedown", (e) => {
-            flag = "being-dragged";
-            currentPanel = i;
-            i.classList.add(flag);
-
-            initPreview(i);
-
-            const initData = {
-                eventCoords: {
-                    x: e.clientX,
-                    y: e.pageY,
-                },
-                panelPos: {
-                    x: i.offsetLeft,
-                    y: i.offsetTop,
-                },
-            };
-
-            dragHandler = (e) => {
-                e.preventDefault;
-                movePanelWithinScreen(i, e, initData);
-                updateElementDestinationPreview(i);
-            };
-
-            setDocumentHandlers();
-        });
-
-    i.shadowRoot
-        ?.querySelector<HTMLElement>(".resize-handle")
-        ?.addEventListener("mousedown", (e) => {
-            flag = "being-resized";
-            currentPanel = i;
-
-            i.classList.add(flag);
-
-            initPreview(i);
-
-            const initData = {
-                eventCoords: {
-                    x: e.clientX,
-                    y: e.pageY,
-                },
-                panelSize: {
-                    width: i.offsetWidth,
-                    height: i.offsetHeight,
-                },
-            };
-
-            dragHandler = (e) => {
-                e.preventDefault;
-                resizePanel(i, e, initData);
-                updateElementDestinationPreview(i);
-            };
-
-            setDocumentHandlers();
-        });
 });
 
 document.addEventListener("keydown", async (e) => {
@@ -300,12 +306,9 @@ document.addEventListener("keydown", async (e) => {
 
         case "ArrowRight":
             toggleEditMode();
-        // case "ArrowLeft":
-        //     const result = await fetch(
-        //         "https://smorgas-board-backend.vercel.app/"
-        //     ).then((res) => res.text());
-        //     console.log(result);
-        //     if (header != null) header.innerText = result;
+            break;
+        case "ArrowLeft":
+            (<type.Panel>dashboard.querySelector("panel-element")).innerHTML = "<h1>Hello</h1>";
     }
 });
 
