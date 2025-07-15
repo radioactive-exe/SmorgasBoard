@@ -190,7 +190,9 @@ export function initPanel(panel: type.Panel) {
 
     if (!utils.isEditing()) addPanelHoverListeners(panel);
 
-    addPanelHandleListeners(panel);  
+    setTimeout(() => {
+        addPanelHandleListeners(panel);    
+    }, 200);
 }
 
 function spawnPanelOfType(panelType: type.PanelType) {
