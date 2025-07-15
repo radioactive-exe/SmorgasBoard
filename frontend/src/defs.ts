@@ -154,10 +154,10 @@ enum PanelTypeName {
  * @enum {number}
  */
 enum PanelTypeTemplate {
-    PREVIEW = "/frontend/public/assets/templates/preview.html",
-    DEFAULT = "/frontend/public/assets/templates/default.html",
-    PHOTO = "/frontend/public/assets/templates/photo.html",
-    NOTEPAD = "/frontend/public/assets/templates/notepad.html",
+    PREVIEW = "assets/templates/preview.html",
+    DEFAULT = "assets/templates/default.html",
+    PHOTO = "assets/templates/photo.html",
+    NOTEPAD = "assets/templates/notepad.html",
 }
 
 /**
