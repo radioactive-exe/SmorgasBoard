@@ -160,10 +160,10 @@ enum PanelTypeName {
  * @enum {number}
  */
 enum PanelTypeTemplate {
-    PREVIEW = "https://smorgas-board-backend.vercel.app//api/definitions/templates/preview",
-    DEFAULT = "https://smorgas-board-backend.vercel.app//api/definitions/templates/default",
-    PHOTO = "https://smorgas-board-backend.vercel.app//api/definitions/templates/photo",
-    NOTEPAD = "https://smorgas-board-backend.vercel.app//api/definitions/templates/notepad",
+    PREVIEW = "https://smorgas-board-backend.vercel.app/api/definitions/templates/preview",
+    DEFAULT = "https://smorgas-board-backend.vercel.app/api/definitions/templates/default",
+    PHOTO = "https://smorgas-board-backend.vercel.app/api/definitions/templates/photo",
+    NOTEPAD = "https://smorgas-board-backend.vercel.app/api/definitions/templates/notepad",
 }
 
 /**
@@ -681,10 +681,7 @@ class Panel extends HTMLElement {
      * @memberof Panel
      */
     private async initTemplate() {
-        const response = await fetch(this.type.getTemplate()).then((res) => res.json());
-
-        // const template = await response.
-        console.log(response);
+        const response = await fetch(this.type.getTemplate()).then((res) => console.log(res));
 
         let shadow = this.attachShadow({ mode: "open" });
         let templateIframe = document.createElement("iframe");
