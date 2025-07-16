@@ -1,4 +1,4 @@
-import { panels, currentTheme, dashboard } from "./app.js";
+import { dashboard } from "./app.js";
 import * as type from "./defs.js";
 import * as get from "./accessors.js";
 
@@ -29,7 +29,7 @@ function areaCollisionWithElement(area: type.Area, el: type.Panel): boolean {
 function collidesWithAnyPanel(self: HTMLElement, area: type.Area): boolean {
     var flag = false;
 
-    panels.forEach((i) => {
+    dashboard.panels.forEach((i) => {
         if (
             i.dataset.panelId !=
                 (self.dataset.callerId
@@ -42,10 +42,6 @@ function collidesWithAnyPanel(self: HTMLElement, area: type.Area): boolean {
     });
 
     return flag;
-}
-
-function isEditing(): boolean {
-    return dashboard ? dashboard.classList.contains("in-edit-mode") : false;
 }
 
 function removeClassAfterTransition(
@@ -65,6 +61,5 @@ export {
     roundToNearest,
     areaCollisionWithElement,
     collidesWithAnyPanel,
-    isEditing,
     removeClassAfterTransition,
 };

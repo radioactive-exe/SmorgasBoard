@@ -1,5 +1,5 @@
-import * as utils from "./util.js";
 import * as type from "./defs.js";
+import * as utils from "./util.js";
 import * as get from "./accessors.js";
 
 import {
@@ -11,15 +11,16 @@ import {
     rotateElementStyle,
 } from "./manip.js";
 
-export const dashboard: HTMLElement = document.querySelector<HTMLElement>(
-    "#dashboard"
+export const dashboard: type.Dashboard = document.querySelector<type.Dashboard>(
+    "smorgas-board"
 )
-    ? <HTMLElement>document.querySelector<HTMLElement>("#dashboard")
-    : document.createElement("div");
-export var panels: type.Panel[] = loadStoredPanels();
-export var dragHandler, currentTheme: type.Theme;
+    ? <type.Dashboard>document.querySelector<type.Dashboard>("smorgas-board")
+    : <type.Dashboard>document.createElement("smorgas-board");
+
+export var dragHandler;
 
 var flag: string, currentPanel: type.Panel;
+
 const preview: type.Panel = new type.Panel(
     type.Area.INIT,
     type.PanelType.PREVIEW,
@@ -27,25 +28,6 @@ const preview: type.Panel = new type.Panel(
 );
 preview.classList.add("final-preview");
 
-function toggleEditMode(): void {
-    dashboard?.classList.toggle("in-edit-mode");
-    if (utils.isEditing())
-        panels.forEach((i) => {
-            removePanelHoverListeners(i);
-        });
-    else
-        panels.forEach((i) => {
-            addPanelHoverListeners(i);
-        });
-}
-
-function setCurrentTheme(theme: type.Theme): void {
-    currentTheme = theme;
-    const themeFileLink: HTMLElement | null =
-        document.querySelector<HTMLElement>("#app-theme");
-    if (themeFileLink == null) return;
-    themeFileLink.setAttribute("href", theme.getUrl());
-}
 
 export function releaseHandler(e) {
     snapElementToTarget(currentPanel, preview);
@@ -108,18 +90,21 @@ export function addPanelHoverListeners(panel: type.Panel): void {
     panel.addEventListener("mouseenter", enterPanelHoverHandler);
 }
 
-function removePanelHoverListeners(panel): void {
+export function removePanelHoverListeners(panel): void {
     panel.removeEventListener("mouseenter", enterPanelHoverHandler);
     panel.removeEventListener("mousemove", movePanelHoverHandler);
     panel.dispatchEvent(new Event("mouseleave"));
     panel.removeEventListener("mouseleave", exitPanelHoverHandler);
 }
 
-export function addPanelHandleListeners(panel : type.Panel) {
+export function addPanelHandleListeners(panel: type.Panel) {
+    panel.addEventListener("auxclick", () => {
+        dashboard.deletePanel(panel);
+    });
+
     panel.shadowRoot
         ?.querySelector<HTMLElement>(".drag-handle")
         ?.addEventListener("mousedown", (e) => {
-
             flag = "being-dragged";
             currentPanel = panel;
             panel.classList.add(flag);
@@ -177,34 +162,6 @@ export function addPanelHandleListeners(panel : type.Panel) {
         });
 }
 
-function init(): void {
-    for (var i = 0; i < get.dashboardRows() * get.dashboardCols(); i++) {
-        const cell = document.createElement("div");
-        cell.classList.add("cell");
-        dashboard?.prepend(cell);
-    }
-}
-
-export function initPanel(panel: type.Panel) {
-    snapElementToGrid(panel, panel, false);
-
-    if (!utils.isEditing()) addPanelHoverListeners(panel);
-
-    setTimeout(() => {
-        addPanelHandleListeners(panel);    
-    }, 200);
-}
-
-function spawnPanelOfType(panelType: type.PanelType) {
-    spawnPanel(new type.Panel(type.Area.INIT, panelType, panels.length));
-}
-
-function spawnPanel(panel: type.Panel) {
-    dashboard.append(panel);
-    panels.push(panel);
-    initPanel(panel);
-}
-
 function initPreview(i: type.Panel) {
     preview.dataset.callerId = i.dataset.panelId;
     i.parentElement?.prepend(preview);
@@ -224,7 +181,7 @@ function updateElementDestinationPreview(el): void {
 }
 
 function updateStoredPanels() {
-    var panelStorage: type.PanelInstance[] = panels.map(
+    var panelStorage: type.PanelInstance[] = dashboard.panels.map(
         (i): type.PanelInstance => {
             return {
                 panel_id: parseInt(i.dataset.panelId ? i.dataset.panelId : "0"),
@@ -238,80 +195,26 @@ function updateStoredPanels() {
     localStorage.setItem("local-panel-storage", JSON.stringify(panelStorage));
 }
 
-function loadStoredPanels(): type.Panel[] {
-    let queriedPanels: type.Panel[] = [
-        ...document.querySelectorAll<type.Panel>("panel-element"),
-    ];
-
-    if (queriedPanels.length != 0) {
-        console.warn(
-            "Panels in body found. Failed to load panels from storage"
-        );
-        queriedPanels.forEach((i) => {
-            i.updateArea();
-        });
-        return queriedPanels;
-    }
-
-    let loadedString = localStorage.getItem("local-panel-storage");
-
-    if (loadedString == null) {
-        console.warn("No stored panels! Initiating base board.");
-
-        const createdPanel = type.Panel.defaultPanel();
-
-        dashboard?.append(createdPanel);
-
-        return [createdPanel];
-    }
-
-    let loadedPanels: type.PanelInstance[] = JSON.parse(loadedString);
-
-    var index = 0;
-    const formattedPanels: type.Panel[] = loadedPanels.map(
-        (i: type.PanelInstance) => {
-            return new type.Panel(
-                new type.Area(i.area.pos, i.area.size),
-                type.PanelType.getTypeFromId(i.panel_type_id),
-                i.panel_id,
-                i.content
-            );
-        }
-    );
-
-    dashboard?.append(...formattedPanels);
-
-    return formattedPanels;
-}
-
-panels.forEach((i) => {
-    initPanel(i);
-});
-
 document.addEventListener("keydown", async (e) => {
     switch (e.key) {
         case "ArrowDown":
-            setCurrentTheme(type.Theme.DEFAULT);
-            currentTheme = type.Theme.DEFAULT;
+            dashboard.setCurrentTheme(type.Theme.DEFAULT);
             break;
         case "ArrowUp":
-            setCurrentTheme(type.Theme.YELLOW);
+            dashboard.setCurrentTheme(type.Theme.YELLOW);
             break;
-
         case "ArrowRight":
-            toggleEditMode();
+            dashboard.toggleEditMode();
             break;
         case "ArrowLeft":
-            spawnPanelOfType(type.PanelType.NOTEPAD);
+            dashboard.spawnPanelOfType(type.PanelType.NOTEPAD);
     }
 });
 
-window.addEventListener("resize", () => {
-    panels.forEach((i) => {
-        snapElementToGrid(i, i, false);
-    });
-});
 
 // ~ Function Calls
 
-init();
+
+window.addEventListener("resize", () => {
+    dashboard.organiseElements();
+});

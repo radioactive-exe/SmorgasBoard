@@ -1,6 +1,12 @@
 import * as utils from "./util.js";
 import * as get from "./accessors.js";
-import { initPanel } from "./app.js";
+import {
+    addPanelHandleListeners,
+    addPanelHoverListeners,
+    dashboard,
+    removePanelHoverListeners,
+} from "./app.js";
+import { snapElementToGrid } from "./manip.js";
 
 /**
  * DESC: A class to facilitate the storage and usage of Themes in the application, with useful fields and methods
@@ -154,10 +160,10 @@ enum PanelTypeName {
  * @enum {number}
  */
 enum PanelTypeTemplate {
-    PREVIEW = "assets/templates/preview.html",
-    DEFAULT = "assets/templates/default.html",
-    PHOTO = "assets/templates/photo.html",
-    NOTEPAD = "assets/templates/notepad.html",
+    PREVIEW = "/backend/definitions/templates/preview.html",
+    DEFAULT = "/backend/definitions/templates/default.html",
+    PHOTO = "/backend/definitions/templates/photo.html",
+    NOTEPAD = "/backend/definitions/templates/notepad.html",
 }
 
 /**
@@ -537,8 +543,7 @@ class Panel extends HTMLElement {
 
         this.setArea(area);
         this.setType(type);
-        if (type != PanelType.PREVIEW) this.initTemplate();
-
+        this.init();
         this.dashboardId = dashboardId;
         this.dataset.panelId = dashboardId + "";
         this.dataset.panelType = type.toString();
@@ -675,38 +680,164 @@ class Panel extends HTMLElement {
      *
      * @memberof Panel
      */
-    public initTemplate() {
-        try {let shadow = this.attachShadow({ mode: "open" });
-        let templateIframe = document.createElement("iframe");
-        document.body.append(templateIframe);
-        var template;
-        templateIframe.src = this.type.getTemplate();
-        setTimeout(() => {
-            template =
-                templateIframe?.contentDocument?.body.querySelector("template");
-        }, 300);
-        setTimeout(() => {
-            if (this.type != PanelType.PREVIEW && template)
-                shadow.prepend(template.content.cloneNode(true));
-            document.body.removeChild(templateIframe);
-        }, 300);}
-        
-        catch (error) {
+    private initTemplate() {
+        try {
+            let shadow = this.attachShadow({ mode: "open" });
+            let templateIframe = document.createElement("iframe");
+            document.body.append(templateIframe);
+            var template;
+            templateIframe.src = this.type.getTemplate();
+            setTimeout(() => {
+                template =
+                    templateIframe?.contentDocument?.body.querySelector(
+                        "template"
+                    );
+            }, 300);
+            setTimeout(() => {
+                if (this.type != PanelType.PREVIEW && template)
+                    shadow.prepend(template.content.cloneNode(true));
+                document.body.removeChild(templateIframe);
+            }, 300);
+        } catch (error) {
             if (error instanceof TypeError) this.initTemplate();
         }
-        
+    }
+
+    private initListeners() {
+        addPanelHoverListeners(this);
+        setTimeout(() => {
+            addPanelHandleListeners(this);
+        }, 500);
+    }
+
+    public init() {
+        this.initTemplate();
+        setTimeout(() => {
+            this.initListeners();
+        }, 200); 
     }
 
     public static defaultPanel(): Panel {
-        return new Panel(
-            Area.INIT,
-            PanelType.DEFAULT,
-            0
-        );
+        return new Panel(Area.INIT, PanelType.DEFAULT, 0);
+    }
+}
+
+class Dashboard extends HTMLElement {
+    public panels: Panel[];
+    private currentTheme: Theme;
+
+    public constructor() {
+        super();
+
+        let shadow = this.attachShadow({ mode: "open" });
+
+        let cells = document.createElement("div");
+        cells.part = "cell-container";
+        for (var i = 0; i < get.dashboardRows() * get.dashboardCols(); i++) {
+            const cell = document.createElement("div");
+            cell.classList.add("cell");
+            cell.part = "cell";
+            cells.append(cell);
+        }
+        this.shadowRoot?.append(cells);
+        this.shadowRoot?.append(document.createElement("slot"));
+        this.loadStoredPanels();
+    }
+
+    public isEditing(): boolean {
+        return this.classList.contains("in-edit-mode");
+    }
+
+    public toggleEditMode(): void {
+        this.classList.toggle("in-edit-mode");
+        if (this.isEditing())
+            this.panels.forEach((i) => {
+                removePanelHoverListeners(i);
+            });
+        else
+            this.panels.forEach((i) => {
+                addPanelHoverListeners(i);
+            });
+    }
+
+    public spawnPanelOfType(panelType: PanelType) {
+        this.spawnPanel(new Panel(Area.INIT, panelType, this.panels.length));
+    }
+
+    public spawnPanel(panel: Panel) {
+        this.append(panel);
+        this.panels.push(panel);
+    }
+
+    public deletePanel(panel: Panel) {
+        // this.panels.slice(parseInt(<string>panel.dataset.panelId)).forEach(i => {
+        //     if ()
+        // });
+    }
+
+    public organiseElements() {
+        this.panels?.forEach((i) => {
+            snapElementToGrid(i, i, false);
+        });
+    }
+
+    public loadStoredPanels(): void {
+        let queriedPanels: Panel[] = [
+            ...document.querySelectorAll<Panel>("panel-element"),
+        ];
+
+        if (queriedPanels.length != 0) {
+            console.warn(
+                "Panels in body found. Failed to load panels from storage"
+            );
+            queriedPanels.forEach((i) => {
+                i.updateArea();
+            });
+            this.panels = queriedPanels;
+        } else {
+            let loadedString = localStorage.getItem("local-panel-storage");
+
+            if (loadedString == null) {
+                console.warn("No stored panels! Initiating base board.");
+
+                this.panels = [Panel.defaultPanel()];
+            } else {
+                let loadedPanels: PanelInstance[] = JSON.parse(loadedString);
+
+                var index = 0;
+                const formattedPanels: Panel[] = loadedPanels.map(
+                    (i: PanelInstance) => {
+                        return new Panel(
+                            new Area(i.area.pos, i.area.size),
+                            PanelType.getTypeFromId(i.panel_type_id),
+                            i.panel_id,
+                            i.content
+                        );
+                    }
+                );
+
+                this.panels = formattedPanels;
+            }
+        }
+
+        this.append(...this.panels);
+    }
+
+    public getCurrentTheme(): Theme {
+        return this.currentTheme;
+    }
+
+    public setCurrentTheme(theme: Theme): void {
+        this.currentTheme = theme;
+        const themeFileLink: HTMLElement | null =
+            document.querySelector<HTMLElement>("#app-theme");
+        if (themeFileLink == null) return;
+        themeFileLink.setAttribute("href", theme.getUrl());
     }
 }
 
 window.customElements.define("panel-element", Panel);
+window.customElements.define("smorgas-board", Dashboard);
 
 export {
     Offset,
@@ -718,4 +849,5 @@ export {
     Panel,
     PanelInstance,
     PanelType,
+    Dashboard,
 };

@@ -1,7 +1,7 @@
 import * as type from "./defs.js";
 import * as utils from "./util.js";
 import * as get from "./accessors.js";
-import { releaseHandler, dragHandler, panels } from "./app.js";
+import { releaseHandler, dragHandler, dashboard } from "./app.js";
 
 var x: number,
     y: number,
