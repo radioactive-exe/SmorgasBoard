@@ -702,12 +702,10 @@ class Panel extends HTMLElement {
 
     public async init() {
         this.initTemplate().then(() =>
-            this.addHoverListeners().then(() =>
-                addPanelHandleListeners(this)
-            )
+            this.addHoverListeners().then(() => addPanelHandleListeners(this))
         );
     }
-    
+
     public addHoverListeners(): Promise<void> {
         return new Promise((resolve, reject) => {
             this.addEventListener("mousemove", movePanelHoverHandler);
