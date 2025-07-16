@@ -7,21 +7,8 @@ const app = express();
 const port = 3000;
 
 app.use(cors({ origin: true, credentials: true }));
-app.use("api/definitions/templates/", templatesRouter);
+app.use("definitions/templates/", templatesRouter);
 
-app.get("/", (req, res) => res.send("Hello"));
-
-app.get("/default", (req, res) => {
-    // res.sendFile("./definitions/templates/default.html");
-    res.send("No");
-});
-
-app.get("/notepad", (req, res) => {
-    res.sendFile("./definitions/templates/notepad.html");
-});
-
-app.get("/photo", (req, res) => {
-    res.sendFile("./definitions/templates/photo.html");
-});
+app.get("/", (req, res) => res.sendFile("./index.html"));
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));
