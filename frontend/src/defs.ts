@@ -684,12 +684,12 @@ class Panel extends HTMLElement {
         setTimeout(() => {
             template =
                 templateIframe?.contentDocument?.body.querySelector("template");
-        }, 200);
+        }, 300);
         setTimeout(() => {
             if (this.type != PanelType.PREVIEW && template)
                 shadow.prepend(template.content.cloneNode(true));
             document.body.removeChild(templateIframe);
-        }, 200);}
+        }, 300);}
         
         catch (error) {
             if (error instanceof TypeError) this.initTemplate();
