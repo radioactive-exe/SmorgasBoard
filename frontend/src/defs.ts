@@ -164,8 +164,8 @@ enum PanelTypeName {
 enum PanelTypeTemplate {
     PREVIEW = "https://smorgas-board-backend.vercel.app/definitions/panels/preview",
     DEFAULT = "https://smorgas-board-backend.vercel.app/definitions/panels/default",
-    PHOTO = "https://smorgas-board-backend.vercel.app/definitions/panels/photo",
     NOTEPAD = "https://smorgas-board-backend.vercel.app/definitions/panels/notepad",
+    PHOTO = "https://smorgas-board-backend.vercel.app/definitions/panels/photo",
 }
 
 /**

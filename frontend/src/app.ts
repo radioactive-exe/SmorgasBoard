@@ -202,7 +202,7 @@ document.addEventListener("keydown", async (e) => {
             dashboard.toggleEditMode();
             break;
         case "ArrowLeft":
-            dashboard.spawnPanelOfType(type.PanelType.NOTEPAD);
+            dashboard.spawnPanelOfType(type.PanelType.PHOTO);
     }
 });
 
