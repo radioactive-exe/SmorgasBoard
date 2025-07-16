@@ -160,10 +160,10 @@ enum PanelTypeName {
  * @enum {number}
  */
 enum PanelTypeTemplate {
-    PREVIEW = "https://smorgas-board-backend.vercel.app/api/definitions/templates/preview",
-    DEFAULT = "https://smorgas-board-backend.vercel.app/api/definitions/templates/default",
-    PHOTO = "https://smorgas-board-backend.vercel.app/api/definitions/templates/photo",
-    NOTEPAD = "https://smorgas-board-backend.vercel.app/api/definitions/templates/notepad",
+    PREVIEW = "https://smorgas-board-backend.vercel.app/definitions/templates/preview",
+    DEFAULT = "https://smorgas-board-backend.vercel.app/definitions/templates/default",
+    PHOTO = "https://smorgas-board-backend.vercel.app/definitions/templates/photo",
+    NOTEPAD = "https://smorgas-board-backend.vercel.app/definitions/templates/notepad",
 }
 
 /**
