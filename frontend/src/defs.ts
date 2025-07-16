@@ -2,8 +2,10 @@ import * as utils from "./util.js";
 import * as get from "./accessors.js";
 import {
     addPanelHandleListeners,
-    addPanelHoverListeners,
     dashboard,
+    enterPanelHoverHandler,
+    exitPanelHoverHandler,
+    movePanelHoverHandler,
     removePanelHoverListeners,
 } from "./app.js";
 import { snapElementToGrid } from "./manip.js";
@@ -680,37 +682,39 @@ class Panel extends HTMLElement {
      *
      * @memberof Panel
      */
-    private async initTemplate() {
-        const response = await fetch(this.type.getTemplate()).then((res) => console.log(res));
-
-        let shadow = this.attachShadow({ mode: "open" });
-        let templateIframe = document.createElement("iframe");
-        document.body.append(templateIframe);
-        // var template;
-        // templateIframe.src = this.type.getTemplate();
-        // setTimeout(() => {
-        //     template =
-        //         templateIframe?.contentDocument?.body.querySelector("template");
-        // }, 300);
-        // setTimeout(() => {
-        //     if (this.type != PanelType.PREVIEW && template)
-        //         shadow.prepend(template.content.cloneNode(true));
-        //     document.body.removeChild(templateIframe);
-        // }, 300);
+    private async initTemplate(): Promise<void> {
+        return new Promise(async (resolve, reject) => {
+            var response = await fetch(this.type.getTemplate()).then((res) =>
+                res.text()
+            );
+            var parsedResponse = await new DOMParser().parseFromString(
+                response,
+                "text/html"
+            );
+            const template =
+                parsedResponse.querySelector<HTMLTemplateElement>("template");
+            var shadow = this.attachShadow({ mode: "open" });
+            if (this.type != PanelType.PREVIEW && template)
+                shadow.prepend(template.content.cloneNode(true));
+            resolve();
+        });
     }
 
-    private initListeners() {
-        addPanelHoverListeners(this);
-        setTimeout(() => {
-            addPanelHandleListeners(this);
-        }, 500);
+    public async init() {
+        this.initTemplate().then(() =>
+            this.addHoverListeners().then(() =>
+                addPanelHandleListeners(this)
+            )
+        );
     }
-
-    public init() {
-        this.initTemplate();
-        setTimeout(() => {
-            this.initListeners();
-        }, 200);
+    
+    public addHoverListeners(): Promise<void> {
+        return new Promise((resolve, reject) => {
+            this.addEventListener("mousemove", movePanelHoverHandler);
+            this.addEventListener("mouseleave", exitPanelHoverHandler);
+            this.addEventListener("mouseenter", enterPanelHoverHandler);
+            resolve();
+        });
     }
 
     public static defaultPanel(): Panel {
@@ -746,14 +750,6 @@ class Dashboard extends HTMLElement {
 
     public toggleEditMode(): void {
         this.classList.toggle("in-edit-mode");
-        if (this.isEditing())
-            this.panels.forEach((i) => {
-                removePanelHoverListeners(i);
-            });
-        else
-            this.panels.forEach((i) => {
-                addPanelHoverListeners(i);
-            });
     }
 
     public spawnPanelOfType(panelType: PanelType) {

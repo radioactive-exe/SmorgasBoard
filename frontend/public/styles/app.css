@@ -40,7 +40,7 @@ smorgas-board {
         width: var(--width);
         height: var(--height);
         
-        transition: 0.2s ease;
+
         border-radius: 2rem;
     
         &:has(~ .being-dragged), &:has(~ .being-resized) {
@@ -176,6 +176,12 @@ panel-element {
             width: 100%;
         }
     }
+}
+
+
+.snapping, .snapping > * {
+    transition: 0.3s ease;
+    pointer-events: none;
 }
 
 .disappearing {

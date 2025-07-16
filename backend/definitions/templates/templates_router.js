@@ -7,6 +7,10 @@ router.get("/", (req, res) => {
 });
 
 router.get("/:template", (req, res) => {
+    res.send({
+        template_type: `${req.params.template}`,
+        template_body: ``
+    })
     res.sendFile(__dirname + `/${req.params.template}.html`);
 })
 

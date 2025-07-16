@@ -28,7 +28,6 @@ const preview: type.Panel = new type.Panel(
 );
 preview.classList.add("final-preview");
 
-
 export function releaseHandler(e) {
     snapElementToTarget(currentPanel, preview);
 
@@ -43,7 +42,8 @@ export function releaseHandler(e) {
     document.removeEventListener("mousemove", dragHandler);
 }
 
-function enterPanelHoverHandler(e) {
+export function enterPanelHoverHandler(e) {
+    if (dashboard.isEditing()) return;
     const target = e.currentTarget;
     const panel = target.shadowRoot?.querySelector(".panel-body");
 
@@ -57,7 +57,8 @@ function enterPanelHoverHandler(e) {
     }
 }
 
-function movePanelHoverHandler(e) {
+export function movePanelHoverHandler(e) {
+    if (dashboard.isEditing()) return;
     e.stopPropagation();
     if (
         !e.currentTarget.shadowRoot
@@ -68,7 +69,8 @@ function movePanelHoverHandler(e) {
     }
 }
 
-function exitPanelHoverHandler(e) {
+export function exitPanelHoverHandler(e) {
+    if (dashboard.isEditing()) return;
     rotateElementStyle(e.target, {
         rotation: { x: 0, y: 0 },
         shadow: { x: 0, y: 0 },
@@ -79,15 +81,9 @@ function exitPanelHoverHandler(e) {
     e.currentTarget.classList.remove("hovering");
 }
 
-function setDocumentHandlers() {
+export function setDocumentHandlers() {
     document.addEventListener("mousemove", dragHandler);
     document.addEventListener("mouseup", releaseHandler);
-}
-
-export function addPanelHoverListeners(panel: type.Panel): void {
-    panel.addEventListener("mousemove", movePanelHoverHandler);
-    panel.addEventListener("mouseleave", exitPanelHoverHandler);
-    panel.addEventListener("mouseenter", enterPanelHoverHandler);
 }
 
 export function removePanelHoverListeners(panel): void {
@@ -166,7 +162,6 @@ function initPreview(i: type.Panel) {
     preview.dataset.callerId = i.dataset.panelId;
     i.parentElement?.prepend(preview);
     snapElementToTarget(preview, i, false);
-
     preview.classList.add("appearing");
     updateElementDestinationPreview(i);
 
@@ -211,9 +206,7 @@ document.addEventListener("keydown", async (e) => {
     }
 });
 
-
 // ~ Function Calls
-
 
 window.addEventListener("resize", () => {
     dashboard.organiseElements();

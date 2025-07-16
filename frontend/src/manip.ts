@@ -1,7 +1,6 @@
 import * as type from "./defs.js";
 import * as utils from "./util.js";
 import * as get from "./accessors.js";
-import { releaseHandler, dragHandler, dashboard } from "./app.js";
 
 var x: number,
     y: number,
@@ -171,7 +170,6 @@ function snapElementToGrid(
         panel.setArea(potentialArea);
     }
 
-    utils.removeClassAfterTransition(panel, "snapping");
 }
 
 function snapElementToTarget(
@@ -182,7 +180,8 @@ function snapElementToTarget(
     if (shouldAnimate) el.classList.add("snapping");
 
     el.setArea(target.getArea());
-
+    
+    utils.removeClassAfterTransition(target, "snapping");
     utils.removeClassAfterTransition(el, "snapping");
 }
 
