@@ -10,14 +10,16 @@ app.use(cors({ origin: true, credentials: true }));
 
 app.get("/", (req, res) => res.send("Hello"));
 
-app.get("api/definitions/templates/default", (req, res) => {
+app.get("/default", (req, res) => {
     // res.sendFile("./definitions/templates/default.html");
     res.send("No");
 });
-app.get("api/definitions/templates/notepad", (req, res) => {
+
+app.get("/notepad", (req, res) => {
     res.sendFile("./definitions/templates/notepad.html");
 });
-app.get("api/definitions/templates/photo", (req, res) => {
+
+app.get("/photo", (req, res) => {
     res.sendFile("./definitions/templates/photo.html");
 });
 
