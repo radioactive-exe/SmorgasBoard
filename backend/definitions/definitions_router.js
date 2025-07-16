@@ -13,7 +13,6 @@ router.get("/:panel", (req, res) => {
         panel_type: req.params.panel,
         panel_template: templateHtml.toString()
     })
-    res.sendFile();
 })
 
 module.exports = router;
