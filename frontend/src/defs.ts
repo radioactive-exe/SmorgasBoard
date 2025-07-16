@@ -685,14 +685,14 @@ class Panel extends HTMLElement {
     private async initTemplate(): Promise<void> {
         return new Promise(async (resolve, reject) => {
             var response = await fetch(this.type.getTemplate()).then((res) =>
-                res.text()
+                res.json()
             );
-            var parsedResponse = await new DOMParser().parseFromString(
-                response,
+            var responseBody = await new DOMParser().parseFromString(
+                response.panelTemplate,
                 "text/html"
             );
             const template =
-                parsedResponse.querySelector<HTMLTemplateElement>("template");
+                responseBody.querySelector<HTMLTemplateElement>("template");
             var shadow = this.attachShadow({ mode: "open" });
             if (this.type != PanelType.PREVIEW && template)
                 shadow.prepend(template.content.cloneNode(true));

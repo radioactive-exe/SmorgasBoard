@@ -1,13 +1,13 @@
 const express = require("express");
 const path = require("path");
 const cors = require("cors");
-const templatesRouter = require("./definitions/templates/templates_router.js");
+const templatesRouter = require("./definitions/definitions_router.js");
 
 const app = express();
 const port = 3000;
 
 app.use(cors({ origin: true, credentials: true }));
-app.use("/definitions/templates/", templatesRouter);
+app.use("/definitions/panels/", templatesRouter);
 
 app.get("/", (req, res) => res.sendFile(__dirname + "/index.html"));
 
