@@ -160,10 +160,10 @@ enum PanelTypeName {
  * @enum {number}
  */
 enum PanelTypeTemplate {
-    PREVIEW = "/backend/definitions/templates/preview.html",
-    DEFAULT = "/backend/definitions/templates/default.html",
-    PHOTO = "/backend/definitions/templates/photo.html",
-    NOTEPAD = "/backend/definitions/templates/notepad.html",
+    PREVIEW = "https://smorgas-board-backend.vercel.app//api/definitions/templates/preview",
+    DEFAULT = "https://smorgas-board-backend.vercel.app//api/definitions/templates/default",
+    PHOTO = "https://smorgas-board-backend.vercel.app//api/definitions/templates/photo",
+    NOTEPAD = "https://smorgas-board-backend.vercel.app//api/definitions/templates/notepad",
 }
 
 /**
@@ -680,27 +680,26 @@ class Panel extends HTMLElement {
      *
      * @memberof Panel
      */
-    private initTemplate() {
-        try {
-            let shadow = this.attachShadow({ mode: "open" });
-            let templateIframe = document.createElement("iframe");
-            document.body.append(templateIframe);
-            var template;
-            templateIframe.src = this.type.getTemplate();
-            setTimeout(() => {
-                template =
-                    templateIframe?.contentDocument?.body.querySelector(
-                        "template"
-                    );
-            }, 300);
-            setTimeout(() => {
-                if (this.type != PanelType.PREVIEW && template)
-                    shadow.prepend(template.content.cloneNode(true));
-                document.body.removeChild(templateIframe);
-            }, 300);
-        } catch (error) {
-            if (error instanceof TypeError) this.initTemplate();
-        }
+    private async initTemplate() {
+        const response = await fetch(this.type.getTemplate()).then((res) => res.json());
+
+        // const template = await response.
+        console.log(response);
+
+        let shadow = this.attachShadow({ mode: "open" });
+        let templateIframe = document.createElement("iframe");
+        document.body.append(templateIframe);
+        // var template;
+        // templateIframe.src = this.type.getTemplate();
+        // setTimeout(() => {
+        //     template =
+        //         templateIframe?.contentDocument?.body.querySelector("template");
+        // }, 300);
+        // setTimeout(() => {
+        //     if (this.type != PanelType.PREVIEW && template)
+        //         shadow.prepend(template.content.cloneNode(true));
+        //     document.body.removeChild(templateIframe);
+        // }, 300);
     }
 
     private initListeners() {
@@ -714,7 +713,7 @@ class Panel extends HTMLElement {
         this.initTemplate();
         setTimeout(() => {
             this.initListeners();
-        }, 200); 
+        }, 200);
     }
 
     public static defaultPanel(): Panel {
