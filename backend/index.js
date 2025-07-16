@@ -7,7 +7,7 @@ const app = express();
 const port = 3000;
 
 app.use(cors({ origin: true, credentials: true }));
-app.use("definitions/templates/", templatesRouter);
+app.use("/definitions/templates/", templatesRouter);
 
 app.get("/", (req, res) => res.sendFile("./index.html"));
 
