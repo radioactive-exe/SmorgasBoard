@@ -7,7 +7,7 @@ router.get("/", (req, res) => {
 });
 
 router.get("/:template", (req, res) => {
-    res.sendFile(`/backend/definitions/templates/${req.params.template}.html`);
+    res.sendFile(__dirname + `${req.params.template}.html`);
 })
 
 module.exports = router;
