@@ -9,6 +9,6 @@ const port = 3000;
 app.use(cors({ origin: true, credentials: true }));
 app.use("/definitions/templates/", templatesRouter);
 
-app.get("/", (req, res) => res.sendFile("./index.html"));
+app.get("/", (req, res) => res.sendFile("/backend/index.html"));
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));
