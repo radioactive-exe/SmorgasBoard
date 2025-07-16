@@ -688,7 +688,7 @@ class Panel extends HTMLElement {
                 res.json()
             );
             var responseBody = await new DOMParser().parseFromString(
-                response.panelTemplate,
+                response.panel_template,
                 "text/html"
             );
             const template =
