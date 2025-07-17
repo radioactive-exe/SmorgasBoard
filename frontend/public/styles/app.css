@@ -1,6 +1,20 @@
 :root {
     --theme: default;
-    /* --panel-bg: pink; */
+    --num-of-rows: 5;
+    --num-of-cols: 5;
+
+
+    --panel-body-inset: 0.5rem;
+    --panel-content-padding: 2rem;
+    --panel-border-radius: 2rem;
+
+    --panel-manip-opacity: 0.5;
+
+    --quick-transition-time: 0.2s;
+
+    --panel-transition-time: var(--quick-transition-time);
+
+    --square-handle-full-side: 5rem;
 }
 
 * {
@@ -11,8 +25,6 @@
 }
 
 body {
-    --num-of-rows: 5;
-    --num-of-cols: 5;
 
     overflow: hidden;
 }
@@ -20,9 +32,9 @@ body {
 smorgas-board {
     min-width: 100vw;
     min-height: 100vh;
-    
+
     &::part(cell-container) {
-        background: rgb(50, 43, 97);
+        background: var(--dashboard-bg);
         position: absolute;
         inset: 0;
         display: grid;
@@ -30,76 +42,87 @@ smorgas-board {
     }
 
     & .final-preview {
-        background: purple;
+        background: var(--preview-bg);
         opacity: 1;
-    
+
         position: absolute;
-        
-        left: calc(var(--x)); 
+
+        left: calc(var(--x));
         top: calc(var(--y));
         width: var(--width);
         height: var(--height);
-        
+
 
         border-radius: 2rem;
-    
-        &:has(~ .being-dragged), &:has(~ .being-resized) {
+
+        &:has(~ .being-dragged),
+        &:has(~ .being-resized) {
             opacity: 1;
         }
     }
 
     & panel-element {
-    
+
         --min-width: 2fr;
         --min-height: 1fr;
-    
+
         /* --forced-aspect-ratio: 1:2; */
-    
+
         position: fixed;
         left: calc(var(--x));
         top: calc(var(--y));
-        isolation: isolate;
-        z-index: 0;
         width: var(--width);
         height: var(--height);
         overflow: visible;
-        padding: 1rem;
-        
-        &::part(panel-body)  {
+
+        &::part(panel-body) {
             transform:
-                rotateX(var(--rotate-x))
-                rotateY(var(--rotate-y));
-            border-radius: 2rem;
+                rotateX(var(--rotate-x)) rotateY(var(--rotate-y));
+            filter: drop-shadow(var(--shadow-offset-x) var(--shadow-offset-y) 0rem black);
+            border-radius: var(--panel-border-radius);
             background: var(--panel-bg);
             position: absolute;
-            inset: 0.5rem;
-            transition: all 0.3s ease;
+            inset: var(--panel-body-inset);
+            transition: all var(--panel-transition-time) ease;
         }
-        
+
         &::part(panel-body in-motion) {
-            transition: all 0s linear;
+            transition: 0s;
         }
 
         &:has(::part(drag-handle):hover):not(.being-dragged) {
             filter: brightness(1.2);
         }
-        
-        &.being-dragged {
-            filter: brightness(0.8) drop-shadow(1.5rem 1.5rem 2rem black);
-            scale: 1.2;
-            transition: all 0.2s ease, left 0s linear, top 0s linear;
-            opacity: 0.8;
+
+        &.being-manipulated {
+            opacity: var(--panel-manip-opacity);
             z-index: 1;
-    
-            &::part(drag-handle) {
-                width: 5rem;
-                height: 5rem;
+
+            &.being-dragged {
+                transition: all var(--panel-transition-time) ease, left 0s, top 0s;
+
+                filter: brightness(0.8) drop-shadow(1.5rem 1.5rem 2rem black);
+                scale: 1.2;
+
+                &::part(drag-handle) {
+                    width: var(--square-handle-full-side);
+                    height: var(--square-handle-full-side);
+                }
+            }
+
+            &.being-resized {
+                transition: all var(--panel-transition-time) ease, width 0s, height 0s;
+
+                &::part(resize-handle) {
+                    width: var(--square-handle-full-side);
+                    height: var(--square-handle-full-side);
+                }
             }
         }
-    
+
         &.snapping:not(.final-preview) {
             z-index: 1;
-            transition: 0.3s ease;
+            transition: var(--panel-transition-time) ease;
         }
 
         &::part(panel-content) {
@@ -108,46 +131,48 @@ smorgas-board {
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 2rem;
+            padding: var(--panel-content-padding);
+            border-radius: var(--panel-border-radius);
+            overflow: hidden;
         }
-    
+
         &::part(handle) {
-            border-radius: 1rem;
+            border-radius: var(--panel-border-radius);
             width: 0;
             height: 0;
             padding: 0;
             position: absolute;
-            transition: 0.2s ease;
+            transition: var(--panel-transition-time) ease;
             user-select: none;
             box-sizing: border-box;
-            background: red;
+            background: var(--panel-handle-bg);
         }
 
         &::part(handle):hover {
-            width: 5rem;
-            height: 5rem;
+            width: var(--square-handle-full-side);
+            height: var(--square-handle-full-side);
         }
-            
+
         &::part(resize-handle) {
             bottom: 0;
             right: 0;
             rotate: 90deg;
         }
-    
+
         &::part(handle-icon) {
             width: 100%;
             pointer-events: none;
         }
     }
-    
+
     &::part(cell) {
         border-radius: 2rem;
         margin: 1rem;
         opacity: 0.1;
         width: calc(100% - 2rem);
         height: calc(100% - 2rem);
-        background: rgba(255, 255, 255, 0.305);
-        transition: 0.3s ease;
+        background: var(--cell-bg);
+        transition: var(--quick-transition-time) ease;
     }
 
     &.in-edit-mode {
@@ -169,17 +194,20 @@ panel-element {
             flex-direction: column;
             align-items: stretch;
         }
+
         &::part(notepad-textarea) {
             resize: none;
-            background: pink;
+            background: var(--textarea-bg);
             height: 100%;
             width: 100%;
+            outline: none;
         }
     }
 }
 
 
-.snapping, .snapping > * {
+.snapping,
+.snapping>* {
     transition: 0.3s ease;
     pointer-events: none;
 }
@@ -196,6 +224,7 @@ panel-element {
     0% {
         opacity: 0;
     }
+
     100% {
         opacity: 1;
     }

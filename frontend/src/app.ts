@@ -32,7 +32,7 @@ export function releaseHandler(e) {
     snapElementToTarget(currentPanel, preview);
 
     preview.classList.add("disappearing");
-    currentPanel.classList.remove(flag);
+    currentPanel.classList.remove(flag, "being-manipulated");
 
     updateStoredPanels();
 
@@ -103,7 +103,7 @@ export function addPanelHandleListeners(panel: type.Panel) {
         ?.addEventListener("mousedown", (e) => {
             flag = "being-dragged";
             currentPanel = panel;
-            panel.classList.add(flag);
+            panel.classList.add(flag, "being-manipulated");
 
             initPreview(panel);
 
@@ -133,7 +133,7 @@ export function addPanelHandleListeners(panel: type.Panel) {
             flag = "being-resized";
             currentPanel = panel;
 
-            panel.classList.add(flag);
+            panel.classList.add(flag, "being-manipulated");
 
             initPreview(panel);
 
