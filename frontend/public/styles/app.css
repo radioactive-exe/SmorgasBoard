@@ -201,6 +201,11 @@ panel-element {
             height: 100%;
             width: 100%;
             outline: none;
+            font-family: inherit;
+            color: var(--text-col);
+        }
+        &::part(notepad-textarea)::placeholder {
+            color: lch(from var(--text-col) calc(l*0.8) c h)
         }
     }
 }

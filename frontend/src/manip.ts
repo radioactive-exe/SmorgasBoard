@@ -1,6 +1,9 @@
-import * as type from "./defs.js";
+import * as type from "./definitions/types.js";
+import { Area, Panel } from "./definitions/classes.js"
+
 import * as utils from "./util.js";
 import * as get from "./accessors.js";
+
 
 var x: number,
     y: number,
@@ -14,10 +17,10 @@ var x: number,
     potentialY: number,
     potentialWidth: number,
     potentialHeight: number,
-    panel: type.Panel;
+    panel: Panel;
 
 function movePanelWithinScreen(
-    panel: type.Panel,
+    panel: Panel,
     e,
     initData: { eventCoords: type.Coordinate; panelPos: type.Coordinate }
 ): void {
@@ -36,7 +39,7 @@ function movePanelWithinScreen(
 }
 
 function resizePanel(
-    panel: type.Panel,
+    panel: Panel,
     e,
     initData: { eventCoords: type.Coordinate; panelSize: type.Size }
 ): void {
@@ -55,7 +58,7 @@ function resizePanel(
 }
 
 function rotatePanel(e: MouseEvent): void {
-    panel = <type.Panel>e.currentTarget;
+    panel = <Panel>e.currentTarget;
     if (!panel.classList.contains("hovering")) {
         panel.dispatchEvent(new Event("mouseenter"));
     }
@@ -104,8 +107,8 @@ function rotateElementStyle(el: HTMLElement, offset: type.Offset) {
 }
 
 function snapElementToGrid(
-    panel: type.Panel,
-    source: type.Panel = panel,
+    panel: Panel,
+    source: Panel = panel,
     shouldAnimate = true
 ) {
     const aspectRatio: number = get.elementAspectRatio(source);
@@ -115,7 +118,7 @@ function snapElementToGrid(
     width = panel.offsetWidth;
     height = panel.offsetHeight;
 
-    var originalArea: type.Area = new type.Area(
+    var originalArea: Area = new Area(
         {
             x,
             y,
@@ -141,7 +144,7 @@ function snapElementToGrid(
         window.innerHeight - source.offsetTop
     );
 
-    var potentialArea: type.Area = new type.Area(
+    var potentialArea: Area = new Area(
         {
             x: potentialX,
             y: potentialY,
@@ -173,8 +176,8 @@ function snapElementToGrid(
 }
 
 function snapElementToTarget(
-    el: type.Panel,
-    target: type.Panel,
+    el: Panel,
+    target: Panel,
     shouldAnimate: boolean = true
 ) {
     if (shouldAnimate) el.classList.add("snapping");

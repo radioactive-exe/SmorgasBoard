@@ -1,7 +1,8 @@
-import * as type from "./defs.js";
+import * as type from "./definitions/types.js";
+import { Dashboard, Panel, Area, PanelType } from "./definitions/classes.js";
+
 import * as utils from "./util.js";
 import * as get from "./accessors.js";
-
 import {
     resizePanel,
     movePanelWithinScreen,
@@ -11,21 +12,18 @@ import {
     rotateElementStyle,
 } from "./manip.js";
 
-export const dashboard: type.Dashboard = document.querySelector<type.Dashboard>(
+
+export const dashboard: Dashboard = document.querySelector<Dashboard>(
     "smorgas-board"
 )
-    ? <type.Dashboard>document.querySelector<type.Dashboard>("smorgas-board")
-    : <type.Dashboard>document.createElement("smorgas-board");
+    ? <Dashboard>document.querySelector<Dashboard>("smorgas-board")
+    : <Dashboard>document.createElement("smorgas-board");
 
 export var dragHandler;
 
-var flag: string, currentPanel: type.Panel;
+var flag: string, currentPanel: Panel;
 
-const preview: type.Panel = new type.Panel(
-    type.Area.INIT,
-    type.PanelType.PREVIEW,
-    -1
-);
+const preview: Panel = new Panel(Area.INIT, PanelType.PREVIEW, -1);
 preview.classList.add("final-preview");
 
 export function releaseHandler(e) {
@@ -93,7 +91,7 @@ export function removePanelHoverListeners(panel): void {
     panel.removeEventListener("mouseleave", exitPanelHoverHandler);
 }
 
-export function addPanelHandleListeners(panel: type.Panel) {
+export function addPanelHandleListeners(panel: Panel) {
     panel.addEventListener("auxclick", () => {
         dashboard.deletePanel(panel);
     });
@@ -158,7 +156,7 @@ export function addPanelHandleListeners(panel: type.Panel) {
         });
 }
 
-function initPreview(i: type.Panel) {
+function initPreview(i: Panel) {
     preview.dataset.callerId = i.dataset.panelId;
     i.parentElement?.prepend(preview);
     snapElementToTarget(preview, i, false);
@@ -169,10 +167,7 @@ function initPreview(i: type.Panel) {
 }
 
 function updateElementDestinationPreview(el): void {
-    snapElementToGrid(
-        <type.Panel>dashboard?.querySelector(".final-preview"),
-        el
-    );
+    snapElementToGrid(<Panel>dashboard?.querySelector(".final-preview"), el);
 }
 
 function updateStoredPanels() {
@@ -202,7 +197,7 @@ document.addEventListener("keydown", async (e) => {
             dashboard.toggleEditMode();
             break;
         case "ArrowLeft":
-            dashboard.spawnPanelOfType(type.PanelType.PHOTO);
+            dashboard.spawnPanelOfType(PanelType.PHOTO);
     }
 });
 

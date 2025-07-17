@@ -1,5 +1,6 @@
+import * as type from "./definitions/types.js";
+import { Area, Panel } from "./definitions/classes.js";
 import { dashboard } from "./app.js";
-import * as type from "./defs.js";
 import * as get from "./accessors.js";
 
 function ignoreEventHandler(e: Event): void {
@@ -17,7 +18,7 @@ function roundToNearest(num: number, stepSize: number): number {
     return converted;
 }
 
-function areaCollisionWithElement(area: type.Area, el: type.Panel): boolean {
+function areaCollisionWithElement(area: Area, el: Panel): boolean {
     return !(
         area.getAbsoluteY() + area.getAbsoluteHeight() < el.offsetTop + 10 ||
         area.getAbsoluteY() >= el.offsetTop + el.offsetHeight - 20 ||
@@ -26,7 +27,7 @@ function areaCollisionWithElement(area: type.Area, el: type.Panel): boolean {
     );
 }
 
-function collidesWithAnyPanel(self: HTMLElement, area: type.Area): boolean {
+function collidesWithAnyPanel(self: HTMLElement, area: Area): boolean {
     var flag = false;
 
     dashboard.panels.forEach((i) => {
