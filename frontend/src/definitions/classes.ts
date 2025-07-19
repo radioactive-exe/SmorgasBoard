@@ -707,23 +707,18 @@ class Dashboard extends HTMLElement {
             } else {
                 let loadedPanels: PanelInstance[] = JSON.parse(loadedString);
 
-                var index = 0;
-                const formattedPanels: Panel[] = loadedPanels.map(
+                loadedPanels.map(
                     (i: PanelInstance) => {
-                        return new Panel(
+                        this.spawnPanel(new Panel(
                             new Area(i.area.pos, i.area.size),
                             PanelType.getTypeFromId(i.panel_type_id),
                             i.panel_id,
                             i.content
-                        );
+                        ));
                     }
                 );
-
-                this.panels = formattedPanels;
             }
         }
-
-        this.append(...this.panels);
 
         var loadedIds: number[]= Array.prototype.concat(JSON.parse(localStorage.getItem("free-panel-ids") ?? "[]"));
         
