@@ -1,5 +1,20 @@
-import { addPanelHandleListeners, movePanelHoverHandler, exitPanelHoverHandler, enterPanelHoverHandler } from "../app.js";
-import { AreaInstance, Coordinate, PanelInstance, PanelTypeData, PanelTypeName, PanelTypeTemplate, Size, Theme } from "./types.js";
+import {
+    addPanelHandleListeners,
+    movePanelHoverHandler,
+    exitPanelHoverHandler,
+    enterPanelHoverHandler,
+    removePanelHoverListeners,
+} from "../app.js";
+import {
+    AreaInstance,
+    Coordinate,
+    PanelInstance,
+    PanelTypeData,
+    PanelTypeName,
+    PanelTypeTemplate,
+    Size,
+    Theme,
+} from "./types.js";
 import { snapElementToGrid } from "../manip.js";
 import * as get from "../accessors.js";
 
@@ -348,6 +363,10 @@ class PanelType {
     }
 }
 
+abstract class AbstractPanel {
+
+}
+
 /**
  * DESC: A custom HTMLElement, implements many methods for custom use with the program to make work more efficient
  *
@@ -374,7 +393,7 @@ class Panel extends HTMLElement {
         private type: PanelType,
         private dashboardId: number,
         body?: string
-        // private readonly potentialAspectRatios : number[] | null
+        // private readonly potentialAspectRatios: number[] | null
     ) {
         super();
 
@@ -385,7 +404,11 @@ class Panel extends HTMLElement {
         this.dataset.panelId = dashboardId + "";
         this.dataset.panelType = type.toString();
 
-        if (body) this.innerHTML = body;
+        if (body) this.setContent(body);
+    }
+
+    public getId() {
+        return this.dashboardId;
     }
 
     /**
@@ -550,8 +573,38 @@ class Panel extends HTMLElement {
         });
     }
 
+    public getContent(): Object {
+        switch (this.type) {
+            case PanelType.NOTEPAD:
+                return {
+                    body: this.shadowRoot?.querySelector("textarea")?.value,
+                };
+                break;
+        }
+        return {};
+    }
 
-    
+    public setContent(contentString: string): void {
+        const content = JSON.parse(contentString);
+        try {
+            switch (this.type) {
+                case PanelType.NOTEPAD:
+                    this.shadowRoot!.querySelector<HTMLTextAreaElement>(
+                        "textarea"
+                    )!.value = content.body;
+                    break;
+                case PanelType.PHOTO:
+                    this.shadowRoot!.querySelector<HTMLTextAreaElement>(
+                        "textarea"
+                    )!.value = content.body;
+                    break;
+            }
+        } catch (error) {
+            setTimeout(() => {
+                this.setContent(contentString);
+            }, 50);
+        }
+    }
 
     public static defaultPanel(): Panel {
         return new Panel(Area.INIT, PanelType.DEFAULT, 0);
@@ -559,8 +612,9 @@ class Panel extends HTMLElement {
 }
 
 class Dashboard extends HTMLElement {
-    public panels: Panel[];
+    private panels: Panel[];
     private currentTheme: Theme;
+    private freeIds: Set<number>;
 
     public constructor() {
         super();
@@ -577,7 +631,17 @@ class Dashboard extends HTMLElement {
         }
         this.shadowRoot?.append(cells);
         this.shadowRoot?.append(document.createElement("slot"));
+        this.freeIds = new Set<number>;
+        this.panels = [];
         this.loadStoredPanels();
+    }
+
+    public getPanels(): Panel[] {
+        return this.panels;
+    }
+
+    public getFreeIds(): Set<number> {
+        return this.freeIds;
     }
 
     public isEditing(): boolean {
@@ -586,21 +650,32 @@ class Dashboard extends HTMLElement {
 
     public toggleEditMode(): void {
         this.classList.toggle("in-edit-mode");
+        if (this.isEditing()) {
+            var activePanel = document.querySelector("panel-element.hovering");
+            if (activePanel) activePanel.dispatchEvent(new Event("mouseleave"));
+        }
     }
 
     public spawnPanelOfType(panelType: PanelType) {
-        this.spawnPanel(new Panel(Area.INIT, panelType, this.panels.length));
+        var id;
+        if (this.freeIds.size > 0) {
+            id = this.freeIds.values().next().value;
+            this.freeIds.delete(id)
+        } else id = this.panels.length;
+        this.spawnPanel(new Panel(Area.INIT, panelType, id));
     }
 
     public spawnPanel(panel: Panel) {
         this.append(panel);
         this.panels.push(panel);
+        this.updateStoredPanels();
     }
 
     public deletePanel(panel: Panel) {
-        // this.panels.slice(parseInt(<string>panel.dataset.panelId)).forEach(i => {
-        //     if ()
-        // });
+        this.panels.splice(this.panels.indexOf(panel), 1);
+        this.freeIds.add(panel.getId());
+        this.removeChild(panel);
+        this.updateStoredPanels();
     }
 
     public organiseElements() {
@@ -625,10 +700,10 @@ class Dashboard extends HTMLElement {
         } else {
             let loadedString = localStorage.getItem("local-panel-storage");
 
-            if (loadedString == null) {
+            if (loadedString == null || loadedString == "[]") {
                 console.warn("No stored panels! Initiating base board.");
 
-                this.panels = [Panel.defaultPanel()];
+                this.spawnPanelOfType(PanelType.DEFAULT);
             } else {
                 let loadedPanels: PanelInstance[] = JSON.parse(loadedString);
 
@@ -649,6 +724,29 @@ class Dashboard extends HTMLElement {
         }
 
         this.append(...this.panels);
+
+        var loadedIds: number[]= Array.prototype.concat(JSON.parse(localStorage.getItem("free-panel-ids") ?? "[]"));
+        
+        loadedIds.forEach((i) => {
+            this.freeIds.add(i);
+        });
+    }
+
+    public updateStoredPanels() {
+        var panelStorage: PanelInstance[] = this.panels.map(
+            (i): PanelInstance => {
+                // console.log(i.getContent());
+                return {
+                    panel_id: parseInt(i.dataset.panelId ? i.dataset.panelId : "0"),
+                    panel_type_id: i.getType().getId(),
+                    area: i.getArea().toJson(),
+                    content: JSON.stringify(i.getContent()),
+                };
+            }
+        );
+    
+        localStorage.setItem("local-panel-storage", JSON.stringify(panelStorage));
+        localStorage.setItem("free-panel-ids", JSON.stringify([...this.freeIds]));
     }
 
     public getCurrentTheme(): Theme {
@@ -667,10 +765,4 @@ class Dashboard extends HTMLElement {
 window.customElements.define("panel-element", Panel);
 window.customElements.define("smorgas-board", Dashboard);
 
-
-export {
-    Area,
-    Panel,
-    PanelType,
-    Dashboard
-}
+export { Area, Panel, PanelType, Dashboard };

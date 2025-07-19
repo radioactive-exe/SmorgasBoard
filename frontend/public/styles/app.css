@@ -43,7 +43,7 @@ smorgas-board {
 
     & .final-preview {
         background: var(--preview-bg);
-        opacity: 1;
+        opacity: 0;
 
         position: absolute;
 
@@ -59,6 +59,14 @@ smorgas-board {
         &:has(~ .being-resized) {
             opacity: 1;
         }
+
+        &.snapping {
+            transition: var(--panel-transition-time) ease;
+        }
+
+        &.visible {
+            opacity: 1;
+        }
     }
 
     & panel-element {
@@ -67,6 +75,7 @@ smorgas-board {
         --min-height: 1fr;
 
         /* --forced-aspect-ratio: 1:2; */
+        transition: filter var(--panel-transition-time) ease;
 
         position: fixed;
         left: calc(var(--x));
@@ -78,12 +87,30 @@ smorgas-board {
         &::part(panel-body) {
             transform:
                 rotateX(var(--rotate-x)) rotateY(var(--rotate-y));
-            filter: drop-shadow(var(--shadow-offset-x) var(--shadow-offset-y) 0rem black);
             border-radius: var(--panel-border-radius);
             background: var(--panel-bg);
             position: absolute;
             inset: var(--panel-body-inset);
             transition: all var(--panel-transition-time) ease;
+        }
+
+        &:hover {
+
+            &::part(panel-body) {
+                filter: drop-shadow(var(--shadow-offset-x) 1rem 0.2rem rgb(from black r g b / 0.2));
+            }
+
+            &::part(panel-body)::after {
+                transition: var(--quick-transition-time);
+                /* background: radial-gradient(rgba(255, 255, 255, 0.36), transparent, transparent); */
+                content: '';
+                width: 20rem;
+                height: 20rem;
+                pointer-events: none;
+                position: absolute;
+                bottom: var(--shadow-offset-y);
+                right: var(--shadow-offset-x);
+            }
         }
 
         &::part(panel-body in-motion) {
@@ -118,6 +145,8 @@ smorgas-board {
                     height: var(--square-handle-full-side);
                 }
             }
+
+            pointer-events: none;
         }
 
         &.snapping:not(.final-preview) {
@@ -196,33 +225,129 @@ panel-element {
         }
 
         &::part(notepad-textarea) {
+            transition: var(--quick-transition-time);
             resize: none;
             background: var(--textarea-bg);
             height: 100%;
-            width: 100%;
             outline: none;
             font-family: inherit;
             color: var(--text-col);
+            border-radius: var(--small-border-radius);
+            border: none;
         }
+
+        &::part(notepad-textarea):focus {
+            background: hsl(from var(--textarea-bg) h s calc(l * 0.9));
+        }
+
         &::part(notepad-textarea)::placeholder {
-            color: lch(from var(--text-col) calc(l*0.8) c h)
+            color: lch(from var(--text-col) calc(l*0.8) c h);
         }
     }
 }
 
+.context-menu {
+    position: absolute;
+    visibility: hidden;
+    width: 20rem;
+    height: 16rem;
+    padding: 0.5rem;
+    color: var(--text-col);
 
-.snapping,
-.snapping>* {
-    transition: 0.3s ease;
-    pointer-events: none;
+    .menu {
+        position: absolute;
+        border-radius: var(--small-border-radius);
+        background: var(--panel-bg);
+        filter: drop-shadow(0rem 0rem 0.5rem rgba(0, 0, 0, 0.262));
+        display: flex;
+        margin: 0.5rem;
+        width: 100%;
+        flex-direction: column;
+        transition: width var(--quick-transition-time) ease, background var(--quick-transition-time) ease;
+        list-style: none;
+        /* overflow: hidden; */
+
+
+        & .item {
+            transition: inherit;
+            cursor: pointer;
+            padding: 0.5rem;
+            width: 100%;
+            height: 3rem;
+            border-radius: var(--small-border-radius);
+            font-size: 2.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 0.2rem 0;
+            max-height: min-content;
+            overflow: visible;
+
+            &:hover {
+                background: var(--cell-bg);
+            }
+
+            & .item-icon {
+                width: 2rem;
+                height: 2rem;
+                pointer-events: none;
+                user-select: none;
+                background-color: var(--text-col);
+                -webkit-mask: var(--icon-svg) no-repeat center;
+                mask: var(--icon-svg) no-repeat center;
+                mask-size: contain;
+            }
+
+            & span {
+                user-select: none;
+            }
+
+            & .theme-menu {
+                position: absolute;
+                width: 0;
+                overflow: hidden;
+            }
+
+            &#theme-item:hover .theme-menu {
+                width: inherit;
+            }
+
+            
+        }
+
+        & #remove-panel-section {
+
+            transition: inherit;
+
+            &:not(.visible) {
+                visibility: hidden;
+                height: 0;
+                padding: 0;
+                margin: 0;
+            }
+        }
+
+        & a {
+            display: inherit;
+            transition: inherit;
+            align-items: inherit;
+            font-size: inherit;
+            justify-content: inherit;
+            width: 100%;
+            height: 100%;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        & .context-menu-spacer {
+            height: 0.1rem;
+            backdrop-filter: brightness(0.8);
+        }
+    }
 }
 
 .disappearing {
-    animation: spawnIn reverse forwards 0.2s ease;
-}
-
-.appearing {
-    animation: spawnIn 0.2s ease;
+    animation: spawnIn reverse var(--panel-transition-time) ease !important;
 }
 
 @keyframes spawnIn {

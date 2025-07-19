@@ -12,32 +12,47 @@ import {
     rotateElementStyle,
 } from "./manip.js";
 
-
-export const dashboard: Dashboard = document.querySelector<Dashboard>(
-    "smorgas-board"
-)
-    ? <Dashboard>document.querySelector<Dashboard>("smorgas-board")
-    : <Dashboard>document.createElement("smorgas-board");
-
-export var dragHandler;
-
+export const dashboard: Dashboard =
+    <Dashboard>document.querySelector("smorgas-board") ??
+    <Dashboard>document.createElement("smorgas-board");
+const contextMenu = document.querySelector<HTMLElement>(".context-menu");
+const editModeButton = document.querySelector<HTMLElement>("#edit-mode-button");
+const deletePanelSection = document.querySelector<HTMLElement>("#remove-panel-section");
+const deletePanelButton = document.querySelector<HTMLElement>("#remove-panel-button");
 var flag: string, currentPanel: Panel;
+var contextMenuDeleteTimeout;
 
 const preview: Panel = new Panel(Area.INIT, PanelType.PREVIEW, -1);
 preview.classList.add("final-preview");
+export var dragHandler;
+
+function keepContextMenu(e: Event) {
+    clearTimeout(contextMenuDeleteTimeout);
+}
+
+function removeContextMenu(e: Event) {
+    if (!contextMenu) return;
+
+    contextMenuDeleteTimeout = setTimeout(() => {
+        contextMenu.style.visibility = "hidden";
+        contextMenu.removeEventListener("mouseleave", removeContextMenu);
+    }, 1000);
+
+}
 
 export function releaseHandler(e) {
     snapElementToTarget(currentPanel, preview);
 
-    preview.classList.add("disappearing");
+    snapElementToTarget(preview, preview);
+    preview.classList.remove("visible");
     currentPanel.classList.remove(flag, "being-manipulated");
 
-    updateStoredPanels();
-
-    utils.removeClassAfterTransition(preview, "disappearing", true);
+    dashboard.updateStoredPanels();
 
     document.removeEventListener("mouseup", releaseHandler);
     document.removeEventListener("mousemove", dragHandler);
+
+    utils.deleteAfterTransition(preview);
 }
 
 export function enterPanelHoverHandler(e) {
@@ -68,12 +83,12 @@ export function movePanelHoverHandler(e) {
 }
 
 export function exitPanelHoverHandler(e) {
-    if (dashboard.isEditing()) return;
     rotateElementStyle(e.target, {
         rotation: { x: 0, y: 0 },
         shadow: { x: 0, y: 0 },
     });
-
+    
+    if (dashboard.isEditing()) return;
     const panel = e.currentTarget.shadowRoot?.querySelector(".panel-body");
     panel.part = "panel-body";
     e.currentTarget.classList.remove("hovering");
@@ -92,9 +107,6 @@ export function removePanelHoverListeners(panel): void {
 }
 
 export function addPanelHandleListeners(panel: Panel) {
-    panel.addEventListener("auxclick", () => {
-        dashboard.deletePanel(panel);
-    });
 
     panel.shadowRoot
         ?.querySelector<HTMLElement>(".drag-handle")
@@ -160,29 +172,12 @@ function initPreview(i: Panel) {
     preview.dataset.callerId = i.dataset.panelId;
     i.parentElement?.prepend(preview);
     snapElementToTarget(preview, i, false);
-    preview.classList.add("appearing");
+    preview.classList.add("visible");
     updateElementDestinationPreview(i);
-
-    utils.removeClassAfterTransition(preview, "appearing");
 }
 
 function updateElementDestinationPreview(el): void {
     snapElementToGrid(<Panel>dashboard?.querySelector(".final-preview"), el);
-}
-
-function updateStoredPanels() {
-    var panelStorage: type.PanelInstance[] = dashboard.panels.map(
-        (i): type.PanelInstance => {
-            return {
-                panel_id: parseInt(i.dataset.panelId ? i.dataset.panelId : "0"),
-                panel_type_id: i.getType().getId(),
-                area: i.getArea().toJson(),
-                content: i.innerHTML,
-            };
-        }
-    );
-
-    localStorage.setItem("local-panel-storage", JSON.stringify(panelStorage));
 }
 
 document.addEventListener("keydown", async (e) => {
@@ -197,9 +192,56 @@ document.addEventListener("keydown", async (e) => {
             dashboard.toggleEditMode();
             break;
         case "ArrowLeft":
-            dashboard.spawnPanelOfType(PanelType.PHOTO);
+            dashboard.spawnPanelOfType(PanelType.NOTEPAD);
     }
 });
+
+dashboard.addEventListener("contextmenu", (e) => {
+    e.preventDefault();
+    var themeMenu = document.querySelector<HTMLElement>(".theme-menu");
+    if (contextMenu == null || themeMenu == null) return;
+
+    if (e.target instanceof Panel) {
+        currentPanel = e.target;
+        deletePanelSection?.classList.add("visible");
+    }
+    else (deletePanelSection?.classList.remove("visible"))
+
+    try {
+        if (e.pageX > window.innerWidth - 2 * contextMenu.offsetWidth)
+            themeMenu.style.left = "-102%";
+        else themeMenu.style.left = "98%";
+
+        clearTimeout(contextMenuDeleteTimeout);
+
+        contextMenu.style.left =
+            utils.clamp(
+                e.pageX,
+                0,
+                window.innerWidth - contextMenu.offsetWidth - 10
+            ) + "px";
+        contextMenu.style.top =
+            utils.clamp(
+                e.pageY - 0.5 * contextMenu.offsetHeight,
+                0,
+                window.innerHeight - contextMenu.offsetHeight + 10
+            ) + "px";
+        contextMenu.style.visibility = "visible";
+
+        contextMenu.addEventListener("mouseenter", keepContextMenu);
+        contextMenu.addEventListener("mouseleave", removeContextMenu);
+    } catch (error) {
+        console.error(error);
+    }
+});
+
+editModeButton?.addEventListener("click", () => {
+    dashboard.toggleEditMode();
+});
+
+deletePanelButton?.addEventListener("click", () => {
+    dashboard.deletePanel(currentPanel);
+})
 
 // ~ Function Calls
 

@@ -1,17 +1,70 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SmorgasBoard</title>
-    <link id="app-style" rel="stylesheet" href="styles/app.css">
-    <link id="app-theme" rel="stylesheet" href="themes/default.css">
-</head>
-<body>
-    
-    <smorgas-board id="dashboard">
-    </smorgas-board>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>SmorgasBoard</title>
+        <link id="app-style" rel="stylesheet" href="styles/app.css" />
+        <link id="app-theme" rel="stylesheet" href="themes/default.css" />
+    </head>
+    <body>
+        <smorgas-board id="dashboard"> </smorgas-board>
 
-    <script type="module" src="./dist/app.js"></script>
-</body>
+        <div class="context-menu">
+            <ul class="menu">
+                <div class="section" id="remove-panel-section">
+                    <li class="item" id="remove-panel-button">
+                        <div
+                            class="item-icon"
+                            style="--icon-svg: url(../assets/graphics/trash.svg);"
+                        ></div>
+                        <span>Delete Panel</span>
+                    </li>
+                    <li class="context-menu-spacer"></li>
+                </div>
+                <li class="item" id="edit-mode-button">
+                    <div
+                        class="item-icon"
+                        style="--icon-svg: url(../assets/graphics/edit.svg)"
+                    ></div>
+                    <span>Toggle Edit Mode</span>
+                </li>
+                <li class="item">
+                    <div
+                        class="item-icon"
+                        style="--icon-svg: url(../assets/graphics/square-plus.svg);"
+                    ></div>
+                    <span>Add new Panel</span>
+                </li>
+                <li class="item" id="theme-item">
+                    <div
+                        class="item-icon"
+                        style="--icon-svg: url(../assets/graphics/palette.svg)"
+                    ></div>
+                    <span>Change Theme</span>
+                    <div
+                        class="item-icon"
+                        style="--icon-svg: url(../assets/graphics/angle-small-right.svg)"
+                    ></div>
+                    <ul class="menu theme-menu">
+                        <li class="item"><span>Default</span></li>
+                        <li class="item"><span>Second</span></li>
+                        <li class="item"><span>Third</span></li>
+                    </ul>
+                </li>
+                <li class="context-menu-spacer"></li>
+                <a href="https://github.com/radioactive-exe">
+                <li class="item">
+                    <div
+                        class="item-icon"
+                        style="--icon-svg: url(../assets/graphics/copyright.svg)"
+                    ></div>
+                        <span>Radioactive.exe 2025</span>
+                    </li>
+                </a>
+            </ul>
+        </div>
+
+        <script type="module" src="./dist/app.js"></script>
+    </body>
 </html>

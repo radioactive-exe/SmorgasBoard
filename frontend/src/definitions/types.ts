@@ -39,7 +39,7 @@ class Theme {
     private constructor(
         private readonly id: number,
         private readonly name: string,
-        private readonly url: string // private readonly mode :
+        private readonly url: string // private readonly mode:
     ) {}
 
     /**

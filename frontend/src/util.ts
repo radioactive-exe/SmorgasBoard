@@ -30,12 +30,10 @@ function areaCollisionWithElement(area: Area, el: Panel): boolean {
 function collidesWithAnyPanel(self: HTMLElement, area: Area): boolean {
     var flag = false;
 
-    dashboard.panels.forEach((i) => {
+    dashboard.getPanels().forEach((i) => {
         if (
             i.dataset.panelId !=
-                (self.dataset.callerId
-                    ? self.dataset.callerId
-                    : self.dataset.panelId) &&
+                (self.dataset.callerId ?? self.dataset.panelId) &&
             areaCollisionWithElement(area, i)
         ) {
             flag = true;
@@ -56,6 +54,14 @@ function removeClassAfterTransition(
     }, get.normalisedCssPropertyValue(el, "transition-duration"));
 }
 
+function deleteAfterTransition(
+    el: Element
+): void {
+    setTimeout(() => {
+        dashboard?.removeChild(el);
+    }, get.normalisedCssPropertyValue(el, "transition-duration"));
+}
+
 export {
     ignoreEventHandler,
     clamp,
@@ -63,4 +69,5 @@ export {
     areaCollisionWithElement,
     collidesWithAnyPanel,
     removeClassAfterTransition,
+    deleteAfterTransition
 };
