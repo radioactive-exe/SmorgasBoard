@@ -614,7 +614,7 @@ class Panel extends HTMLElement {
 class Dashboard extends HTMLElement {
     private panels: Panel[];
     private currentTheme: Theme;
-    private freeIds: Set<number>;
+    private freeIds: Set<number> = new Set<number>;
 
     public constructor() {
         super();
@@ -631,7 +631,6 @@ class Dashboard extends HTMLElement {
         }
         this.shadowRoot?.append(cells);
         this.shadowRoot?.append(document.createElement("slot"));
-        this.freeIds = new Set<number>;
         this.panels = [];
         this.loadStoredPanels();
     }
@@ -685,6 +684,15 @@ class Dashboard extends HTMLElement {
     }
 
     public loadStoredPanels(): void {
+
+        var loadedIds: number[] = Array.prototype.concat(
+            JSON.parse(localStorage.getItem("free-panel-ids") ?? "[]")
+        );
+
+        loadedIds.forEach((i) => {
+            this.freeIds.add(i);
+        });
+        
         let queriedPanels: Panel[] = [
             ...document.querySelectorAll<Panel>("panel-element"),
         ];
@@ -719,12 +727,6 @@ class Dashboard extends HTMLElement {
                 );
             }
         }
-
-        var loadedIds: number[]= Array.prototype.concat(JSON.parse(localStorage.getItem("free-panel-ids") ?? "[]"));
-        
-        loadedIds.forEach((i) => {
-            this.freeIds.add(i);
-        });
     }
 
     public updateStoredPanels() {
