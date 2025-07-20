@@ -13,34 +13,37 @@ import {
 } from "./manip.js";
 
 export const dashboard: Dashboard =
-    <Dashboard>document.querySelector("smorgas-board") ??
-    <Dashboard>document.createElement("smorgas-board");
+    (document.querySelector("smorgas-board") as Dashboard) ??
+    (document.createElement("smorgas-board") as Dashboard);
 const contextMenu = document.querySelector<HTMLElement>(".context-menu");
 const editModeButton = document.querySelector<HTMLElement>("#edit-mode-button");
-const deletePanelSection = document.querySelector<HTMLElement>("#remove-panel-section");
-const deletePanelButton = document.querySelector<HTMLElement>("#remove-panel-button");
-var flag: string, currentPanel: Panel;
-var contextMenuDeleteTimeout;
+const deletePanelSection = document.querySelector<HTMLElement>(
+    "#remove-panel-section"
+);
+const deletePanelButton = document.querySelector<HTMLElement>(
+    "#remove-panel-button"
+);
+let flag: string, currentPanel: Panel;
+let contextMenuDeleteTimeout: NodeJS.Timeout;
 
 const preview: Panel = new Panel(Area.INIT, PanelType.PREVIEW, -1);
 preview.classList.add("final-preview");
-export var dragHandler;
+export let dragHandler: (e: Event) => void;
 
-function keepContextMenu(e: Event) {
+function keepContextMenu(): void {
     clearTimeout(contextMenuDeleteTimeout);
 }
 
-function removeContextMenu(e: Event) {
+function removeContextMenu(): void {
     if (!contextMenu) return;
 
     contextMenuDeleteTimeout = setTimeout(() => {
         contextMenu.style.visibility = "hidden";
         contextMenu.removeEventListener("mouseleave", removeContextMenu);
     }, 1000);
-
 }
 
-export function releaseHandler(e) {
+export function releaseHandler(): void {
     snapElementToTarget(currentPanel, preview);
 
     snapElementToTarget(preview, preview);
@@ -55,59 +58,63 @@ export function releaseHandler(e) {
     utils.deleteAfterTransition(preview);
 }
 
-export function enterPanelHoverHandler(e) {
+export function enterPanelHoverHandler(e: MouseEvent): void {
     if (dashboard.isEditing()) return;
-    const target = e.currentTarget;
-    const panel = target.shadowRoot?.querySelector(".panel-body");
+    const target: Panel = e.currentTarget as Panel;
+    const panel: Panel = target?.shadowRoot?.querySelector(".panel-body") as Panel;
 
-    if (!panel.classList.contains("moving")) {
+    if (!panel?.classList.contains("moving")) {
         target.classList.add("hovering");
-        setTimeout(() => {
-            if (target.classList.contains("hovering")) {
-                panel.part = "panel-body in-motion";
-            }
-        }, get.normalisedCssPropertyValue(panel, "transition-duration"));
+        setTimeout(
+            () => {
+                if (target.classList.contains("hovering")) {
+                    if (panel) panel.part = "panel-body in-motion";
+                }
+            },
+            get.normalisedCssPropertyValue(panel, "transition-duration")
+        );
     }
 }
 
-export function movePanelHoverHandler(e) {
+export function movePanelHoverHandler(e: MouseEvent): void {
     if (dashboard.isEditing()) return;
     e.stopPropagation();
     if (
-        !e.currentTarget.shadowRoot
+        !(e.currentTarget as Panel)?.shadowRoot
             ?.querySelector(".panel-body")
-            .classList.contains("moving")
+            ?.classList.contains("moving")
     ) {
         rotatePanel(e);
     }
 }
 
-export function exitPanelHoverHandler(e) {
-    rotateElementStyle(e.target, {
+export function exitPanelHoverHandler(e: MouseEvent): void {
+    rotateElementStyle(e.target as HTMLElement, {
         rotation: { x: 0, y: 0 },
         shadow: { x: 0, y: 0 },
     });
-    
+
     if (dashboard.isEditing()) return;
-    const panel = e.currentTarget.shadowRoot?.querySelector(".panel-body");
-    panel.part = "panel-body";
-    e.currentTarget.classList.remove("hovering");
+    const panel = (e.currentTarget as Panel)?.shadowRoot?.querySelector(
+        ".panel-body"
+    );
+    if (panel) panel.part = "panel-body";
+    (e.currentTarget as Panel)?.classList.remove("hovering");
 }
 
-export function setDocumentHandlers() {
+export function setDocumentHandlers(): void {
     document.addEventListener("mousemove", dragHandler);
     document.addEventListener("mouseup", releaseHandler);
 }
 
-export function removePanelHoverListeners(panel): void {
+export function removePanelHoverListeners(panel: Panel): void {
     panel.removeEventListener("mouseenter", enterPanelHoverHandler);
     panel.removeEventListener("mousemove", movePanelHoverHandler);
     panel.dispatchEvent(new Event("mouseleave"));
     panel.removeEventListener("mouseleave", exitPanelHoverHandler);
 }
 
-export function addPanelHandleListeners(panel: Panel) {
-
+export function addPanelHandleListeners(panel: Panel): void {
     panel.shadowRoot
         ?.querySelector<HTMLElement>(".drag-handle")
         ?.addEventListener("mousedown", (e) => {
@@ -128,9 +135,9 @@ export function addPanelHandleListeners(panel: Panel) {
                 },
             };
 
-            dragHandler = (e) => {
-                e.preventDefault;
-                movePanelWithinScreen(panel, e, initData);
+            dragHandler = (e): void => {
+                e.preventDefault();
+                movePanelWithinScreen(panel, e as MouseEvent, initData);
                 updateElementDestinationPreview(panel);
             };
 
@@ -158,9 +165,9 @@ export function addPanelHandleListeners(panel: Panel) {
                 },
             };
 
-            dragHandler = (e) => {
-                e.preventDefault;
-                resizePanel(panel, e, initData);
+            dragHandler = (e): void => {
+                e.preventDefault();
+                resizePanel(panel, e as MouseEvent, initData);
                 updateElementDestinationPreview(panel);
             };
 
@@ -168,7 +175,7 @@ export function addPanelHandleListeners(panel: Panel) {
         });
 }
 
-function initPreview(i: Panel) {
+function initPreview(i: Panel): void {
     preview.dataset.callerId = i.dataset.panelId;
     i.parentElement?.prepend(preview);
     snapElementToTarget(preview, i, false);
@@ -176,8 +183,8 @@ function initPreview(i: Panel) {
     updateElementDestinationPreview(i);
 }
 
-function updateElementDestinationPreview(el): void {
-    snapElementToGrid(<Panel>dashboard?.querySelector(".final-preview"), el);
+function updateElementDestinationPreview(el: Panel): void {
+    snapElementToGrid(dashboard?.querySelector(".final-preview") as Panel, el);
 }
 
 document.addEventListener("keydown", async (e) => {
@@ -198,14 +205,13 @@ document.addEventListener("keydown", async (e) => {
 
 dashboard.addEventListener("contextmenu", (e) => {
     e.preventDefault();
-    var themeMenu = document.querySelector<HTMLElement>(".theme-menu");
+    const themeMenu = document.querySelector<HTMLElement>(".theme-menu");
     if (contextMenu == null || themeMenu == null) return;
 
     if (e.target instanceof Panel) {
         currentPanel = e.target;
         deletePanelSection?.classList.add("visible");
-    }
-    else (deletePanelSection?.classList.remove("visible"))
+    } else deletePanelSection?.classList.remove("visible");
 
     try {
         if (e.pageX > window.innerWidth - 2 * contextMenu.offsetWidth)
@@ -241,7 +247,7 @@ editModeButton?.addEventListener("click", () => {
 
 deletePanelButton?.addEventListener("click", () => {
     dashboard.deletePanel(currentPanel);
-})
+});
 
 // ~ Function Calls
 

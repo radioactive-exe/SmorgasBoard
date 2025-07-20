@@ -1,9 +1,9 @@
+/* eslint-disable no-async-promise-executor */
 import {
     addPanelHandleListeners,
     movePanelHoverHandler,
     exitPanelHoverHandler,
-    enterPanelHoverHandler,
-    removePanelHoverListeners,
+    enterPanelHoverHandler
 } from "../app.js";
 import {
     AreaInstance,
@@ -363,9 +363,9 @@ class PanelType {
     }
 }
 
-abstract class AbstractPanel {
+// abstract class AbstractPanel {
 
-}
+// }
 
 /**
  * DESC: A custom HTMLElement, implements many methods for custom use with the program to make work more efficient
@@ -407,7 +407,7 @@ class Panel extends HTMLElement {
         if (body) this.setContent(body);
     }
 
-    public getId() {
+    public getId(): number {
         return this.dashboardId;
     }
 
@@ -541,31 +541,31 @@ class Panel extends HTMLElement {
      * @memberof Panel
      */
     private async initTemplate(): Promise<void> {
-        return new Promise(async (resolve, reject) => {
-            var response = await fetch(this.type.getTemplate()).then((res) =>
+        return new Promise(async (resolve) => {
+            const response = await fetch(this.type.getTemplate()).then((res) =>
                 res.json()
             );
-            var responseBody = await new DOMParser().parseFromString(
+            const responseBody = await new DOMParser().parseFromString(
                 response.panel_template,
                 "text/html"
             );
             const template =
                 responseBody.querySelector<HTMLTemplateElement>("template");
-            var shadow = this.attachShadow({ mode: "open" });
+            const shadow = this.attachShadow({ mode: "open" });
             if (this.type != PanelType.PREVIEW && template)
                 shadow.prepend(template.content.cloneNode(true));
             resolve();
         });
     }
 
-    private async init() {
+    private async init(): Promise<void> {
         this.initTemplate().then(() =>
             this.addHoverListeners().then(() => addPanelHandleListeners(this))
         );
     }
 
     public addHoverListeners(): Promise<void> {
-        return new Promise((resolve, reject) => {
+        return new Promise((resolve) => {
             this.addEventListener("mousemove", movePanelHoverHandler);
             this.addEventListener("mouseleave", exitPanelHoverHandler);
             this.addEventListener("mouseenter", enterPanelHoverHandler);
@@ -573,11 +573,12 @@ class Panel extends HTMLElement {
         });
     }
 
-    public getContent(): Object {
+    public getContent(): object {
         switch (this.type) {
             case PanelType.NOTEPAD:
                 return {
-                    body: this.shadowRoot?.querySelector("textarea")?.value,
+                    body:
+                        this.shadowRoot?.querySelector("textarea")?.value ?? "",
                 };
                 break;
         }
@@ -586,20 +587,25 @@ class Panel extends HTMLElement {
 
     public setContent(contentString: string): void {
         const content = JSON.parse(contentString);
+        let focus;
         try {
+            if (this.shadowRoot == null) return;
             switch (this.type) {
                 case PanelType.NOTEPAD:
-                    this.shadowRoot!.querySelector<HTMLTextAreaElement>(
+                    focus = this.shadowRoot?.querySelector<HTMLTextAreaElement>(
                         "textarea"
-                    )!.value = content.body;
+                    );
+                    if (focus) focus.value = content.body;
                     break;
                 case PanelType.PHOTO:
-                    this.shadowRoot!.querySelector<HTMLTextAreaElement>(
+                    focus = this.shadowRoot?.querySelector<HTMLTextAreaElement>(
                         "textarea"
-                    )!.value = content.body;
+                    );
+                    if (focus) focus.value = content.body;
                     break;
             }
         } catch (error) {
+            console.error(error);
             setTimeout(() => {
                 this.setContent(contentString);
             }, 50);
@@ -619,18 +625,18 @@ class Dashboard extends HTMLElement {
     public constructor() {
         super();
 
-        let shadow = this.attachShadow({ mode: "open" });
+        const shadow = this.attachShadow({ mode: "open" });
 
-        let cells = document.createElement("div");
+        const cells = document.createElement("div");
         cells.part = "cell-container";
-        for (var i = 0; i < get.dashboardRows() * get.dashboardCols(); i++) {
+        for (let i = 0; i < get.dashboardRows() * get.dashboardCols(); i++) {
             const cell = document.createElement("div");
             cell.classList.add("cell");
             cell.part = "cell";
             cells.append(cell);
         }
-        this.shadowRoot?.append(cells);
-        this.shadowRoot?.append(document.createElement("slot"));
+        shadow.append(cells);
+        shadow.append(document.createElement("slot"));
         this.panels = [];
         this.loadStoredPanels();
     }
@@ -650,34 +656,34 @@ class Dashboard extends HTMLElement {
     public toggleEditMode(): void {
         this.classList.toggle("in-edit-mode");
         if (this.isEditing()) {
-            var activePanel = document.querySelector("panel-element.hovering");
+            const activePanel = document.querySelector("panel-element.hovering");
             if (activePanel) activePanel.dispatchEvent(new Event("mouseleave"));
         }
     }
 
-    public spawnPanelOfType(panelType: PanelType) {
-        var id;
+    public spawnPanelOfType(panelType: PanelType): void {
+        let id: number;
         if (this.freeIds.size > 0) {
-            id = this.freeIds.values().next().value;
+            id = this.freeIds.values().next().value ?? 0;
             this.freeIds.delete(id)
         } else id = this.panels.length;
         this.spawnPanel(new Panel(Area.INIT, panelType, id));
     }
 
-    public spawnPanel(panel: Panel) {
+    public spawnPanel(panel: Panel): void {
         this.append(panel);
         this.panels.push(panel);
         this.updateStoredPanels();
     }
 
-    public deletePanel(panel: Panel) {
+    public deletePanel(panel: Panel): void {
         this.panels.splice(this.panels.indexOf(panel), 1);
         this.freeIds.add(panel.getId());
         this.removeChild(panel);
         this.updateStoredPanels();
     }
 
-    public organiseElements() {
+    public organiseElements(): void {
         this.panels?.forEach((i) => {
             snapElementToGrid(i, i, false);
         });
@@ -685,15 +691,13 @@ class Dashboard extends HTMLElement {
 
     public loadStoredPanels(): void {
 
-        var loadedIds: number[] = Array.prototype.concat(
-            JSON.parse(localStorage.getItem("free-panel-ids") ?? "[]")
-        );
+        const loadedIds: number[] = JSON.parse(localStorage.getItem("free-panel-ids") ?? "[]");
 
         loadedIds.forEach((i) => {
             this.freeIds.add(i);
         });
-        
-        let queriedPanels: Panel[] = [
+
+        const queriedPanels: Panel[] = [
             ...document.querySelectorAll<Panel>("panel-element"),
         ];
 
@@ -706,14 +710,14 @@ class Dashboard extends HTMLElement {
             });
             this.panels = queriedPanels;
         } else {
-            let loadedString = localStorage.getItem("local-panel-storage");
+            const loadedString = localStorage.getItem("local-panel-storage");
 
             if (loadedString == null || loadedString == "[]") {
                 console.warn("No stored panels! Initiating base board.");
 
                 this.spawnPanelOfType(PanelType.DEFAULT);
             } else {
-                let loadedPanels: PanelInstance[] = JSON.parse(loadedString);
+                const loadedPanels: PanelInstance[] = JSON.parse(loadedString);
 
                 loadedPanels.map(
                     (i: PanelInstance) => {
@@ -729,8 +733,8 @@ class Dashboard extends HTMLElement {
         }
     }
 
-    public updateStoredPanels() {
-        var panelStorage: PanelInstance[] = this.panels.map(
+    public updateStoredPanels(): void {
+        const panelStorage: PanelInstance[] = this.panels.map(
             (i): PanelInstance => {
                 // console.log(i.getContent());
                 return {

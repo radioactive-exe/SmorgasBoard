@@ -5,11 +5,7 @@ import * as utils from "./util.js";
 import * as get from "./accessors.js";
 
 
-var x: number,
-    y: number,
-    width: number,
-    height: number,
-    top: number,
+let top: number,
     right: number,
     left: number,
     bottom: number,
@@ -21,7 +17,7 @@ var x: number,
 
 function movePanelWithinScreen(
     panel: Panel,
-    e,
+    e: MouseEvent,
     initData: { eventCoords: type.Coordinate; panelPos: type.Coordinate }
 ): void {
     panel.setPosition(
@@ -40,7 +36,7 @@ function movePanelWithinScreen(
 
 function resizePanel(
     panel: Panel,
-    e,
+    e: MouseEvent,
     initData: { eventCoords: type.Coordinate; panelSize: type.Size }
 ): void {
     panel.setSize(
@@ -58,7 +54,7 @@ function resizePanel(
 }
 
 function rotatePanel(e: MouseEvent): void {
-    panel = <Panel>e.currentTarget;
+    panel = e.currentTarget as Panel;
     if (!panel.classList.contains("hovering")) {
         panel.dispatchEvent(new Event("mouseenter"));
     }
@@ -78,8 +74,8 @@ function rotatePanel(e: MouseEvent): void {
         bottom = box.bottom;
     }
 
-    let centreX = (left + right) / 2;
-    let centreY = (top + bottom) / 2;
+    const centreX = (left + right) / 2;
+    const centreY = (top + bottom) / 2;
 
     const offsetX = ((eventCoords.x - centreX) / (right - left)) * 60;
     const offsetY = ((eventCoords.y - centreY) / (bottom - top)) * 40;
@@ -99,7 +95,7 @@ function rotatePanel(e: MouseEvent): void {
     });
 }
 
-function rotateElementStyle(el: HTMLElement, offset: type.Offset) {
+function rotateElementStyle(el: HTMLElement, offset: type.Offset): void {
     el.style.setProperty("--rotate-x", offset.rotation.x + "deg");
     el.style.setProperty("--rotate-y", offset.rotation.y + "deg");
     el.style.setProperty("--shadow-offset-x", offset.shadow.x + "rem");
@@ -110,26 +106,26 @@ function snapElementToGrid(
     panel: Panel,
     source: Panel = panel,
     shouldAnimate = true
-) {
+): void {
     const aspectRatio: number = get.elementAspectRatio(source);
 
-    x = panel.offsetLeft;
-    y = panel.offsetTop;
-    width = panel.offsetWidth;
-    height = panel.offsetHeight;
+    // x = panel.offsetLeft;
+    // y = panel.offsetTop;
+    // width = panel.offsetWidth;
+    // height = panel.offsetHeight;
 
-    var originalArea: Area = new Area(
-        {
-            x,
-            y,
-            isAbsolute: true,
-        },
-        {
-            width,
-            height,
-            isAbsolute: true,
-        }
-    );
+    // const originalArea: Area = new Area(
+    //     {
+    //         x,
+    //         y,
+    //         isAbsolute: true,
+    //     },
+    //     {
+    //         width,
+    //         height,
+    //         isAbsolute: true,
+    //     }
+    // );
 
     potentialX = get.normalisedCssPropertyValue(source, "--x");
     potentialY = get.normalisedCssPropertyValue(source, "--y");
@@ -144,7 +140,7 @@ function snapElementToGrid(
         window.innerHeight - source.offsetTop
     );
 
-    var potentialArea: Area = new Area(
+    const potentialArea: Area = new Area(
         {
             x: potentialX,
             y: potentialY,
@@ -157,7 +153,7 @@ function snapElementToGrid(
         }
     );
 
-    var potentialRatio = utils.roundToNearest(
+    const potentialRatio = utils.roundToNearest(
         potentialWidth /
             get.fractionalWidth() /
             (potentialHeight / get.fractionalHeight()),
@@ -178,8 +174,8 @@ function snapElementToGrid(
 function snapElementToTarget(
     el: Panel,
     target: Panel,
-    shouldAnimate: boolean = true
-) {
+    shouldAnimate = true
+): void {
     if (shouldAnimate) el.classList.add("snapping");
 
     el.setArea(target.getArea());

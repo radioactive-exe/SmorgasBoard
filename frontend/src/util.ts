@@ -1,4 +1,3 @@
-import * as type from "./definitions/types.js";
 import { Area, Panel } from "./definitions/classes.js";
 import { dashboard } from "./app.js";
 import * as get from "./accessors.js";
@@ -28,7 +27,7 @@ function areaCollisionWithElement(area: Area, el: Panel): boolean {
 }
 
 function collidesWithAnyPanel(self: HTMLElement, area: Area): boolean {
-    var flag = false;
+    let flag = false;
 
     dashboard.getPanels().forEach((i) => {
         if (
@@ -44,7 +43,7 @@ function collidesWithAnyPanel(self: HTMLElement, area: Area): boolean {
 }
 
 function removeClassAfterTransition(
-    el: Element,
+    el: HTMLElement,
     cl: string,
     removeFromDashboard?: boolean
 ): void {
@@ -55,7 +54,7 @@ function removeClassAfterTransition(
 }
 
 function deleteAfterTransition(
-    el: Element
+    el: HTMLElement
 ): void {
     setTimeout(() => {
         dashboard?.removeChild(el);

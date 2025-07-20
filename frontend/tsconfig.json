@@ -6,6 +6,8 @@
         "jsx": "react-jsx",
         "strictNullChecks": true,
         "strictFunctionTypes": true,
+        "strictPropertyInitialization": false,
+        "strict": true,
         "sourceMap": true,
         "outDir": "public/dist"
     },

@@ -2,11 +2,11 @@ function numericalValue(string: string): number {
     return parseFloat(string.replace(/\D+$/g, ""));
 }
 
-function cssProperty(el, property): string {
+function cssProperty(el: HTMLElement, property: string): string {
     return window.getComputedStyle(el).getPropertyValue(property);
 }
 
-function cssPropertyValue(el, property): number {
+function cssPropertyValue(el: HTMLElement, property: string): number {
     return numericalValue(cssProperty(el, property));
 }
 
@@ -44,16 +44,16 @@ function normalisedValue(input: string, property: string): number {
     return 1;
 }
 
-function normalisedCssPropertyValue(el, property): number {
+function normalisedCssPropertyValue(el: HTMLElement, property: string): number {
     return normalisedValue(cssProperty(el, property), property);
 }
 
 function elementAspectRatio(el: HTMLElement): number {
-    var string = cssProperty(el, "--forced-aspect-ratio");
+    const string = cssProperty(el, "--forced-aspect-ratio");
     if (string == "") {
         return 0;
     }
-    var split: string[] = string.split(":");
+    const split: string[] = string.split(":");
 
     return parseInt(split[0]) / parseInt(split[1]);
 }
