@@ -1,9 +1,8 @@
-import * as type from "./definitions/types.js";
-import { Area, Panel } from "./definitions/classes.js"
-
-import * as utils from "./util.js";
 import * as get from "./accessors.js";
+import * as utils from "./util.js";
 
+import { Area, Coordinate, Offset, Size } from "./definitions/area.js";
+import { Panel } from "./definitions/panel.js";
 
 let top: number,
     right: number,
@@ -18,7 +17,7 @@ let top: number,
 function movePanelWithinScreen(
     panel: Panel,
     e: MouseEvent,
-    initData: { eventCoords: type.Coordinate; panelPos: type.Coordinate }
+    initData: { eventCoords: Coordinate; panelPos: Coordinate }
 ): void {
     panel.setPosition(
         utils.clamp(
@@ -37,7 +36,7 @@ function movePanelWithinScreen(
 function resizePanel(
     panel: Panel,
     e: MouseEvent,
-    initData: { eventCoords: type.Coordinate; panelSize: type.Size }
+    initData: { eventCoords: Coordinate; panelSize: Size }
 ): void {
     panel.setSize(
         utils.clamp(
@@ -59,7 +58,7 @@ function rotatePanel(e: MouseEvent): void {
         panel.dispatchEvent(new Event("mouseenter"));
     }
 
-    const eventCoords: type.Coordinate = { x: e.clientX, y: e.clientY };
+    const eventCoords: Coordinate = { x: e.clientX, y: e.clientY };
 
     if (panel.classList.contains("focused")) {
         left = -0.5 * window.innerWidth;
@@ -95,7 +94,7 @@ function rotatePanel(e: MouseEvent): void {
     });
 }
 
-function rotateElementStyle(el: HTMLElement, offset: type.Offset): void {
+function rotateElementStyle(el: HTMLElement, offset: Offset): void {
     el.style.setProperty("--rotate-x", offset.rotation.x + "deg");
     el.style.setProperty("--rotate-y", offset.rotation.y + "deg");
     el.style.setProperty("--shadow-offset-x", offset.shadow.x + "rem");

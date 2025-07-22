@@ -7,6 +7,9 @@
         "strictNullChecks": true,
         "strictFunctionTypes": true,
         "strictPropertyInitialization": false,
+        "noImplicitAny": true,
+        "noImplicitThis": true,
+        "noImplicitReturns": true,
         "strict": true,
         "sourceMap": true,
         "outDir": "public/dist"

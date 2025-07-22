@@ -1,8 +1,10 @@
-import * as type from "./definitions/types.js";
-import { Dashboard, Panel, Area, PanelType } from "./definitions/classes.js";
-
-import * as utils from "./util.js";
 import * as get from "./accessors.js";
+import * as utils from "./util.js";
+
+import { Area } from "./definitions/area.js";
+import { Panel, PanelType } from "./definitions/panel.js";
+import { Dashboard, Theme } from "./definitions/dashboard.js";
+
 import {
     resizePanel,
     movePanelWithinScreen,
@@ -190,10 +192,10 @@ function updateElementDestinationPreview(el: Panel): void {
 document.addEventListener("keydown", async (e) => {
     switch (e.key) {
         case "ArrowDown":
-            dashboard.setCurrentTheme(type.Theme.DEFAULT);
+            dashboard.setCurrentTheme(Theme.DEFAULT);
             break;
         case "ArrowUp":
-            dashboard.setCurrentTheme(type.Theme.YELLOW);
+            dashboard.setCurrentTheme(Theme.YELLOW);
             break;
         case "ArrowRight":
             dashboard.toggleEditMode();

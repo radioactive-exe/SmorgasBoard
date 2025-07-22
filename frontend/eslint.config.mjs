@@ -40,7 +40,7 @@ export default defineConfig([
             "@typescript-eslint/explicit-function-return-type": "error",
         },
     },
-    js.configs.all,
+    js.configs.recommended,
     tseslint.configs.strict,
     tseslint.configs.stylistic,
     css.configs.recommended,

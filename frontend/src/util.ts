@@ -1,6 +1,9 @@
-import { Area, Panel } from "./definitions/classes.js";
-import { dashboard } from "./app.js";
 import * as get from "./accessors.js";
+
+import { Area } from "./definitions/area.js";
+import { Panel } from "./definitions/panel.js";
+
+import { dashboard } from "./app.js";
 
 function ignoreEventHandler(e: Event): void {
     e.stopPropagation();
@@ -49,7 +52,7 @@ function removeClassAfterTransition(
 ): void {
     setTimeout(() => {
         el.classList.remove(cl);
-        if (removeFromDashboard) dashboard?.removeChild(el);
+        if (removeFromDashboard) {dashboard?.removeChild(el);}
     }, get.normalisedCssPropertyValue(el, "transition-duration"));
 }
 
