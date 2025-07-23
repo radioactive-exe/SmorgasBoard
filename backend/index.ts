@@ -12,11 +12,9 @@ app.use(cors({ origin: true, credentials: true }));
 app.use("/definitions/panels/", templatesRouter);
 
 app.get("/", (req: Request, res: Response) => {
-    try {
+    console.log(__dirname + "/../index.html");
         res.sendFile(__dirname + "/../index.html");
-    } catch (error) {
-        console.log(error);
-    }
+        
 });
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));
