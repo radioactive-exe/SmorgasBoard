@@ -13,8 +13,7 @@ app.use("/definitions/panels/", templatesRouter);
 
 app.get("/", (req: Request, res: Response) => {
     console.log(__dirname + "/../index.html");
-        res.sendFile(__dirname + "/../index.html");
-        
+    res.sendFile(__dirname + "/../index.html");
 });
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));
