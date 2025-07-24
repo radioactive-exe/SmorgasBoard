@@ -12,7 +12,6 @@ app.use(cors({ origin: true, credentials: true }));
 app.use("/definitions/panels/", templatesRouter);
 
 app.get("/", (req: Request, res: Response) => {
-    console.log(__dirname + "/../index.html");
     res.sendFile(__dirname + "/../index.html");
 });
 
