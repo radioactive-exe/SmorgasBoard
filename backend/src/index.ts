@@ -1,7 +1,7 @@
 const express = require("express");
 const path = require("path");
 const cors = require("cors");
-const templatesRouter = require("./definitions/definitions_router.js");
+const templatesRouter = require("./routers/definitions_router.js");
 
 import { Request, Response } from "express";
 
