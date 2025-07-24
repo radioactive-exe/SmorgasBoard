@@ -10,7 +10,7 @@ router.get("/", (req: Request, res: Response) => {
 });
 
 router.get("/:panel", (req: Request , res: Response) => {
-    var templateHtml = fs.readFileSync(__dirname + `../../definitions/templates/${req.params.panel}.html`)
+    var templateHtml = fs.readFileSync(__dirname + `/../../definitions/templates/${req.params.panel}.html`)
     res.send({
         panel_type: req.params.panel,
         panel_template: templateHtml.toString()
