@@ -10,7 +10,7 @@
 
     --panel-manip-opacity: 0.5;
 
-    --quick-transition-time: 0.2s;
+    --quick-transition-time: 0.3s;
 
     --panel-transition-time: var(--quick-transition-time);
 
@@ -38,6 +38,16 @@ smorgas-board {
         inset: 0;
         display: grid;
         grid-template: repeat(var(--num-of-rows), 1fr) / repeat(var(--num-of-cols), 1fr);
+    }
+
+    &::part(cell) {
+        border-radius: 2rem;
+        margin: 1rem;
+        opacity: 0.1;
+        width: calc(100% - 2rem);
+        height: calc(100% - 2rem);
+        background: var(--cell-bg);
+        transition: var(--quick-transition-time) ease;
     }
 
     & .final-preview {
@@ -80,6 +90,16 @@ smorgas-board {
         height: var(--height);
         overflow: visible;
 
+        &::before {
+            content: '';
+            /* backdrop-filter: url(#glass-distortion); */
+            opacity: 0;
+            position: absolute;
+            inset: var(--panel-body-inset);
+            border-radius: var(--panel-border-radius);
+            transition: all var(--panel-transition-time) ease;
+        }
+
         &::part(panel-body) {
             transform:
                 rotateX(var(--rotate-x)) rotateY(var(--rotate-y));
@@ -90,46 +110,47 @@ smorgas-board {
             transition: all var(--panel-transition-time) ease;
         }
 
-        &:hover {
-
-            &::part(panel-body) {
-                filter: drop-shadow(var(--shadow-offset-x) 1rem 0.2rem rgb(from black r g b / 0.2));
-            }
-
-            &::part(panel-body)::after {
-                transition: var(--quick-transition-time);
-                /* background: radial-gradient(rgba(255, 255, 255, 0.36), transparent, transparent); */
-                content: '';
-                width: 20rem;
-                height: 20rem;
-                pointer-events: none;
-                position: absolute;
-                bottom: var(--shadow-offset-y);
-                right: var(--shadow-offset-x);
-            }
+        &:hover::part(panel-body) {
+            filter: drop-shadow(var(--shadow-offset-x) 1rem 0.2rem rgb(from black r g b / 0.2));
         }
 
         &::part(panel-body in-motion) {
             transition: 0s;
         }
 
-        &:has(::part(drag-handle):hover):not(.being-dragged) {
-            filter: brightness(1.2);
-        }
-
         &.being-manipulated {
-            opacity: var(--panel-manip-opacity);
             z-index: 1;
+
+            &::before {
+                opacity: 1;
+            }
+
+            &::part(panel-body) {
+                backdrop-filter: blur(2px);
+                background-color: rgb(from var(--panel-bg) r g b / var(--panel-manip-opacity));
+                filter: drop-shadow(1.5rem 1.5rem 2rem rgba(0, 0, 0, 0.459));
+                box-shadow: inset 2px 2px 5px 1px hsl(from var(--panel-bg) h s calc(l * 2) / 0.4), inset -2px -2px 5px 1px hsl(from var(--panel-bg) h s calc(l * 0.4) / 0.4);
+            }
+
+            &::part(panel-content) {
+                opacity: calc(var(--panel-manip-opacity) * 0.8);
+            }
 
             &.being-dragged {
                 transition: all var(--panel-transition-time) ease, left 0s, top 0s;
 
-                filter: brightness(0.8) drop-shadow(1.5rem 1.5rem 2rem black);
-                scale: 1.2;
+                scale: 1.1;
 
                 &::part(drag-handle) {
+                    opacity: var(--panel-manip-opacity);
                     width: var(--square-handle-full-side);
                     height: var(--square-handle-full-side);
+                }
+
+                &::part(resize-handle) {
+                    padding: 0;
+                    width: 0;
+                    height: 0;
                 }
             }
 
@@ -137,12 +158,23 @@ smorgas-board {
                 transition: all var(--panel-transition-time) ease, width 0s, height 0s;
 
                 &::part(resize-handle) {
+                    opacity: var(--panel-manip-opacity);
                     width: var(--square-handle-full-side);
                     height: var(--square-handle-full-side);
+                }
+
+                &::part(drag-handle) {
+                    padding: 0;
+                    width: 0;
+                    height: 0;
                 }
             }
 
             pointer-events: none;
+        }
+
+        &::before {
+            transition: all var(--panel-transition-time) ease;
         }
 
         &.snapping:not(.final-preview) {
@@ -159,6 +191,7 @@ smorgas-board {
             padding: var(--panel-content-padding);
             border-radius: var(--panel-border-radius);
             overflow: hidden;
+            transition: all var(--panel-transition-time) ease;
         }
 
         &::part(handle) {
@@ -188,16 +221,6 @@ smorgas-board {
             width: 100%;
             pointer-events: none;
         }
-    }
-
-    &::part(cell) {
-        border-radius: 2rem;
-        margin: 1rem;
-        opacity: 0.1;
-        width: calc(100% - 2rem);
-        height: calc(100% - 2rem);
-        background: var(--cell-bg);
-        transition: var(--quick-transition-time) ease;
     }
 
     &.in-edit-mode {
@@ -250,11 +273,10 @@ panel-element {
     padding: 0.5rem;
     color: var(--text-col);
 
-    .menu {
+    & .menu {
         position: absolute;
         border-radius: var(--small-border-radius);
-        background: var(--panel-bg);
-
+        background: rgb(from var(--panel-bg) r g b / var(--panel-manip-opacity));
         filter: drop-shadow(0rem 0rem 0.5rem rgba(0 0 0 26.2%));
         display: flex;
         margin: 0.5rem;
@@ -301,7 +323,6 @@ panel-element {
             }
 
             & .theme-menu {
-                position: absolute;
                 width: 0;
                 overflow: hidden;
             }
@@ -310,7 +331,7 @@ panel-element {
                 width: inherit;
             }
 
-            
+
         }
 
         & #remove-panel-section {
@@ -342,6 +363,11 @@ panel-element {
             backdrop-filter: brightness(0.8);
         }
     }
+}
+
+.glassy {
+    backdrop-filter: blur(2px) url(#glass-distortion);
+    box-shadow: inset 2px 2px 1px 0 hsl(from var(--panel-bg) h s calc(l * 2) / 0.4), inset -2px -2px 1px 0 hsl(from var(--panel-bg) h s calc(l * 0.4) / 0.4);
 }
 
 .disappearing {

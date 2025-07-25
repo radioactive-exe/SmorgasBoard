@@ -1,15 +1,14 @@
 const express = require('express');
-
-import { Request, Response } from "express";
+const {request: Req, response: Res} = require("express");
 
 const router = express.Router();
 const fs = require('fs');
 
-router.get("/", (req: Request, res: Response) => {
+router.get("/", (req: typeof Req, res: typeof Res) => {
     res.send("Here, all the Definitions are requested and sent");
 });
 
-router.get("/:panel", (req: Request , res: Response) => {
+router.get("/:panel", (req: typeof Req , res: typeof Res) => {
     var templateHtml = fs.readFileSync(__dirname + `/../../definitions/templates/${req.params.panel}.html`)
     res.send({
         panel_type: req.params.panel,

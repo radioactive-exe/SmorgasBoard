@@ -165,6 +165,10 @@ class PanelType {
     }
 }
 
+// class PanelTemplate {
+
+// }
+
 /**
  * DESC: A custom HTMLElement, implements many methods for custom use with the program to make work more efficient
  *
