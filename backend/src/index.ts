@@ -11,7 +11,7 @@ const port = 3000;
 
 app.use(cors({ origin: true, credentials: true }));
 app.use("/definitions/panels/", templatesRouter);
-app.use("/api/", apiRouter);
+// app.use("/api/", apiRouter);
 
 app.get("/", (req: Request, res: Response) => {
     res.sendFile(__dirname + "/../index.html");
