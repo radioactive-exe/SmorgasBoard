@@ -92,7 +92,7 @@ smorgas-board {
 
         &::before {
             content: '';
-            /* backdrop-filter: url(#glass-distortion); */
+            backdrop-filter: url(#glass-distortion);
             opacity: 0;
             position: absolute;
             inset: var(--panel-body-inset);
