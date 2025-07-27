@@ -1,8 +1,6 @@
-const express = require("express");
-const { request: Req, response: Res } = require("express");
-const fs = require("fs");
-
 const definitionsRouter = express.Router();
+
+definitionsRouter.use(cors({ origin: true, credentials: true }));
 
 definitionsRouter.use("/panels/", templatesRouter);
 
