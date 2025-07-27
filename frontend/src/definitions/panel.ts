@@ -372,7 +372,7 @@ class Panel extends HTMLElement {
                 "text/html"
             );
             const template =
-                responseBody.querySelector<HTMLTemplateElement>("panel-template");
+                responseBody.querySelector<PanelTemplate>("panel-template");
             const shadow = this.attachShadow({ mode: "open" });
             if (this.type != PanelType.PREVIEW && template)
                 shadow.prepend(template.content.cloneNode(true));

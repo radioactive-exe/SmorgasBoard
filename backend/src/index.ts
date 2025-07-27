@@ -4,6 +4,8 @@ const cors = require("cors");
 
 import { Request, Response } from "express";
 
+const definitionsRouter = require("./routers/definitions_router");
+
 const app = express();
 const port = 3000;
 
