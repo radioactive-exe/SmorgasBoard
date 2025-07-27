@@ -1,8 +1,10 @@
+import { cors, express, fs } from "../../declarations";
+
 const templatesRouter = express.Router();
 
 templatesRouter.use(cors({ origin: true, credentials: true }));
 
-templatesRouter.get("/:panel", (req: typeof Req, res: typeof Res) => {
+templatesRouter.get("/:panel", (req: express.Request, res: express.Response) => {
     var templateHtml = fs.readFileSync(
         __dirname + `/../../../definitions/templates/${req.params.panel}.html`
     );

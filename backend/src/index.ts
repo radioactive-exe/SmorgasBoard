@@ -1,19 +1,16 @@
-const express = require("express");
-const path = require("path");
-const cors = require("cors");
+import { cors, express } from "./declarations.js";
 
-import { Request, Response } from "express";
-
-const definitionsRouter = require("./routers/definitions_router");
+const definitionsRouter : express.Router = require("./routers/definitions_router");
 
 const app = express();
 const port = 3000;
 
 app.use(cors({ origin: true, credentials: true }));
+
 app.use("/definitions/", definitionsRouter);
 // app.use("/api/", apiRouter);
 
-app.get("/", (req: Request, res: Response) => {
+app.get("/", (req: express.Request, res: express.Response) => {
     res.sendFile(__dirname + "/../index.html");
 });
 
