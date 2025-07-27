@@ -1,19 +1,13 @@
-const express = require('express');
-const {request: Req, response: Res} = require("express");
+const express = require("express");
+const { request: Req, response: Res } = require("express");
+const fs = require("fs");
 
-const router = express.Router();
-const fs = require('fs');
+const definitionsRouter = express.Router();
 
-router.get("/", (req: typeof Req, res: typeof Res) => {
+definitionsRouter.use("/panels/", templatesRouter);
+
+definitionsRouter.get("/", (req: typeof Req, res: typeof Res) => {
     res.send("Here, all the Definitions are requested and sent");
 });
 
-router.get("/:panel", (req: typeof Req , res: typeof Res) => {
-    var templateHtml = fs.readFileSync(__dirname + `/../../definitions/templates/${req.params.panel}.html`)
-    res.send({
-        panel_type: req.params.panel,
-        panel_template: templateHtml.toString()
-    })
-})
-
-module.exports = router;
+module.exports = definitionsRouter;

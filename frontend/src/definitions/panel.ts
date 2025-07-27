@@ -165,9 +165,29 @@ class PanelType {
     }
 }
 
-// class PanelTemplate {
+class PanelTemplate extends HTMLTemplateElement {
+    public constructor() {
+        super();
+    }
 
-// }
+    private async init(): Promise<void> {
+        return new Promise(async (resolve) => {
+            const response = await fetch(
+                "https://smorgas-board-backend.vercel.app/definitions/panels/base"
+            ).then((res) => res.json());
+            const responseBody = await new DOMParser().parseFromString(
+                response.panel_template,
+                "text/html"
+            );
+            const template =
+                responseBody.querySelector<HTMLTemplateElement>("template");
+            const shadow = this.attachShadow({ mode: "open" });
+            if (template)
+                shadow.prepend(template.content.cloneNode(true));
+            resolve();
+        });
+    }
+}
 
 /**
  * DESC: A custom HTMLElement, implements many methods for custom use with the program to make work more efficient
@@ -352,7 +372,7 @@ class Panel extends HTMLElement {
                 "text/html"
             );
             const template =
-                responseBody.querySelector<HTMLTemplateElement>("template");
+                responseBody.querySelector<HTMLTemplateElement>("panel-template");
             const shadow = this.attachShadow({ mode: "open" });
             if (this.type != PanelType.PREVIEW && template)
                 shadow.prepend(template.content.cloneNode(true));
@@ -422,6 +442,7 @@ class Panel extends HTMLElement {
 }
 
 window.customElements.define("panel-element", Panel);
+window.customElements.define("panel-template", PanelTemplate);
 
 export {
     PanelType,
