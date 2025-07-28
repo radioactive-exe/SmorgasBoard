@@ -14,4 +14,4 @@ app.get("/", (req: express.Request, res: express.Response) => {
     res.sendFile(__dirname + "/../index.html");
 });
 
-app.listen(port, () => console.log(`Example app listening on port ${port}!`));
+app.listen(port, () => console.log(`SmorgasBoard listening on SmorgasPort ${port}! (Get it? Cuz... Smorg- eh whatever)`));

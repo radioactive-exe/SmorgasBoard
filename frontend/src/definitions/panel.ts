@@ -3,7 +3,12 @@ import * as get from "../accessors.js";
 
 import { Coordinate, Size, AreaInstance, Area } from "./area.js";
 
-import { addPanelHandleListeners, movePanelHoverHandler, exitPanelHoverHandler, enterPanelHoverHandler } from "../app.js";
+import {
+    addPanelHandleListeners,
+    movePanelHoverHandler,
+    exitPanelHoverHandler,
+    enterPanelHoverHandler,
+} from "../app.js";
 
 /**
  * DESC: A type that defines the structure of a @type {Panel} in its stored format, either in localStorage or the cloud.
@@ -227,12 +232,12 @@ class Panel extends HTMLElement {
 
         this.setArea(area);
         this.setType(type);
-        this.init();
         this.dashboardId = dashboardId;
         this.dataset.panelId = dashboardId.toString();
         this.dataset.panelType = type.toString();
-
-        if (body) this.setContent(body);
+        this.init().then(() => {
+            if (body) this.setContent(body);
+        });
     }
 
     public getId(): number {
@@ -368,9 +373,11 @@ class Panel extends HTMLElement {
      *
      * @memberof Panel
      */
-    private async initTemplate(): Promise<void> {
+    private initTemplate(): Promise<void> {
         return new Promise(async (resolve) => {
-            const baseResponse = await fetch(PanelTypeTemplate.BASE).then((res) => res.json());
+            const baseResponse = await fetch(PanelTypeTemplate.BASE).then(
+                (res) => res.json()
+            );
             const response = await fetch(this.type.getTemplate()).then((res) =>
                 res.json()
             );
@@ -383,24 +390,34 @@ class Panel extends HTMLElement {
                 "text/html"
             );
 
-            
-            const base: HTMLTemplateElement = baseResponseBody.querySelector("template") as HTMLTemplateElement ?? document.createElement("template") as HTMLTemplateElement;
-            const template: HTMLTemplateElement = responseBody.querySelector("template") as HTMLTemplateElement ?? document.createElement("template") as HTMLTemplateElement;
+            const base: HTMLTemplateElement =
+                (baseResponseBody.querySelector(
+                    "template"
+                ) as HTMLTemplateElement) ??
+                (document.createElement("template") as HTMLTemplateElement);
+            const template: HTMLTemplateElement =
+                (responseBody.querySelector(
+                    "template"
+                ) as HTMLTemplateElement) ??
+                (document.createElement("template") as HTMLTemplateElement);
 
-            
             const shadow = this.attachShadow({ mode: "open" });
-            
+
             if (this.type != PanelType.PREVIEW && template && base)
                 shadow.prepend(base.content.cloneNode(true));
-                this.prepend(template.content.cloneNode(true));
+            this.prepend(template.content.cloneNode(true));
             resolve();
         });
     }
 
-    private async init(): Promise<void> {
-        this.initTemplate().then(() =>
-            this.addHoverListeners().then(() => addPanelHandleListeners(this))
-        );
+    private init(): Promise<void> {
+        return new Promise((resolve) => {
+            this.initTemplate().then(() =>
+                this.addHoverListeners().then(() =>
+                    addPanelHandleListeners(this).then(() => resolve())
+                )
+            );
+        });
     }
 
     public addHoverListeners(): Promise<void> {
@@ -416,10 +433,8 @@ class Panel extends HTMLElement {
         switch (this.type) {
             case PanelType.NOTEPAD:
                 return {
-                    body:
-                        this.shadowRoot?.querySelector("textarea")?.value ?? "",
+                    body: this.querySelector("textarea")?.value ?? "",
                 };
-                break;
         }
         return {};
     }
@@ -428,14 +443,11 @@ class Panel extends HTMLElement {
         const content = JSON.parse(contentString);
         let focus;
         try {
-            if (this.shadowRoot == null) return;
             switch (this.type) {
                 case PanelType.NOTEPAD:
-                    focus =
-                        this.shadowRoot?.querySelector<HTMLTextAreaElement>(
-                            "textarea"
-                        );
-                    if (focus) focus.value = content.body;
+                        focus =
+                            this.querySelector<HTMLTextAreaElement>("textarea");
+                        if (focus) focus.value = content.body;
                     break;
                 case PanelType.PHOTO:
                     focus =
@@ -467,5 +479,5 @@ export {
     PanelTypeName,
     PanelTypeTemplate,
     PanelInstance,
-    Panel
-}
+    Panel,
+};

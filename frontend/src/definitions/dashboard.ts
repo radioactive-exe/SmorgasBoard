@@ -1,6 +1,6 @@
 import * as get from "../accessors.js";
 
-import { Area } from "./area.js"
+import { Area } from "./area.js";
 import { Panel, PanelInstance, PanelType } from "./panel.js";
 
 import { snapElementToGrid } from "../manip.js";
@@ -73,7 +73,7 @@ class Theme {
 class Dashboard extends HTMLElement {
     private panels: Panel[];
     private currentTheme: Theme;
-    private freeIds: Set<number> = new Set<number>;
+    private freeIds: Set<number> = new Set<number>();
 
     public constructor() {
         super();
@@ -109,24 +109,26 @@ class Dashboard extends HTMLElement {
     public toggleEditMode(): void {
         this.classList.toggle("in-edit-mode");
         if (this.isEditing()) {
-            const activePanel = document.querySelector("panel-element.hovering");
+            const activePanel = document.querySelector(
+                "panel-element.hovering"
+            );
             if (activePanel) activePanel.dispatchEvent(new Event("mouseleave"));
         }
     }
 
-    public spawnPanelOfType(panelType: PanelType): void {
+    public spawnPanelOfType(panelType: PanelType, updateStored = true): void {
         let id: number;
         if (this.freeIds.size > 0) {
             id = this.freeIds.values().next().value ?? 0;
-            this.freeIds.delete(id)
+            this.freeIds.delete(id);
         } else id = this.panels.length;
-        this.spawnPanel(new Panel(Area.INIT, panelType, id));
+        this.spawnPanel(new Panel(Area.INIT, panelType, id), updateStored);
     }
 
-    public spawnPanel(panel: Panel): void {
+    public spawnPanel(panel: Panel, updateStored = true): void {
         this.append(panel);
         this.panels.push(panel);
-        this.updateStoredPanels();
+        if (updateStored) this.updateStoredPanels();
     }
 
     public deletePanel(panel: Panel): void {
@@ -143,8 +145,9 @@ class Dashboard extends HTMLElement {
     }
 
     public loadStoredPanels(): void {
-
-        const loadedIds: number[] = JSON.parse(localStorage.getItem("free-panel-ids") ?? "[]");
+        const loadedIds: number[] = JSON.parse(
+            localStorage.getItem("free-panel-ids") ?? "[]"
+        );
 
         loadedIds.forEach((i) => {
             this.freeIds.add(i);
@@ -172,16 +175,17 @@ class Dashboard extends HTMLElement {
             } else {
                 const loadedPanels: PanelInstance[] = JSON.parse(loadedString);
 
-                loadedPanels.map(
-                    (i: PanelInstance) => {
-                        this.spawnPanel(new Panel(
+                loadedPanels.map((i: PanelInstance) => {
+                    this.spawnPanel(
+                        new Panel(
                             new Area(i.area.pos, i.area.size),
                             PanelType.getTypeFromId(i.panel_type_id),
                             i.panel_id,
                             i.content
-                        ));
-                    }
-                );
+                        ),
+                        false
+                    );
+                });
             }
         }
     }
@@ -189,18 +193,25 @@ class Dashboard extends HTMLElement {
     public updateStoredPanels(): void {
         const panelStorage: PanelInstance[] = this.panels.map(
             (i): PanelInstance => {
-                // console.log(i.getContent());
                 return {
-                    panel_id: parseInt(i.dataset.panelId ? i.dataset.panelId : "0"),
+                    panel_id: parseInt(
+                        i.dataset.panelId ? i.dataset.panelId : "0"
+                    ),
                     panel_type_id: i.getType().getId(),
                     area: i.getArea().toJson(),
                     content: JSON.stringify(i.getContent()),
                 };
             }
         );
-    
-        localStorage.setItem("local-panel-storage", JSON.stringify(panelStorage));
-        localStorage.setItem("free-panel-ids", JSON.stringify([...this.freeIds]));
+
+        localStorage.setItem(
+            "local-panel-storage",
+            JSON.stringify(panelStorage)
+        );
+        localStorage.setItem(
+            "free-panel-ids",
+            JSON.stringify([...this.freeIds])
+        );
     }
 
     public getCurrentTheme(): Theme {

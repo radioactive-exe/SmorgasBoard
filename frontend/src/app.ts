@@ -116,65 +116,68 @@ export function removePanelHoverListeners(panel: Panel): void {
     panel.removeEventListener("mouseleave", exitPanelHoverHandler);
 }
 
-export function addPanelHandleListeners(panel: Panel): void {
-    panel.shadowRoot
-        ?.querySelector<HTMLElement>(".drag-handle")
-        ?.addEventListener("mousedown", (e) => {
-            flag = "being-dragged";
-            currentPanel = panel;
-            panel.classList.add(flag, "being-manipulated");
-
-            initPreview(panel);
-
-            const initData = {
-                eventCoords: {
-                    x: e.clientX,
-                    y: e.pageY,
-                },
-                panelPos: {
-                    x: panel.offsetLeft,
-                    y: panel.offsetTop,
-                },
-            };
-
-            dragHandler = (e): void => {
-                e.preventDefault();
-                movePanelWithinScreen(panel, e as MouseEvent, initData);
-                updateElementDestinationPreview(panel);
-            };
-
-            setDocumentHandlers();
-        });
-
-    panel.shadowRoot
-        ?.querySelector<HTMLElement>(".resize-handle")
-        ?.addEventListener("mousedown", (e) => {
-            flag = "being-resized";
-            currentPanel = panel;
-
-            panel.classList.add(flag, "being-manipulated");
-
-            initPreview(panel);
-
-            const initData = {
-                eventCoords: {
-                    x: e.clientX,
-                    y: e.pageY,
-                },
-                panelSize: {
-                    width: panel.offsetWidth,
-                    height: panel.offsetHeight,
-                },
-            };
-
-            dragHandler = (e): void => {
-                e.preventDefault();
-                resizePanel(panel, e as MouseEvent, initData);
-                updateElementDestinationPreview(panel);
-            };
-
-            setDocumentHandlers();
-        });
+export function addPanelHandleListeners(panel: Panel): Promise<void> {
+    return new Promise((resolve) => {
+        panel.shadowRoot
+            ?.querySelector<HTMLElement>(".drag-handle")
+            ?.addEventListener("mousedown", (e) => {
+                flag = "being-dragged";
+                currentPanel = panel;
+                panel.classList.add(flag, "being-manipulated");
+    
+                initPreview(panel);
+    
+                const initData = {
+                    eventCoords: {
+                        x: e.clientX,
+                        y: e.pageY,
+                    },
+                    panelPos: {
+                        x: panel.offsetLeft,
+                        y: panel.offsetTop,
+                    },
+                };
+    
+                dragHandler = (e): void => {
+                    e.preventDefault();
+                    movePanelWithinScreen(panel, e as MouseEvent, initData);
+                    updateElementDestinationPreview(panel);
+                };
+    
+                setDocumentHandlers();
+            });
+    
+        panel.shadowRoot
+            ?.querySelector<HTMLElement>(".resize-handle")
+            ?.addEventListener("mousedown", (e) => {
+                flag = "being-resized";
+                currentPanel = panel;
+    
+                panel.classList.add(flag, "being-manipulated");
+    
+                initPreview(panel);
+    
+                const initData = {
+                    eventCoords: {
+                        x: e.clientX,
+                        y: e.pageY,
+                    },
+                    panelSize: {
+                        width: panel.offsetWidth,
+                        height: panel.offsetHeight,
+                    },
+                };
+    
+                dragHandler = (e): void => {
+                    e.preventDefault();
+                    resizePanel(panel, e as MouseEvent, initData);
+                    updateElementDestinationPreview(panel);
+                };
+    
+                setDocumentHandlers();
+            });
+        resolve();
+    });
 }
 
 function initPreview(i: Panel): void {

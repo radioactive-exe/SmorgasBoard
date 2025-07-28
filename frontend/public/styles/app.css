@@ -249,7 +249,9 @@ panel-element {
 
         & textarea {
             transition: var(--quick-transition-time);
+            padding: 1rem;
             resize: none;
+            font-size: small;
             background: var(--textarea-bg);
             height: 100%;
             outline: none;
