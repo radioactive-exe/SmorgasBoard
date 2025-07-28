@@ -166,15 +166,11 @@ class PanelType {
 }
 
 class PanelTemplate extends HTMLTemplateElement {
-    public constructor() {
+    public constructor(from: HTMLTemplateElement) {
         super();
+        this.appendChild(from.content);
         this.init();
     }
-    content: DocumentFragment;
-    shadowRootClonable: boolean;
-    shadowRootDelegatesFocus: boolean;
-    shadowRootMode: string;
-    shadowRootSerializable: boolean;
 
     private async init(): Promise<void> {
         return new Promise(async (resolve) => {
@@ -187,10 +183,13 @@ class PanelTemplate extends HTMLTemplateElement {
             );
             const template =
             responseBody.querySelector<HTMLTemplateElement>("template");
-            const shadow = this.attachShadow({ mode: "open" });
+            const templateContainer = document.createElement("div");
+            templateContainer.classList.add("template-container");
+            const shadow = templateContainer.attachShadow({ mode: "open" });
             if (template)
                 shadow.prepend(template.content.cloneNode(true));
             console.log(this);
+            this.appendChild(templateContainer);
             resolve();
         });
     }
@@ -378,8 +377,7 @@ class Panel extends HTMLElement {
                 response.panel_template,
                 "text/html"
             );
-            const template: PanelTemplate =
-            responseBody.querySelector("panel-template") as PanelTemplate ?? document.createElement("panel-template") as PanelTemplate;
+            const template: PanelTemplate = new PanelTemplate(responseBody.querySelector("template") as PanelTemplate ?? document.createElement("template") as PanelTemplate);
             const shadow = this.attachShadow({ mode: "open" });
             if (this.type != PanelType.PREVIEW && template)
                 shadow.prepend(template.content.cloneNode(true));
