@@ -247,7 +247,7 @@ panel-element {
             align-items: stretch;
         }
 
-        &::part(notepad-textarea) {
+        & textarea {
             transition: var(--quick-transition-time);
             resize: none;
             background: var(--textarea-bg);
@@ -259,11 +259,11 @@ panel-element {
             border: none;
         }
 
-        &::part(notepad-textarea):focus {
-            background: hsl(from var(--textarea-bg) h s calc(l * 0.9));
+        & textarea:focus {
+           background: hsl(from var(--textarea-bg) h s calc(l * 0.9));
         }
 
-        &::part(notepad-textarea)::placeholder {
+        & textarea::placeholder {
             color: lch(from var(--text-col) calc(l*0.8) c h);
         }
     }

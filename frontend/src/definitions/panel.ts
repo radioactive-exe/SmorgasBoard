@@ -46,6 +46,7 @@ enum PanelTypeName {
  * @enum {number}
  */
 enum PanelTypeTemplate {
+    BASE = "https://smorgas-board-backend.vercel.app/definitions/panels/base",
     PREVIEW = "https://smorgas-board-backend.vercel.app/definitions/panels/preview",
     DEFAULT = "https://smorgas-board-backend.vercel.app/definitions/panels/default",
     NOTEPAD = "https://smorgas-board-backend.vercel.app/definitions/panels/notepad",
@@ -165,35 +166,34 @@ class PanelType {
     }
 }
 
-class PanelTemplate extends HTMLTemplateElement {
-    public constructor(from: HTMLTemplateElement) {
-        super();
-        this.appendChild(from.content);
-        this.init();
-    }
+// class PanelTemplate extends HTMLTemplateElement {
+//     public constructor(from: HTMLTemplateElement) {
+//         super();
+//         this.appendChild(from.content);
+//         this.init();
+//     }
 
-    private async init(): Promise<void> {
-        return new Promise(async (resolve) => {
-            const response = await fetch(
-                "https://smorgas-board-backend.vercel.app/definitions/panels/base"
-            ).then((res) => res.json());
-            const responseBody = await new DOMParser().parseFromString(
-                response.panel_template,
-                "text/html"
-            );
-            const template =
-            responseBody.querySelector<HTMLTemplateElement>("template");
-            const templateContainer = document.createElement("div");
-            templateContainer.classList.add("template-container");
-            const shadow = templateContainer.attachShadow({ mode: "open" });
-            if (template)
-                shadow.prepend(template.content.cloneNode(true));
-            console.log(this);
-            this.appendChild(templateContainer);
-            resolve();
-        });
-    }
-}
+//     private async init(): Promise<void> {
+//         return new Promise(async (resolve) => {
+//             const response = await fetch(
+//                 "https://smorgas-board-backend.vercel.app/definitions/panels/base"
+//             ).then((res) => res.json());
+//             const responseBody = await new DOMParser().parseFromString(
+//                 response.panel_template,
+//                 "text/html"
+//             );
+//             const template =
+//             responseBody.querySelector<HTMLTemplateElement>("template");
+//             const templateContainer = document.createElement("div");
+//             templateContainer.classList.add("template-container");
+//             const shadow = templateContainer.attachShadow({ mode: "open" });
+//             if (template)
+//                 shadow.prepend(template.content.cloneNode(true));
+//             this.appendChild(templateContainer);
+//             resolve();
+//         });
+//     }
+// }
 
 /**
  * DESC: A custom HTMLElement, implements many methods for custom use with the program to make work more efficient
@@ -370,17 +370,29 @@ class Panel extends HTMLElement {
      */
     private async initTemplate(): Promise<void> {
         return new Promise(async (resolve) => {
+            const baseResponse = await fetch(PanelTypeTemplate.BASE).then((res) => res.json());
             const response = await fetch(this.type.getTemplate()).then((res) =>
                 res.json()
+            );
+            const baseResponseBody = await new DOMParser().parseFromString(
+                baseResponse.panel_template,
+                "text/html"
             );
             const responseBody = await new DOMParser().parseFromString(
                 response.panel_template,
                 "text/html"
             );
-            const template: PanelTemplate = new PanelTemplate(responseBody.querySelector("template") as PanelTemplate ?? document.createElement("template") as PanelTemplate);
+
+            
+            const base: HTMLTemplateElement = baseResponseBody.querySelector("template") as HTMLTemplateElement ?? document.createElement("template") as HTMLTemplateElement;
+            const template: HTMLTemplateElement = responseBody.querySelector("template") as HTMLTemplateElement ?? document.createElement("template") as HTMLTemplateElement;
+
+            
             const shadow = this.attachShadow({ mode: "open" });
-            if (this.type != PanelType.PREVIEW && template)
-                shadow.prepend(template.content.cloneNode(true));
+            
+            if (this.type != PanelType.PREVIEW && template && base)
+                shadow.prepend(base.content.cloneNode(true));
+                this.prepend(template.content.cloneNode(true));
             resolve();
         });
     }
@@ -447,7 +459,7 @@ class Panel extends HTMLElement {
 }
 
 window.customElements.define("panel-element", Panel);
-window.customElements.define("panel-template", PanelTemplate, {extends: "template"});
+// window.customElements.define("panel-template", PanelTemplate, {extends: "template"});
 
 export {
     PanelType,
