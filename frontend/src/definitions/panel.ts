@@ -4,11 +4,22 @@ import * as get from "../accessors.js";
 import { Coordinate, Size, AreaInstance, Area } from "./area.js";
 
 import {
-    addPanelHandleListeners,
+    current,
     movePanelHoverHandler,
     exitPanelHoverHandler,
     enterPanelHoverHandler,
+    setDocumentHandlers,
+    preview,
+    handler,
+    dashboard,
 } from "../app.js";
+import {
+    movePanelWithinScreen,
+    resizePanel,
+    snapElementToGrid,
+    snapElementToTarget,
+} from "../manip.js";
+import { Dashboard } from "./dashboard.js";
 
 /**
  * DESC: A type that defines the structure of a @type {Panel} in its stored format, either in localStorage or the cloud.
@@ -374,7 +385,7 @@ class Panel extends HTMLElement {
      * @memberof Panel
      */
     private initTemplate(): Promise<void> {
-        return new Promise(async (resolve) => {
+        return new Promise( async (resolve) => {
             const baseResponse = await fetch(PanelTypeTemplate.BASE).then(
                 (res) => res.json()
             );
@@ -414,18 +425,9 @@ class Panel extends HTMLElement {
         return new Promise((resolve) => {
             this.initTemplate().then(() =>
                 this.addHoverListeners().then(() =>
-                    addPanelHandleListeners(this).then(() => resolve())
+                    this.addHandleListeners().then(() => resolve())
                 )
             );
-        });
-    }
-
-    public addHoverListeners(): Promise<void> {
-        return new Promise((resolve) => {
-            this.addEventListener("mousemove", movePanelHoverHandler);
-            this.addEventListener("mouseleave", exitPanelHoverHandler);
-            this.addEventListener("mouseenter", enterPanelHoverHandler);
-            resolve();
         });
     }
 
@@ -445,9 +447,8 @@ class Panel extends HTMLElement {
         try {
             switch (this.type) {
                 case PanelType.NOTEPAD:
-                        focus =
-                            this.querySelector<HTMLTextAreaElement>("textarea");
-                        if (focus) focus.value = content.body;
+                    focus = this.querySelector<HTMLTextAreaElement>("textarea");
+                    if (focus) focus.value = content.body;
                     break;
                 case PanelType.PHOTO:
                     focus =
@@ -463,6 +464,101 @@ class Panel extends HTMLElement {
                 this.setContent(contentString);
             }, 50);
         }
+    }
+
+    public addHandleListeners(): Promise<void> {
+        return new Promise((resolve) => {
+            this.shadowRoot
+                ?.querySelector<HTMLElement>(".drag-handle")
+                ?.addEventListener("mousedown", (e) => {
+                    current.flag = "being-dragged";
+                    current.panel = this;
+                    this.classList.add(current.flag, "being-manipulated");
+
+                    this.initPreview(dashboard);
+
+                    const initData = {
+                        eventCoords: {
+                            x: e.clientX,
+                            y: e.pageY,
+                        },
+                        panelPos: {
+                            x: this.offsetLeft,
+                            y: this.offsetTop,
+                        },
+                    };
+
+                    handler.drag = (e: MouseEvent): void => {
+                        e.preventDefault();
+                        movePanelWithinScreen(this, e as MouseEvent, initData);
+                        this.updatePreview(dashboard);
+                    };
+
+                    setDocumentHandlers();
+                });
+
+            this.shadowRoot
+                ?.querySelector<HTMLElement>(".resize-handle")
+                ?.addEventListener("mousedown", (e) => {
+                    current.flag = "being-resized";
+                    current.panel = this;
+
+                    this.classList.add(current.flag, "being-manipulated");
+
+                    this.initPreview(dashboard);
+
+                    const initData = {
+                        eventCoords: {
+                            x: e.clientX,
+                            y: e.pageY,
+                        },
+                        panelSize: {
+                            width: this.offsetWidth,
+                            height: this.offsetHeight,
+                        },
+                    };
+
+                    handler.drag = (e: MouseEvent): void => {
+                        e.preventDefault();
+                        resizePanel(this, e as MouseEvent, initData);
+                        this.updatePreview(dashboard);
+                    };
+
+                    setDocumentHandlers();
+                });
+            resolve();
+        });
+    }
+
+    public addHoverListeners(): Promise<void> {
+        return new Promise((resolve) => {
+            this.addEventListener("mousemove", movePanelHoverHandler);
+            this.addEventListener("mouseleave", exitPanelHoverHandler);
+            this.addEventListener("mouseenter", enterPanelHoverHandler);
+            resolve();
+        });
+    }
+
+    public removeHoverListeners(): void {
+        this.removeEventListener("mouseenter", enterPanelHoverHandler);
+        this.removeEventListener("mousemove", movePanelHoverHandler);
+        this.dispatchEvent(new Event("mouseleave"));
+        this.removeEventListener("mouseleave", exitPanelHoverHandler);
+    }
+
+    public initPreview(dashboard: Dashboard): void {
+        preview.dataset.callerId = this.dataset.panelId;
+        this.parentElement?.prepend(preview);
+        snapElementToTarget(preview, this, false);
+        preview.classList.add("visible");
+        this.updatePreview(dashboard);
+    }
+
+    public updatePreview(dashboard: Dashboard): void {
+        snapElementToGrid(
+            dashboard?.querySelector(".final-preview") as Panel,
+            this
+        );
     }
 
     public static defaultPanel(): Panel {
