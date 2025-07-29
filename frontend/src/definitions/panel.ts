@@ -2,16 +2,18 @@
 import * as get from "../accessors.js";
 
 import { Coordinate, Size, AreaInstance, Area } from "./area.js";
+import { Dashboard } from "./dashboard.js";
+import { PanelTypeTemplate, PanelType } from "./panel_type.js";
 
 import {
     current,
-    movePanelHoverHandler,
-    exitPanelHoverHandler,
-    enterPanelHoverHandler,
+    hoverHandler,
     setDocumentHandlers,
     preview,
-    handler,
+    holdHandler,
     dashboard,
+    formatTime,
+    formatDate,
 } from "../app.js";
 import {
     movePanelWithinScreen,
@@ -19,7 +21,6 @@ import {
     snapElementToGrid,
     snapElementToTarget,
 } from "../manip.js";
-import { Dashboard } from "./dashboard.js";
 
 /**
  * DESC: A type that defines the structure of a @type {Panel} in its stored format, either in localStorage or the cloud.
@@ -31,185 +32,6 @@ interface PanelInstance {
     area: AreaInstance;
     content: string;
 }
-
-/**
- * DESC: Different Panel Data Types, the keys of the entries being the type of data content, and the values being their respective ID.
- *
- * @enum {number}
- */
-enum PanelTypeData {
-    NONE = -1,
-    LOCAL = 0,
-    GLOBAL = 1,
-    EXTERNAL = 2,
-}
-
-/**
- * DESC: Different Panel Types/Kinds (Notepad, Default (empty), Preview, etc.), the keys of the entries being the type of panel, and the values being their respective ID.
- *
- * @enum {number}
- */
-enum PanelTypeName {
-    PREVIEW = -1,
-    DEFAULT = 0,
-    NOTEPAD = 1,
-    PHOTO = 2,
-}
-
-/**
- * DESC: An @enum of different important constants relating to Panel Content, such as the default content for an empty panel.
- *
- * @enum {number}
- */
-enum PanelTypeTemplate {
-    BASE = "https://smorgas-board-backend.vercel.app/definitions/panels/base",
-    PREVIEW = "https://smorgas-board-backend.vercel.app/definitions/panels/preview",
-    DEFAULT = "https://smorgas-board-backend.vercel.app/definitions/panels/default",
-    NOTEPAD = "https://smorgas-board-backend.vercel.app/definitions/panels/notepad",
-    PHOTO = "https://smorgas-board-backend.vercel.app/definitions/panels/photo",
-}
-
-/**
- * DESC: PanelType Class, this is class that unifies all information about a panel's type, including the name, data type, and other useful information and methods.
- *
- * @class PanelType
- */
-class PanelType {
-    /**
-     * DESC: These are all the Defined Panel Types in the project/application. New Types cannot be created during runtime unless needed.
-     *
-     * @this @alias (PanelDataTypes)
-     * @static
-     * @memberof PanelType
-     */
-
-    static readonly PREVIEW = new PanelType(
-        -1,
-        PanelTypeData.NONE,
-        PanelTypeName.PREVIEW,
-        PanelTypeTemplate.PREVIEW
-    );
-    static readonly DEFAULT = new PanelType(
-        0,
-        PanelTypeData.NONE,
-        PanelTypeName.DEFAULT,
-        PanelTypeTemplate.DEFAULT
-    );
-    static readonly NOTEPAD = new PanelType(
-        1,
-        PanelTypeData.LOCAL,
-        PanelTypeName.NOTEPAD,
-        PanelTypeTemplate.NOTEPAD
-    );
-    static readonly PHOTO = new PanelType(
-        2,
-        PanelTypeData.LOCAL,
-        PanelTypeName.PHOTO,
-        PanelTypeTemplate.PHOTO
-    );
-
-    /**
-     * DESC: Creates an instance of PanelType.
-     *
-     * NOTE: Similarly to themes, these should not be created at runtime and will instead be set types with set data types and names, unless otherwise is required. All the necessary types are declared at @alias (PanelDataTypes)
-     *
-     * @constructor
-     * @param {number} typeId
-     * @param {PanelTypeData} typeData
-     * @param {PanelTypeName} typeName
-     * @param {PanelTypeTemplate} typeTemplate
-     * @memberof PanelType
-     */
-    private constructor(
-        private readonly typeId: number,
-        private readonly typeData: PanelTypeData,
-        private readonly typeName: PanelTypeName,
-        private readonly typeTemplate: PanelTypeTemplate
-    ) {}
-
-    /**
-     * DESC: Returns the type name of the Panel type when used in @type {string} contexts
-     *
-     * @return {string}
-     * @memberof PanelType
-     */
-    public toString(): string {
-        return PanelTypeName[this.typeId];
-    }
-
-    /**
-     * DESC: Returns the ID number for this type of panel
-     *
-     * @return {number}
-     * @memberof PanelType
-     */
-    public getId(): number {
-        return this.typeId;
-    }
-
-    /**
-     * DESC: Returns the name of the template for this PanelType
-     *
-     * @return {string}
-     * @memberof PanelType
-     */
-    public getTemplate(): string {
-        return this.typeTemplate;
-    }
-
-    /**
-     * DESC: Returns the panel from @alias (PanelDataTypes) that has @param {id} as a @member {typeId}
-     *
-     * @static
-     * @param {number} id
-     * @return {PanelType}
-     * @memberof PanelType
-     */
-    public static getTypeFromId(id: number): PanelType {
-        switch (id) {
-            case 0:
-                return PanelType.DEFAULT;
-                break;
-            case 1:
-                return PanelType.NOTEPAD;
-                break;
-            case 2:
-                return PanelType.PHOTO;
-                break;
-        }
-
-        return PanelType.PREVIEW;
-    }
-}
-
-// class PanelTemplate extends HTMLTemplateElement {
-//     public constructor(from: HTMLTemplateElement) {
-//         super();
-//         this.appendChild(from.content);
-//         this.init();
-//     }
-
-//     private async init(): Promise<void> {
-//         return new Promise(async (resolve) => {
-//             const response = await fetch(
-//                 "https://smorgas-board-backend.vercel.app/definitions/panels/base"
-//             ).then((res) => res.json());
-//             const responseBody = await new DOMParser().parseFromString(
-//                 response.panel_template,
-//                 "text/html"
-//             );
-//             const template =
-//             responseBody.querySelector<HTMLTemplateElement>("template");
-//             const templateContainer = document.createElement("div");
-//             templateContainer.classList.add("template-container");
-//             const shadow = templateContainer.attachShadow({ mode: "open" });
-//             if (template)
-//                 shadow.prepend(template.content.cloneNode(true));
-//             this.appendChild(templateContainer);
-//             resolve();
-//         });
-//     }
-// }
 
 /**
  * DESC: A custom HTMLElement, implements many methods for custom use with the program to make work more efficient
@@ -385,7 +207,7 @@ class Panel extends HTMLElement {
      * @memberof Panel
      */
     private initTemplate(): Promise<void> {
-        return new Promise( async (resolve) => {
+        return new Promise(async (resolve) => {
             const baseResponse = await fetch(PanelTypeTemplate.BASE).then(
                 (res) => res.json()
             );
@@ -425,7 +247,10 @@ class Panel extends HTMLElement {
         return new Promise((resolve) => {
             this.initTemplate().then(() =>
                 this.addHoverListeners().then(() =>
-                    this.addHandleListeners().then(() => resolve())
+                    this.addHandleListeners().then(() => {
+                        this.beginBehaviour();
+                        resolve();
+                    })
                 )
             );
         });
@@ -481,14 +306,14 @@ class Panel extends HTMLElement {
                         eventCoords: {
                             x: e.clientX,
                             y: e.pageY,
-                        },
+                        } as Coordinate,
                         panelPos: {
                             x: this.offsetLeft,
                             y: this.offsetTop,
-                        },
+                        } as Coordinate,
                     };
 
-                    handler.drag = (e: MouseEvent): void => {
+                    holdHandler.drag = (e: MouseEvent): void => {
                         e.preventDefault();
                         movePanelWithinScreen(this, e as MouseEvent, initData);
                         this.updatePreview(dashboard);
@@ -511,14 +336,14 @@ class Panel extends HTMLElement {
                         eventCoords: {
                             x: e.clientX,
                             y: e.pageY,
-                        },
+                        } as Coordinate,
                         panelSize: {
                             width: this.offsetWidth,
                             height: this.offsetHeight,
-                        },
+                        } as Size,
                     };
 
-                    handler.drag = (e: MouseEvent): void => {
+                    holdHandler.drag = (e: MouseEvent): void => {
                         e.preventDefault();
                         resizePanel(this, e as MouseEvent, initData);
                         this.updatePreview(dashboard);
@@ -532,18 +357,18 @@ class Panel extends HTMLElement {
 
     public addHoverListeners(): Promise<void> {
         return new Promise((resolve) => {
-            this.addEventListener("mousemove", movePanelHoverHandler);
-            this.addEventListener("mouseleave", exitPanelHoverHandler);
-            this.addEventListener("mouseenter", enterPanelHoverHandler);
+            this.addEventListener("mouseenter", hoverHandler.enter);
+            this.addEventListener("mousemove", hoverHandler.move);
+            this.addEventListener("mouseleave", hoverHandler.exit);
             resolve();
         });
     }
 
     public removeHoverListeners(): void {
-        this.removeEventListener("mouseenter", enterPanelHoverHandler);
-        this.removeEventListener("mousemove", movePanelHoverHandler);
+        this.removeEventListener("mouseenter", hoverHandler.enter);
+        this.removeEventListener("mousemove", hoverHandler.move);
         this.dispatchEvent(new Event("mouseleave"));
-        this.removeEventListener("mouseleave", exitPanelHoverHandler);
+        this.removeEventListener("mouseleave", hoverHandler.exit);
     }
 
     public initPreview(dashboard: Dashboard): void {
@@ -561,19 +386,28 @@ class Panel extends HTMLElement {
         );
     }
 
+    public beginBehaviour(): void {
+        switch (this.type) {
+            case PanelType.CLOCK:
+                setInterval(() => {
+                    const now = new Date();
+                    const dateText = this.querySelector(".date-text");
+                    if (dateText) dateText.textContent = formatDate(now);
+                    const timeText = this.querySelector(".time-text");
+                    if (timeText) timeText.textContent = formatTime(now);
+                }, 1000);
+                break;
+
+            default:
+                break;
+        }
+    }
+
     public static defaultPanel(): Panel {
         return new Panel(Area.INIT, PanelType.DEFAULT, 0);
     }
 }
 
 window.customElements.define("panel-element", Panel);
-// window.customElements.define("panel-template", PanelTemplate, {extends: "template"});
 
-export {
-    PanelType,
-    PanelTypeData,
-    PanelTypeName,
-    PanelTypeTemplate,
-    PanelInstance,
-    Panel,
-};
+export { PanelInstance, Panel };

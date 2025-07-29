@@ -10,4 +10,6 @@
     --preview-bg: lch(from var(--panel-bg) calc(l*0.6) c h);
     --text-col: rgb(130, 255, 236);
     --small-border-radius: 1rem;
+    --scrollbar-bg: hsl(from var(--panel-bg) h s calc(l * 0.7));
+    --scrollbar-thumb-col: hsl(from var(--panel-bg) h s calc(l * 1.2));
 }

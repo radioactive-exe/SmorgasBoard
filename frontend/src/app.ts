@@ -1,9 +1,9 @@
-/* eslint-disable @typescript-eslint/no-empty-function */
 import * as get from "./accessors.js";
 import * as utils from "./util.js";
 
 import { Area } from "./definitions/area.js";
-import { Panel, PanelType } from "./definitions/panel.js";
+import { PanelType } from "./definitions/panel_type.js";
+import { Panel } from "./definitions/panel.js";
 import { Dashboard, Theme } from "./definitions/dashboard.js";
 
 import {
@@ -11,31 +11,84 @@ import {
     rotatePanel,
     rotateElementStyle,
 } from "./manip.js";
+import { months, weekdays } from "./definitions/constants.js";
 
-const dashboard: Dashboard =
-    (document.querySelector("smorgas-board") as Dashboard) ??
-    (document.createElement("smorgas-board") as Dashboard);
-const contextMenu = document.querySelector<HTMLElement>(".context-menu");
-const editModeButton = document.querySelector<HTMLElement>("#edit-mode-button");
-const deletePanelSection = document.querySelector<HTMLElement>(
+const dashboard: Dashboard = document.querySelector(
+    "smorgas-board"
+) as Dashboard;
+
+const contextMenu = document.querySelector(".context-menu") as HTMLElement;
+const editModeButton = document.querySelector(
+    "#edit-mode-button"
+) as HTMLElement;
+const deletePanelSection = document.querySelector(
     "#remove-panel-section"
-);
-const deletePanelButton = document.querySelector<HTMLElement>(
+) as HTMLElement;
+const deletePanelButton = document.querySelector(
     "#remove-panel-button"
-);
+) as HTMLElement;
+
+const dateText = document.querySelector(".date-text") as HTMLElement;
+const timeText = document.querySelector(".time-text") as HTMLElement;
+
 const current = {
-    flag: "",
-    panel: Panel.defaultPanel(),
+    flag: "" as string,
+    panel: Panel.defaultPanel() as Panel,
 };
-const handler = {
+const holdHandler = {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    drag: function (e: MouseEvent): void {},
-    release: function (): void {},
+    drag: function (e: MouseEvent): void {
+        return;
+    },
+    release: releaseHandler,
+};
+const hoverHandler = {
+    enter: enterPanelHoverHandler,
+    move: movePanelHoverHandler,
+    exit: exitPanelHoverHandler,
 };
 let contextMenuDeleteTimeout: NodeJS.Timeout;
 
 const preview: Panel = new Panel(Area.INIT, PanelType.PREVIEW, -1);
 preview.classList.add("final-preview");
+
+function spawnContextMenu(e: MouseEvent): void {
+    e.preventDefault();
+    const themeMenu = document.querySelector<HTMLElement>(".theme-menu");
+    if (contextMenu == null || themeMenu == null) return;
+
+    if (e.target instanceof Panel) {
+        current.panel = e.target;
+        deletePanelSection?.classList.add("visible");
+    } else deletePanelSection?.classList.remove("visible");
+
+    try {
+        if (e.pageX > window.innerWidth - 2 * contextMenu.offsetWidth)
+            themeMenu.style.left = "-102%";
+        else themeMenu.style.left = "98%";
+
+        clearTimeout(contextMenuDeleteTimeout);
+
+        contextMenu.style.left =
+            utils.clamp(
+                e.pageX,
+                0,
+                window.innerWidth - contextMenu.offsetWidth - 10
+            ) + "px";
+        contextMenu.style.top =
+            utils.clamp(
+                e.pageY - 0.5 * contextMenu.offsetHeight,
+                0,
+                window.innerHeight - contextMenu.offsetHeight + 10
+            ) + "px";
+        contextMenu.classList.add("visible");
+
+        contextMenu.addEventListener("mouseenter", keepContextMenu);
+        contextMenu.addEventListener("mouseleave", removeContextMenu);
+    } catch (error) {
+        console.error(error);
+    }
+}
 
 function keepContextMenu(): void {
     clearTimeout(contextMenuDeleteTimeout);
@@ -45,12 +98,12 @@ function removeContextMenu(): void {
     if (!contextMenu) return;
 
     contextMenuDeleteTimeout = setTimeout(() => {
-        contextMenu.style.visibility = "hidden";
+        contextMenu.classList.remove("visible");
         contextMenu.removeEventListener("mouseleave", removeContextMenu);
     }, 1000);
 }
 
-handler.release = function (): void {
+function releaseHandler(): void {
     snapElementToTarget(current.panel, preview);
 
     snapElementToTarget(preview, preview);
@@ -59,11 +112,11 @@ handler.release = function (): void {
 
     dashboard.updateStoredPanels();
 
-    document.removeEventListener("mouseup", handler.release);
-    document.removeEventListener("mousemove", handler.drag);
+    document.removeEventListener("mouseup", holdHandler.release);
+    document.removeEventListener("mousemove", holdHandler.drag);
 
     utils.deleteAfterTransition(preview);
-};
+}
 
 function enterPanelHoverHandler(e: MouseEvent): void {
     if (dashboard.isEditing()) return;
@@ -112,8 +165,8 @@ function exitPanelHoverHandler(e: MouseEvent): void {
 }
 
 function setDocumentHandlers(): void {
-    document.addEventListener("mousemove", handler.drag);
-    document.addEventListener("mouseup", handler.release);
+    document.addEventListener("mousemove", holdHandler.drag);
+    document.addEventListener("mouseup", holdHandler.release);
 }
 
 // ~ Listener Initialisation
@@ -134,47 +187,11 @@ document.addEventListener("keydown", async (e) => {
             dashboard.toggleEditMode();
             break;
         case "ArrowLeft":
-            dashboard.spawnPanelOfType(PanelType.NOTEPAD);
+            dashboard.spawnPanelOfType(PanelType.CLOCK);
     }
 });
 
-dashboard.addEventListener("contextmenu", (e) => {
-    e.preventDefault();
-    const themeMenu = document.querySelector<HTMLElement>(".theme-menu");
-    if (contextMenu == null || themeMenu == null) return;
-
-    if (e.target instanceof Panel) {
-        current.panel = e.target;
-        deletePanelSection?.classList.add("visible");
-    } else deletePanelSection?.classList.remove("visible");
-
-    try {
-        if (e.pageX > window.innerWidth - 2 * contextMenu.offsetWidth)
-            themeMenu.style.left = "-102%";
-        else themeMenu.style.left = "98%";
-
-        clearTimeout(contextMenuDeleteTimeout);
-
-        contextMenu.style.left =
-            utils.clamp(
-                e.pageX,
-                0,
-                window.innerWidth - contextMenu.offsetWidth - 10
-            ) + "px";
-        contextMenu.style.top =
-            utils.clamp(
-                e.pageY - 0.5 * contextMenu.offsetHeight,
-                0,
-                window.innerHeight - contextMenu.offsetHeight + 10
-            ) + "px";
-        contextMenu.style.visibility = "visible";
-
-        contextMenu.addEventListener("mouseenter", keepContextMenu);
-        contextMenu.addEventListener("mouseleave", removeContextMenu);
-    } catch (error) {
-        console.error(error);
-    }
-});
+dashboard.addEventListener("contextmenu", spawnContextMenu);
 
 editModeButton?.addEventListener("click", () => {
     dashboard.toggleEditMode();
@@ -184,13 +201,36 @@ deletePanelButton?.addEventListener("click", () => {
     dashboard.deletePanel(current.panel);
 });
 
+// ~ Panel Data Functionality
+
+function formatTime(time: Date): string {
+    const hours: number = time.getHours();
+    const minutes: number = time.getMinutes();
+    const seconds: number = time.getSeconds();
+    return `${hours.toString().padStart(2, "0")}:${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
+}
+
+function formatDate(time: Date): string {
+    const weekday = time.getDay();
+    const day = time.getDate();
+    const month = time.getMonth();
+    const year = time.getFullYear();
+    return `${weekdays[weekday]}, ${months[month]} ${day}, ${year}`;
+}
+
+setInterval(() => {
+    timeText.textContent = formatTime(new Date());
+    dateText.textContent = formatDate(new Date());
+}, 1000);
+
+
 export {
     current,
     preview,
-    handler,
+    holdHandler,
+    hoverHandler,
     dashboard,
     setDocumentHandlers,
-    enterPanelHoverHandler,
-    movePanelHoverHandler,
-    exitPanelHoverHandler,
+    formatTime,
+    formatDate
 };

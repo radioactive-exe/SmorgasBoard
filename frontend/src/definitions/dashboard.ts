@@ -1,7 +1,8 @@
 import * as get from "../accessors.js";
 
 import { Area } from "./area.js";
-import { Panel, PanelInstance, PanelType } from "./panel.js";
+import { PanelType } from "./panel_type.js";
+import { Panel, PanelInstance } from "./panel.js";
 
 import { snapElementToGrid } from "../manip.js";
 
@@ -90,7 +91,6 @@ class Dashboard extends HTMLElement {
         }
         shadow.append(cells);
         shadow.append(document.createElement("slot"));
-        this.panels = [];
         this.loadStoredPanels();
     }
 
@@ -145,6 +145,9 @@ class Dashboard extends HTMLElement {
     }
 
     public loadStoredPanels(): void {
+
+        this.panels = [];
+
         const loadedIds: number[] = JSON.parse(
             localStorage.getItem("free-panel-ids") ?? "[]"
         );

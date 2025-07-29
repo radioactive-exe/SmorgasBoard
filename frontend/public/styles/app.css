@@ -15,6 +15,10 @@
     --panel-transition-time: var(--quick-transition-time);
 
     --square-handle-full-side: 5rem;
+
+    --small-font: 2rem;
+    --med-font: 5rem;
+
 }
 
 * {
@@ -59,6 +63,8 @@ smorgas-board {
         width: var(--width);
         height: var(--height);
 
+        transition: opacity var(--panel-transition-time) ease;
+
         border-radius: 2rem;
 
         &:has(~ .being-dragged),
@@ -81,7 +87,6 @@ smorgas-board {
         --min-height: 1fr;
 
         /* --forced-aspect-ratio: 1:2; */
-        transition: filter var(--panel-transition-time) ease;
 
         position: fixed;
         left: calc(var(--x));
@@ -262,7 +267,7 @@ panel-element {
         }
 
         & textarea:focus {
-           background: hsl(from var(--textarea-bg) h s calc(l * 0.9));
+            background: hsl(from var(--textarea-bg) h s calc(l * 0.9));
         }
 
         & textarea::placeholder {
@@ -273,7 +278,6 @@ panel-element {
 
 .context-menu {
     position: absolute;
-    visibility: hidden;
     width: 20rem;
     height: 16rem;
     padding: 0.5rem;
@@ -370,6 +374,10 @@ panel-element {
             backdrop-filter: brightness(0.8);
         }
     }
+
+    &:not(.visible) {
+        visibility: hidden;
+    }
 }
 
 .glassy {
@@ -378,7 +386,52 @@ panel-element {
 }
 
 .disappearing {
-    animation: spawnIn reverse var(--panel-transition-time) ease !important;
+    animation: spawnIn reverse var(--panel-transition-time) ease;
+}
+
+.date-time {
+    position: fixed;
+    height: 10rem;
+    padding: 3rem;
+    z-index: 5;
+    background: var(--panel-bg);
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+    border-radius: var(--panel-border-radius);
+    
+    & .date {
+        
+        & span {
+            font-size: var(--small-font);
+        }
+    }
+
+    & .time {
+
+        & span {
+            font-size: var(--med-font);
+        }
+    }
+}
+
+::-webkit-scrollbar {
+    max-width: 1rem;
+    border-radius: inherit;
+    background: var(--scrollbar-bg);
+    cursor: grab;
+}
+
+::-webkit-scrollbar-thumb {
+    max-width: 1rem;
+    border-radius: inherit;
+    background: var(--scrollbar-thumb-col);
+    cursor: grab;
+}
+
+::-webkit-scrollbar-thumb:active {
+    cursor: grabbing;
 }
 
 @keyframes spawnIn {
