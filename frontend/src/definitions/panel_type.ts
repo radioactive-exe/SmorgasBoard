@@ -143,13 +143,12 @@ class PanelType {
         switch (id) {
             case 0:
                 return PanelType.DEFAULT;
-                break;
             case 1:
                 return PanelType.NOTEPAD;
-                break;
             case 2:
                 return PanelType.PHOTO;
-                break;
+            case 3:
+                return PanelType.CLOCK;
         }
 
         return PanelType.PREVIEW;

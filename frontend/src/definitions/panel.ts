@@ -390,6 +390,7 @@ class Panel extends HTMLElement {
         switch (this.type) {
             case PanelType.CLOCK:
                 setInterval(() => {
+                    console.log(this.querySelector<HTMLElement>(".date-time")?.offsetWidth);
                     const now = new Date();
                     const dateText = this.querySelector(".date-text");
                     if (dateText) dateText.textContent = formatDate(now);

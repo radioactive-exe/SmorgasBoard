@@ -28,9 +28,6 @@ const deletePanelButton = document.querySelector(
     "#remove-panel-button"
 ) as HTMLElement;
 
-const dateText = document.querySelector(".date-text") as HTMLElement;
-const timeText = document.querySelector(".time-text") as HTMLElement;
-
 const current = {
     flag: "" as string,
     panel: Panel.defaultPanel() as Panel,
@@ -217,11 +214,6 @@ function formatDate(time: Date): string {
     const year = time.getFullYear();
     return `${weekdays[weekday]}, ${months[month]} ${day}, ${year}`;
 }
-
-setInterval(() => {
-    timeText.textContent = formatTime(new Date());
-    dateText.textContent = formatDate(new Date());
-}, 1000);
 
 
 export {
