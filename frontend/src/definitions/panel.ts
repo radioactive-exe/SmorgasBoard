@@ -5,6 +5,8 @@ import { Coordinate, Size, AreaInstance, Area } from "./area.js";
 import { Dashboard } from "./dashboard.js";
 import { PanelTypeTemplate, PanelType } from "./panel_type.js";
 
+import * as zod from "zod";
+
 import {
     current,
     hoverHandler,
@@ -21,9 +23,10 @@ import {
     snapElementToGrid,
     snapElementToTarget,
 } from "../manip.js";
+import { Config, getDefaultConfig } from "./config.js";
 
 /**
- * DESC: A type that defines the structure of a @type {Panel} in its stored format, either in localStorage or the cloud.
+ * @description: A type that defines the structure of a @type {Panel} in its stored format, either in localStorage or the cloud.
  *
  * @this PanelInstance */
 interface PanelInstance {
@@ -34,14 +37,14 @@ interface PanelInstance {
 }
 
 /**
- * DESC: A custom HTMLElement, implements many methods for custom use with the program to make work more efficient
+ * @description: A custom HTMLElement, implements many methods for custom use with the program to make work more efficient
  *
  * @class Panel
  * @extends {HTMLElement}
  */
 class Panel extends HTMLElement {
     /**
-     * DESC: Creates an instance of a Panel.
+     * @description: Creates an instance of a Panel.
      *
      * POINT: @param body is optional, but the data member is not, so it is instantiated either way
      *
@@ -58,7 +61,8 @@ class Panel extends HTMLElement {
         private area: Area,
         private type: PanelType,
         private dashboardId: number,
-        body?: string
+        body?: string,
+        private config?: Config
         // private readonly potentialAspectRatios: number[] | null
     ) {
         super();
@@ -70,6 +74,15 @@ class Panel extends HTMLElement {
         this.dataset.panelType = type.toString();
         this.init().then(() => {
             if (body) this.setContent(body);
+            if (config && type.getConfigSchema() != undefined) {
+                try {
+                    this.config = type.getConfigSchema()?.parse(config);
+                } catch (error) {
+                    if (error instanceof zod.ZodError) console.error("Invalid Panel Config provided. Please ensure the config is for the appropriate Panel Type:", type.getConfigSchema());
+                }
+            } else if (!config && type.getConfigSchema() != undefined) {
+                this.config = getDefaultConfig(type.getConfigSchema() as zod.ZodObject);
+            }
         });
     }
 
@@ -78,7 +91,7 @@ class Panel extends HTMLElement {
     }
 
     /**
-     * DESC: Gets the Area of the current Panel, as an object of @type {Area}
+     * @description: Gets the Area of the current Panel, as an object of @type {Area}
      *
      * @return  {Area}
      * @memberof Panel
@@ -88,7 +101,7 @@ class Panel extends HTMLElement {
     }
 
     /**
-     * DESC: Sets the Panel's Area with a complete @type {Area} input
+     * @description: Sets the Panel's Area with a complete @type {Area} input
      *
      * @param {Area} other
      * @memberof Panel
@@ -104,7 +117,7 @@ class Panel extends HTMLElement {
     }
 
     /**
-     * DESC: Updates the current Panel's Area with the values in the style, in case there is ever a disconnect between the two. This should never be the case, but it is a contingency. This is for queried Panels, in case they exist. Usually, they won't, but just in case.
+     * @description: Updates the current Panel's Area with the values in the style, in case there is ever a disconnect between the two. This should never be the case, but it is a contingency. This is for queried Panels, in case they exist. Usually, they won't, but just in case.
      *
      * @memberof Panel
      */
@@ -126,7 +139,7 @@ class Panel extends HTMLElement {
     }
 
     /**
-     * DESC: Gets the Panel's (Area's) position, as an object of @type {Coordinate}
+     * @description: Gets the Panel's (Area's) position, as an object of @type {Coordinate}
      *
      * @return  {Coordinate}
      * @memberof Panel
@@ -136,7 +149,7 @@ class Panel extends HTMLElement {
     }
 
     /**
-     * DESC: Sets the Panel's position from an input set of numbers.
+     * @description: Sets the Panel's position from an input set of numbers.
      *
      * @param {number} x - The x (horizontal) coordinate
      * @param {number} y - The y (vertical) coordinate
@@ -154,7 +167,7 @@ class Panel extends HTMLElement {
     }
 
     /**
-     * DESC: Gets the size of the Panel ('s Area) as an object of @type {Size}
+     * @description: Gets the size of the Panel ('s Area) as an object of @type {Size}
      *
      * @return {Size}
      * @memberof Panel
@@ -164,7 +177,7 @@ class Panel extends HTMLElement {
     }
 
     /**
-     * DESC: Sets the Panel's size from an input set of numbers.
+     * @description: Sets the Panel's size from an input set of numbers.
      *
      * @param {number} width
      * @param {number} height
@@ -182,7 +195,7 @@ class Panel extends HTMLElement {
     }
 
     /**
-     * DESC: Returns the Panel's type, as an object of @type {PanelType}
+     * @description: Returns the Panel's type, as an object of @type {PanelType}
      *
      * @return {PanelType}
      * @memberof Panel
@@ -192,7 +205,7 @@ class Panel extends HTMLElement {
     }
 
     /**
-     *  DESC: Sets the Panel Type from a received input of @type {PanelType}
+     *  @description: Sets the Panel Type from a received input of @type {PanelType}
      *
      * @param {PanelType} type
      * @memberof Panel
@@ -202,7 +215,7 @@ class Panel extends HTMLElement {
     }
 
     /**
-     * DESC: Initiates the panel's body based on its template
+     * @description: Initiates the panel's body based on its template
      *
      * @memberof Panel
      */
@@ -390,7 +403,6 @@ class Panel extends HTMLElement {
         switch (this.type) {
             case PanelType.CLOCK:
                 setInterval(() => {
-                    console.log(this.querySelector<HTMLElement>(".date-time")?.offsetWidth);
                     const now = new Date();
                     const dateText = this.querySelector(".date-text");
                     if (dateText) dateText.textContent = formatDate(now);

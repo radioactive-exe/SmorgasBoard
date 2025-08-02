@@ -1,5 +1,7 @@
+import * as zod from "zod";
+
 /**
- * DESC: Different Panel Data Types, the keys of the entries being the type of data content, and the values being their respective ID.
+ * @description: Different Panel Data Types, the keys of the entries being the type of data content, and the values being their respective ID.
  *
  * @enum {number}
  */
@@ -11,7 +13,7 @@ enum PanelTypeData {
 }
 
 /**
- * DESC: Different Panel Types/Kinds (Notepad, Default (empty), Preview, etc.), the keys of the entries being the type of panel, and the values being their respective ID.
+ * @description: Different Panel Types/Kinds (Notepad, Default (empty), Preview, etc.), the keys of the entries being the type of panel, and the values being their respective ID.
  *
  * @enum {number}
  */
@@ -24,9 +26,9 @@ enum PanelTypeName {
 }
 
 /**
- * DESC: An @enum of different important constants relating to Panel Content, such as the default content for an empty panel.
+ * @description: An @enum of different important constants relating to Panel Content, such as the default content for an empty panel.
  *
- * @enum {number}
+ * @enum {url}
  */
 enum PanelTypeTemplate {
     BASE = "https://smorgas-board-backend.vercel.app/definitions/panels/base",
@@ -38,13 +40,35 @@ enum PanelTypeTemplate {
 }
 
 /**
- * DESC: PanelType Class, this is class that unifies all information about a panel's type, including the name, data type, and other useful information and methods.
+ * @description: An @enum of different important constants relating to Panel Content, such as the default content for an empty panel.
+ *
+ * @a
+ */
+class PanelTypeConfig {
+    // public readonly NOTEPAD: zod.ZodObject = "https://smorgas-board-backend.vercel.app/definitions/panels/notepad";
+    // public readonly PHOTO: zod.ZodObject = "https://smorgas-board-backend.vercel.app/definitions/panels/photo";
+    public static readonly CLOCK: PanelTypeConfig = new PanelTypeConfig(zod.strictObject({
+        use24HrTime: zod.boolean().default(true),
+        showSeconds: zod.boolean().default(false),
+        showDate: zod.boolean().default(true),
+        dateFormat: zod.literal(["full", "long", "short"]).default("long"),
+    }));
+
+    private constructor(private config: zod.ZodObject) {}
+
+    public getConfig(): zod.ZodObject {
+        return this.config;
+    }
+}
+
+/**
+ * @description: PanelType Class, this is class that unifies all information about a panel's type, including the name, data type, and other useful information and methods.
  *
  * @class PanelType
  */
 class PanelType {
     /**
-     * DESC: These are all the Defined Panel Types in the project/application. New Types cannot be created during runtime unless needed.
+     * @description: These are all the Defined Panel Types in the project/application. New Types cannot be created during runtime unless needed.
      *
      * @this @alias (PanelDataTypes)
      * @static
@@ -79,11 +103,12 @@ class PanelType {
         3,
         PanelTypeData.NONE,
         PanelTypeName.CLOCK,
-        PanelTypeTemplate.CLOCK
+        PanelTypeTemplate.CLOCK,
+        PanelTypeConfig.CLOCK
     );
 
     /**
-     * DESC: Creates an instance of PanelType.
+     * @description: Creates an instance of PanelType.
      *
      * NOTE: Similarly to themes, these should not be created at runtime and will instead be set types with set data types and names, unless otherwise is required. All the necessary types are declared at @alias (PanelDataTypes)
      *
@@ -98,11 +123,12 @@ class PanelType {
         private readonly typeId: number,
         private readonly typeData: PanelTypeData,
         private readonly typeName: PanelTypeName,
-        private readonly typeTemplate: PanelTypeTemplate
+        private readonly typeTemplate: PanelTypeTemplate,
+        private readonly typeConfig?: PanelTypeConfig
     ) {}
 
     /**
-     * DESC: Returns the type name of the Panel type when used in @type {string} contexts
+     * @description: Returns the type name of the Panel type when used in @type {string} contexts
      *
      * @return {string}
      * @memberof PanelType
@@ -112,7 +138,7 @@ class PanelType {
     }
 
     /**
-     * DESC: Returns the ID number for this type of panel
+     * @description: Returns the ID number for this type of panel
      *
      * @return {number}
      * @memberof PanelType
@@ -122,7 +148,7 @@ class PanelType {
     }
 
     /**
-     * DESC: Returns the name of the template for this PanelType
+     * @description: Returns the name of the template for this PanelType
      *
      * @return {string}
      * @memberof PanelType
@@ -131,8 +157,12 @@ class PanelType {
         return this.typeTemplate;
     }
 
+    public getConfigSchema(): zod.ZodObject | undefined {
+        return this.typeConfig?.getConfig();
+    }
+
     /**
-     * DESC: Returns the panel from @alias (PanelDataTypes) that has @param {id} as a @member {typeId}
+     * @description: Returns the panel from @alias (PanelDataTypes) that has @param {id} as a @member {typeId}
      *
      * @static
      * @param {number} id

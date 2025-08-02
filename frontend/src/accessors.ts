@@ -54,7 +54,7 @@ function elementAspectRatio(el: HTMLElement): number {
         return 0;
     }
     const split: string[] = string.split(":");
-
+    
     return parseInt(split[0]) / parseInt(split[1]);
 }
 

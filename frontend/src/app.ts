@@ -54,7 +54,7 @@ function spawnContextMenu(e: MouseEvent): void {
     const themeMenu = document.querySelector<HTMLElement>(".theme-menu");
     if (contextMenu == null || themeMenu == null) return;
 
-    if (e.target instanceof Panel) {
+    if (e.target instanceof Panel && dashboard.isEditing()) {
         current.panel = e.target;
         deletePanelSection?.classList.add("visible");
     } else deletePanelSection?.classList.remove("visible");
@@ -184,7 +184,15 @@ document.addEventListener("keydown", async (e) => {
             dashboard.toggleEditMode();
             break;
         case "ArrowLeft":
-            dashboard.spawnPanelOfType(PanelType.CLOCK);
+            dashboard.spawnPanel(new Panel(
+                Area.INIT,
+                PanelType.CLOCK,
+                10,
+                "",
+                {
+                    showSeconds: true,
+                }
+            ));
     }
 });
 
@@ -201,6 +209,7 @@ deletePanelButton?.addEventListener("click", () => {
 // ~ Panel Data Functionality
 
 function formatTime(time: Date): string {
+    return time.toLocaleTimeString("gmt", {"hour12": false, "timeStyle": "short"});
     const hours: number = time.getHours();
     const minutes: number = time.getMinutes();
     const seconds: number = time.getSeconds();
@@ -208,13 +217,13 @@ function formatTime(time: Date): string {
 }
 
 function formatDate(time: Date): string {
+    return time.toLocaleDateString("en-gb", {"dateStyle": "short"});
     const weekday = time.getDay();
     const day = time.getDate();
     const month = time.getMonth();
     const year = time.getFullYear();
     return `${weekdays[weekday]}, ${months[month]} ${day}, ${year}`;
 }
-
 
 export {
     current,
@@ -224,5 +233,5 @@ export {
     dashboard,
     setDocumentHandlers,
     formatTime,
-    formatDate
+    formatDate,
 };

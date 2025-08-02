@@ -108,24 +108,6 @@ function snapElementToGrid(
 ): void {
     const aspectRatio: number = get.elementAspectRatio(source);
 
-    // x = panel.offsetLeft;
-    // y = panel.offsetTop;
-    // width = panel.offsetWidth;
-    // height = panel.offsetHeight;
-
-    // const originalArea: Area = new Area(
-    //     {
-    //         x,
-    //         y,
-    //         isAbsolute: true,
-    //     },
-    //     {
-    //         width,
-    //         height,
-    //         isAbsolute: true,
-    //     }
-    // );
-
     potentialX = get.normalisedCssPropertyValue(source, "--x");
     potentialY = get.normalisedCssPropertyValue(source, "--y");
     potentialWidth = utils.clamp(
@@ -153,9 +135,8 @@ function snapElementToGrid(
     );
 
     const potentialRatio = utils.roundToNearest(
-        potentialWidth /
-            get.fractionalWidth() /
-            (potentialHeight / get.fractionalHeight()),
+        potentialArea.getWidth() /
+            potentialArea.getHeight(),
         0.001
     );
 

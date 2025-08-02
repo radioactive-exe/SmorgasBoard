@@ -7,13 +7,13 @@ import { Panel, PanelInstance } from "./panel.js";
 import { snapElementToGrid } from "../manip.js";
 
 /**
- * DESC: A class to facilitate the storage and usage of Themes in the application, with useful fields and methods
+ * @description: A class to facilitate the storage and usage of Themes in the application, with useful fields and methods
  *
  * @class Theme
  */
 class Theme {
     /**
-     * DESC: These are all the Defined Themes in the project/application. They can be accessed during runtime to switch themes and have any necessary info.
+     * @description: These are all the Defined Themes in the project/application. They can be accessed during runtime to switch themes and have any necessary info.
      *
      *
      * @static
@@ -34,7 +34,7 @@ class Theme {
     // TODO Implement Mode preference themes like Light and Dark Mode
 
     /**
-     * DESC: Creates an instance of a Theme.
+     * @description: Creates an instance of a Theme.
      *
      * NOTE: Constructor is private so we cannot create any other themes during runtime.
      *
@@ -51,7 +51,7 @@ class Theme {
     ) {}
 
     /**
-     * DESC: Returns the name of the theme if it is in a @type {string} context
+     * @description: Returns the name of the theme if it is in a @type {string} context
      *
      * @return {string}
      * @memberof Theme
@@ -61,7 +61,7 @@ class Theme {
     }
 
     /**
-     * DESC: Returns ths URL/Location of the theme, used when setting themes.
+     * @description: Returns ths URL/Location of the theme, used when setting themes.
      *
      * @return {string}
      * @memberof Theme
