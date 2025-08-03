@@ -1,0 +1,13 @@
+:root {
+    font-family: 'Courier New', Courier, monospace;
+    --panel-bg: rgb(40, 40, 40);
+    --text-col: lime;
+    --dashboard-bg: rgb(24, 24, 24);
+    --panel-handle-bg: hsl(from var(--panel-bg) h s calc(l * 1.6));
+    --cell-bg: rgba(255, 255, 255, 0.305);
+    --textarea-bg: hsl(from var(--panel-bg) h s calc(l * 0.95));
+    --preview-bg: lch(from var(--panel-bg) calc(l*0.6) c h);
+    --small-border-radius: 1rem;
+    --scrollbar-bg: hsl(from var(--panel-bg) h s calc(l * 0.7));
+    --scrollbar-thumb-col: hsl(from var(--panel-bg) h s calc(l * 1.2));
+}

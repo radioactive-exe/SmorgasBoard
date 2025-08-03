@@ -11,13 +11,20 @@ import {
     rotatePanel,
     rotateElementStyle,
 } from "./manip.js";
-import { months, weekdays } from "./definitions/constants.js";
+// import { months, weekdays } from "./definitions/constants.js";
+import { Config } from "./definitions/config.js";
 
 const dashboard: Dashboard = document.querySelector(
     "smorgas-board"
 ) as Dashboard;
 
 const contextMenu = document.querySelector(".context-menu") as HTMLElement;
+const themeMenu: HTMLElement = document.querySelector(
+    "#theme-menu"
+) as HTMLElement;
+const panelMenu: HTMLElement = document.querySelector(
+    "#panel-menu"
+) as HTMLElement;
 const editModeButton = document.querySelector(
     "#edit-mode-button"
 ) as HTMLElement;
@@ -51,8 +58,7 @@ preview.classList.add("final-preview");
 
 function spawnContextMenu(e: MouseEvent): void {
     e.preventDefault();
-    const themeMenu = document.querySelector<HTMLElement>(".theme-menu");
-    if (contextMenu == null || themeMenu == null) return;
+    if (contextMenu == null || themeMenu == null || panelMenu == null) return;
 
     if (e.target instanceof Panel && dashboard.isEditing()) {
         current.panel = e.target;
@@ -60,9 +66,26 @@ function spawnContextMenu(e: MouseEvent): void {
     } else deletePanelSection?.classList.remove("visible");
 
     try {
-        if (e.pageX > window.innerWidth - 2 * contextMenu.offsetWidth)
+        if (
+            window.innerWidth < 2 * contextMenu.offsetWidth ||
+            (e.pageX > window.innerWidth - 2 * contextMenu.offsetWidth &&
+                e.pageX < contextMenu.offsetWidth)
+        ) {
+            themeMenu.style.top = "98%";
+            themeMenu.style.left = "-2%";
+            panelMenu.style.top = "98%";
+            panelMenu.style.left = "-2%";
+        } else if (e.pageX > window.innerWidth - 2 * contextMenu.offsetWidth) {
+            themeMenu.style.top = "";
             themeMenu.style.left = "-102%";
-        else themeMenu.style.left = "98%";
+            panelMenu.style.top = "";
+            panelMenu.style.left = "-102%";
+        } else {
+            themeMenu.style.top = "";
+            themeMenu.style.left = "98%";
+            panelMenu.style.top = "";
+            panelMenu.style.left = "98%";
+        }
 
         clearTimeout(contextMenuDeleteTimeout);
 
@@ -178,21 +201,14 @@ document.addEventListener("keydown", async (e) => {
             dashboard.setCurrentTheme(Theme.DEFAULT);
             break;
         case "ArrowUp":
-            dashboard.setCurrentTheme(Theme.YELLOW);
+            dashboard.setCurrentTheme(Theme.CONSOLE);
             break;
         case "ArrowRight":
             dashboard.toggleEditMode();
+            console.log(Object.keys(PanelType));
             break;
         case "ArrowLeft":
-            dashboard.spawnPanel(new Panel(
-                Area.INIT,
-                PanelType.CLOCK,
-                10,
-                "",
-                {
-                    showSeconds: true,
-                }
-            ));
+            dashboard.spawnPanelOfType(PanelType.CLOCK);
     }
 });
 
@@ -208,22 +224,50 @@ deletePanelButton?.addEventListener("click", () => {
 
 // ~ Panel Data Functionality
 
-function formatTime(time: Date): string {
-    return time.toLocaleTimeString("gmt", {"hour12": false, "timeStyle": "short"});
-    const hours: number = time.getHours();
-    const minutes: number = time.getMinutes();
-    const seconds: number = time.getSeconds();
-    return `${hours.toString().padStart(2, "0")}:${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
+function formatTime(time: Date, options?: Config): string {
+    return time.toLocaleTimeString("en-gb", {
+        hour12: !options?.use24HrTime,
+        timeStyle: options?.showSeconds ? "medium" : "short",
+    });
+    // const hours: number = time.getHours();
+    // const minutes: number = time.getMinutes();
+    // const seconds: number = time.getSeconds();
+    // return `${hours.toString().padStart(2, "0")}:${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
 }
 
-function formatDate(time: Date): string {
-    return time.toLocaleDateString("en-gb", {"dateStyle": "short"});
-    const weekday = time.getDay();
-    const day = time.getDate();
-    const month = time.getMonth();
-    const year = time.getFullYear();
-    return `${weekdays[weekday]}, ${months[month]} ${day}, ${year}`;
+function formatDate(time: Date, options?: Config): string {
+    return time.toLocaleDateString("en-gb", {
+        dateStyle: options?.dateFormat as "full" | "long" | "short" | "medium",
+        localeMatcher: "best fit",
+    });
+    // const weekday = time.getDay();
+    // const day = time.getDate();
+    // const month = time.getMonth();
+    // const year = time.getFullYear();
+    // return `${weekdays[weekday]}, ${months[month]} ${day}, ${year}`;
 }
+
+Object.entries(Theme).forEach((theme) => {
+    const menuEntry: HTMLElement = document.createElement("li");
+    menuEntry.classList.add("item");
+    menuEntry.id = `${theme[0].toLowerCase()}-entry`;
+    menuEntry.innerHTML = `<span>${theme[1].name}</span>`;
+    menuEntry.addEventListener("mousedown", () => {
+        dashboard.setCurrentTheme(theme[1]);
+    });
+    themeMenu.appendChild(menuEntry);
+});
+Object.entries(PanelType).forEach((panelType) => {
+    if (panelType[0] == "DEFAULT" || panelType[0] == "PREVIEW") return;
+    const menuEntry: HTMLElement = document.createElement("li");
+    menuEntry.classList.add("item");
+    menuEntry.id = `${panelType[0].toLowerCase()}-entry`;
+    menuEntry.innerHTML = `<span>${panelType[1].typeName}</span>`;
+    menuEntry.addEventListener("mousedown", () => {
+        dashboard.spawnPanelOfType(panelType[1]);
+    });
+    panelMenu.appendChild(menuEntry);
+});
 
 export {
     current,

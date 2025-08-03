@@ -36,6 +36,8 @@ smorgas-board {
     min-width: 100vw;
     min-height: 100vh;
 
+    transition: background var(--quick-transition-time) ease;
+
     &::part(cell-container) {
         background: var(--dashboard-bg);
         position: absolute;
@@ -107,7 +109,7 @@ smorgas-board {
 
         &::part(panel-body) {
             transform-style: preserve-3d;
-            transform: perspective(200rem) rotateX(var(--rotate-x)) rotateY(var(--rotate-y));
+            transform: perspective(500rem) rotateX(var(--rotate-x)) rotateY(var(--rotate-y));
             border-radius: var(--panel-border-radius);
             background: var(--panel-bg);
             position: absolute;
@@ -295,39 +297,38 @@ panel-element {
         --min-width: 1fr;
         --min-width: 2fr;
 
+        color: var(--text-col);
+
         .date-time {
             position: absolute;
             inset: 0;
-            background: red;
-            /* padding: 3rem; */
             background: var(--panel-bg);
             display: flex;
             flex-flow: column nowrap;
             justify-content: center;
             align-items: center;
             border-radius: var(--panel-border-radius);
-            
+
             text-align: center;
             resize: horizontal;
-            
+
             & .date {
                 width: 100%;
-                
+
                 & span {
                     display: block;
                     width: 100%;
                     font-size: clamp(calc(var(--small-font) * 0.8), var(--small-font), 8cqw);
                 }
             }
-            
+
             & .time {
                 width: 100%;
-                background: red;
-                
+
                 & span {
                     display: block;
                     width: 100%;
-                    font-size: clamp(calc(var(--med-font) * 0.7), var(--med-font), 40cqw);
+                    font-size: clamp(calc(var(--med-font) * 0.7), var(--med-font), 50cqw);
                 }
             }
         }
@@ -336,19 +337,19 @@ panel-element {
 
 .context-menu {
     position: absolute;
-    width: 20rem;
     height: 16rem;
     padding: 0.5rem;
     color: var(--text-col);
-
+    width: 22rem;
+    
     & .menu {
+        width: 22rem;
         position: absolute;
         border-radius: var(--small-border-radius);
         background: rgb(from var(--panel-bg) r g b / var(--panel-manip-opacity));
         filter: drop-shadow(0rem 0rem 0.5rem rgba(0 0 0 26.2%));
         display: flex;
         margin: 0.5rem;
-        width: 100%;
         flex-direction: column;
         transition: width var(--quick-transition-time) ease, background var(--quick-transition-time) ease;
         list-style: none;
@@ -384,20 +385,31 @@ panel-element {
                 -webkit-mask: var(--icon-svg) no-repeat center;
                 mask: var(--icon-svg) no-repeat center;
                 mask-size: contain;
+                transition: transform var(--quick-transition-time) ease;
+                transform: rotate(90deg)                
             }
 
             & span {
                 user-select: none;
+                white-space: nowrap;
             }
 
-            & .theme-menu {
+            & .sub-menu {
                 width: 0;
                 overflow: hidden;
             }
 
-            &#theme-item:hover .theme-menu {
-                width: inherit;
-                backdrop-filter: inherit;
+            &#theme-item:hover, &#add-panel-item:hover {
+
+
+                & .menu-caret {
+                    transform: rotate(0deg);
+                }
+
+                & .sub-menu {
+                    width: inherit;
+                    backdrop-filter: inherit;
+                }
             }
 
 

@@ -31,7 +31,7 @@
                     ></div>
                     <span>Toggle Edit Mode</span>
                 </li>
-                <li class="item">
+                <li class="item" id="add-panel-item">
                     <div
                         class="item-icon"
                         style="
@@ -39,6 +39,13 @@
                         "
                     ></div>
                     <span>Add new Panel</span>
+                    <div
+                        class="item-icon menu-caret"
+                        style="
+                            --icon-svg: url(../assets/graphics/angle-small-right.svg);
+                        "
+                    ></div>
+                    <ul id="panel-menu" class="menu sub-menu glassy"></ul>
                 </li>
                 <li class="item" id="theme-item">
                     <div
@@ -47,16 +54,12 @@
                     ></div>
                     <span>Change Theme</span>
                     <div
-                        class="item-icon"
+                        class="item-icon menu-caret"
                         style="
                             --icon-svg: url(../assets/graphics/angle-small-right.svg);
                         "
                     ></div>
-                    <ul class="menu theme-menu glassy">
-                        <li class="item"><span>Default</span></li>
-                        <li class="item"><span>Second</span></li>
-                        <li class="item"><span>Third</span></li>
-                    </ul>
+                    <ul id="theme-menu" class="menu sub-menu glassy"></ul>
                 </li>
                 <li class="context-menu-spacer"></li>
                 <a href="https://github.com/radioactive-exe">

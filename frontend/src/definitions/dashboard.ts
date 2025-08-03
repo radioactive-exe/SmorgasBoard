@@ -4,8 +4,6 @@ import { Area } from "./area.js";
 import { PanelType } from "./panel_type.js";
 import { Panel, PanelInstance } from "./panel.js";
 
-import { snapElementToGrid } from "../manip.js";
-
 /**
  * @description: A class to facilitate the storage and usage of Themes in the application, with useful fields and methods
  *
@@ -22,13 +20,13 @@ class Theme {
 
     static readonly DEFAULT = new Theme(
         0,
-        "default",
+        "Default Theme",
         "/frontend/public/themes/default.css"
     );
-    static readonly YELLOW = new Theme(
+    static readonly CONSOLE = new Theme(
         1,
-        "yellow",
-        "/frontend/public/themes/yellow.css"
+        "Hacker-man",
+        "/frontend/public/themes/console.css"
     );
 
     // TODO Implement Mode preference themes like Light and Dark Mode
@@ -125,7 +123,7 @@ class Dashboard extends HTMLElement {
         this.spawnPanel(new Panel(Area.INIT, panelType, id), updateStored);
     }
 
-    public spawnPanel(panel: Panel, updateStored = true): void {
+    private spawnPanel(panel: Panel, updateStored = true): void {
         this.append(panel);
         this.panels.push(panel);
         if (updateStored) this.updateStoredPanels();
@@ -140,7 +138,7 @@ class Dashboard extends HTMLElement {
 
     public organiseElements(): void {
         this.panels?.forEach((i) => {
-            snapElementToGrid(i, i, false);
+            i.setArea(i.getArea());
         });
     }
 
@@ -184,7 +182,8 @@ class Dashboard extends HTMLElement {
                             new Area(i.area.pos, i.area.size),
                             PanelType.getTypeFromId(i.panel_type_id),
                             i.panel_id,
-                            i.content
+                            i.content,
+                            i.config
                         ),
                         false
                     );
@@ -203,6 +202,7 @@ class Dashboard extends HTMLElement {
                     panel_type_id: i.getType().getId(),
                     area: i.getArea().toJson(),
                     content: JSON.stringify(i.getContent()),
+                    config: i.getConfig()
                 };
             }
         );

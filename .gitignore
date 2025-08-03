@@ -4,3 +4,4 @@ desktop.ini
 *.code-workspace
 dist/
 node_modules/
+.vscode*

@@ -17,12 +17,25 @@ enum PanelTypeData {
  *
  * @enum {number}
  */
-enum PanelTypeName {
+enum PanelTypeId {
     PREVIEW = -1,
     DEFAULT = 0,
     NOTEPAD = 1,
     PHOTO = 2,
     CLOCK = 3,
+}
+
+/**
+ * @description: Different Panel Types/Kinds (Notepad, Default (empty), Preview, etc.), the keys of the entries being the type of panel, and the values being their user-friendly names for menus, etc..
+ *
+ * @enum {number}
+ */
+enum PanelTypeName {
+    PREVIEW = "Preview Panel. You shouldn't be seeing this.",
+    DEFAULT = "Default Panel. Or this.",
+    NOTEPAD = "Notepad Panel",
+    PHOTO = "Photo Panel",
+    CLOCK = "Date and Time (Clock) Panel",
 }
 
 /**
@@ -51,7 +64,7 @@ class PanelTypeConfig {
         use24HrTime: zod.boolean().default(true),
         showSeconds: zod.boolean().default(false),
         showDate: zod.boolean().default(true),
-        dateFormat: zod.literal(["full", "long", "short"]).default("long"),
+        dateFormat: zod.literal(["full", "long", "medium", "short"]).default("long"),
     }));
 
     private constructor(private config: zod.ZodObject) {}
@@ -67,6 +80,7 @@ class PanelTypeConfig {
  * @class PanelType
  */
 class PanelType {
+    
     /**
      * @description: These are all the Defined Panel Types in the project/application. New Types cannot be created during runtime unless needed.
      *
@@ -76,33 +90,33 @@ class PanelType {
      */
 
     static readonly PREVIEW = new PanelType(
-        -1,
-        PanelTypeData.NONE,
+        PanelTypeId.PREVIEW,
         PanelTypeName.PREVIEW,
+        PanelTypeData.NONE,
         PanelTypeTemplate.PREVIEW
     );
     static readonly DEFAULT = new PanelType(
-        0,
-        PanelTypeData.NONE,
+        PanelTypeId.DEFAULT,
         PanelTypeName.DEFAULT,
+        PanelTypeData.NONE,
         PanelTypeTemplate.DEFAULT
     );
     static readonly NOTEPAD = new PanelType(
-        1,
-        PanelTypeData.LOCAL,
+        PanelTypeId.NOTEPAD,
         PanelTypeName.NOTEPAD,
+        PanelTypeData.LOCAL,
         PanelTypeTemplate.NOTEPAD
     );
     static readonly PHOTO = new PanelType(
-        2,
-        PanelTypeData.LOCAL,
+        PanelTypeId.PHOTO,
         PanelTypeName.PHOTO,
+        PanelTypeData.LOCAL,
         PanelTypeTemplate.PHOTO
     );
     static readonly CLOCK = new PanelType(
-        3,
-        PanelTypeData.NONE,
+        PanelTypeId.CLOCK,
         PanelTypeName.CLOCK,
+        PanelTypeData.NONE,
         PanelTypeTemplate.CLOCK,
         PanelTypeConfig.CLOCK
     );
@@ -115,14 +129,14 @@ class PanelType {
      * @constructor
      * @param {number} typeId
      * @param {PanelTypeData} typeData
-     * @param {PanelTypeName} typeName
+     * @param {PanelTypeId} typeName
      * @param {PanelTypeTemplate} typeTemplate
      * @memberof PanelType
      */
     private constructor(
-        private readonly typeId: number,
-        private readonly typeData: PanelTypeData,
+        private readonly typeId: PanelTypeId,
         private readonly typeName: PanelTypeName,
+        private readonly typeData: PanelTypeData,
         private readonly typeTemplate: PanelTypeTemplate,
         private readonly typeConfig?: PanelTypeConfig
     ) {}
@@ -134,7 +148,7 @@ class PanelType {
      * @memberof PanelType
      */
     public toString(): string {
-        return PanelTypeName[this.typeId];
+        return PanelTypeId[this.typeId];
     }
 
     /**

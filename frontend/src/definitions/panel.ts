@@ -34,6 +34,7 @@ interface PanelInstance {
     panel_type_id: number;
     area: AreaInstance;
     content: string;
+    config: Config | undefined
 }
 
 /**
@@ -304,6 +305,10 @@ class Panel extends HTMLElement {
         }
     }
 
+    public getConfig(): Config | undefined {
+        return this.config;
+    }
+
     public addHandleListeners(): Promise<void> {
         return new Promise((resolve) => {
             this.shadowRoot
@@ -405,9 +410,9 @@ class Panel extends HTMLElement {
                 setInterval(() => {
                     const now = new Date();
                     const dateText = this.querySelector(".date-text");
-                    if (dateText) dateText.textContent = formatDate(now);
+                    if (dateText) dateText.textContent = formatDate(now, this.config);
                     const timeText = this.querySelector(".time-text");
-                    if (timeText) timeText.textContent = formatTime(now);
+                    if (timeText) timeText.textContent = formatTime(now, this.config);
                 }, 1000);
                 break;
 
