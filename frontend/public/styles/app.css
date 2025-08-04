@@ -85,9 +85,6 @@ smorgas-board {
 
     & panel-element {
 
-        /* --min-width: 2fr;
-        --min-height: 1fr; */
-
         /* --forced-aspect-ratio: 1:2; */
 
         position: fixed;
@@ -296,9 +293,6 @@ panel-element {
     }
 
     &[data-panel-type="CLOCK"] {
-
-        /* --min-width: 1fr;
-        --min-width: 2fr; */
 
         color: var(--text-col);
 
