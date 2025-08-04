@@ -85,8 +85,8 @@ smorgas-board {
 
     & panel-element {
 
-        --min-width: 2fr;
-        --min-height: 1fr;
+        /* --min-width: 2fr;
+        --min-height: 1fr; */
 
         /* --forced-aspect-ratio: 1:2; */
 
@@ -95,8 +95,9 @@ smorgas-board {
         top: calc(var(--y));
         width: var(--width);
         height: var(--height);
+        clip-path: circle(0 at 50% 50%);
         overflow: visible;
-
+        
         &::before {
             content: '';
             backdrop-filter: url(#glass-distortion);
@@ -106,10 +107,10 @@ smorgas-board {
             border-radius: var(--panel-border-radius);
             transition: all var(--panel-transition-time) ease;
         }
-
+        
         &::part(panel-body) {
             transform-style: preserve-3d;
-            transform: perspective(500rem) rotateX(var(--rotate-x)) rotateY(var(--rotate-y));
+            transform: perspective(200rem) rotateX(var(--rotate-x)) rotateY(var(--rotate-y));
             border-radius: var(--panel-border-radius);
             background: var(--panel-bg);
             position: absolute;
@@ -233,6 +234,10 @@ smorgas-board {
             width: 100%;
             pointer-events: none;
         }
+
+        &.loaded {
+            animation: spawnIn forwards var(--panel-transition-time) ease;
+        }
     }
 
     &.in-edit-mode {
@@ -259,8 +264,6 @@ smorgas-board {
 
 panel-element {
     &[data-panel-type="NOTEPAD"] {
-        --min-width: 2fr;
-        --min-height: 2fr;
 
         --forced-aspect-ratio: 1:1;
 
@@ -294,8 +297,8 @@ panel-element {
 
     &[data-panel-type="CLOCK"] {
 
-        --min-width: 1fr;
-        --min-width: 2fr;
+        /* --min-width: 1fr;
+        --min-width: 2fr; */
 
         color: var(--text-col);
 
@@ -386,7 +389,10 @@ panel-element {
                 mask: var(--icon-svg) no-repeat center;
                 mask-size: contain;
                 transition: transform var(--quick-transition-time) ease;
-                transform: rotate(90deg)                
+
+                &.menu-caret {
+                    transform: rotate(90deg)                
+                }
             }
 
             & span {
@@ -455,10 +461,6 @@ panel-element {
     box-shadow: inset 2px 2px 2px 0 hsl(from var(--panel-bg) h s calc(l * 2) / 0.4), inset -2px -2px 2px 0 hsl(from var(--panel-bg) h s calc(l * 0.4) / 0.4);
 }
 
-.disappearing {
-    animation: spawnIn reverse var(--panel-transition-time) ease;
-}
-
 ::-webkit-scrollbar {
     max-width: 1rem;
     border-radius: inherit;
@@ -479,10 +481,10 @@ panel-element {
 
 @keyframes spawnIn {
     0% {
-        opacity: 0;
+        clip-path: circle(0 at 50% 50%);
     }
 
     100% {
-        opacity: 1;
+        clip-path: circle(100% at 50% 50%);
     }
 }

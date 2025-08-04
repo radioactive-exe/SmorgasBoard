@@ -1,4 +1,5 @@
 import * as zod from "zod";
+import { Size } from "./area";
 
 /**
  * @description: Different Panel Data Types, the keys of the entries being the type of data content, and the values being their respective ID.
@@ -60,12 +61,16 @@ enum PanelTypeTemplate {
 class PanelTypeConfig {
     // public readonly NOTEPAD: zod.ZodObject = "https://smorgas-board-backend.vercel.app/definitions/panels/notepad";
     // public readonly PHOTO: zod.ZodObject = "https://smorgas-board-backend.vercel.app/definitions/panels/photo";
-    public static readonly CLOCK: PanelTypeConfig = new PanelTypeConfig(zod.strictObject({
-        use24HrTime: zod.boolean().default(true),
-        showSeconds: zod.boolean().default(false),
-        showDate: zod.boolean().default(true),
-        dateFormat: zod.literal(["full", "long", "medium", "short"]).default("long"),
-    }));
+    public static readonly CLOCK: PanelTypeConfig = new PanelTypeConfig(
+        zod.strictObject({
+            use24HrTime: zod.boolean().default(true),
+            showSeconds: zod.boolean().default(false),
+            showDate: zod.boolean().default(true),
+            dateFormat: zod
+                .literal(["full", "long", "medium", "short"])
+                .default("long"),
+        })
+    );
 
     private constructor(private config: zod.ZodObject) {}
 
@@ -80,7 +85,6 @@ class PanelTypeConfig {
  * @class PanelType
  */
 class PanelType {
-    
     /**
      * @description: These are all the Defined Panel Types in the project/application. New Types cannot be created during runtime unless needed.
      *
@@ -105,7 +109,8 @@ class PanelType {
         PanelTypeId.NOTEPAD,
         PanelTypeName.NOTEPAD,
         PanelTypeData.LOCAL,
-        PanelTypeTemplate.NOTEPAD
+        PanelTypeTemplate.NOTEPAD,
+        { width: 2, height: 2 }
     );
     static readonly PHOTO = new PanelType(
         PanelTypeId.PHOTO,
@@ -118,6 +123,7 @@ class PanelType {
         PanelTypeName.CLOCK,
         PanelTypeData.NONE,
         PanelTypeTemplate.CLOCK,
+        { width: 2, height: 1 },
         PanelTypeConfig.CLOCK
     );
 
@@ -138,7 +144,9 @@ class PanelType {
         private readonly typeName: PanelTypeName,
         private readonly typeData: PanelTypeData,
         private readonly typeTemplate: PanelTypeTemplate,
-        private readonly typeConfig?: PanelTypeConfig
+        private readonly typeMinSize?: Size,
+        private readonly typeConfig?: PanelTypeConfig,
+        private readonly typeDataSource?: string
     ) {}
 
     /**
@@ -173,6 +181,10 @@ class PanelType {
 
     public getConfigSchema(): zod.ZodObject | undefined {
         return this.typeConfig?.getConfig();
+    }
+
+    public getMinSize(): Size | undefined {
+        return this.typeMinSize;
     }
 
     /**

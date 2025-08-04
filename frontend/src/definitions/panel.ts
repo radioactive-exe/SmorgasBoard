@@ -73,13 +73,15 @@ class Panel extends HTMLElement {
         this.dashboardId = dashboardId;
         this.dataset.panelId = dashboardId.toString();
         this.dataset.panelType = type.toString();
+        this.style.setProperty("--min-width", `${type.getMinSize()?.width ?? 1}fr`);
+        this.style.setProperty("--min-height", `${type.getMinSize()?.height ?? 1}fr`);
         this.init().then(() => {
             if (body) this.setContent(body);
             if (config && type.getConfigSchema() != undefined) {
                 try {
                     this.config = type.getConfigSchema()?.parse(config);
                 } catch (error) {
-                    if (error instanceof zod.ZodError) console.error("Invalid Panel Config provided. Please ensure the config is for the appropriate Panel Type:", type.getConfigSchema());
+                    console.error(error, "Invalid Panel Config provided. Please ensure the config is for the appropriate Panel Type:", type.getConfigSchema());
                 }
             } else if (!config && type.getConfigSchema() != undefined) {
                 this.config = getDefaultConfig(type.getConfigSchema() as zod.ZodObject);
@@ -262,6 +264,7 @@ class Panel extends HTMLElement {
             this.initTemplate().then(() =>
                 this.addHoverListeners().then(() =>
                     this.addHandleListeners().then(() => {
+                        this.classList.add("loaded");
                         this.beginBehaviour();
                         resolve();
                     })
@@ -409,9 +412,9 @@ class Panel extends HTMLElement {
             case PanelType.CLOCK:
                 setInterval(() => {
                     const now = new Date();
-                    const dateText = this.querySelector(".date-text");
+                    const dateText: HTMLElement | null = this.querySelector(".date-text");
                     if (dateText) dateText.textContent = formatDate(now, this.config);
-                    const timeText = this.querySelector(".time-text");
+                    const timeText: HTMLElement | null = this.querySelector(".time-text");
                     if (timeText) timeText.textContent = formatTime(now, this.config);
                 }, 1000);
                 break;

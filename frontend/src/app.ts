@@ -13,27 +13,11 @@ import {
 } from "./manip.js";
 // import { months, weekdays } from "./definitions/constants.js";
 import { Config } from "./definitions/config.js";
+import { deletePanelButton, editModeButton, panelMenu, spawnContextMenu, themeMenu } from "./context_menu.js";
 
 const dashboard: Dashboard = document.querySelector(
     "smorgas-board"
 ) as Dashboard;
-
-const contextMenu = document.querySelector(".context-menu") as HTMLElement;
-const themeMenu: HTMLElement = document.querySelector(
-    "#theme-menu"
-) as HTMLElement;
-const panelMenu: HTMLElement = document.querySelector(
-    "#panel-menu"
-) as HTMLElement;
-const editModeButton = document.querySelector(
-    "#edit-mode-button"
-) as HTMLElement;
-const deletePanelSection = document.querySelector(
-    "#remove-panel-section"
-) as HTMLElement;
-const deletePanelButton = document.querySelector(
-    "#remove-panel-button"
-) as HTMLElement;
 
 const current = {
     flag: "" as string,
@@ -51,77 +35,9 @@ const hoverHandler = {
     move: movePanelHoverHandler,
     exit: exitPanelHoverHandler,
 };
-let contextMenuDeleteTimeout: NodeJS.Timeout;
 
 const preview: Panel = new Panel(Area.INIT, PanelType.PREVIEW, -1);
 preview.classList.add("final-preview");
-
-function spawnContextMenu(e: MouseEvent): void {
-    e.preventDefault();
-    if (contextMenu == null || themeMenu == null || panelMenu == null) return;
-
-    if (e.target instanceof Panel && dashboard.isEditing()) {
-        current.panel = e.target;
-        deletePanelSection?.classList.add("visible");
-    } else deletePanelSection?.classList.remove("visible");
-
-    try {
-        if (
-            window.innerWidth < 2 * contextMenu.offsetWidth ||
-            (e.pageX > window.innerWidth - 2 * contextMenu.offsetWidth &&
-                e.pageX < contextMenu.offsetWidth)
-        ) {
-            themeMenu.style.top = "98%";
-            themeMenu.style.left = "-2%";
-            panelMenu.style.top = "98%";
-            panelMenu.style.left = "-2%";
-        } else if (e.pageX > window.innerWidth - 2 * contextMenu.offsetWidth) {
-            themeMenu.style.top = "";
-            themeMenu.style.left = "-102%";
-            panelMenu.style.top = "";
-            panelMenu.style.left = "-102%";
-        } else {
-            themeMenu.style.top = "";
-            themeMenu.style.left = "98%";
-            panelMenu.style.top = "";
-            panelMenu.style.left = "98%";
-        }
-
-        clearTimeout(contextMenuDeleteTimeout);
-
-        contextMenu.style.left =
-            utils.clamp(
-                e.pageX,
-                0,
-                window.innerWidth - contextMenu.offsetWidth - 10
-            ) + "px";
-        contextMenu.style.top =
-            utils.clamp(
-                e.pageY - 0.5 * contextMenu.offsetHeight,
-                0,
-                window.innerHeight - contextMenu.offsetHeight + 10
-            ) + "px";
-        contextMenu.classList.add("visible");
-
-        contextMenu.addEventListener("mouseenter", keepContextMenu);
-        contextMenu.addEventListener("mouseleave", removeContextMenu);
-    } catch (error) {
-        console.error(error);
-    }
-}
-
-function keepContextMenu(): void {
-    clearTimeout(contextMenuDeleteTimeout);
-}
-
-function removeContextMenu(): void {
-    if (!contextMenu) return;
-
-    contextMenuDeleteTimeout = setTimeout(() => {
-        contextMenu.classList.remove("visible");
-        contextMenu.removeEventListener("mouseleave", removeContextMenu);
-    }, 1000);
-}
 
 function releaseHandler(): void {
     snapElementToTarget(current.panel, preview);
@@ -221,6 +137,14 @@ editModeButton?.addEventListener("click", () => {
 deletePanelButton?.addEventListener("click", () => {
     dashboard.deletePanel(current.panel);
 });
+
+// TODO: Config menu, which should implement next steps 2 and 3 from last commit.
+
+// TODO: Make panels check if there is an empty area that can fit the new panel.
+
+// TODO: An alert system to properly announce to the user if there is no space, which also makes earlier features like the instantiation of a base board not have to rely on just console warnings, with the user not knowing what is happening.
+
+// [x] Make the base board instantiate a random type of panel
 
 // ~ Panel Data Functionality
 

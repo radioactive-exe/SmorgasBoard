@@ -115,6 +115,7 @@ class Dashboard extends HTMLElement {
     }
 
     public spawnPanelOfType(panelType: PanelType, updateStored = true): void {
+
         let id: number;
         if (this.freeIds.size > 0) {
             id = this.freeIds.values().next().value ?? 0;
@@ -172,7 +173,13 @@ class Dashboard extends HTMLElement {
             if (loadedString == null || loadedString == "[]") {
                 console.warn("No stored panels! Initiating base board.");
 
-                this.spawnPanelOfType(PanelType.DEFAULT);
+                const possiblePanelTypes: PanelType[] = Object.entries(PanelType).slice(2).map((type) => {
+                    return type[1];
+                });
+
+                console.log(possiblePanelTypes);
+
+                this.spawnPanelOfType(possiblePanelTypes[Math.floor(Math.random() * possiblePanelTypes.length)]);
             } else {
                 const loadedPanels: PanelInstance[] = JSON.parse(loadedString);
 
