@@ -1,5 +1,5 @@
 import * as zod from "zod";
-import { Size } from "./area";
+import { Size } from "./area.js";
 
 /**
  * @description: Different Panel Data Types, the keys of the entries being the type of data content, and the values being their respective ID.

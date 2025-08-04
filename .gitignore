@@ -5,3 +5,7 @@ desktop.ini
 dist/
 node_modules/
 .vscode*
+logs
+*.log
+npm-debug.log*
+.DS_Store
