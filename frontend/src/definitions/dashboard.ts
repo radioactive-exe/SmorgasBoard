@@ -21,12 +21,12 @@ class Theme {
     static readonly DEFAULT = new Theme(
         0,
         "Default Theme",
-        "/frontend/public/themes/default.css"
+        "themes/default.css"
     );
     static readonly CONSOLE = new Theme(
         1,
-        "Hacker-man",
-        "/frontend/public/themes/console.css"
+        "Hacker-man Theme",
+        "themes/console.css"
     );
 
     // TODO Implement Mode preference themes like Light and Dark Mode
