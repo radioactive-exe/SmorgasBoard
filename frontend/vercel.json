@@ -1,6 +1,6 @@
 {
     "$schema": "https://openapi.vercel.sh/vercel.json",
     "buildCommand": "npm run build",
-    "installCommand": "npm install typescript ts-node zod",
+    "installCommand": "npm install typescript ts-node zod && ls node_modules/zod",
     "outputDirectory": "dist/"
 }
