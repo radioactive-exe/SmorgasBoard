@@ -1,5 +1,5 @@
 /* eslint-disable no-async-promise-executor */
-import * as get from "../accessors.js";
+import * as get from "../functions/accessors.js";
 
 import { Coordinate, Size, AreaInstance, Area } from "./area.js";
 import { PanelTypeTemplate, PanelType } from "./panel_type.js";
@@ -20,7 +20,7 @@ import {
     resizePanel,
     snapElementToGrid,
     snapElementToTarget,
-} from "../manip.js";
+} from "../functions/manip.js";
 import { Config, getDefaultConfig } from "./config.js";
 
 /**

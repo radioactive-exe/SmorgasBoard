@@ -1,10 +1,10 @@
-import * as get from "../accessors.js";
-import * as utils from "../util.js";
+import * as get from "../functions/accessors.js";
+import * as utils from "../functions/util.js";
 
 import { Area } from "./area.js";
 import { PanelType } from "./panel_type.js";
 import { Panel, PanelInstance } from "./panel.js";
-import { deletePanelSection } from "../context_menu.js";
+import { deletePanelSection } from "../elements/context_menu.js";
 
 /**
  * @description: A class to facilitate the storage and usage of Themes in the application, with useful fields and methods

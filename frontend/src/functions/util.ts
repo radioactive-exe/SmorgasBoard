@@ -1,9 +1,9 @@
 import * as get from "./accessors.js";
 
-import { Area } from "./definitions/area.js";
-import { Panel } from "./definitions/panel.js";
+import { Area } from "../definitions/area.js";
+import { Panel } from "../definitions/panel.js";
 
-import { dashboard, preview } from "./app.js";
+import { dashboard, preview } from "../app.js";
 
 function ignoreEventHandler(e: Event): void {
     e.stopPropagation();

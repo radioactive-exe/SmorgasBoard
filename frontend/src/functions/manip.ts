@@ -1,9 +1,9 @@
 import * as get from "./accessors.js";
 import * as utils from "./util.js";
 
-import { Area, Coordinate, Offset, Size } from "./definitions/area.js";
-import { Panel } from "./definitions/panel.js";
-import { Dashboard } from "./definitions/dashboard.js";
+import { Area, Coordinate, Offset, Size } from "../definitions/area.js";
+import { Panel } from "../definitions/panel.js";
+import { Dashboard } from "../definitions/dashboard.js";
 
 let top: number,
     right: number,

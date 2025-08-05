@@ -1,5 +1,5 @@
-import * as get from "./accessors.js";
-import * as utils from "./util.js";
+import * as get from "./functions/accessors.js";
+import * as utils from "./functions/util.js";
 
 import { Area } from "./definitions/area.js";
 import { PanelType } from "./definitions/panel_type.js";
@@ -10,10 +10,10 @@ import {
     snapElementToTarget,
     rotatePanel,
     rotateElementStyle,
-} from "./manip.js";
+} from "./functions/manip.js";
 // import { months, weekdays } from "./definitions/constants.js";
 import { Config } from "./definitions/config.js";
-import { deletePanelButton, editModeButton, panelMenu, spawnContextMenu, themeMenu } from "./context_menu.js";
+import { deletePanelButton, editModeButton, panelMenu, spawnContextMenu, themeMenu } from "./elements/context_menu.js";
 
 
 const current = {
@@ -142,7 +142,7 @@ deletePanelButton?.addEventListener("click", () => {
 
 // TODO: Config menu, which should implement next steps 2 and 3 from last commit.
 
-// TODO: Make panels check if there is an empty area that can fit the new panel.
+// [x] Make panels check if there is an empty area that can fit the new panel.
 
 // TODO: An alert system to properly announce to the user if there is no space, which also makes earlier features like the instantiation of a base board not have to rely on just console warnings, with the user not knowing what is happening.
 
