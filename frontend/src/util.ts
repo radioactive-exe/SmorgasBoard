@@ -3,7 +3,7 @@ import * as get from "./accessors.js";
 import { Area } from "./definitions/area.js";
 import { Panel } from "./definitions/panel.js";
 
-import { dashboard } from "./app.js";
+import { dashboard, preview } from "./app.js";
 
 function ignoreEventHandler(e: Event): void {
     e.stopPropagation();
@@ -29,13 +29,12 @@ function areaCollisionWithElement(area: Area, el: Panel): boolean {
     );
 }
 
-function collidesWithAnyPanel(self: HTMLElement, area: Area): boolean {
+function collidesWithAnyPanel(area: Area): boolean {
     let flag = false;
 
     dashboard.getPanels().forEach((i) => {
         if (
-            i.dataset.panelId !=
-                (self.dataset.callerId ?? self.dataset.panelId) &&
+            i.dataset.panelId != preview.dataset.callerId &&
             areaCollisionWithElement(area, i)
         ) {
             flag = true;
@@ -50,18 +49,24 @@ function removeClassAfterTransition(
     cl: string,
     removeFromDashboard?: boolean
 ): void {
-    setTimeout(() => {
-        el.classList.remove(cl);
-        if (removeFromDashboard) {dashboard?.removeChild(el);}
-    }, get.normalisedCssPropertyValue(el, "transition-duration"));
+    setTimeout(
+        () => {
+            el.classList.remove(cl);
+            if (removeFromDashboard) {
+                dashboard?.removeChild(el);
+            }
+        },
+        get.normalisedCssPropertyValue(el, "transition-duration")
+    );
 }
 
-function deleteAfterTransition(
-    el: HTMLElement
-): void {
-    setTimeout(() => {
-        dashboard?.removeChild(el);
-    }, get.normalisedCssPropertyValue(el, "transition-duration"));
+function deleteAfterTransition(el: HTMLElement): void {
+    setTimeout(
+        () => {
+            dashboard?.removeChild(el);
+        },
+        get.normalisedCssPropertyValue(el, "transition-duration")
+    );
 }
 
 export {
@@ -71,5 +76,5 @@ export {
     areaCollisionWithElement,
     collidesWithAnyPanel,
     removeClassAfterTransition,
-    deleteAfterTransition
+    deleteAfterTransition,
 };

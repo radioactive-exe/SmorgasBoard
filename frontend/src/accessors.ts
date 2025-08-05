@@ -1,3 +1,6 @@
+// import { dashboard } from "./app";
+import { Dashboard } from "./definitions/dashboard";
+
 function numericalValue(string: string): number {
     return parseFloat(string.replace(/\D+$/g, ""));
 }
@@ -33,9 +36,9 @@ function normalisedValue(input: string, property: string): number {
             break;
         case "fr":
             if (property.toLowerCase().includes("width"))
-                return numericalValue(input) * fractionalWidth();
+                return numericalValue(input) * Dashboard.getFractionalWidth();
             else if (property.toLowerCase().includes("height"))
-                return numericalValue(input) * fractionalHeight();
+                return numericalValue(input) * Dashboard.getFractionalHeight();
             break;
         default:
             return numericalValue(input);
@@ -58,30 +61,10 @@ function elementAspectRatio(el: HTMLElement): number {
     return parseInt(split[0]) / parseInt(split[1]);
 }
 
-function dashboardRows(): number {
-    return cssPropertyValue(document.body, "--num-of-rows");
-}
-
-function dashboardCols(): number {
-    return cssPropertyValue(document.body, "--num-of-cols");
-}
-
-function fractionalWidth(): number {
-    return window.innerWidth / dashboardCols();
-}
-
-function fractionalHeight(): number {
-    return window.innerHeight / dashboardRows();
-}
-
 export {
     cssProperty,
     cssPropertyValue,
     normalisedValue,
     normalisedCssPropertyValue,
-    dashboardRows,
-    dashboardCols,
-    fractionalWidth,
-    fractionalHeight,
     elementAspectRatio,
 };

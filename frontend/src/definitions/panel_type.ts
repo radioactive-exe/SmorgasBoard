@@ -183,8 +183,16 @@ class PanelType {
         return this.typeConfig?.getConfig();
     }
 
-    public getMinSize(): Size | undefined {
-        return this.typeMinSize;
+    public getMinSize(): Size {
+        return this.typeMinSize ?? { width: 1, height: 1};
+    }
+
+    public getMinWidth(): number {
+        return this.typeMinSize?.width ?? 1;
+    }
+
+    public getMinHeight(): number {
+        return this.typeMinSize?.height ?? 1;
     }
 
     /**

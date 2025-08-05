@@ -15,14 +15,16 @@ import {
 import { Config } from "./definitions/config.js";
 import { deletePanelButton, editModeButton, panelMenu, spawnContextMenu, themeMenu } from "./context_menu.js";
 
-const dashboard: Dashboard = document.querySelector(
-    "smorgas-board"
-) as Dashboard;
 
 const current = {
     flag: "" as string,
     panel: Panel.defaultPanel() as Panel,
 };
+
+const dashboard: Dashboard = document.querySelector(
+    "smorgas-board"
+) as Dashboard;
+dashboard.loadStoredPanels();
 const holdHandler = {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     drag: function (e: MouseEvent): void {

@@ -1,8 +1,10 @@
 import * as get from "../accessors.js";
+import * as utils from "../util.js";
 
 import { Area } from "./area.js";
 import { PanelType } from "./panel_type.js";
 import { Panel, PanelInstance } from "./panel.js";
+import { deletePanelSection } from "../context_menu.js";
 
 /**
  * @description: A class to facilitate the storage and usage of Themes in the application, with useful fields and methods
@@ -12,7 +14,6 @@ import { Panel, PanelInstance } from "./panel.js";
 class Theme {
     /**
      * @description: These are all the Defined Themes in the project/application. They can be accessed during runtime to switch themes and have any necessary info.
-     *
      *
      * @static
      * @memberof Theme
@@ -81,7 +82,7 @@ class Dashboard extends HTMLElement {
 
         const cells = document.createElement("div");
         cells.part = "cell-container";
-        for (let i = 0; i < get.dashboardRows() * get.dashboardCols(); i++) {
+        for (let i = 0; i < Dashboard.getRows() * Dashboard.getCols(); i++) {
             const cell = document.createElement("div");
             cell.classList.add("cell");
             cell.part = "cell";
@@ -89,7 +90,6 @@ class Dashboard extends HTMLElement {
         }
         shadow.append(cells);
         shadow.append(document.createElement("slot"));
-        this.loadStoredPanels();
     }
 
     public getPanels(): Panel[] {
@@ -98,6 +98,22 @@ class Dashboard extends HTMLElement {
 
     public getFreeIds(): Set<number> {
         return this.freeIds;
+    }
+
+    public static getRows(): number {
+        return get.cssPropertyValue(document.body, "--num-of-rows");
+    }
+
+    public static getCols(): number {
+        return get.cssPropertyValue(document.body, "--num-of-cols");
+    }
+
+    public static getFractionalWidth(): number {
+        return window.innerWidth / this.getCols();
+    }
+
+    public static getFractionalHeight(): number {
+        return window.innerHeight / this.getRows();
     }
 
     public isEditing(): boolean {
@@ -115,13 +131,32 @@ class Dashboard extends HTMLElement {
     }
 
     public spawnPanelOfType(panelType: PanelType, updateStored = true): void {
+        let finalArea: Area = Area.INIT;
+        let slotFound = false;
+        for (let y  = 0; y <= Dashboard.getRows() - panelType.getMinHeight(); y++) {
+            for (let x = 0; x <= Dashboard.getCols() - panelType.getMinWidth(); x++) {
+                const potentialArea = new Area({x, y}, panelType.getMinSize());
+                if (!utils.collidesWithAnyPanel(potentialArea)) {
+                    finalArea = potentialArea;
+                    slotFound = true;
+                    break;
+                }
+            }
+            if (slotFound) break;
+        }
 
-        let id: number;
-        if (this.freeIds.size > 0) {
-            id = this.freeIds.values().next().value ?? 0;
-            this.freeIds.delete(id);
-        } else id = this.panels.length;
-        this.spawnPanel(new Panel(Area.INIT, panelType, id), updateStored);
+        if (slotFound) {
+            let id: number;
+            if (this.freeIds.size > 0) {
+                id = this.freeIds.values().next().value ?? 0;
+                this.freeIds.delete(id);
+            } else id = this.panels.length;
+            this.spawnPanel(new Panel(finalArea, panelType, id), updateStored);
+        }
+        else {
+            console.log("No space found. Either move panels around, or delete some");
+        }
+
     }
 
     private spawnPanel(panel: Panel, updateStored = true): void {
@@ -134,6 +169,7 @@ class Dashboard extends HTMLElement {
         this.panels.splice(this.panels.indexOf(panel), 1);
         this.freeIds.add(panel.getId());
         this.removeChild(panel);
+        deletePanelSection.classList.remove("visible");
         this.updateStoredPanels();
     }
 
@@ -144,7 +180,6 @@ class Dashboard extends HTMLElement {
     }
 
     public loadStoredPanels(): void {
-
         this.panels = [];
 
         const loadedIds: number[] = JSON.parse(
@@ -173,13 +208,21 @@ class Dashboard extends HTMLElement {
             if (loadedString == null || loadedString == "[]") {
                 console.warn("No stored panels! Initiating base board.");
 
-                const possiblePanelTypes: PanelType[] = Object.entries(PanelType).slice(2).map((type) => {
-                    return type[1];
-                });
+                const possiblePanelTypes: PanelType[] = Object.entries(
+                    PanelType
+                )
+                    .slice(2)
+                    .map((type) => {
+                        return type[1];
+                    });
 
                 console.log(possiblePanelTypes);
 
-                this.spawnPanelOfType(possiblePanelTypes[Math.floor(Math.random() * possiblePanelTypes.length)]);
+                this.spawnPanelOfType(
+                    possiblePanelTypes[
+                        Math.floor(Math.random() * possiblePanelTypes.length)
+                    ]
+                );
             } else {
                 const loadedPanels: PanelInstance[] = JSON.parse(loadedString);
 
@@ -209,7 +252,7 @@ class Dashboard extends HTMLElement {
                     panel_type_id: i.getType().getId(),
                     area: i.getArea().toJson(),
                     content: JSON.stringify(i.getContent()),
-                    config: i.getConfig()
+                    config: i.getConfig(),
                 };
             }
         );

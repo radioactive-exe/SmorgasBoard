@@ -2,7 +2,6 @@
 import * as get from "../accessors.js";
 
 import { Coordinate, Size, AreaInstance, Area } from "./area.js";
-import { Dashboard } from "./dashboard.js";
 import { PanelTypeTemplate, PanelType } from "./panel_type.js";
 
 import * as zod from "zod";
@@ -13,7 +12,6 @@ import {
     setDocumentHandlers,
     preview,
     holdHandler,
-    dashboard,
     formatTime,
     formatDate,
 } from "../app.js";
@@ -73,8 +71,8 @@ class Panel extends HTMLElement {
         this.dashboardId = dashboardId;
         this.dataset.panelId = dashboardId.toString();
         this.dataset.panelType = type.toString();
-        this.style.setProperty("--min-width", `${type.getMinSize()?.width ?? 1}fr`);
-        this.style.setProperty("--min-height", `${type.getMinSize()?.height ?? 1}fr`);
+        this.style.setProperty("--min-width", `${type.getMinWidth()}fr`);
+        this.style.setProperty("--min-height", `${type.getMinHeight()}fr`);
         this.init().then(() => {
             if (body) this.setContent(body);
             if (config && type.getConfigSchema() != undefined) {
@@ -321,7 +319,7 @@ class Panel extends HTMLElement {
                     current.panel = this;
                     this.classList.add(current.flag, "being-manipulated");
 
-                    this.initPreview(dashboard);
+                    this.initPreview();
 
                     const initData = {
                         eventCoords: {
@@ -337,7 +335,7 @@ class Panel extends HTMLElement {
                     holdHandler.drag = (e: MouseEvent): void => {
                         e.preventDefault();
                         movePanelWithinScreen(this, e as MouseEvent, initData);
-                        this.updatePreview(dashboard);
+                        this.updatePreview();
                     };
 
                     setDocumentHandlers();
@@ -351,7 +349,7 @@ class Panel extends HTMLElement {
 
                     this.classList.add(current.flag, "being-manipulated");
 
-                    this.initPreview(dashboard);
+                    this.initPreview();
 
                     const initData = {
                         eventCoords: {
@@ -367,7 +365,7 @@ class Panel extends HTMLElement {
                     holdHandler.drag = (e: MouseEvent): void => {
                         e.preventDefault();
                         resizePanel(this, e as MouseEvent, initData);
-                        this.updatePreview(dashboard);
+                        this.updatePreview();
                     };
 
                     setDocumentHandlers();
@@ -392,17 +390,17 @@ class Panel extends HTMLElement {
         this.removeEventListener("mouseleave", hoverHandler.exit);
     }
 
-    public initPreview(dashboard: Dashboard): void {
+    public initPreview(): void {
         preview.dataset.callerId = this.dataset.panelId;
         this.parentElement?.prepend(preview);
         snapElementToTarget(preview, this, false);
         preview.classList.add("visible");
-        this.updatePreview(dashboard);
+        this.updatePreview();
     }
 
-    public updatePreview(dashboard: Dashboard): void {
+    public updatePreview(): void {
         snapElementToGrid(
-            dashboard?.querySelector(".final-preview") as Panel,
+            preview,
             this
         );
     }

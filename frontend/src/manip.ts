@@ -3,6 +3,7 @@ import * as utils from "./util.js";
 
 import { Area, Coordinate, Offset, Size } from "./definitions/area.js";
 import { Panel } from "./definitions/panel.js";
+import { Dashboard } from "./definitions/dashboard.js";
 
 let top: number,
     right: number,
@@ -41,12 +42,12 @@ function resizePanel(
     panel.setSize(
         utils.clamp(
             initData.panelSize.width + e.clientX - initData.eventCoords.x,
-            get.normalisedCssPropertyValue(panel, "--min-width"),
+            panel.getType().getMinWidth() * Dashboard.getFractionalWidth(),
             window.innerWidth - panel.offsetLeft
         ),
         utils.clamp(
             initData.panelSize.height + e.pageY - initData.eventCoords.y,
-            get.normalisedCssPropertyValue(panel, "--min-height"),
+            panel.getType().getMinHeight() * Dashboard.getFractionalHeight(),
             window.innerHeight - panel.offsetTop
         )
     );
@@ -112,12 +113,12 @@ function snapElementToGrid(
     potentialY = get.normalisedCssPropertyValue(source, "--y");
     potentialWidth = utils.clamp(
         get.normalisedCssPropertyValue(source, "--width"),
-        get.normalisedCssPropertyValue(source, "--min-width"),
+        panel.getType().getMinWidth() * Dashboard.getFractionalWidth(),
         window.innerWidth - source.offsetLeft
     );
     potentialHeight = utils.clamp(
         get.normalisedCssPropertyValue(source, "--height"),
-        get.normalisedCssPropertyValue(source, "--min-height"),
+        panel.getType().getMinHeight() * Dashboard.getFractionalHeight(),
         window.innerHeight - source.offsetTop
     );
 
@@ -141,7 +142,7 @@ function snapElementToGrid(
     );
 
     if (
-        !utils.collidesWithAnyPanel(panel, potentialArea) &&
+        !utils.collidesWithAnyPanel(potentialArea) &&
         ((aspectRatio != 0 && potentialRatio == aspectRatio) ||
             aspectRatio == 0)
     ) {

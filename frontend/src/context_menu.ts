@@ -54,18 +54,20 @@ function spawnContextMenu(e: MouseEvent): void {
 
         clearTimeout(contextMenuDeleteTimeout);
 
-        contextMenu.style.left =
-            utils.clamp(
-                e.pageX,
-                0,
-                window.innerWidth - contextMenu.offsetWidth - 10
-            ) + "px";
-        contextMenu.style.top =
-            utils.clamp(
-                e.pageY - 0.5 * contextMenu.offsetHeight,
-                0,
-                window.innerHeight - contextMenu.offsetHeight + 10
-            ) + "px";
+        const x: number = utils.clamp(
+            e.pageX,
+            0,
+            window.innerWidth - contextMenu.offsetWidth - 10
+        );
+        const y: number = utils.clamp(
+            e.pageY - 0.5 * contextMenu.offsetHeight,
+            0,
+            window.innerHeight - contextMenu.offsetHeight + 10
+        );
+
+        contextMenu.style.left = x + "px";
+        contextMenu.style.top = y + "px";
+
         contextMenu.classList.add("visible");
 
         contextMenu.addEventListener("mouseenter", keepContextMenu);
@@ -91,9 +93,10 @@ function removeContextMenu(): void {
 export {
     editModeButton,
     deletePanelButton,
+    deletePanelSection,
     themeMenu,
     panelMenu,
     spawnContextMenu,
     keepContextMenu,
-    removeContextMenu
-}
+    removeContextMenu,
+};

@@ -1,4 +1,6 @@
-import * as get from "../accessors.js";
+// import * as get from "../accessors.js";
+// import { dashboard } from "../app.js";
+import { Dashboard } from "./dashboard.js";
 
 /**
  * @description: A Coordinate object, stores the x and y positions of the item they belong to.
@@ -138,7 +140,7 @@ class Area {
      * @memberof Area
      */
     public getAbsoluteX(): number {
-        return this.pos.x * get.fractionalWidth();
+        return this.pos.x * Dashboard.getFractionalWidth();
     }
 
     /**
@@ -158,7 +160,7 @@ class Area {
      * @memberof Area
      */
     public getAbsoluteY(): number {
-        return this.pos.y * get.fractionalHeight();
+        return this.pos.y * Dashboard.getFractionalHeight();
     }
 
     /**
@@ -180,8 +182,8 @@ class Area {
     public setCoordinates(coords: Coordinate): void {
         if (coords.isAbsolute) {
             this.pos = {
-                x: Math.round(coords.x / get.fractionalWidth()),
-                y: Math.round(coords.y / get.fractionalHeight()),
+                x: Math.round(coords.x / Dashboard.getFractionalWidth()),
+                y: Math.round(coords.y / Dashboard.getFractionalHeight()),
             };
         } else {
             this.pos = coords;
@@ -205,7 +207,7 @@ class Area {
      * @memberof Area
      */
     public getAbsoluteWidth(): number {
-        return this.size.width * get.fractionalWidth();
+        return this.size.width * Dashboard.getFractionalWidth();
     }
 
     /**
@@ -225,7 +227,7 @@ class Area {
      * @memberof Area
      */
     public getAbsoluteHeight(): number {
-        return this.size.height * get.fractionalHeight();
+        return this.size.height * Dashboard.getFractionalHeight();
     }
 
     /**
@@ -247,8 +249,8 @@ class Area {
     public setSize(size: Size): void {
         if (size.isAbsolute) {
             this.size = {
-                width: Math.round(size.width / get.fractionalWidth()),
-                height: Math.round(size.height / get.fractionalHeight()),
+                width: Math.round(size.width / Dashboard.getFractionalWidth()),
+                height: Math.round(size.height / Dashboard.getFractionalHeight()),
             };
         } else {
             this.size = size;
