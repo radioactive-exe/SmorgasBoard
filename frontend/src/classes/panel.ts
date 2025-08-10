@@ -79,7 +79,7 @@ class Panel extends HTMLElement {
                 try {
                     this.config = type.getConfigSchema()?.parse(config);
                 } catch (error) {
-                    console.error(error, "Invalid Panel Config provided. Please ensure the config is for the appropriate Panel Type:", type.getConfigSchema());
+                    console.error(error, "Invalid Panel Config provided. Please ensure the config is for the appropriate Panel Type:");
                 }
             } else if (!config && type.getConfigSchema() != undefined) {
                 this.config = getDefaultConfig(type.getConfigSchema() as zod.ZodObject);
@@ -262,7 +262,7 @@ class Panel extends HTMLElement {
             this.initTemplate().then(() =>
                 this.addHoverListeners().then(() =>
                     this.addHandleListeners().then(() => {
-                        this.classList.add("loaded");
+                        // this.classList.add("loaded");
                         this.beginBehaviour();
                         resolve();
                     })

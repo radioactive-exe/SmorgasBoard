@@ -10,14 +10,19 @@
 
     --panel-manip-opacity: 0.5;
 
-    --quick-transition-time: 0.3s;
+    --quick-transition-time: 0.15s;
+    --med-transition-time: 0.3s;
 
-    --panel-transition-time: var(--quick-transition-time);
+    --panel-transition-time: var(--med-transition-time);
 
     --square-handle-full-side: 5rem;
 
     --small-font: 1.5rem;
     --med-font: 5rem;
+
+    --alert-button-size: 5rem;
+
+    --bezier-function: cubic-bezier(0.860, 0.000, 0.070, 1.000);
 
     font-size: 62.5%;
 }
@@ -36,7 +41,7 @@ smorgas-board {
     min-width: 100vw;
     min-height: 100vh;
 
-    transition: background var(--quick-transition-time) ease;
+    transition: background var(--med-transition-time) ease;
 
     &::part(cell-container) {
         background: var(--dashboard-bg);
@@ -53,15 +58,16 @@ smorgas-board {
         width: calc(100% - 2rem);
         height: calc(100% - 2rem);
         background: var(--cell-bg);
-        transition: var(--quick-transition-time) ease;
+        transition: var(--med-transition-time) ease;
     }
 
     & .final-preview {
         background: var(--preview-bg);
         opacity: 0;
+        top: var(--y);
+        left: var(--x);
         position: absolute;
-        left: calc(var(--x));
-        top: calc(var(--y));
+        /* transform: translateX(var(--x)) translateY(var(--y)); */
         width: var(--width);
         height: var(--height);
 
@@ -88,13 +94,17 @@ smorgas-board {
         /* --forced-aspect-ratio: 1:2; */
 
         position: fixed;
-        left: calc(var(--x));
-        top: calc(var(--y));
+        left: var(--x);
+        top: var(--y);
+        /* left: 0;
+        top: 0; */
         width: var(--width);
         height: var(--height);
-        clip-path: circle(0 at 50% 50%);
+        /* clip-path: circle(0 at 50% 50%); */
         overflow: visible;
-        
+        transform-style: preserve-3d;
+        transform: perspective(200rem);
+
         &::before {
             content: '';
             backdrop-filter: url(#glass-distortion);
@@ -104,7 +114,7 @@ smorgas-board {
             border-radius: var(--panel-border-radius);
             transition: all var(--panel-transition-time) ease;
         }
-        
+
         &::part(panel-body) {
             transform-style: preserve-3d;
             transform: perspective(200rem) rotateX(var(--rotate-x)) rotateY(var(--rotate-y));
@@ -116,7 +126,7 @@ smorgas-board {
         }
 
         &:hover::part(panel-body) {
-            filter: drop-shadow(var(--shadow-offset-x) 1rem 0.2rem rgb(from black r g b / 0.2));
+            filter: drop-shadow(var(--shadow-offset-x) var(--shadow-offset-y) 0.2rem rgb(from black r g b / 0.2));
 
         }
 
@@ -125,7 +135,7 @@ smorgas-board {
         }
 
         &.being-manipulated {
-            z-index: 1;
+            z-index: 5;
 
             &::before {
                 opacity: 1;
@@ -135,7 +145,7 @@ smorgas-board {
                 backdrop-filter: blur(1px);
                 background-color: rgb(from var(--panel-bg) r g b / var(--panel-manip-opacity));
                 filter: drop-shadow(1.5rem 1.5rem 2rem rgba(0, 0, 0, 0.459));
-                box-shadow: inset 2px 2px 5px 1px hsl(from var(--panel-bg) h s calc(l * 2) / 0.4), inset -2px -2px 5px 1px hsl(from var(--panel-bg) h s calc(l * 0.4) / 0.4);
+                box-shadow: inset 0.2rem 2px 5px 1px hsl(from var(--panel-bg) h s calc(l * 2) / 0.4), inset -2px -2px 5px 1px hsl(from var(--panel-bg) h s calc(l * 0.4) / 0.4);
             }
 
             &::part(panel-content) {
@@ -186,7 +196,7 @@ smorgas-board {
 
         &.snapping:not(.final-preview) {
             z-index: 1;
-            transition: var(--panel-transition-time) ease;
+            transition: var(--panel-transition-time) cubic-bezier(0.445, 0.05, 0.55, 0.95);
         }
 
         &::part(panel-content) {
@@ -197,11 +207,11 @@ smorgas-board {
             justify-content: center;
             padding: var(--panel-content-padding);
             border-radius: var(--panel-border-radius);
-            overflow: hidden;
+            /* overflow: hidden; */
             transition: all var(--panel-transition-time) ease;
             container-type: inline-size;
             transform-style: preserve-3d;
-            transform: translate3d(0 2rem 5rem);
+            /* transform: perspective(200rem) translateZ(5rem); */
         }
 
         &::part(handle) {
@@ -232,8 +242,12 @@ smorgas-board {
             pointer-events: none;
         }
 
-        &.loaded {
+        /* &.loaded {
             animation: spawnIn forwards var(--panel-transition-time) ease;
+        } */
+
+        &:hover {
+            z-index: 5;
         }
     }
 
@@ -270,7 +284,7 @@ panel-element {
         }
 
         & textarea {
-            transition: var(--quick-transition-time);
+            transition: var(--med-transition-time);
             padding: 1rem;
             resize: none;
             font-size: var(--small-font);
@@ -299,12 +313,12 @@ panel-element {
         .date-time {
             position: absolute;
             inset: 0;
-            background: var(--panel-bg);
             display: flex;
             flex-flow: column nowrap;
             justify-content: center;
             align-items: center;
             border-radius: var(--panel-border-radius);
+            transform-style: preserve-3d;
 
             text-align: center;
             resize: horizontal;
@@ -338,7 +352,8 @@ panel-element {
     padding: 0.5rem;
     color: var(--text-col);
     width: 22rem;
-    
+    z-index: 10;
+
     & .menu {
         width: 22rem;
         position: absolute;
@@ -348,7 +363,7 @@ panel-element {
         display: flex;
         margin: 0.5rem;
         flex-direction: column;
-        transition: width var(--quick-transition-time) ease, background var(--quick-transition-time) ease;
+        transition: width var(--med-transition-time) ease, background var(--med-transition-time) ease;
         list-style: none;
         font-size: var(--small-font);
 
@@ -373,19 +388,12 @@ panel-element {
                 background: var(--cell-bg);
             }
 
-            & .item-icon {
-                width: 2rem;
-                height: 2rem;
-                pointer-events: none;
-                user-select: none;
+            & .icon {
                 background-color: var(--text-col);
-                -webkit-mask: var(--icon-svg) no-repeat center;
-                mask: var(--icon-svg) no-repeat center;
-                mask-size: contain;
-                transition: transform var(--quick-transition-time) ease;
+                transition: transform var(--med-transition-time) ease;
 
                 &.menu-caret {
-                    transform: rotate(90deg)                
+                    transform: rotate(90deg)
                 }
             }
 
@@ -399,7 +407,8 @@ panel-element {
                 overflow: hidden;
             }
 
-            &#theme-item:hover, &#add-panel-item:hover {
+            &#theme-item:hover,
+            &#add-panel-item:hover {
 
 
                 & .menu-caret {
@@ -409,6 +418,7 @@ panel-element {
                 & .sub-menu {
                     width: inherit;
                     backdrop-filter: inherit;
+                    background: var(--panel-bg);
                 }
             }
 
@@ -420,10 +430,12 @@ panel-element {
             transition: inherit;
 
             &:not(.visible) {
-                visibility: hidden;
+                /* visibility: hidden; */
                 height: 0;
                 padding: 0;
                 margin: 0;
+                opacity: 0;
+                pointer-events: none;
             }
         }
 
@@ -448,6 +460,88 @@ panel-element {
     &:not(.visible) {
         visibility: hidden;
     }
+}
+
+.alert {
+    gap: 1rem;
+    background: var(--alert-bg);
+    border-radius: var(--small-border-radius);
+    position: fixed;
+    right: -100%;
+    z-index: 10;
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    justify-content: stretch;
+    max-width: 50vw;
+    min-height: var(--alert-button-size);
+    overflow: hidden;
+    font-size: var(--small-font);
+    transition: var(--med-transition-time) cubic-bezier(0.645, 0.045, 0.355, 1);
+    box-shadow: 0 0 1rem 0 var(--cell-bg);
+
+    --alert-accent: hsl(from var(--alert-bg) h s calc(l * 0.8));
+
+    & .alert-info {
+        font-size: inherit;
+        padding: 1rem;
+        padding-right: calc(var(--alert-button-size) + 1rem);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-flow: row nowrap;
+        gap: 1rem;
+        border-left: 1rem solid var(--alert-accent);
+
+        & .alert-icon {
+            background: var(--alert-accent);
+            padding: 1.5rem;
+        }
+    }
+
+    & .alert-buttons {
+        position: absolute;
+        min-width: var(--alert-button-size);
+        height: 100%;
+        right: 0;
+    }
+
+    & .close-alert-button {
+        cursor: pointer;
+        background: var(--alert-accent);
+        border: none;
+        position: absolute;
+        inset: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        & .close-alert-icon {
+            background: var(--alert-bg);
+        }
+
+        &:hover {
+            filter: brightness(1.1);
+        }
+
+        &:active {
+            filter: brightness(0.9);
+        }
+    }
+
+    &.visible {
+        right: 0;
+    }
+}
+
+.icon {
+    width: 2rem;
+    height: 2rem;
+    pointer-events: none;
+    user-select: none;
+    -webkit-mask: var(--icon-svg) no-repeat center;
+    mask: var(--icon-svg) no-repeat center;
+    mask-size: contain;
 }
 
 .glassy {
@@ -480,5 +574,128 @@ panel-element {
 
     100% {
         clip-path: circle(100% at 50% 50%);
+    }
+}
+
+body:has(.dropdown-selector) {
+    background: var(--dashboard-bg);
+}
+
+.dropdown-selector {
+    --input-width: 20rem;
+    --input-padding: 1rem;
+    margin-top: 1rem;
+    font-size: var(--small-font);
+    color: var(--text-col);
+    width: calc(var(--input-width) + 2 * var(--input-padding));
+    padding: 0 1rem;
+    cursor: pointer;
+    isolation: isolate;
+    position: relative;
+    transition-delay: z-index 2s;
+
+    & .selection {
+        background: var(--input-bg);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0.5rem var(--input-padding);
+        width: var(--input-width);
+        position: relative;
+        border-radius: var(--small-border-radius);
+        user-select: none;
+        transition: var(--quick-transition-time) ease;
+        box-shadow: inset 0.2rem 0.2rem 0.1rem 0.1rem hsl(from var(--input-bg) h s calc(l * 2) / 0.8), inset -0.2rem -0.2rem 0.1rem 0.1rem hsl(from var(--input-bg) h s calc(l * 0.4) / 0.8);
+
+        & .menu-caret {
+            background: var(--input-accent);
+            transform: rotate(90deg);
+            transition: var(--quick-transition-time) ease;
+        }
+
+        &:hover {
+            background: hsl(from var(--input-bg) h s calc(l * 1.2));
+        }
+    }
+
+    & .dropdown-list {
+        z-index: -1;
+        box-shadow: inset 0 0 0.5rem 0 var(--cell-bg);
+        list-style: none;
+        position: absolute;
+        border-radius: 0 0 var(--small-border-radius) var(--small-border-radius);
+        background: hsl(from var(--input-bg) h s calc(l * 0.6));
+        top: calc(var(--input-padding) + var(--small-border-radius));
+        width: var(--input-width);
+        overflow: hidden;
+        max-height: 0;
+        transition: all var(--quick-transition-time) ease;
+        border: 1px solid var(--cell-bg);
+        /* border-top: none; */
+
+        & .dropdown-item {
+            padding: calc(var(--input-padding) / 2) var(--input-padding);
+            transition: var(--quick-transition-time) var(--bezier-function);
+            display: flex;
+            flex-flow: row;
+            gap: 1rem;
+            border-top: inherit;
+
+            &:first-of-type {
+                border-top: none;
+                padding-top: calc(1.5 * var(--input-padding));
+            }
+
+            &:hover {
+                background: var(--cell-bg);
+
+                & .item-content {
+                    transform: translate(3rem);
+                }
+            }
+
+            & .item-content {
+                display: flex;
+                flex-flow: row;
+                gap: 1rem;
+
+                transition: all var(--quick-transition-time) var(--bezier-function);
+
+                & .item-text {
+                    user-select: none;
+                }
+
+                & .selected-icon {
+                    height: auto;
+                    background: var(--text-col);
+                    transform: translate(8rem);
+                    opacity: 0;
+                    transition: all var(--med-transition-time) var(--bezier-function);
+                }
+            }
+
+
+            &.selected .item-content .selected-icon {
+                opacity: 1;
+                transform: translate(0);
+                /* position: absolute; */
+            }
+
+        }
+    }
+
+    &.open {
+
+        & .menu-caret {
+            transform: rotate(270deg);
+        }
+
+        & .dropdown-list {
+            max-height: 15rem;
+        }
+    }
+
+    &.focused {
+        z-index: 5;
     }
 }

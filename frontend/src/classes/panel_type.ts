@@ -1,5 +1,6 @@
 import * as zod from "zod";
 import { Size } from "./area.js";
+import { BooleanConfigEntry } from "./config.js";
 
 /**
  * @description: Different Panel Data Types, the keys of the entries being the type of data content, and the values being their respective ID.
@@ -36,7 +37,7 @@ enum PanelTypeName {
     DEFAULT = "Default Panel. Or this.",
     NOTEPAD = "Notepad Panel",
     PHOTO = "Photo Panel",
-    CLOCK = "Date and Time (Clock) Panel",
+    CLOCK = "Clock Panel",
 }
 
 /**
@@ -63,12 +64,19 @@ class PanelTypeConfig {
     // public readonly PHOTO: zod.ZodObject = "https://smorgas-board-backend.vercel.app/definitions/panels/photo";
     public static readonly CLOCK: PanelTypeConfig = new PanelTypeConfig(
         zod.strictObject({
-            use24HrTime: zod.boolean().default(true),
-            showSeconds: zod.boolean().default(false),
-            showDate: zod.boolean().default(true),
-            dateFormat: zod
-                .literal(["full", "long", "medium", "short"])
-                .default("long"),
+            use24HrTime: zod.custom<BooleanConfigEntry>().default({
+                label: "Use 24-hour Time",
+                value: true,
+            }),
+            showSeconds: zod.custom<BooleanConfigEntry>().default({
+                label: "Show Seconds",
+                value: false,
+            }),
+            showDate: zod.custom<BooleanConfigEntry>().default({
+                label: "Show Date above Time",
+                value: true,
+            }),
+            dateFormat: zod.literal(["full", "long", "short"]).default("full"),
         })
     );
 
@@ -169,6 +177,10 @@ class PanelType {
         return this.typeId;
     }
 
+    public getName(): string {
+        return this.typeName;
+    }
+
     /**
      * @description: Returns the name of the template for this PanelType
      *
@@ -184,7 +196,7 @@ class PanelType {
     }
 
     public getMinSize(): Size {
-        return this.typeMinSize ?? { width: 1, height: 1};
+        return this.typeMinSize ?? { width: 1, height: 1 };
     }
 
     public getMinWidth(): number {
@@ -219,4 +231,4 @@ class PanelType {
     }
 }
 
-export { PanelTypeTemplate, PanelType };
+export { PanelTypeTemplate, PanelType, PanelTypeConfig };

@@ -1,5 +1,5 @@
 // import { dashboard } from "./app";
-import { Dashboard } from "../definitions/dashboard";
+import { Dashboard } from "../classes/dashboard";
 
 function numericalValue(string: string): number {
     return parseFloat(string.replace(/\D+$/g, ""));

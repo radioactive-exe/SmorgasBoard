@@ -1,10 +1,10 @@
 import * as get from "./functions/accessors.js";
 import * as utils from "./functions/util.js";
 
-import { Area } from "./definitions/area.js";
-import { PanelType } from "./definitions/panel_type.js";
-import { Panel } from "./definitions/panel.js";
-import { Dashboard, Theme } from "./definitions/dashboard.js";
+import { Area } from "./classes/area.js";
+import { PanelType, PanelTypeConfig } from "./classes/panel_type.js";
+import { Panel } from "./classes/panel.js";
+import { Dashboard, Theme } from "./classes/dashboard.js";
 
 import {
     snapElementToTarget,
@@ -12,9 +12,14 @@ import {
     rotateElementStyle,
 } from "./functions/manip.js";
 // import { months, weekdays } from "./definitions/constants.js";
-import { Config } from "./definitions/config.js";
-import { deletePanelButton, editModeButton, panelMenu, spawnContextMenu, themeMenu } from "./elements/context_menu.js";
-
+import { Config } from "./classes/config.js";
+import {
+    deletePanelButton,
+    editModeButton,
+    panelMenu,
+    spawnContextMenu,
+    themeMenu,
+} from "./elements/context_menu.js";
 
 const current = {
     flag: "" as string,
@@ -123,7 +128,11 @@ document.addEventListener("keydown", async (e) => {
             break;
         case "ArrowRight":
             dashboard.toggleEditMode();
-            console.log(Object.keys(PanelType));
+            Object.entries(PanelTypeConfig.CLOCK.getConfig().shape).forEach((prop) => {
+                // if (prop[1].unwrap().def.type == "custom") console.log(typeof(prop[1].def.defaultValue.value) === "boolean")
+                console.log(prop[1].def);
+            });
+            // console.log(getDefaultConfig(PanelTypeConfig.CLOCK.getConfig()));
             break;
         case "ArrowLeft":
             dashboard.spawnPanelOfType(PanelType.CLOCK);
@@ -144,7 +153,7 @@ deletePanelButton?.addEventListener("click", () => {
 
 // [x] Make panels check if there is an empty area that can fit the new panel.
 
-// TODO: An alert system to properly announce to the user if there is no space, which also makes earlier features like the instantiation of a base board not have to rely on just console warnings, with the user not knowing what is happening.
+// [x] An alert system to properly announce to the user if there is no space, which also makes earlier features like the instantiation of a base board not have to rely on just console warnings, with the user not knowing what is happening.
 
 // [x] Make the base board instantiate a random type of panel
 
@@ -179,6 +188,7 @@ Object.entries(Theme).forEach((theme) => {
     menuEntry.id = `${theme[0].toLowerCase()}-entry`;
     menuEntry.innerHTML = `<span>${theme[1].name}</span>`;
     menuEntry.addEventListener("mousedown", () => {
+        localStorage.setItem("last-theme", theme[0]);
         dashboard.setCurrentTheme(theme[1]);
     });
     themeMenu.appendChild(menuEntry);

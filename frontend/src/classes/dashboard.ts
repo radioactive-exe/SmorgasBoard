@@ -5,6 +5,8 @@ import { Area } from "./area.js";
 import { PanelType } from "./panel_type.js";
 import { Panel, PanelInstance } from "./panel.js";
 import { deletePanelSection } from "../elements/context_menu.js";
+import { AlertLevel, spawnAlert } from "../elements/alert.js";
+import { getDefaultConfig } from "./config.js";
 
 /**
  * @description: A class to facilitate the storage and usage of Themes in the application, with useful fields and methods
@@ -90,6 +92,13 @@ class Dashboard extends HTMLElement {
         }
         shadow.append(cells);
         shadow.append(document.createElement("slot"));
+
+        const storedTheme = localStorage.getItem("last-theme");
+        if (storedTheme) {
+            Object.entries(Theme).forEach((theme) => {
+                if (theme[0] == storedTheme) this.setCurrentTheme(theme[1]);
+            });
+        }
     }
 
     public getPanels(): Panel[] {
@@ -151,10 +160,19 @@ class Dashboard extends HTMLElement {
                 id = this.freeIds.values().next().value ?? 0;
                 this.freeIds.delete(id);
             } else id = this.panels.length;
-            this.spawnPanel(new Panel(finalArea, panelType, id), updateStored);
+
+            const configSchema = panelType.getConfigSchema();
+            if (configSchema != undefined) {
+                this.spawnPanel(new Panel(finalArea, panelType, id, undefined, getDefaultConfig(configSchema)), updateStored);
+            } else {
+                this.spawnPanel(new Panel(finalArea, panelType, id), updateStored);
+            } 
         }
         else {
-            console.log("No space found. Either move panels around, or delete some");
+            spawnAlert(
+                `No space for a ${panelType.getName()} found. Either move panels around, or delete some!`,
+                AlertLevel.WARNING
+            );
         }
 
     }
@@ -195,8 +213,9 @@ class Dashboard extends HTMLElement {
         ];
 
         if (queriedPanels.length != 0) {
-            console.warn(
-                "Panels in body found. Failed to load panels from storage"
+            spawnAlert(
+                "Panels in body found. Failed to load panels from storage",
+                AlertLevel.ERROR
             );
             queriedPanels.forEach((i) => {
                 i.updateArea();
@@ -206,7 +225,9 @@ class Dashboard extends HTMLElement {
             const loadedString = localStorage.getItem("local-panel-storage");
 
             if (loadedString == null || loadedString == "[]") {
-                console.warn("No stored panels! Initiating base board.");
+                spawnAlert("No stored panels! Initiating base board with a random Panel. To Add more, Right Click and hover on 'Add Panel', and have fun!",
+                    AlertLevel.INFO
+                );
 
                 const possiblePanelTypes: PanelType[] = Object.entries(
                     PanelType
@@ -215,8 +236,6 @@ class Dashboard extends HTMLElement {
                     .map((type) => {
                         return type[1];
                     });
-
-                console.log(possiblePanelTypes);
 
                 this.spawnPanelOfType(
                     possiblePanelTypes[

@@ -5,7 +5,6 @@ import json from "@eslint/json";
 import css from "@eslint/css";
 import { defineConfig, globalIgnores } from "eslint/config";
 
-
 export default defineConfig([
     {
         files: ["**/*.{js,mjs,cjs,ts,mts,cts}"],
@@ -16,6 +15,9 @@ export default defineConfig([
     {
         files: ["**/*.{js,mjs,cjs,ts,mts,cts}"],
         languageOptions: { globals: globals.browser },
+        rules: {
+            "@typescript-eslint/explicit-function-return-type": "error",
+        },
     },
     {
         files: ["**/*.json"],
@@ -33,16 +35,13 @@ export default defineConfig([
         files: ["**/*.css"],
         plugins: { css },
         language: "css/css",
-        extends: ["css/recommended"],
-    },
-    {
-        rules: {
-            "@typescript-eslint/explicit-function-return-type": "error",
+        languageOptions: {
+            tolerant: false,
         },
+        extends: ["css/recommended"],
     },
     js.configs.recommended,
     tseslint.configs.strict,
     tseslint.configs.stylistic,
-    css.configs.recommended,
-    globalIgnores(["eslint.config.mjs"])
+    globalIgnores(["eslint.config.mjs"]),
 ]);

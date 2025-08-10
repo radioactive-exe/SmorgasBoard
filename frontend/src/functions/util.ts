@@ -1,7 +1,7 @@
 import * as get from "./accessors.js";
 
-import { Area } from "../definitions/area.js";
-import { Panel } from "../definitions/panel.js";
+import { Area } from "../classes/area.js";
+import { Panel } from "../classes/panel.js";
 
 import { dashboard, preview } from "../app.js";
 
@@ -60,10 +60,10 @@ function removeClassAfterTransition(
     );
 }
 
-function deleteAfterTransition(el: HTMLElement): void {
+function deleteAfterTransition(el: HTMLElement, parent: HTMLElement = dashboard): void {
     setTimeout(
         () => {
-            dashboard?.removeChild(el);
+            parent?.removeChild(el);
         },
         get.normalisedCssPropertyValue(el, "transition-duration")
     );

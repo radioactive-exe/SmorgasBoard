@@ -12,4 +12,9 @@
     --small-border-radius: 1rem;
     --scrollbar-bg: hsl(from var(--panel-bg) h s calc(l * 0.7));
     --scrollbar-thumb-col: hsl(from var(--panel-bg) h s calc(l * 1.2));
+    --alert-error-bg: rgb(255, 74, 74);
+    --alert-warning-bg: rgb(255, 158, 74);
+    --alert-info-bg: rgb(103, 214, 255);
+    --input-bg: rgb(12, 85, 73);
+    --input-accent: hsl(from var(--input-bg) h s calc(l*2.2));
 }
