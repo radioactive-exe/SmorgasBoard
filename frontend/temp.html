@@ -3,13 +3,21 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link rel="stylesheet" href="./public/themes/default.css" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Google+Sans+Code:ital,wght@0,300..800;1,300..800&family=Spline+Sans+Mono:ital,wght@0,300..700;1,300..700&display=swap"
+            rel="stylesheet"
+        />
+        <link rel="stylesheet" href="./public/themes/console.css" />
         <link rel="stylesheet" href="./public/styles/app.css" />
         <title>Testing</title>
     </head>
     <body>
-        <div class="dropdown-selector" data-config-property="Zoo">
-            <div class="selection glassy">
+        <!-- <div class="dropdown-selector selector" data-config-property="Zoo">
+            <div class="selection">
                 <span class="selection-text">Fo</span>
                 <div
                     class="menu-caret icon"
@@ -18,7 +26,7 @@
                     "
                 ></div>
             </div>
-            <ul class="dropdown-list glassy">
+            <ul class="dropdown-list">
                 <li data-config-value="fee1" class="dropdown-item">
                     <div class="item-content">
                         <span class="item-text">Fee</span>
@@ -65,7 +73,7 @@
                 </li>
             </ul>
         </div>
-        <div class="dropdown-selector" data-config-property="Wee">
+        <div class="dropdown-selector selector" data-config-property="Wee">
             <div class="selection glassy">
                 <span class="selection-text">Fo</span>
                 <div
@@ -123,11 +131,49 @@
             </ul>
         </div>
 
-        <div class="checkbox">
-            <span class="checkbox-text">Use Superman strength and stuff</span>
-            <input type="checkbox" name="" id="">
+        <div class="toggle-selector selector" data-config-property="Mama">
+            <input type="checkbox" id="toggle" class="toggle-checkbox" />
+            <label for="toggle" class="toggle-checkbox-background">
+                <div class="toggle-checkbox-button"></div>
+            </label>
         </div>
+
+        <div class="range-selector selector">
+            <label class="range-selector-label" for=""
+                ><span class="range-selector-text">1500</span></label
+            >
+            <input
+                class="range-slider"
+                type="range"
+                name=""
+                id="range"
+                min="10"
+                max="30"
+                value="15"
+                step="0.05"
+            />
+        </div>
+
+        <div class="text-selector selector">
+            <input
+                class="text-selector-input"
+                type="text"
+                name="text-input"
+                id="text"
+                required
+            />
+            <label class="text-selector-label" for="text">
+                <span class="text-selector-label-text">Name</span>
+            </label>
+        </div> -->
 
         <script type="module" src="./temp.js"></script>
+        <script type="importmap">
+            {
+                "imports": {
+                    "zod": "./node_modules/zod/index.js"
+                }
+            }
+        </script>
     </body>
 </html>

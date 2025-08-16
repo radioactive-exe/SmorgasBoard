@@ -1,16 +1,22 @@
 :root {
-    font-family: 'Courier New', Courier, monospace;
-    --panel-bg: rgb(40, 40, 40);
+
+    --panel-bg: rgb(40 40 40);
     --text-col: lime;
-    --dashboard-bg: rgb(24, 24, 24);
+    --dashboard-bg: rgb(24 24 24);
     --panel-handle-bg: hsl(from var(--panel-bg) h s calc(l * 1.6));
-    --cell-bg: rgba(255, 255, 255, 0.305);
+    --cell-bg: rgb(255 255 255 / 0.305);
     --textarea-bg: hsl(from var(--panel-bg) h s calc(l * 0.95));
     --preview-bg: lch(from var(--panel-bg) calc(l*0.6) c h);
     --small-border-radius: 1rem;
+    --tiny-border-radius: 0.5rem;
     --scrollbar-bg: hsl(from var(--panel-bg) h s calc(l * 0.7));
     --scrollbar-thumb-col: hsl(from var(--panel-bg) h s calc(l * 1.2));
-    --alert-error-bg: rgb(255, 74, 74);
-    --alert-warning-bg: rgb(177, 105, 66);
-    --alert-info-bg: rgb(0, 65, 88);
+    --alert-error-bg: rgb(255 74 74);
+    --alert-warning-bg: rgb(177 105 66);
+    --alert-info-bg: rgb(0 65 88);
+    --input-bg: rgb(60 60 60);
+    --input-secondary: hsl(from var(--input-bg) h s calc(l*2.2));
+    --input-accent: lime;
+    font-weight: bold;
+    font-family: "Google Sans Code", monospace;
 }

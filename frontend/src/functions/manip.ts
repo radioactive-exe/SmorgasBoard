@@ -1,5 +1,6 @@
 import * as get from "./accessors.js";
 import * as utils from "./util.js";
+import * as math from "./math.js";
 
 import { Area, Coordinate, Offset, Size } from "../classes/area.js";
 import { Panel } from "../classes/panel.js";
@@ -18,38 +19,38 @@ let top: number,
 function movePanelWithinScreen(
     panel: Panel,
     e: MouseEvent,
-    initData: { eventCoords: Coordinate; panelPos: Coordinate }
+    initData: { eventCoords: Coordinate; panelPos: Coordinate },
 ): void {
     panel.setPosition(
-        utils.clamp(
+        math.clamp(
             initData.panelPos.x + (e.clientX - initData.eventCoords.x),
             0,
-            window.innerWidth - panel.offsetWidth
+            window.innerWidth - panel.offsetWidth,
         ),
-        utils.clamp(
+        math.clamp(
             initData.panelPos.y + (e.pageY - initData.eventCoords.y),
             0,
-            window.innerHeight - panel.offsetHeight
-        )
+            window.innerHeight - panel.offsetHeight,
+        ),
     );
 }
 
 function resizePanel(
     panel: Panel,
     e: MouseEvent,
-    initData: { eventCoords: Coordinate; panelSize: Size }
+    initData: { eventCoords: Coordinate; panelSize: Size },
 ): void {
     panel.setSize(
-        utils.clamp(
+        math.clamp(
             initData.panelSize.width + e.clientX - initData.eventCoords.x,
             panel.getType().getMinWidth() * Dashboard.getFractionalWidth(),
-            window.innerWidth - panel.offsetLeft
+            window.innerWidth - panel.offsetLeft,
         ),
-        utils.clamp(
+        math.clamp(
             initData.panelSize.height + e.pageY - initData.eventCoords.y,
             panel.getType().getMinHeight() * Dashboard.getFractionalHeight(),
-            window.innerHeight - panel.offsetTop
-        )
+            window.innerHeight - panel.offsetTop,
+        ),
     );
 }
 
@@ -105,21 +106,21 @@ function rotateElementStyle(el: HTMLElement, offset: Offset): void {
 function snapElementToGrid(
     panel: Panel,
     source: Panel = panel,
-    shouldAnimate = true
+    shouldAnimate = true,
 ): void {
     const aspectRatio: number = get.elementAspectRatio(source);
 
     potentialX = get.normalisedCssPropertyValue(source, "--x");
     potentialY = get.normalisedCssPropertyValue(source, "--y");
-    potentialWidth = utils.clamp(
+    potentialWidth = math.clamp(
         get.normalisedCssPropertyValue(source, "--width"),
         panel.getType().getMinWidth() * Dashboard.getFractionalWidth(),
-        window.innerWidth - source.offsetLeft
+        window.innerWidth - source.offsetLeft,
     );
-    potentialHeight = utils.clamp(
+    potentialHeight = math.clamp(
         get.normalisedCssPropertyValue(source, "--height"),
         panel.getType().getMinHeight() * Dashboard.getFractionalHeight(),
-        window.innerHeight - source.offsetTop
+        window.innerHeight - source.offsetTop,
     );
 
     const potentialArea: Area = new Area(
@@ -132,35 +133,33 @@ function snapElementToGrid(
             width: potentialWidth,
             height: potentialHeight,
             isAbsolute: true,
-        }
+        },
     );
 
-    const potentialRatio = utils.roundToNearest(
-        potentialArea.getWidth() /
-            potentialArea.getHeight(),
-        0.001
+    const potentialRatio = math.roundToNearest(
+        potentialArea.getWidth() / potentialArea.getHeight(),
+        0.001,
     );
 
     if (
-        !utils.collidesWithAnyPanel(potentialArea) &&
-        ((aspectRatio != 0 && potentialRatio == aspectRatio) ||
-            aspectRatio == 0)
+        !utils.collidesWithAnyPanel(potentialArea)
+        && ((aspectRatio != 0 && potentialRatio == aspectRatio)
+            || aspectRatio == 0)
     ) {
         if (shouldAnimate) panel.classList.add("snapping");
         panel.setArea(potentialArea);
     }
-
 }
 
 function snapElementToTarget(
     el: Panel,
     target: Panel,
-    shouldAnimate = true
+    shouldAnimate = true,
 ): void {
     if (shouldAnimate) el.classList.add("snapping");
 
     el.setArea(target.getArea());
-    
+
     utils.removeClassAfterTransition(el, "snapping");
 }
 

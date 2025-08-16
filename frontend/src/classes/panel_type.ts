@@ -1,6 +1,7 @@
 import * as zod from "zod";
 import { Size } from "./area.js";
-import { BooleanConfigEntry } from "./config.js";
+import * as ConfigEntry from "./config/config_entry_type.js";
+import { isValidOption } from "../functions/util.js";
 
 /**
  * @description: Different Panel Data Types, the keys of the entries being the type of data content, and the values being their respective ID.
@@ -64,20 +65,58 @@ class PanelTypeConfig {
     // public readonly PHOTO: zod.ZodObject = "https://smorgas-board-backend.vercel.app/definitions/panels/photo";
     public static readonly CLOCK: PanelTypeConfig = new PanelTypeConfig(
         zod.strictObject({
-            use24HrTime: zod.custom<BooleanConfigEntry>().default({
+            use24HrTime: zod.custom<ConfigEntry.Boolean>().default({
                 label: "Use 24-hour Time",
                 value: true,
             }),
-            showSeconds: zod.custom<BooleanConfigEntry>().default({
+            showSeconds: zod.custom<ConfigEntry.Boolean>().default({
                 label: "Show Seconds",
                 value: false,
             }),
-            showDate: zod.custom<BooleanConfigEntry>().default({
+            showDate: zod.custom<ConfigEntry.Boolean>().default({
                 label: "Show Date above Time",
                 value: true,
             }),
-            dateFormat: zod.literal(["full", "long", "short"]).default("full"),
-        })
+            dateFormat: zod
+                .custom<ConfigEntry.ListSelection>((entry) => {
+                    const options: ConfigEntry.ListSelectionOption[] = [
+                        {
+                            optionLabel: "Full, including weekday",
+                            optionValue: "full",
+                        },
+                        {
+                            optionLabel: "Long - Month is spelled out",
+                            optionValue: "long",
+                        },
+                        {
+                            optionLabel: "Short - DD/MM/YYYY",
+                            optionValue: "short",
+                        },
+                    ];
+                    return isValidOption(
+                        options,
+                        (entry as ConfigEntry.ListSelection).value,
+                    );
+                })
+                .default({
+                    label: "Date Format (if shown)",
+                    value: "full",
+                    possibleOptions: [
+                        {
+                            optionLabel: "Full, including weekday",
+                            optionValue: "full",
+                        },
+                        {
+                            optionLabel: "Long - Month is spelled out",
+                            optionValue: "long",
+                        },
+                        {
+                            optionLabel: "Short - DD/MM/YYYY",
+                            optionValue: "short",
+                        },
+                    ],
+                }),
+        }),
     );
 
     private constructor(private config: zod.ZodObject) {}
@@ -105,26 +144,26 @@ class PanelType {
         PanelTypeId.PREVIEW,
         PanelTypeName.PREVIEW,
         PanelTypeData.NONE,
-        PanelTypeTemplate.PREVIEW
+        PanelTypeTemplate.PREVIEW,
     );
     static readonly DEFAULT = new PanelType(
         PanelTypeId.DEFAULT,
         PanelTypeName.DEFAULT,
         PanelTypeData.NONE,
-        PanelTypeTemplate.DEFAULT
+        PanelTypeTemplate.DEFAULT,
     );
     static readonly NOTEPAD = new PanelType(
         PanelTypeId.NOTEPAD,
         PanelTypeName.NOTEPAD,
         PanelTypeData.LOCAL,
         PanelTypeTemplate.NOTEPAD,
-        { width: 2, height: 2 }
+        { width: 2, height: 2 },
     );
     static readonly PHOTO = new PanelType(
         PanelTypeId.PHOTO,
         PanelTypeName.PHOTO,
         PanelTypeData.LOCAL,
-        PanelTypeTemplate.PHOTO
+        PanelTypeTemplate.PHOTO,
     );
     static readonly CLOCK = new PanelType(
         PanelTypeId.CLOCK,
@@ -132,7 +171,7 @@ class PanelType {
         PanelTypeData.NONE,
         PanelTypeTemplate.CLOCK,
         { width: 2, height: 1 },
-        PanelTypeConfig.CLOCK
+        PanelTypeConfig.CLOCK,
     );
 
     /**
@@ -154,7 +193,7 @@ class PanelType {
         private readonly typeTemplate: PanelTypeTemplate,
         private readonly typeMinSize?: Size,
         private readonly typeConfig?: PanelTypeConfig,
-        private readonly typeDataSource?: string
+        private readonly typeDataSource?: string,
     ) {}
 
     /**

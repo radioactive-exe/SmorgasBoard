@@ -1,12 +1,12 @@
 import * as get from "../functions/accessors.js";
 import * as utils from "../functions/util.js";
 
-import { Area } from "./area.js";
+import { Area, Size } from "./area.js";
 import { PanelType } from "./panel_type.js";
 import { Panel, PanelInstance } from "./panel.js";
 import { deletePanelSection } from "../elements/context_menu.js";
 import { AlertLevel, spawnAlert } from "../elements/alert.js";
-import { getDefaultConfig } from "./config.js";
+import { getDefaultConfig } from "./config/config.js";
 
 /**
  * @description: A class to facilitate the storage and usage of Themes in the application, with useful fields and methods
@@ -24,12 +24,12 @@ class Theme {
     static readonly DEFAULT = new Theme(
         0,
         "Default Theme",
-        "themes/default.css"
+        "themes/default.css",
     );
     static readonly CONSOLE = new Theme(
         1,
         "Hacker-man Theme",
-        "themes/console.css"
+        "themes/console.css",
     );
 
     // TODO Implement Mode preference themes like Light and Dark Mode
@@ -48,7 +48,7 @@ class Theme {
     private constructor(
         private readonly id: number,
         private readonly name: string,
-        private readonly url: string // private readonly mode:
+        private readonly url: string, // private readonly mode:
     ) {}
 
     /**
@@ -76,6 +76,7 @@ class Dashboard extends HTMLElement {
     private panels: Panel[];
     private currentTheme: Theme;
     private freeIds: Set<number> = new Set<number>();
+    private dimensions: Size;
 
     public constructor() {
         super();
@@ -84,7 +85,13 @@ class Dashboard extends HTMLElement {
 
         const cells = document.createElement("div");
         cells.part = "cell-container";
-        for (let i = 0; i < Dashboard.getRows() * Dashboard.getCols(); i++) {
+        for (
+            let i = 0;
+            i
+            < get.cssPropertyValue(document.body, "--num-of-rows")
+                * get.cssPropertyValue(document.body, "--num-of-cols");
+            i++
+        ) {
             const cell = document.createElement("div");
             cell.classList.add("cell");
             cell.part = "cell";
@@ -133,7 +140,7 @@ class Dashboard extends HTMLElement {
         this.classList.toggle("in-edit-mode");
         if (this.isEditing()) {
             const activePanel = document.querySelector(
-                "panel-element.hovering"
+                "panel-element.hovering",
             );
             if (activePanel) activePanel.dispatchEvent(new Event("mouseleave"));
         }
@@ -142,9 +149,20 @@ class Dashboard extends HTMLElement {
     public spawnPanelOfType(panelType: PanelType, updateStored = true): void {
         let finalArea: Area = Area.INIT;
         let slotFound = false;
-        for (let y  = 0; y <= Dashboard.getRows() - panelType.getMinHeight(); y++) {
-            for (let x = 0; x <= Dashboard.getCols() - panelType.getMinWidth(); x++) {
-                const potentialArea = new Area({x, y}, panelType.getMinSize());
+        for (
+            let y = 0;
+            y <= Dashboard.getRows() - panelType.getMinHeight();
+            y++
+        ) {
+            for (
+                let x = 0;
+                x <= Dashboard.getCols() - panelType.getMinWidth();
+                x++
+            ) {
+                const potentialArea = new Area(
+                    { x, y },
+                    panelType.getMinSize(),
+                );
                 if (!utils.collidesWithAnyPanel(potentialArea)) {
                     finalArea = potentialArea;
                     slotFound = true;
@@ -163,18 +181,28 @@ class Dashboard extends HTMLElement {
 
             const configSchema = panelType.getConfigSchema();
             if (configSchema != undefined) {
-                this.spawnPanel(new Panel(finalArea, panelType, id, undefined, getDefaultConfig(configSchema)), updateStored);
+                this.spawnPanel(
+                    new Panel(
+                        finalArea,
+                        panelType,
+                        id,
+                        undefined,
+                        getDefaultConfig(configSchema),
+                    ),
+                    updateStored,
+                );
             } else {
-                this.spawnPanel(new Panel(finalArea, panelType, id), updateStored);
-            } 
-        }
-        else {
+                this.spawnPanel(
+                    new Panel(finalArea, panelType, id),
+                    updateStored,
+                );
+            }
+        } else {
             spawnAlert(
                 `No space for a ${panelType.getName()} found. Either move panels around, or delete some!`,
-                AlertLevel.WARNING
+                AlertLevel.WARNING,
             );
         }
-
     }
 
     private spawnPanel(panel: Panel, updateStored = true): void {
@@ -201,7 +229,7 @@ class Dashboard extends HTMLElement {
         this.panels = [];
 
         const loadedIds: number[] = JSON.parse(
-            localStorage.getItem("free-panel-ids") ?? "[]"
+            localStorage.getItem("free-panel-ids") ?? "[]",
         );
 
         loadedIds.forEach((i) => {
@@ -215,7 +243,7 @@ class Dashboard extends HTMLElement {
         if (queriedPanels.length != 0) {
             spawnAlert(
                 "Panels in body found. Failed to load panels from storage",
-                AlertLevel.ERROR
+                AlertLevel.ERROR,
             );
             queriedPanels.forEach((i) => {
                 i.updateArea();
@@ -225,12 +253,13 @@ class Dashboard extends HTMLElement {
             const loadedString = localStorage.getItem("local-panel-storage");
 
             if (loadedString == null || loadedString == "[]") {
-                spawnAlert("No stored panels! Initiating base board with a random Panel. To Add more, Right Click and hover on 'Add Panel', and have fun!",
-                    AlertLevel.INFO
+                spawnAlert(
+                    "No stored panels! Initiating base board with a random Panel. To Add more, Right Click and hover on 'Add Panel', and have fun!",
+                    AlertLevel.INFO,
                 );
 
                 const possiblePanelTypes: PanelType[] = Object.entries(
-                    PanelType
+                    PanelType,
                 )
                     .slice(2)
                     .map((type) => {
@@ -240,7 +269,7 @@ class Dashboard extends HTMLElement {
                 this.spawnPanelOfType(
                     possiblePanelTypes[
                         Math.floor(Math.random() * possiblePanelTypes.length)
-                    ]
+                    ],
                 );
             } else {
                 const loadedPanels: PanelInstance[] = JSON.parse(loadedString);
@@ -252,9 +281,9 @@ class Dashboard extends HTMLElement {
                             PanelType.getTypeFromId(i.panel_type_id),
                             i.panel_id,
                             i.content,
-                            i.config
+                            i.config,
                         ),
-                        false
+                        false,
                     );
                 });
             }
@@ -266,23 +295,23 @@ class Dashboard extends HTMLElement {
             (i): PanelInstance => {
                 return {
                     panel_id: parseInt(
-                        i.dataset.panelId ? i.dataset.panelId : "0"
+                        i.dataset.panelId ? i.dataset.panelId : "0",
                     ),
                     panel_type_id: i.getType().getId(),
                     area: i.getArea().toJson(),
                     content: JSON.stringify(i.getContent()),
                     config: i.getConfig(),
                 };
-            }
+            },
         );
 
         localStorage.setItem(
             "local-panel-storage",
-            JSON.stringify(panelStorage)
+            JSON.stringify(panelStorage),
         );
         localStorage.setItem(
             "free-panel-ids",
-            JSON.stringify([...this.freeIds])
+            JSON.stringify([...this.freeIds]),
         );
     }
 

@@ -4,28 +4,14 @@ import { Area } from "../classes/area.js";
 import { Panel } from "../classes/panel.js";
 
 import { dashboard, preview } from "../app.js";
-
-function ignoreEventHandler(e: Event): void {
-    e.stopPropagation();
-}
-
-function clamp(num: number, min: number, max: number): number {
-    return Math.min(Math.max(num, min), max);
-}
-
-function roundToNearest(num: number, stepSize: number): number {
-    let converted = num / stepSize;
-    converted = Math.round(converted);
-    converted *= stepSize;
-    return converted;
-}
+import { ListSelectionOption } from "../classes/config/config_entry_type.js";
 
 function areaCollisionWithElement(area: Area, el: Panel): boolean {
     return !(
-        area.getAbsoluteY() + area.getAbsoluteHeight() < el.offsetTop + 10 ||
-        area.getAbsoluteY() >= el.offsetTop + el.offsetHeight - 20 ||
-        area.getAbsoluteX() + area.getAbsoluteWidth() < el.offsetLeft + 10 ||
-        area.getAbsoluteX() > el.offsetLeft + el.offsetWidth - 20
+        area.getAbsoluteY() + area.getAbsoluteHeight() < el.offsetTop + 10
+        || area.getAbsoluteY() >= el.offsetTop + el.offsetHeight - 20
+        || area.getAbsoluteX() + area.getAbsoluteWidth() < el.offsetLeft + 10
+        || area.getAbsoluteX() > el.offsetLeft + el.offsetWidth - 20
     );
 }
 
@@ -34,8 +20,8 @@ function collidesWithAnyPanel(area: Area): boolean {
 
     dashboard.getPanels().forEach((i) => {
         if (
-            i.dataset.panelId != preview.dataset.callerId &&
-            areaCollisionWithElement(area, i)
+            i.dataset.panelId != preview.dataset.callerId
+            && areaCollisionWithElement(area, i)
         ) {
             flag = true;
         }
@@ -47,7 +33,7 @@ function collidesWithAnyPanel(area: Area): boolean {
 function removeClassAfterTransition(
     el: HTMLElement,
     cl: string,
-    removeFromDashboard?: boolean
+    removeFromDashboard?: boolean,
 ): void {
     setTimeout(
         () => {
@@ -56,25 +42,33 @@ function removeClassAfterTransition(
                 dashboard?.removeChild(el);
             }
         },
-        get.normalisedCssPropertyValue(el, "transition-duration")
+        get.normalisedCssPropertyValue(el, "transition-duration"),
     );
 }
 
-function deleteAfterTransition(el: HTMLElement, parent: HTMLElement = dashboard): void {
+function deleteAfterTransition(
+    el: HTMLElement,
+    parent: HTMLElement = dashboard,
+): void {
     setTimeout(
         () => {
             parent?.removeChild(el);
         },
-        get.normalisedCssPropertyValue(el, "transition-duration")
+        get.normalisedCssPropertyValue(el, "transition-duration"),
     );
 }
 
+function isValidOption(
+    possibleOptions: ListSelectionOption[],
+    potentialValue: string,
+): boolean {
+    return possibleOptions.some((op) => potentialValue == op.optionValue);
+}
+
 export {
-    ignoreEventHandler,
-    clamp,
-    roundToNearest,
     areaCollisionWithElement,
     collidesWithAnyPanel,
     removeClassAfterTransition,
     deleteAfterTransition,
+    isValidOption,
 };

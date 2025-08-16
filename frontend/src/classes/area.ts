@@ -1,6 +1,6 @@
 // import * as get from "../accessors.js";
-// import { dashboard } from "../app.js";
 import { Dashboard } from "./dashboard.js";
+// import { Dashboard } from "./dashboard.js";
 
 /**
  * @description: A Coordinate object, stores the x and y positions of the item they belong to.
@@ -46,8 +46,7 @@ interface Offset {
 interface AreaInstance {
     pos: Coordinate;
     size: Size;
-};
-
+}
 
 /**
  * @description: This is the Area class. This class holds all information for a Panel or other object, with relevant and helpful methods and members.
@@ -97,7 +96,7 @@ class Area {
             // INFO: If we passed an extra Size despite passing a full Area, it is announced and discarded.
             if (arg1 != null) {
                 console.warn(
-                    "Second parameter is unused. First argument (arg0) was a complete Area. To create a new Area with the coordinates of the first parameter and the size in the second parameter, use arg0.getPos()."
+                    "Second parameter is unused. First argument (arg0) was a complete Area. To create a new Area with the coordinates of the first parameter and the size in the second parameter, use arg0.getPos().",
                 );
             }
 
@@ -114,7 +113,7 @@ class Area {
                 this.size = { width: 1, height: 1 };
 
                 console.warn(
-                    "No size passed. Area will be initialised with a width and height of 1 fraction."
+                    "No size passed. Area will be initialised with a width and height of 1 fraction.",
                 );
             } else {
                 // INFO: The absolute/fractional nature is dealt with in setSize()
@@ -250,7 +249,9 @@ class Area {
         if (size.isAbsolute) {
             this.size = {
                 width: Math.round(size.width / Dashboard.getFractionalWidth()),
-                height: Math.round(size.height / Dashboard.getFractionalHeight()),
+                height: Math.round(
+                    size.height / Dashboard.getFractionalHeight(),
+                ),
             };
         } else {
             this.size = size;
@@ -281,10 +282,4 @@ class Area {
     }
 }
 
-export {
-    Offset,
-    Coordinate,
-    Size,
-    AreaInstance,
-    Area
-};
+export { Offset, Coordinate, Size, AreaInstance, Area };

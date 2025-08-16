@@ -12,14 +12,20 @@ import {
     rotateElementStyle,
 } from "./functions/manip.js";
 // import { months, weekdays } from "./definitions/constants.js";
-import { Config } from "./classes/config.js";
 import {
     deletePanelButton,
     editModeButton,
     panelMenu,
+    removeContextMenu,
     spawnContextMenu,
     themeMenu,
 } from "./elements/context_menu.js";
+
+import * as ConfigEntry from "./classes/config/config_entry_type.js";
+import * as ConfigEntryObject from "./classes/config/config_entry_object.js";
+import { Config } from "./classes/config/config.js";
+
+//#region
 
 const current = {
     flag: "" as string,
@@ -27,12 +33,12 @@ const current = {
 };
 
 const dashboard: Dashboard = document.querySelector(
-    "smorgas-board"
+    "smorgas-board",
 ) as Dashboard;
 dashboard.loadStoredPanels();
 const holdHandler = {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    drag: function (e: MouseEvent): void {
+    drag: (e: MouseEvent): void => {
+        console.log(e);
         return;
     },
     release: releaseHandler,
@@ -65,7 +71,7 @@ function enterPanelHoverHandler(e: MouseEvent): void {
     if (dashboard.isEditing()) return;
     const target: Panel = e.currentTarget as Panel;
     const panel: Panel = target?.shadowRoot?.querySelector(
-        ".panel-body"
+        ".panel-body",
     ) as Panel;
 
     if (!panel?.classList.contains("moving")) {
@@ -76,7 +82,7 @@ function enterPanelHoverHandler(e: MouseEvent): void {
                     if (panel) panel.part = "panel-body in-motion";
                 }
             },
-            get.normalisedCssPropertyValue(panel, "transition-duration")
+            get.normalisedCssPropertyValue(panel, "transition-duration"),
         );
     }
 }
@@ -101,7 +107,7 @@ function exitPanelHoverHandler(e: MouseEvent): void {
 
     if (dashboard.isEditing()) return;
     const panel = (e.currentTarget as Panel)?.shadowRoot?.querySelector(
-        ".panel-body"
+        ".panel-body",
     );
     if (panel) panel.part = "panel-body";
     (e.currentTarget as Panel)?.classList.remove("hovering");
@@ -128,11 +134,24 @@ document.addEventListener("keydown", async (e) => {
             break;
         case "ArrowRight":
             dashboard.toggleEditMode();
-            Object.entries(PanelTypeConfig.CLOCK.getConfig().shape).forEach((prop) => {
-                // if (prop[1].unwrap().def.type == "custom") console.log(typeof(prop[1].def.defaultValue.value) === "boolean")
-                console.log(prop[1].def);
-            });
-            // console.log(getDefaultConfig(PanelTypeConfig.CLOCK.getConfig()));
+            Object.entries(PanelTypeConfig.CLOCK.getConfig().shape).forEach(
+                (prop) => {
+                    if (
+                        ConfigEntryObject.Boolean.safeParse(
+                            prop[1].def.defaultValue,
+                        ).success
+                    )
+                        console.log("Boolean Entry");
+                    else if (
+                        ConfigEntryObject.ListSelection.safeParse(
+                            prop[1].def.defaultValue,
+                        ).success
+                    )
+                        console.log("List Entry");
+                    else console.log("nah");
+                    // console.log(prop[1].unwrap());
+                },
+            );
             break;
         case "ArrowLeft":
             dashboard.spawnPanelOfType(PanelType.CLOCK);
@@ -143,6 +162,7 @@ dashboard.addEventListener("contextmenu", spawnContextMenu);
 
 editModeButton?.addEventListener("click", () => {
     dashboard.toggleEditMode();
+    removeContextMenu();
 });
 
 deletePanelButton?.addEventListener("click", () => {
@@ -151,18 +171,14 @@ deletePanelButton?.addEventListener("click", () => {
 
 // TODO: Config menu, which should implement next steps 2 and 3 from last commit.
 
-// [x] Make panels check if there is an empty area that can fit the new panel.
-
-// [x] An alert system to properly announce to the user if there is no space, which also makes earlier features like the instantiation of a base board not have to rely on just console warnings, with the user not knowing what is happening.
-
-// [x] Make the base board instantiate a random type of panel
-
 // ~ Panel Data Functionality
 
 function formatTime(time: Date, options?: Config): string {
     return time.toLocaleTimeString("en-gb", {
-        hour12: !options?.use24HrTime,
-        timeStyle: options?.showSeconds ? "medium" : "short",
+        hour12: !(options?.use24HrTime as ConfigEntry.Boolean).value,
+        timeStyle: (options?.showSeconds as ConfigEntry.Boolean).value
+            ? "medium"
+            : "short",
     });
     // const hours: number = time.getHours();
     // const minutes: number = time.getMinutes();
@@ -172,7 +188,10 @@ function formatTime(time: Date, options?: Config): string {
 
 function formatDate(time: Date, options?: Config): string {
     return time.toLocaleDateString("en-gb", {
-        dateStyle: options?.dateFormat as "full" | "long" | "short" | "medium",
+        dateStyle: (options?.dateFormat as ConfigEntry.ListSelection).value as
+            | "full"
+            | "long"
+            | "short",
         localeMatcher: "best fit",
     });
     // const weekday = time.getDay();
@@ -186,24 +205,27 @@ Object.entries(Theme).forEach((theme) => {
     const menuEntry: HTMLElement = document.createElement("li");
     menuEntry.classList.add("item");
     menuEntry.id = `${theme[0].toLowerCase()}-entry`;
-    menuEntry.innerHTML = `<span>${theme[1].name}</span>`;
+    menuEntry.innerHTML = `<span class="item-text">${theme[1].name}</span>`;
     menuEntry.addEventListener("mousedown", () => {
         localStorage.setItem("last-theme", theme[0]);
         dashboard.setCurrentTheme(theme[1]);
     });
     themeMenu.appendChild(menuEntry);
 });
+
 Object.entries(PanelType).forEach((panelType) => {
     if (panelType[0] == "DEFAULT" || panelType[0] == "PREVIEW") return;
     const menuEntry: HTMLElement = document.createElement("li");
     menuEntry.classList.add("item");
     menuEntry.id = `${panelType[0].toLowerCase()}-entry`;
-    menuEntry.innerHTML = `<span>${panelType[1].typeName}</span>`;
+    menuEntry.innerHTML = `<span class="item-text">${panelType[1].typeName}</span>`;
     menuEntry.addEventListener("mousedown", () => {
         dashboard.spawnPanelOfType(panelType[1]);
     });
     panelMenu.appendChild(menuEntry);
 });
+
+//#endregion
 
 export {
     current,

@@ -1,4 +1,4 @@
-import * as utils from "../functions/util.js";
+import * as math from "../functions/math.js";
 
 import { Panel } from "../classes/panel.js";
 import { dashboard, current } from "../app.js";
@@ -54,12 +54,12 @@ function spawnContextMenu(e: MouseEvent): void {
 
         clearTimeout(contextMenuDeleteTimeout);
 
-        const x: number = utils.clamp(
+        const x: number = math.clamp(
             e.pageX,
             0,
             window.innerWidth - contextMenu.offsetWidth - 10
         );
-        const y: number = utils.clamp(
+        const y: number = math.clamp(
             e.pageY - 0.5 * contextMenu.offsetHeight,
             0,
             window.innerHeight - contextMenu.offsetHeight + 10

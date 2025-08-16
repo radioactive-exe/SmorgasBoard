@@ -1,7 +1,7 @@
 let alertDismissTimeout: NodeJS.Timeout;
 
-import { dashboard } from "../app";
-import { deleteAfterTransition } from "../functions/util";
+import { dashboard } from "../app.js";
+import { deleteAfterTransition } from "../functions/util.js";
 
 enum AlertLevel {
     INFO = 0,
@@ -16,13 +16,13 @@ function dismissAlert(alert: HTMLElement): void {
 
 function spawnAlert(
     alertMessage: string,
-    alertLevel: AlertLevel = AlertLevel.WARNING
+    alertLevel: AlertLevel = AlertLevel.WARNING,
 ): void {
     const alert = document.createElement("div");
     alert.classList.add("alert");
     alert.style.setProperty(
         "--alert-bg",
-        `var(--alert-${AlertLevel[alertLevel].toString().toLowerCase()}-bg)`
+        `var(--alert-${AlertLevel[alertLevel].toString().toLowerCase()}-bg)`,
     );
 
     alert.innerHTML = `
@@ -40,18 +40,18 @@ function spawnAlert(
 
     const dismissButton = alert.querySelector(".close-alert-button");
 
-    dismissButton?.addEventListener("mousedown", () => {
-        clearTimeout(alertDismissTimeout);
-        dismissAlert(alert);
-    })
-
     setTimeout(() => {
         alert.classList.add("visible");
     }, 100);
-    
+
     alertDismissTimeout = setTimeout(() => {
         dismissAlert(alert);
     }, 5000);
+
+    dismissButton?.addEventListener("mousedown", () => {
+        clearTimeout(alertDismissTimeout);
+        dismissAlert(alert);
+    });
 }
 
 export { spawnAlert, AlertLevel };

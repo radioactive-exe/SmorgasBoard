@@ -1,5 +1,4 @@
-// import { dashboard } from "./app";
-import { Dashboard } from "../classes/dashboard";
+import { Dashboard } from "../classes/dashboard.js";
 
 function numericalValue(string: string): number {
     return parseFloat(string.replace(/\D+$/g, ""));
@@ -57,7 +56,7 @@ function elementAspectRatio(el: HTMLElement): number {
         return 0;
     }
     const split: string[] = string.split(":");
-    
+
     return parseInt(split[0]) / parseInt(split[1]);
 }
 

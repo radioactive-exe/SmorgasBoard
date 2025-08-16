@@ -21,7 +21,7 @@ import {
     snapElementToGrid,
     snapElementToTarget,
 } from "../functions/manip.js";
-import { Config, getDefaultConfig } from "./config.js";
+import { Config, getDefaultConfig } from "./config/config.js";
 
 /**
  * @description: A type that defines the structure of a @type {Panel} in its stored format, either in localStorage or the cloud.
@@ -32,7 +32,7 @@ interface PanelInstance {
     panel_type_id: number;
     area: AreaInstance;
     content: string;
-    config: Config | undefined
+    config: Config | undefined;
 }
 
 /**
@@ -61,7 +61,7 @@ class Panel extends HTMLElement {
         private type: PanelType,
         private dashboardId: number,
         body?: string,
-        private config?: Config
+        private config?: Config,
         // private readonly potentialAspectRatios: number[] | null
     ) {
         super();
@@ -79,10 +79,15 @@ class Panel extends HTMLElement {
                 try {
                     this.config = type.getConfigSchema()?.parse(config);
                 } catch (error) {
-                    console.error(error, "Invalid Panel Config provided. Please ensure the config is for the appropriate Panel Type:");
+                    console.error(
+                        error,
+                        "Invalid Panel Config provided. Please ensure the config is for the appropriate Panel Type:",
+                    );
                 }
             } else if (!config && type.getConfigSchema() != undefined) {
-                this.config = getDefaultConfig(type.getConfigSchema() as zod.ZodObject);
+                this.config = getDefaultConfig(
+                    type.getConfigSchema() as zod.ZodObject,
+                );
             }
         });
     }
@@ -134,8 +139,8 @@ class Panel extends HTMLElement {
                     width: get.normalisedCssPropertyValue(this, "--width"),
                     height: get.normalisedCssPropertyValue(this, "--height"),
                     isAbsolute: true,
-                }
-            )
+                },
+            ),
         );
     }
 
@@ -223,30 +228,28 @@ class Panel extends HTMLElement {
     private initTemplate(): Promise<void> {
         return new Promise(async (resolve) => {
             const baseResponse = await fetch(PanelTypeTemplate.BASE).then(
-                (res) => res.json()
+                (res) => res.json(),
             );
             const response = await fetch(this.type.getTemplate()).then((res) =>
-                res.json()
+                res.json(),
             );
             const baseResponseBody = await new DOMParser().parseFromString(
                 baseResponse.panel_template,
-                "text/html"
+                "text/html",
             );
             const responseBody = await new DOMParser().parseFromString(
                 response.panel_template,
-                "text/html"
+                "text/html",
             );
 
             const base: HTMLTemplateElement =
                 (baseResponseBody.querySelector(
-                    "template"
-                ) as HTMLTemplateElement) ??
-                (document.createElement("template") as HTMLTemplateElement);
+                    "template",
+                ) as HTMLTemplateElement)
+                ?? (document.createElement("template") as HTMLTemplateElement);
             const template: HTMLTemplateElement =
-                (responseBody.querySelector(
-                    "template"
-                ) as HTMLTemplateElement) ??
-                (document.createElement("template") as HTMLTemplateElement);
+                (responseBody.querySelector("template") as HTMLTemplateElement)
+                ?? (document.createElement("template") as HTMLTemplateElement);
 
             const shadow = this.attachShadow({ mode: "open" });
 
@@ -265,8 +268,8 @@ class Panel extends HTMLElement {
                         // this.classList.add("loaded");
                         this.beginBehaviour();
                         resolve();
-                    })
-                )
+                    }),
+                ),
             );
         });
     }
@@ -293,7 +296,7 @@ class Panel extends HTMLElement {
                 case PanelType.PHOTO:
                     focus =
                         this.shadowRoot?.querySelector<HTMLTextAreaElement>(
-                            "textarea"
+                            "textarea",
                         );
                     if (focus) focus.value = content.body;
                     break;
@@ -399,10 +402,7 @@ class Panel extends HTMLElement {
     }
 
     public updatePreview(): void {
-        snapElementToGrid(
-            preview,
-            this
-        );
+        snapElementToGrid(preview, this);
     }
 
     public beginBehaviour(): void {
@@ -410,10 +410,14 @@ class Panel extends HTMLElement {
             case PanelType.CLOCK:
                 setInterval(() => {
                     const now = new Date();
-                    const dateText: HTMLElement | null = this.querySelector(".date-text");
-                    if (dateText) dateText.textContent = formatDate(now, this.config);
-                    const timeText: HTMLElement | null = this.querySelector(".time-text");
-                    if (timeText) timeText.textContent = formatTime(now, this.config);
+                    const dateText: HTMLElement | null =
+                        this.querySelector(".date-text");
+                    if (dateText)
+                        dateText.textContent = formatDate(now, this.config);
+                    const timeText: HTMLElement | null =
+                        this.querySelector(".time-text");
+                    if (timeText)
+                        timeText.textContent = formatTime(now, this.config);
                 }, 1000);
                 break;
 
