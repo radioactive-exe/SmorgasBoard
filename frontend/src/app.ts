@@ -21,9 +21,9 @@ import {
     themeMenu,
 } from "./elements/context_menu.js";
 
-import * as ConfigEntry from "./classes/config/config_entry_type.js";
-import * as ConfigEntryObject from "./classes/config/config_entry_object.js";
-import { Config } from "./classes/config/config.js";
+import * as ConfigEntry from "./classes/config/config_entry.js";
+import { Config, getDefaultConfig } from "./classes/config/config.js";
+import { configMenu } from "./classes/config/config_menu_builder.js";
 
 //#region
 
@@ -134,23 +134,25 @@ document.addEventListener("keydown", async (e) => {
             break;
         case "ArrowRight":
             dashboard.toggleEditMode();
-            Object.entries(PanelTypeConfig.CLOCK.getConfig().shape).forEach(
-                (prop) => {
-                    if (
-                        ConfigEntryObject.Boolean.safeParse(
-                            prop[1].def.defaultValue,
-                        ).success
-                    )
-                        console.log("Boolean Entry");
-                    else if (
-                        ConfigEntryObject.ListSelection.safeParse(
-                            prop[1].def.defaultValue,
-                        ).success
-                    )
-                        console.log("List Entry");
-                    else console.log("nah");
-                    // console.log(prop[1].unwrap());
-                },
+            // Object.entries(PanelTypeConfig.CLOCK.getConfig().shape).forEach(
+            //     () => {
+            //         console.log(configMenu(PanelTypeConfig.CLOCK.getConfig()));
+            //         //     if (
+            //         //         ConfigEntry.BooleanObject.safeParse(
+            //         //             prop[1].def.defaultValue,
+            //         //         ).success
+            //         //     )
+            //         //         console.log("Boolean Entry");
+            //         //     else if (
+            //         //         ConfigEntry.ListSelectionObject.safeParse(
+            //         //             prop[1].def.defaultValue,
+            //         //         ).success
+            //         //     )
+            //         //         console.log("List Entry");
+            //     },
+            // );
+            console.log(
+                configMenu(getDefaultConfig(PanelTypeConfig.CLOCK.getConfig())),
             );
             break;
         case "ArrowLeft":

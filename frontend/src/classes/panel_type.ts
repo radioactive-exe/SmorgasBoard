@@ -1,6 +1,6 @@
 import * as zod from "zod";
 import { Size } from "./area.js";
-import * as ConfigEntry from "./config/config_entry_type.js";
+import * as ConfigEntry from "./config/config_entry.js";
 import { isValidOption } from "../functions/util.js";
 
 /**

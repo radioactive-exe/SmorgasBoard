@@ -358,6 +358,11 @@ panel-element {
     user-select: none;
     mask: var(--icon-svg) no-repeat center;
     mask-size: contain;
+
+    &.menu-caret {
+
+        --icon-svg: url("../assets/graphics/angle-small-right.svg");
+    }
 }
 
 .selector {
@@ -433,6 +438,8 @@ panel-element {
                     transition: all var(--quick-transition-time) var(--bezier-function);
 
                     & .selected-icon {
+
+                        --icon-svg: url("../assets/graphics/hand-back-point-left.svg");
                         height: auto;
                         background: var(--input-accent);
                         opacity: 0;

@@ -4,7 +4,7 @@ import { Area } from "../classes/area.js";
 import { Panel } from "../classes/panel.js";
 
 import { dashboard, preview } from "../app.js";
-import { ListSelectionOption } from "../classes/config/config_entry_type.js";
+import { ListSelectionOption } from "../classes/config/config_entry.js";
 
 function areaCollisionWithElement(area: Area, el: Panel): boolean {
     return !(
@@ -62,7 +62,21 @@ function isValidOption(
     possibleOptions: ListSelectionOption[],
     potentialValue: string,
 ): boolean {
-    return possibleOptions.some((op) => potentialValue == op.optionValue);
+    return possibleOptions.some(
+        (op: ListSelectionOption): boolean => potentialValue == op.optionValue,
+    );
+}
+
+function getOptionLabelFromList(
+    possibleOptions: ListSelectionOption[],
+    targetValue: string,
+): string | null {
+    let foundLabel = "";
+    possibleOptions.forEach((option: ListSelectionOption) => {
+        if (option.optionValue == targetValue) foundLabel = option.optionLabel;
+    });
+
+    return foundLabel != "" ? foundLabel : null;
 }
 
 export {
@@ -71,4 +85,5 @@ export {
     removeClassAfterTransition,
     deleteAfterTransition,
     isValidOption,
+    getOptionLabelFromList,
 };
