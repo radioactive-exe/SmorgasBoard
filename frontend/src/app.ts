@@ -134,23 +134,6 @@ document.addEventListener("keydown", async (e) => {
             break;
         case "ArrowRight":
             dashboard.toggleEditMode();
-            // Object.entries(PanelTypeConfig.CLOCK.getConfig().shape).forEach(
-            //     () => {
-            //         console.log(configMenu(PanelTypeConfig.CLOCK.getConfig()));
-            //         //     if (
-            //         //         ConfigEntry.BooleanObject.safeParse(
-            //         //             prop[1].def.defaultValue,
-            //         //         ).success
-            //         //     )
-            //         //         console.log("Boolean Entry");
-            //         //     else if (
-            //         //         ConfigEntry.ListSelectionObject.safeParse(
-            //         //             prop[1].def.defaultValue,
-            //         //         ).success
-            //         //     )
-            //         //         console.log("List Entry");
-            //     },
-            // );
             console.log(
                 configMenu(getDefaultConfig(PanelTypeConfig.CLOCK.getConfig())),
             );
@@ -172,6 +155,10 @@ deletePanelButton?.addEventListener("click", () => {
 });
 
 // TODO: Config menu, which should implement next steps 2 and 3 from last commit.
+
+// TODO: Add the config menu to the base HTML template and make it/the button visible if and only if the panel type has a config schema.
+
+// TODO: Make the inputs dispatch custom events when the input value is changed.
 
 // ~ Panel Data Functionality
 

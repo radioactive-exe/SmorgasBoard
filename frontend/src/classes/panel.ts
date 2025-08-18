@@ -22,6 +22,7 @@ import {
     snapElementToTarget,
 } from "../functions/manip.js";
 import { Config, getDefaultConfig } from "./config/config.js";
+import { configMenu } from "./config/config_menu_builder.js";
 
 /**
  * @description: A type that defines the structure of a @type {Panel} in its stored format, either in localStorage or the cloud.
@@ -75,19 +76,32 @@ class Panel extends HTMLElement {
         this.style.setProperty("--min-height", `${type.getMinHeight()}fr`);
         this.init().then(() => {
             if (body) this.setContent(body);
-            if (config && type.getConfigSchema() != undefined) {
-                try {
-                    this.config = type.getConfigSchema()?.parse(config);
-                } catch (error) {
-                    console.error(
-                        error,
-                        "Invalid Panel Config provided. Please ensure the config is for the appropriate Panel Type:",
+            if (type.getConfigSchema() != null) {
+                const configRootElement: HTMLElement =
+                    this.shadowRoot?.querySelector(".config") as HTMLElement;
+                const configDiv: HTMLElement = configRootElement?.querySelector(
+                    ".config-menu",
+                ) as HTMLElement;
+                if (config) {
+                    try {
+                        const parsedConfig: Config = type
+                            .getConfigSchema()
+                            ?.parse(config) as Config;
+                        this.config = parsedConfig;
+                        configDiv.appendChild(configMenu(parsedConfig));
+                    } catch (error) {
+                        console.error(
+                            error,
+                            "Invalid Panel Config provided. Please ensure the config is for the appropriate Panel Type:",
+                        );
+                    }
+                } else if (!config) {
+                    const defaultConfig: Config = getDefaultConfig(
+                        type.getConfigSchema() as zod.ZodObject,
                     );
+                    this.config = defaultConfig;
+                    configDiv.appendChild(configMenu(defaultConfig));
                 }
-            } else if (!config && type.getConfigSchema() != undefined) {
-                this.config = getDefaultConfig(
-                    type.getConfigSchema() as zod.ZodObject,
-                );
             }
         });
     }
