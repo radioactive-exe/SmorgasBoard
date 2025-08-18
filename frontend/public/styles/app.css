@@ -248,6 +248,23 @@ smorgas-board {
             pointer-events: none;
         }
 
+        &::part(config) {
+            position: absolute;
+
+            &::part(config-button) {
+                position: absolute;
+                right: 0;
+                box-sizing: border-box;
+                width: 0;
+                height: 0;
+                padding: 0;
+                border-radius: var(--panel-border-radius);
+                background: var(--panel-handle-bg);
+                user-select: none;
+                transition: var(--panel-transition-time) ease;
+            }
+        }
+
         /* &.loaded {
             animation: spawnIn forwards var(--panel-transition-time) ease;
         } */
@@ -264,6 +281,12 @@ smorgas-board {
         }
 
         & ::part(handle) {
+            width: 2rem;
+            height: 2rem;
+            padding: 1rem;
+        }
+
+        & ::part(config-button) {
             width: 2rem;
             height: 2rem;
             padding: 1rem;

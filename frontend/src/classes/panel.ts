@@ -82,6 +82,7 @@ class Panel extends HTMLElement {
                 const configDiv: HTMLElement = configRootElement?.querySelector(
                     ".config-menu",
                 ) as HTMLElement;
+                configRootElement.removeAttribute("hidden");
                 if (config) {
                     try {
                         const parsedConfig: Config = type
