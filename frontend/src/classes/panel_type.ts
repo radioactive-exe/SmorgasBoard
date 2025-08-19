@@ -116,6 +116,16 @@ class PanelTypeConfig {
                         },
                     ],
                 }),
+            testNumber: zod.custom<ConfigEntry.Number>().default({
+                label: "Test Number Config Entry",
+                value: 12,
+                range: { max: 5, min: 15, step: 1 },
+            }),
+            testString: zod.custom<ConfigEntry.String>().default({
+                label: "Test String Config Entry",
+                value: "Example",
+                placeholder: "Weeee",
+            }),
         }),
     );
 

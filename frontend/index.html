@@ -6,6 +6,7 @@
         <title>SmorgasBoard</title>
         <link id="app-style" rel="stylesheet" href="styles/app.css" />
         <link id="app-theme" rel="stylesheet" href="themes/default.css" />
+        <link id="config-style" rel="stylesheet" href="styles/config.css" />
     </head>
     <body>
         <smorgas-board id="dashboard"> </smorgas-board>
@@ -14,62 +15,31 @@
             <ul class="menu glassy">
                 <div class="section" id="remove-panel-section">
                     <li class="item" id="remove-panel-button">
-                        <div
-                            class="icon"
-                            style="
-                                --icon-svg: url(../assets/graphics/trash.svg);
-                            "
-                        ></div>
+                        <div class="icon delete-icon"></div>
                         <span class="item-text">Delete Panel</span>
                     </li>
                     <li class="context-menu-spacer"></li>
                 </div>
                 <li class="item" id="edit-mode-button">
-                    <div
-                        class="icon"
-                        style="--icon-svg: url(../assets/graphics/edit.svg)"
-                    ></div>
+                    <div class="icon edit-mode-icon"></div>
                     <span class="item-text">Toggle Edit Mode</span>
                 </li>
                 <li class="item" id="add-panel-item">
-                    <div
-                        class="icon"
-                        style="
-                            --icon-svg: url(../assets/graphics/square-plus.svg);
-                        "
-                    ></div>
+                    <div class="icon add-panel-icon"></div>
                     <span class="item-text">Add new Panel</span>
-                    <div
-                        class="icon menu-caret"
-                        style="
-                            --icon-svg: url(../assets/graphics/angle-small-right.svg);
-                        "
-                    ></div>
+                    <div class="icon menu-caret"></div>
                     <ul id="panel-menu" class="menu sub-menu glassy"></ul>
                 </li>
                 <li class="item" id="theme-item">
-                    <div
-                        class="icon"
-                        style="--icon-svg: url(../assets/graphics/palette.svg)"
-                    ></div>
+                    <div class="icon theme-icon"></div>
                     <span class="item-text">Change Theme</span>
-                    <div
-                        class="icon menu-caret"
-                        style="
-                            --icon-svg: url(../assets/graphics/angle-small-right.svg);
-                        "
-                    ></div>
+                    <div class="icon menu-caret"></div>
                     <ul id="theme-menu" class="menu sub-menu glassy"></ul>
                 </li>
                 <li class="context-menu-spacer"></li>
                 <a href="https://github.com/radioactive-exe">
                     <li class="item">
-                        <div
-                            class="icon"
-                            style="
-                                --icon-svg: url(../assets/graphics/copyright.svg);
-                            "
-                        ></div>
+                        <div class="icon copyright-icon"></div>
                         <span class="item-text">Radioactive.exe 2025</span>
                     </li>
                 </a>

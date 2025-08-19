@@ -75,19 +75,80 @@ class Panel extends HTMLElement {
         this.style.setProperty("--min-width", `${type.getMinWidth()}fr`);
         this.style.setProperty("--min-height", `${type.getMinHeight()}fr`);
         this.init().then(() => {
-            if (body) this.setContent(body);
-            if (type.getConfigSchema() != null) {
+            this.initConfig(config).then(() => {
+                if (body) this.setContent(body);
+            });
+        });
+    }
+
+    private init(): Promise<void> {
+        return new Promise((resolve) => {
+            this.initTemplate().then(() =>
+                this.addHoverListeners().then(() =>
+                    this.addHandleListeners().then(() => {
+                        // this.classList.add("loaded");
+                        this.beginBehaviour();
+                        resolve();
+                    }),
+                ),
+            );
+        });
+    }
+
+    /**
+     * @description: Initiates the panel's body based on its template
+     *
+     * @memberof Panel
+     */
+    private initTemplate(): Promise<void> {
+        return new Promise(async (resolve) => {
+            const baseResponse = await fetch(PanelTypeTemplate.BASE).then(
+                (res) => res.json(),
+            );
+            const response = await fetch(this.type.getTemplate()).then((res) =>
+                res.json(),
+            );
+            const baseResponseBody = await new DOMParser().parseFromString(
+                baseResponse.panel_template,
+                "text/html",
+            );
+            const responseBody = await new DOMParser().parseFromString(
+                response.panel_template,
+                "text/html",
+            );
+
+            const base: HTMLTemplateElement =
+                (baseResponseBody.querySelector(
+                    "template",
+                ) as HTMLTemplateElement)
+                ?? (document.createElement("template") as HTMLTemplateElement);
+            const template: HTMLTemplateElement =
+                (responseBody.querySelector("template") as HTMLTemplateElement)
+                ?? (document.createElement("template") as HTMLTemplateElement);
+
+            const shadow = this.attachShadow({ mode: "open" });
+
+            if (this.type != PanelType.PREVIEW && template && base)
+                shadow.prepend(base.content.cloneNode(true));
+            this.prepend(template.content.cloneNode(true));
+            resolve();
+        });
+    }
+
+    private initConfig(existentConfig?: Config): Promise<void> {
+        return new Promise((resolve) => {
+            if (this.type.getConfigSchema() != null) {
                 const configRootElement: HTMLElement =
                     this.shadowRoot?.querySelector(".config") as HTMLElement;
                 const configDiv: HTMLElement = configRootElement?.querySelector(
                     ".config-menu",
                 ) as HTMLElement;
                 configRootElement.removeAttribute("hidden");
-                if (config) {
+                if (existentConfig) {
                     try {
-                        const parsedConfig: Config = type
+                        const parsedConfig: Config = this.type
                             .getConfigSchema()
-                            ?.parse(config) as Config;
+                            ?.parse(existentConfig) as Config;
                         this.config = parsedConfig;
                         configDiv.appendChild(configMenu(parsedConfig));
                     } catch (error) {
@@ -96,14 +157,15 @@ class Panel extends HTMLElement {
                             "Invalid Panel Config provided. Please ensure the config is for the appropriate Panel Type:",
                         );
                     }
-                } else if (!config) {
+                } else if (!existentConfig) {
                     const defaultConfig: Config = getDefaultConfig(
-                        type.getConfigSchema() as zod.ZodObject,
+                        this.type.getConfigSchema() as zod.ZodObject,
                     );
                     this.config = defaultConfig;
                     configDiv.appendChild(configMenu(defaultConfig));
                 }
             }
+            resolve();
         });
     }
 
@@ -233,60 +295,6 @@ class Panel extends HTMLElement {
      */
     public setType(type: PanelType): void {
         this.type = type;
-    }
-
-    /**
-     * @description: Initiates the panel's body based on its template
-     *
-     * @memberof Panel
-     */
-    private initTemplate(): Promise<void> {
-        return new Promise(async (resolve) => {
-            const baseResponse = await fetch(PanelTypeTemplate.BASE).then(
-                (res) => res.json(),
-            );
-            const response = await fetch(this.type.getTemplate()).then((res) =>
-                res.json(),
-            );
-            const baseResponseBody = await new DOMParser().parseFromString(
-                baseResponse.panel_template,
-                "text/html",
-            );
-            const responseBody = await new DOMParser().parseFromString(
-                response.panel_template,
-                "text/html",
-            );
-
-            const base: HTMLTemplateElement =
-                (baseResponseBody.querySelector(
-                    "template",
-                ) as HTMLTemplateElement)
-                ?? (document.createElement("template") as HTMLTemplateElement);
-            const template: HTMLTemplateElement =
-                (responseBody.querySelector("template") as HTMLTemplateElement)
-                ?? (document.createElement("template") as HTMLTemplateElement);
-
-            const shadow = this.attachShadow({ mode: "open" });
-
-            if (this.type != PanelType.PREVIEW && template && base)
-                shadow.prepend(base.content.cloneNode(true));
-            this.prepend(template.content.cloneNode(true));
-            resolve();
-        });
-    }
-
-    private init(): Promise<void> {
-        return new Promise((resolve) => {
-            this.initTemplate().then(() =>
-                this.addHoverListeners().then(() =>
-                    this.addHandleListeners().then(() => {
-                        // this.classList.add("loaded");
-                        this.beginBehaviour();
-                        resolve();
-                    }),
-                ),
-            );
-        });
     }
 
     public getContent(): object {

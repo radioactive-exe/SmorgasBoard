@@ -8,8 +8,7 @@
             "never",
             {
                 "except": [
-                    "after-comment",
-                    "first-nested"
+                    "after-comment"
                 ]
             }
         ],

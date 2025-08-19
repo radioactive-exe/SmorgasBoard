@@ -79,7 +79,7 @@ function enterPanelHoverHandler(e: MouseEvent): void {
         setTimeout(
             () => {
                 if (target.classList.contains("hovering")) {
-                    if (panel) panel.part = "panel-body in-motion";
+                    if (panel) panel.part.add("in-motion");
                 }
             },
             get.normalisedCssPropertyValue(panel, "transition-duration"),
@@ -109,7 +109,7 @@ function exitPanelHoverHandler(e: MouseEvent): void {
     const panel = (e.currentTarget as Panel)?.shadowRoot?.querySelector(
         ".panel-body",
     );
-    if (panel) panel.part = "panel-body";
+    panel?.part.remove("in-motion");
     (e.currentTarget as Panel)?.classList.remove("hovering");
 }
 

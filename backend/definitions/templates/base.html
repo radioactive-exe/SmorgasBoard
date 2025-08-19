@@ -1,16 +1,478 @@
 <body>
     <template id="base-panel-template">
+        <style>
+            .selector {
+                margin: var(--input-padding);
+                color: var(--text-col);
+
+                &.dropdown-selector {
+                    position: relative;
+                    width: calc(var(--input-width) + 2 * var(--input-padding));
+                    font-size: var(--small-font);
+                    cursor: pointer;
+                    isolation: isolate;
+
+                    & .selection {
+                        position: relative;
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                        width: var(--input-width);
+                        height: var(--input-height);
+                        padding: var(--input-padding);
+                        border-radius: var(--small-border-radius);
+                        background: var(--input-bg);
+                        box-shadow: inset 0.2rem 0.2rem 0.1rem 0.1rem
+                                hsl(from var(--input-bg) h s calc(l * 2) / 0.8),
+                            inset -0.2rem -0.2rem 0.1rem 0.1rem
+                                hsl(
+                                    from var(--input-bg) h s calc(l * 0.4) / 0.8
+                                ),
+                            0 0 0.5rem 0 var(--shadow-col);
+                        user-select: none;
+                        transition: var(--quick-transition-time) ease;
+
+                        & .menu-caret {
+                            background: var(--input-accent);
+                            transition: var(--quick-transition-time) ease;
+                            transform: rotate(90deg);
+                        }
+
+                        &:hover {
+                            background: hsl(
+                                from var(--input-bg) h s calc(l * 1.2)
+                            );
+                        }
+                    }
+
+                    & .dropdown-list {
+                        position: absolute;
+                        top: calc(
+                            var(--input-padding) * 0.8 +
+                                var(--small-border-radius)
+                        );
+                        z-index: -1;
+                        overflow: hidden;
+                        width: var(--input-width);
+                        max-height: 0;
+                        border: 1px solid var(--cell-bg);
+                        border-radius: 0 0 var(--small-border-radius)
+                            var(--small-border-radius);
+                        background: hsl(from var(--input-bg) h s calc(l * 0.6));
+                        box-shadow: inset 0 0 1rem 0.2rem var(--shadow-col);
+                        list-style: none;
+                        transition: all var(--quick-transition-time) ease;
+
+                        /* border-top: none; */
+
+                        & .dropdown-item {
+                            display: flex;
+                            flex-flow: row;
+                            gap: 1rem;
+                            padding: calc(var(--input-padding) / 2)
+                                var(--input-padding);
+                            border-top: inherit;
+                            transition: var(--quick-transition-time)
+                                var(--bezier-function);
+
+                            &:first-of-type {
+                                padding-top: calc(1.8 * var(--input-padding));
+                                border-top: none;
+                            }
+
+                            & .item-content {
+                                display: flex;
+                                flex-flow: row;
+                                gap: 1rem;
+                                user-select: none;
+                                transition: all var(--quick-transition-time)
+                                    var(--bezier-function);
+
+                                & .selected-icon {
+                                    --icon-svg: url("../assets/graphics/hand-back-point-left.svg");
+                                    height: auto;
+                                    background: var(--input-accent);
+                                    opacity: 0;
+                                    transition: all var(--med-transition-time)
+                                        var(--bezier-function);
+                                    transform: translate(8rem);
+                                }
+                            }
+
+                            &.selected .item-content .selected-icon {
+                                opacity: 1;
+                                transform: translate(0);
+
+                                /* position: absolute; */
+                            }
+
+                            &:hover {
+                                background: var(--cell-bg);
+
+                                & .item-content {
+                                    transform: translate(3rem);
+                                }
+                            }
+                        }
+                    }
+
+                    &.open {
+                        & .selection .menu-caret {
+                            transform: rotate(270deg);
+                        }
+
+                        & .dropdown-list {
+                            max-height: 18rem;
+                        }
+                    }
+
+                    &.focused {
+                        z-index: 5;
+                    }
+                }
+
+                &.toggle-selector {
+                    --input-width: 8rem;
+                    position: relative;
+                    width: var(--input-width);
+                    height: var(--input-height);
+                    border-radius: var(--small-border-radius);
+                    filter: brightness(0.6);
+                    transition: all var(--med-transition-time)
+                        var(--bezier-function);
+
+                    & .toggle-checkbox-background {
+                        position: absolute;
+                        inset: 0;
+                        padding: calc(var(--input-padding) / 3);
+                        border-radius: inherit;
+                        background: var(--input-bg);
+                        box-shadow: inset 0 0 1rem 0.1rem var(--shadow-col),
+                            inset 0 0 0.5rem 0.1rem var(--shadow-col);
+                        cursor: pointer;
+                        transition: all var(--med-transition-time)
+                            var(--bezier-function);
+
+                        & .toggle-checkbox-button {
+                            position: relative;
+                            display: block;
+                            width: 50%;
+                            height: 100%;
+                            border-radius: inherit;
+                            background: var(--input-secondary);
+                            box-shadow: 0 0 0.5rem 0.1rem var(--shadow-col);
+                            transition: inherit;
+
+                            &::before,
+                            &::after {
+                                content: "";
+                                position: absolute;
+                                display: block;
+                                height: 0.8rem;
+                                background: hsl(
+                                    from var(--input-bg) h s calc(l * 0.8)
+                                );
+                                transition: inherit;
+                            }
+
+                            &::before {
+                                width: 70%;
+                                border-radius: var(--small-border-radius);
+                                transform: translate(20%, 140%) rotate(45deg);
+                            }
+
+                            &::after {
+                                width: 70%;
+                                border-radius: var(--small-border-radius);
+                                transform: translate(20%, 140%) rotate(-45deg);
+                            }
+                        }
+                    }
+
+                    & .toggle-checkbox {
+                        display: none;
+
+                        &:checked {
+                            & + .toggle-checkbox-background {
+                                & .toggle-checkbox-button {
+                                    transform: translate(100%);
+
+                                    &::before,
+                                    &::after {
+                                        background: var(--input-accent);
+                                        box-shadow: 0 0 0.3rem 0
+                                            var(--input-accent);
+                                    }
+
+                                    &::before {
+                                        width: 40%;
+                                        border-radius: var(
+                                            --small-border-radius
+                                        );
+                                        transform: translate(45%, 170%)
+                                            rotate(45deg);
+                                    }
+
+                                    &::after {
+                                        width: 60%;
+                                        border-radius: var(
+                                            --small-border-radius
+                                        );
+                                        transform: translate(50%, 140%)
+                                            rotate(135deg);
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    &:hover {
+                        filter: brightness(0.7);
+                    }
+
+                    &:has(.toggle-checkbox:checked) {
+                        filter: none;
+
+                        &:hover {
+                            filter: brightness(0.9);
+                        }
+                    }
+                }
+
+                &.range-selector {
+                    position: relative;
+                    display: flex;
+                    gap: var(--input-padding);
+                    justify-content: center;
+                    align-items: center;
+                    width: var(--input-width);
+                    font-weight: bold;
+                    font-size: var(--small-font);
+                    letter-spacing: 0.2rem;
+                    transition: var(--quick-transition-time) ease;
+                    isolation: isolate;
+
+                    & .range-selector-label {
+                        width: var(--input-height);
+                        text-align: right;
+                        filter: drop-shadow(
+                            0 0 calc(var(--fill-amount) * 0.15rem)
+                                var(--input-accent)
+                        );
+
+                        & .range-selector-text {
+                            text-shadow: -0.05rem -0.05rem 0.1rem var(--shadow-col),
+                                0.05rem -0.05rem 0.1rem var(--shadow-col),
+                                0 0.05rem 0.1rem var(--shadow-col);
+                        }
+                    }
+
+                    & .range-slider {
+                        --fill-percentage: calc(var(--fill-amount) * 100%);
+                        position: relative;
+                        display: block;
+                        width: 100%;
+                        background: transparent;
+                        transition: inherit;
+                        appearance: none;
+
+                        &::-webkit-slider-runnable-track {
+                            height: 1.5rem;
+                            border-radius: var(--tiny-border-radius);
+                            background: var(--input-bg);
+                            box-shadow: inset 0 0 0.5rem 0 var(--shadow-col),
+                                inset 0 0 0.5rem 0.1rem var(--shadow-col);
+                            appearance: none;
+                        }
+
+                        &::-webkit-slider-thumb {
+                            width: 2rem;
+                            height: 2rem;
+                            border-radius: var(--tiny-border-radius);
+                            background: var(--input-secondary);
+                            box-shadow: 0.1rem 0.1rem 1rem 0.1rem
+                                    var(--shadow-col),
+                                inset 0.2rem 0.2rem 0.2rem 0
+                                    hsl(
+                                        from var(--input-secondary) h s
+                                            calc(l * 2) / 0.6
+                                    ),
+                                inset -0.2rem -0.2rem 0.2rem 0
+                                    hsl(
+                                        from var(--input-secondary) h s
+                                            calc(l * 0.4) / 0.6
+                                    ),
+                                0 0 0 -0.2rem transparent,
+                                inset calc(0.3rem * var(--fill-amount)) 0
+                                    calc(0.3rem * var(--fill-amount)) 0
+                                    var(--input-accent);
+                            cursor: grab;
+                            transition: all var(--med-transition-time) ease;
+                            transform: translateY(-0.25rem);
+                            appearance: none;
+                        }
+
+                        &::-webkit-slider-thumb:hover {
+                            background: hsl(
+                                from var(--input-secondary) h s calc(l * 1.1)
+                            );
+                            box-shadow: 0.1rem 0.1rem 1rem 0.1rem
+                                    var(--shadow-col),
+                                inset 0.2rem 0.2rem 0.2rem 0
+                                    hsl(
+                                        from var(--input-secondary) h s
+                                            calc(l * 2) / 0.6
+                                    ),
+                                inset -0.2rem -0.2rem 0.2rem 0
+                                    hsl(
+                                        from var(--input-secondary) h s
+                                            calc(l * 0.4) / 0.6
+                                    ),
+                                0 0 0 0.7rem
+                                    hsl(from var(--input-accent) h s l / 0.1),
+                                inset calc(0.3rem * var(--fill-amount)) 0
+                                    calc(0.3rem * var(--fill-amount)) 0
+                                    var(--input-accent);
+                        }
+
+                        &::-webkit-slider-thumb:active {
+                            background: hsl(
+                                from var(--input-secondary) h s calc(l * 0.8)
+                            );
+                            box-shadow: 0.1rem 0.1rem 1rem 0.1rem
+                                    var(--shadow-col),
+                                inset 0.1rem 0.1rem 0.1rem 0
+                                    hsl(
+                                        from var(--input-secondary) h s
+                                            calc(l * 2) / 0.6
+                                    ),
+                                inset -0.1rem -0.1rem 0.1rem 0
+                                    hsl(
+                                        from var(--input-secondary) h s
+                                            calc(l * 0.4) / 0.6
+                                    ),
+                                0 0 0 1rem
+                                    hsl(from var(--input-accent) h s l / 0.2),
+                                inset calc(0.2rem * var(--fill-amount)) 0
+                                    calc(0.2rem * var(--fill-amount)) 0
+                                    var(--input-accent);
+                            cursor: grabbing;
+                        }
+
+                        &:focus {
+                            outline: none;
+                        }
+
+                        &::before {
+                            content: "";
+                            position: absolute;
+                            top: 0;
+                            left: 0;
+                            width: clamp(
+                                5%,
+                                calc(var(--fill-percentage) * 0.92),
+                                90%
+                            );
+                            height: 100%;
+                            border-radius: var(--tiny-border-radius) 0 0
+                                var(--tiny-border-radius);
+                            background: var(--input-accent);
+                            box-shadow: 0 0 0.2rem 0.1rem var(--shadow-col)
+                                    inset,
+                                -0.1rem 0.1rem 0.1rem -0.1rem var(--cell-bg),
+                                0 0 calc(var(--fill-amount) * 0.8rem) 0
+                                    var(--input-accent);
+                        }
+                    }
+                }
+
+                .text-selector {
+                    position: relative;
+                    transition: all var(--med-transition-time)
+                        var(--bezier-function);
+
+                    & .text-selector-label {
+                        position: absolute;
+                        top: calc(50% - var(--small-font) / 2);
+                        left: 0;
+                        overflow: visible;
+                        height: calc(
+                            var(--sub-font) + 0.25 * var(--input-padding)
+                        );
+                        padding: 0 var(--input-padding);
+                        border-radius: var(--small-border-radius)
+                            var(--small-border-radius) 0 0;
+                        color: hsl(from var(--text-col) h s l / 0.5);
+                        font-size: var(--small-font);
+                        pointer-events: none;
+                        transition: inherit;
+                    }
+
+                    & .text-selector-input {
+                        overflow: visible;
+                        width: var(--input-width);
+                        height: var(--input-height);
+                        padding: var(--input-padding);
+                        border: none;
+                        border-radius: var(--small-border-radius);
+                        background-color: var(--input-bg);
+                        color: var(--text-col);
+                        box-shadow: inset 0 0.1rem 1.4rem 0 var(--shadow-col),
+                            0 0 0 0 transparent, inset 0 0 0 0 transparent,
+                            inset 0 0 0 0 transparent;
+                        outline: none;
+                        font-size: var(--small-font);
+                        font-family: inherit;
+                        transition: inherit;
+
+                        &:valid,
+                        &:focus,
+                        &:hover {
+                            box-shadow: inset 0 0 0 0 transparent,
+                                0.1rem 0.1rem 1rem 0.1rem var(--shadow-col),
+                                inset 0.2rem 0.2rem 0.2rem 0
+                                    hsl(
+                                        from var(--input-bg) h s calc(l * 2) /
+                                            0.6
+                                    ),
+                                inset -0.2rem -0.2rem 0.2rem 0
+                                    hsl(
+                                        from var(--input-bg) h s calc(l * 0.4) /
+                                            0.6
+                                    );
+
+                            & ~ .text-selector-label {
+                                padding: calc(0.25 * var(--input-padding))
+                                    var(--input-padding);
+                                background-color: var(--input-bg);
+                                color: var(--text-col);
+                                box-shadow: inset 0.2rem 0.2rem 0.2rem 0
+                                        hsl(
+                                            from var(--input-bg) h s calc(l * 2) /
+                                                0.6
+                                        ),
+                                    0 0.5rem 0 0 var(--input-bg);
+                                font-size: var(--sub-font);
+                                letter-spacing: 0.5rem;
+                                transform: translate(
+                                    0.8rem,
+                                    calc(
+                                        -0.5 * var(--input-height) - 0.3 * var(--sub-font)
+                                    )
+                                );
+                            }
+                        }
+                    }
+                }
+            }
+        </style>
         <div part="panel-body" class="panel-body">
             <div part="panel-content" class="panel-content">
                 <slot name="panel-type-template"></slot>
             </div>
             <div part="config" class="config" hidden>
                 <div part="config-button" class="config-button">
-                    <object
-                        part="button-icon"
-                        data="assets/graphics/settings.svg"
-                        type="image/svg+xml"
-                    ></object>
+                    <div class="icon config-button-icon button-icon"></div>
                 </div>
                 <div part="config-menu" class="config-menu"></div>
             </div>
