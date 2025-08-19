@@ -62,8 +62,8 @@ function addDropdownSelectorListeners(selector: HTMLElement): void {
 }
 
 function addToggleSelectorListeners(selector: HTMLElement): void {
+    // const checkbox = selector.querySelector("#toggle");
     selector.addEventListener("mouseup", () => {
-        // const checkbox = selector.querySelector("#toggle");
         // setTimeout(() => {
         //     console.log(selector.dataset.configProperty, checkbox.checked)
         // }, 0);

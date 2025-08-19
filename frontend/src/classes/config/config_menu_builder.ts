@@ -10,7 +10,6 @@ import { getOptionLabelFromList } from "../../functions/util";
 function configMenu(config: Config): HTMLUListElement {
     const lineList: HTMLUListElement = document.createElement("ul");
     lineList.classList.add("config-menu-list");
-    lineList.part.add("config-menu-list");
     Object.entries(config as Config).forEach((entry) => {
         const line: HTMLLIElement = document.createElement("li");
         line.classList.add("config-menu-line");
@@ -51,12 +50,11 @@ function builtEntryInput(entry: [string, ConfigEntry.Entry]): HTMLElement {
 function builtBooleanEntryInput(entry: ConfigEntry.Boolean): HTMLElement {
     const toggleSelector: HTMLDivElement = document.createElement("div");
     toggleSelector.classList.add("toggle-selector", "selector");
-    toggleSelector.part.add("toggle-selector", "selector");
 
     toggleSelector.innerHTML = `
-        <label part="toggle-checkbox-background" class="toggle-checkbox-background">
-            <input type="checkbox" id="toggle" part="toggle-checkbox" class="toggle-checkbox" />
-            <div part="toggle-checkbox-button" class="toggle-checkbox-button"></div>
+        <label class="toggle-checkbox-background">
+            <input type="checkbox" id="toggle" class="toggle-checkbox" />
+            <div class="toggle-checkbox-button"></div>
         </label>
     `;
 
@@ -64,12 +62,6 @@ function builtBooleanEntryInput(entry: ConfigEntry.Boolean): HTMLElement {
         ".toggle-checkbox",
     ) as HTMLInputElement;
     checkbox.checked = entry.value;
-    if (entry.value) {
-        toggleSelector
-            .querySelector(".toggle-checkbox-button")
-            ?.part.add("checked");
-        toggleSelector.part.add("checked");
-    }
 
     addToggleSelectorListeners(toggleSelector);
 
@@ -79,13 +71,11 @@ function builtBooleanEntryInput(entry: ConfigEntry.Boolean): HTMLElement {
 function builtNumberEntryInput(entry: ConfigEntry.Number): HTMLElement {
     const rangeSelector: HTMLDivElement = document.createElement("div");
     rangeSelector.classList.add("range-selector", "selector");
-    rangeSelector.part.add("range-selector", "selector");
 
     rangeSelector.innerHTML = `
-        <label part="range-selector-label" class="range-selector-label">
-            <span part="range-selector-text" class="range-selector-text">1500</span>
+        <label class="range-selector-label">
+            <span class="range-selector-text">1500</span>
             <input
-                part="range-slider"
                 class="range-slider"
                 type="range"
                 min="${entry.range.min}"
@@ -104,18 +94,16 @@ function builtNumberEntryInput(entry: ConfigEntry.Number): HTMLElement {
 function builtStringEntryInput(entry: ConfigEntry.String): HTMLElement {
     const stringSelector: HTMLDivElement = document.createElement("div");
     stringSelector.classList.add("text-selector", "selector");
-    stringSelector.part.add("text-selector", "selector");
 
     stringSelector.innerHTML = `
-        <label part="text-selector-label" class="text-selector-label">
+        <label class="text-selector-label">
             <input
-                part="text-selector-input"
                 class="text-selector-input"
                 type="text"
                 id="text"
                 required
             />
-            <span part="text-selector-label-text" class="text-selector-label-text">${entry.placeholder}</span>
+            <span class="text-selector-label-text">${entry.placeholder}</span>
         </label>
     `;
 
@@ -127,14 +115,13 @@ function builtStringEntryInput(entry: ConfigEntry.String): HTMLElement {
 function builtListEntryInput(entry: ConfigEntry.ListSelection): HTMLElement {
     const dropdownSelector: HTMLDivElement = document.createElement("div");
     dropdownSelector.classList.add("dropdown-selector", "selector");
-    dropdownSelector.part.add("dropdown-selector", "selector");
 
     dropdownSelector.innerHTML = `
-        <div part="selection" class="selection">
-            <span part="selection-text" class="selection-text">${getOptionLabelFromList(entry.possibleOptions, entry.value)}</span>
-            <div part="menu-caret icon" class="menu-caret icon"></div>
+        <div class="selection">
+            <span class="selection-text">${getOptionLabelFromList(entry.possibleOptions, entry.value)}</span>
+            <div class="menu-caret icon"></div>
         </div>
-        <ul part="dropdown-list" class="dropdown-list">
+        <ul class="dropdown-list">
         </ul>
     `;
 
@@ -145,10 +132,10 @@ function builtListEntryInput(entry: ConfigEntry.ListSelection): HTMLElement {
     entry.possibleOptions.forEach((option) => {
         const isSelected: boolean = option.optionValue == entry.value;
         dropdownList.innerHTML += `
-            <li part="dropdown-item${isSelected ? " selected" : ""}" data-config-value="${option.optionValue}" class="dropdown-item${isSelected ? " selected" : ""}">
-                <div part="item-content" class="item-content">
-                    <span part="item-text" class="item-text">${option.optionLabel}</span>
-                    <div part="icon selected-icon${isSelected ? " visible" : ""}" class="icon selected-icon"></div>
+            <li data-config-value="${option.optionValue}" class="dropdown-item${isSelected ? " selected" : ""}">
+                <div class="item-content">
+                    <span class="item-text">${option.optionLabel}</span>
+                    <div class="icon selected-icon${isSelected ? " visible" : ""}"></div>
                 </div>
             </li>
         `;
