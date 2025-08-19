@@ -399,19 +399,24 @@
 
                     & .text-selector-label {
                         position: absolute;
-                        top: calc(50% - var(--small-font) / 2);
-                        left: 0;
-                        overflow: visible;
-                        height: calc(
-                            var(--sub-font) + 0.25 * var(--input-padding)
-                        );
-                        padding: 0 var(--input-padding);
-                        border-radius: var(--small-border-radius)
-                            var(--small-border-radius) 0 0;
-                        color: hsl(from var(--text-col) h s l / 0.5);
-                        font-size: var(--small-font);
-                        pointer-events: none;
-                        transition: inherit;
+                        inset: 0;
+
+                        & .text-selector-label-text {
+                            position: absolute;
+                            top: calc(50% - var(--small-font) / 2);
+                            left: 0;
+                            overflow: visible;
+                            height: calc(
+                                var(--sub-font) + 0.25 * var(--input-padding)
+                            );
+                            padding: 0 var(--input-padding);
+                            border-radius: var(--small-border-radius)
+                                var(--small-border-radius) 0 0;
+                            color: hsl(from var(--text-col) h s l / 0.5);
+                            font-size: var(--small-font);
+                            pointer-events: none;
+                            transition: inherit;
+                        }
 
                         & .text-selector-input {
                             overflow: visible;
