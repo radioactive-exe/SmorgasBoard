@@ -241,10 +241,6 @@
 
                 &.range-selector {
                     position: relative;
-                    display: flex;
-                    gap: var(--input-padding);
-                    justify-content: center;
-                    align-items: center;
                     width: var(--input-width);
                     font-weight: bold;
                     font-size: var(--small-font);
@@ -253,135 +249,145 @@
                     isolation: isolate;
 
                     & .range-selector-label {
-                        width: var(--input-height);
-                        text-align: right;
-                        filter: drop-shadow(
-                            0 0 calc(var(--fill-amount) * 0.15rem)
-                                var(--input-accent)
-                        );
+                        display: flex;
+                        gap: var(--input-padding);
+                        justify-content: center;
+                        align-items: center;
 
                         & .range-selector-text {
+                            width: var(--input-height);
+                            text-align: right;
                             text-shadow: -0.05rem -0.05rem 0.1rem var(--shadow-col),
                                 0.05rem -0.05rem 0.1rem var(--shadow-col),
                                 0 0.05rem 0.1rem var(--shadow-col);
+                            filter: drop-shadow(
+                                0 0 calc(var(--fill-amount) * 0.15rem)
+                                    var(--input-accent)
+                            );
                         }
-                    }
 
-                    & .range-slider {
-                        --fill-percentage: calc(var(--fill-amount) * 100%);
-                        position: relative;
-                        display: block;
-                        width: 100%;
-                        background: transparent;
-                        transition: inherit;
-                        appearance: none;
-
-                        &::-webkit-slider-runnable-track {
-                            height: 1.5rem;
-                            border-radius: var(--tiny-border-radius);
-                            background: var(--input-bg);
-                            box-shadow: inset 0 0 0.5rem 0 var(--shadow-col),
-                                inset 0 0 0.5rem 0.1rem var(--shadow-col);
+                        & .range-slider {
+                            --fill-percentage: calc(var(--fill-amount) * 100%);
+                            position: relative;
+                            display: block;
+                            width: 100%;
+                            background: transparent;
+                            transition: inherit;
                             appearance: none;
-                        }
 
-                        &::-webkit-slider-thumb {
-                            width: 2rem;
-                            height: 2rem;
-                            border-radius: var(--tiny-border-radius);
-                            background: var(--input-secondary);
-                            box-shadow: 0.1rem 0.1rem 1rem 0.1rem
-                                    var(--shadow-col),
-                                inset 0.2rem 0.2rem 0.2rem 0
-                                    hsl(
-                                        from var(--input-secondary) h s
-                                            calc(l * 2) / 0.6
-                                    ),
-                                inset -0.2rem -0.2rem 0.2rem 0
-                                    hsl(
-                                        from var(--input-secondary) h s
-                                            calc(l * 0.4) / 0.6
-                                    ),
-                                0 0 0 -0.2rem transparent,
-                                inset calc(0.3rem * var(--fill-amount)) 0
-                                    calc(0.3rem * var(--fill-amount)) 0
-                                    var(--input-accent);
-                            cursor: grab;
-                            transition: all var(--med-transition-time) ease;
-                            transform: translateY(-0.25rem);
-                            appearance: none;
-                        }
+                            &::-webkit-slider-runnable-track {
+                                height: 1.5rem;
+                                border-radius: var(--tiny-border-radius);
+                                background: var(--input-bg);
+                                box-shadow: inset 0 0 0.5rem 0 var(--shadow-col),
+                                    inset 0 0 0.5rem 0.1rem var(--shadow-col);
+                                appearance: none;
+                            }
 
-                        &::-webkit-slider-thumb:hover {
-                            background: hsl(
-                                from var(--input-secondary) h s calc(l * 1.1)
-                            );
-                            box-shadow: 0.1rem 0.1rem 1rem 0.1rem
-                                    var(--shadow-col),
-                                inset 0.2rem 0.2rem 0.2rem 0
-                                    hsl(
-                                        from var(--input-secondary) h s
-                                            calc(l * 2) / 0.6
-                                    ),
-                                inset -0.2rem -0.2rem 0.2rem 0
-                                    hsl(
-                                        from var(--input-secondary) h s
-                                            calc(l * 0.4) / 0.6
-                                    ),
-                                0 0 0 0.7rem
-                                    hsl(from var(--input-accent) h s l / 0.1),
-                                inset calc(0.3rem * var(--fill-amount)) 0
-                                    calc(0.3rem * var(--fill-amount)) 0
-                                    var(--input-accent);
-                        }
+                            &::-webkit-slider-thumb {
+                                width: 2rem;
+                                height: 2rem;
+                                border-radius: var(--tiny-border-radius);
+                                background: var(--input-secondary);
+                                box-shadow: 0.1rem 0.1rem 1rem 0.1rem
+                                        var(--shadow-col),
+                                    inset 0.2rem 0.2rem 0.2rem 0
+                                        hsl(
+                                            from var(--input-secondary) h s
+                                                calc(l * 2) / 0.6
+                                        ),
+                                    inset -0.2rem -0.2rem 0.2rem 0
+                                        hsl(
+                                            from var(--input-secondary) h s
+                                                calc(l * 0.4) / 0.6
+                                        ),
+                                    0 0 0 -0.2rem transparent,
+                                    inset calc(0.3rem * var(--fill-amount)) 0
+                                        calc(0.3rem * var(--fill-amount)) 0
+                                        var(--input-accent);
+                                cursor: grab;
+                                transition: all var(--med-transition-time) ease;
+                                transform: translateY(-0.25rem);
+                                appearance: none;
+                            }
 
-                        &::-webkit-slider-thumb:active {
-                            background: hsl(
-                                from var(--input-secondary) h s calc(l * 0.8)
-                            );
-                            box-shadow: 0.1rem 0.1rem 1rem 0.1rem
-                                    var(--shadow-col),
-                                inset 0.1rem 0.1rem 0.1rem 0
-                                    hsl(
-                                        from var(--input-secondary) h s
-                                            calc(l * 2) / 0.6
-                                    ),
-                                inset -0.1rem -0.1rem 0.1rem 0
-                                    hsl(
-                                        from var(--input-secondary) h s
-                                            calc(l * 0.4) / 0.6
-                                    ),
-                                0 0 0 1rem
-                                    hsl(from var(--input-accent) h s l / 0.2),
-                                inset calc(0.2rem * var(--fill-amount)) 0
-                                    calc(0.2rem * var(--fill-amount)) 0
-                                    var(--input-accent);
-                            cursor: grabbing;
-                        }
+                            &::-webkit-slider-thumb:hover {
+                                background: hsl(
+                                    from var(--input-secondary) h s
+                                        calc(l * 1.1)
+                                );
+                                box-shadow: 0.1rem 0.1rem 1rem 0.1rem
+                                        var(--shadow-col),
+                                    inset 0.2rem 0.2rem 0.2rem 0
+                                        hsl(
+                                            from var(--input-secondary) h s
+                                                calc(l * 2) / 0.6
+                                        ),
+                                    inset -0.2rem -0.2rem 0.2rem 0
+                                        hsl(
+                                            from var(--input-secondary) h s
+                                                calc(l * 0.4) / 0.6
+                                        ),
+                                    0 0 0 0.7rem
+                                        hsl(
+                                            from var(--input-accent) h s l / 0.1
+                                        ),
+                                    inset calc(0.3rem * var(--fill-amount)) 0
+                                        calc(0.3rem * var(--fill-amount)) 0
+                                        var(--input-accent);
+                            }
 
-                        &:focus {
-                            outline: none;
-                        }
+                            &::-webkit-slider-thumb:active {
+                                background: hsl(
+                                    from var(--input-secondary) h s
+                                        calc(l * 0.8)
+                                );
+                                box-shadow: 0.1rem 0.1rem 1rem 0.1rem
+                                        var(--shadow-col),
+                                    inset 0.1rem 0.1rem 0.1rem 0
+                                        hsl(
+                                            from var(--input-secondary) h s
+                                                calc(l * 2) / 0.6
+                                        ),
+                                    inset -0.1rem -0.1rem 0.1rem 0
+                                        hsl(
+                                            from var(--input-secondary) h s
+                                                calc(l * 0.4) / 0.6
+                                        ),
+                                    0 0 0 1rem
+                                        hsl(
+                                            from var(--input-accent) h s l / 0.2
+                                        ),
+                                    inset calc(0.2rem * var(--fill-amount)) 0
+                                        calc(0.2rem * var(--fill-amount)) 0
+                                        var(--input-accent);
+                                cursor: grabbing;
+                            }
 
-                        &::before {
-                            content: "";
-                            position: absolute;
-                            top: 0;
-                            left: 0;
-                            width: clamp(
-                                5%,
-                                calc(var(--fill-percentage) * 0.92),
-                                90%
-                            );
-                            height: 100%;
-                            border-radius: var(--tiny-border-radius) 0 0
-                                var(--tiny-border-radius);
-                            background: var(--input-accent);
-                            box-shadow: 0 0 0.2rem 0.1rem var(--shadow-col)
-                                    inset,
-                                -0.1rem 0.1rem 0.1rem -0.1rem var(--cell-bg),
-                                0 0 calc(var(--fill-amount) * 0.8rem) 0
-                                    var(--input-accent);
+                            &:focus {
+                                outline: none;
+                            }
+
+                            &::before {
+                                content: "";
+                                position: absolute;
+                                top: 0;
+                                left: 0;
+                                width: clamp(
+                                    5%,
+                                    calc(var(--fill-percentage) * 0.92),
+                                    90%
+                                );
+                                height: 100%;
+                                border-radius: var(--tiny-border-radius) 0 0
+                                    var(--tiny-border-radius);
+                                background: var(--input-accent);
+                                box-shadow: 0 0 0.2rem 0.1rem var(--shadow-col)
+                                        inset,
+                                    -0.1rem 0.1rem 0.1rem -0.1rem var(--cell-bg),
+                                    0 0 calc(var(--fill-amount) * 0.8rem) 0
+                                        var(--input-accent);
+                            }
                         }
                     }
                 }
