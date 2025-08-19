@@ -38,6 +38,7 @@
                         transition: var(--quick-transition-time) ease;
 
                         & .menu-caret {
+                            --icon-svg: url("./assets/graphics/angle-small-right.svg");
                             background: var(--input-accent);
                             transition: var(--quick-transition-time) ease;
                             transform: rotate(90deg);
@@ -94,7 +95,7 @@
                                     var(--bezier-function);
 
                                 & .selected-icon {
-                                    --icon-svg: url("../assets/graphics/hand-back-point-left.svg");
+                                    --icon-svg: url("./assets/graphics/hand-back-point-left.svg");
                                     height: auto;
                                     background: var(--input-accent);
                                     opacity: 0;
@@ -104,7 +105,7 @@
                                 }
                             }
 
-                            &.selected .item-content .selected-icon {
+                            & .selected-icon.visible {
                                 opacity: 1;
                                 transform: translate(0);
 
