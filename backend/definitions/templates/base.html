@@ -1,6 +1,11 @@
 <body>
     <template id="base-panel-template">
         <style>
+            * {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
             .selector {
                 margin: var(--input-padding);
                 color: var(--text-col);
@@ -191,37 +196,28 @@
 
                     & .toggle-checkbox {
                         display: none;
+                    }
 
-                        &:checked {
-                            & + .toggle-checkbox-background {
-                                & .toggle-checkbox-button {
-                                    transform: translate(100%);
+                    &.toggle-checkbox-background:has(.toggle-checkbox:checked) {
+                        & .toggle-checkbox-button {
+                            transform: translate(100%);
 
-                                    &::before,
-                                    &::after {
-                                        background: var(--input-accent);
-                                        box-shadow: 0 0 0.3rem 0
-                                            var(--input-accent);
-                                    }
+                            &::before,
+                            &::after {
+                                background: var(--input-accent);
+                                box-shadow: 0 0 0.3rem 0 var(--input-accent);
+                            }
 
-                                    &::before {
-                                        width: 40%;
-                                        border-radius: var(
-                                            --small-border-radius
-                                        );
-                                        transform: translate(45%, 170%)
-                                            rotate(45deg);
-                                    }
+                            &::before {
+                                width: 40%;
+                                border-radius: var(--small-border-radius);
+                                transform: translate(45%, 170%) rotate(45deg);
+                            }
 
-                                    &::after {
-                                        width: 60%;
-                                        border-radius: var(
-                                            --small-border-radius
-                                        );
-                                        transform: translate(50%, 140%)
-                                            rotate(135deg);
-                                    }
-                                }
+                            &::after {
+                                width: 60%;
+                                border-radius: var(--small-border-radius);
+                                transform: translate(50%, 140%) rotate(135deg);
                             }
                         }
                     }
