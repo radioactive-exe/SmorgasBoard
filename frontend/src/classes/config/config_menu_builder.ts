@@ -93,17 +93,16 @@ function builtNumberEntryInput(entry: ConfigEntry.Number): HTMLElement {
 
 function builtStringEntryInput(entry: ConfigEntry.String): HTMLElement {
     const stringSelector: HTMLDivElement = document.createElement("div");
-    stringSelector.classList.add("text-selector", "selector");
+    stringSelector.classList.add("string-selector", "selector");
 
     stringSelector.innerHTML = `
-        <label class="text-selector-label">
+        <label class="string-selector-label">
             <input
-                class="text-selector-input"
+                class="string-selector-input"
                 type="text"
-                id="text"
                 required
             />
-            <span class="text-selector-label-text">${entry.placeholder}</span>
+            <span class="string-selector-label-text">${entry.placeholder}</span>
         </label>
     `;
 

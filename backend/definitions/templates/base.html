@@ -392,16 +392,16 @@
                     }
                 }
 
-                .text-selector {
+                &.string-selector {
                     position: relative;
-                    transition: all var(--med-transition-time)
-                        var(--bezier-function);
+                    margin: 5rem;
 
-                    & .text-selector-label {
-                        position: absolute;
+                    & .string-selector-label {
                         inset: 0;
+                        transition: all var(--med-transition-time)
+                            var(--bezier-function);
 
-                        & .text-selector-label-text {
+                        & .string-selector-label-text {
                             position: absolute;
                             top: calc(50% - var(--small-font) / 2);
                             left: 0;
@@ -418,7 +418,7 @@
                             transition: inherit;
                         }
 
-                        & .text-selector-input {
+                        & .string-selector-input {
                             overflow: visible;
                             width: var(--input-width);
                             height: var(--input-height);
@@ -452,7 +452,7 @@
                                                 calc(l * 0.4) / 0.6
                                         );
 
-                                & ~ .text-selector-label-text {
+                                & ~ .string-selector-label-text {
                                     padding: calc(0.25 * var(--input-padding))
                                         var(--input-padding);
                                     background-color: var(--input-bg);
