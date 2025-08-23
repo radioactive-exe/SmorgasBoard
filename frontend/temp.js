@@ -197,7 +197,6 @@
 //                     }
 //                     option.classList.add("selected");
 //                     lastActive = option;
-//                     // console.log(selector.dataset.configProperty + " : " + option.dataset.configValue);
 //                 };
 //                 option.addEventListener("mousedown", optionEventListener);
 //             });
@@ -213,10 +212,6 @@
 
 // toggleSelectors.forEach((selector) => {
 //     selector.addEventListener("mouseup", () => {
-//         // const checkbox = selector.querySelector("#toggle");
-//         // setTimeout(() => {
-//         //     console.log(selector.dataset.configProperty, checkbox.checked)
-//         // }, 0);
 //     });
 // });
 
@@ -249,5 +244,4 @@
 // }
 
 // // Object.entries(PanelTypeConfig).forEach((entry) => {
-// //     console.log(entry);
 // // });

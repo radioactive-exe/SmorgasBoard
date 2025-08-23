@@ -5,19 +5,19 @@ import { dashboard, current } from "../app.js";
 
 const contextMenu = document.querySelector(".context-menu") as HTMLElement;
 const themeMenu: HTMLElement = document.querySelector(
-    "#theme-menu"
+    "#theme-menu",
 ) as HTMLElement;
 const panelMenu: HTMLElement = document.querySelector(
-    "#panel-menu"
+    "#panel-menu",
 ) as HTMLElement;
 const editModeButton = document.querySelector(
-    "#edit-mode-button"
+    "#edit-mode-button",
 ) as HTMLElement;
 const deletePanelSection = document.querySelector(
-    "#remove-panel-section"
+    "#remove-panel-section",
 ) as HTMLElement;
 const deletePanelButton = document.querySelector(
-    "#remove-panel-button"
+    "#remove-panel-button",
 ) as HTMLElement;
 
 let contextMenuDeleteTimeout: NodeJS.Timeout;
@@ -32,13 +32,13 @@ function spawnContextMenu(e: MouseEvent): void {
 
     try {
         if (
-            window.innerWidth < 2 * contextMenu.offsetWidth ||
-            (e.pageX > window.innerWidth - 2 * contextMenu.offsetWidth &&
-                e.pageX < contextMenu.offsetWidth)
+            window.innerWidth < 2 * contextMenu.offsetWidth
+            || (e.pageX > window.innerWidth - 2 * contextMenu.offsetWidth
+                && e.pageX < contextMenu.offsetWidth)
         ) {
-            themeMenu.style.top = "98%";
+            themeMenu.style.top = "88%";
             themeMenu.style.left = "-2%";
-            panelMenu.style.top = "98%";
+            panelMenu.style.top = "88%";
             panelMenu.style.left = "-2%";
         } else if (e.pageX > window.innerWidth - 2 * contextMenu.offsetWidth) {
             themeMenu.style.top = "";
@@ -57,12 +57,12 @@ function spawnContextMenu(e: MouseEvent): void {
         const x: number = math.clamp(
             e.pageX,
             0,
-            window.innerWidth - contextMenu.offsetWidth - 10
+            window.innerWidth - contextMenu.offsetWidth - 10,
         );
         const y: number = math.clamp(
             e.pageY - 0.5 * contextMenu.offsetHeight,
             0,
-            window.innerHeight - contextMenu.offsetHeight + 10
+            window.innerHeight - contextMenu.offsetHeight + 10,
         );
 
         contextMenu.style.left = x + "px";

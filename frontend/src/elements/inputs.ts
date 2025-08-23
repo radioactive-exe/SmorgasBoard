@@ -1,3 +1,5 @@
+import { ConfigChangeEventDetail } from "../classes/config/config";
+
 let optionEventListener: (e: MouseEvent) => void,
     previouslyFocusedSelector: HTMLElement,
     selectionText: HTMLSpanElement,
@@ -37,7 +39,7 @@ function addDropdownSelectorListeners(selector: HTMLElement): void {
                     e.stopPropagation();
                     selectionText.textContent = option.textContent;
 
-                    // We store lastActive so we don't have to query the entire list to check if there is a selected element, and then querying its children for the visible
+                    // * We store lastActive so we don't have to query the entire list to check if there is a selected element, and then querying its children for the visible
 
                     if (lastActive && lastActive != option) {
                         lastActive.classList.remove("selected");
@@ -49,7 +51,20 @@ function addDropdownSelectorListeners(selector: HTMLElement): void {
                     selectedIcon.classList.add("visible");
 
                     lastActive = option;
-                    // console.log(selector.dataset.configProperty + " : " + option.dataset.configValue);
+
+                    selector.dispatchEvent(
+                        new CustomEvent<ConfigChangeEventDetail>(
+                            "configchange",
+                            {
+                                bubbles: true,
+                                detail: {
+                                    setting: selector.dataset
+                                        .configProperty as string,
+                                    value: option.dataset.configValue as string,
+                                },
+                            },
+                        ),
+                    );
                 };
                 option.addEventListener("mousedown", optionEventListener);
             });
@@ -62,11 +77,21 @@ function addDropdownSelectorListeners(selector: HTMLElement): void {
 }
 
 function addToggleSelectorListeners(selector: HTMLElement): void {
-    // const checkbox = selector.querySelector("#toggle");
+    const checkbox: HTMLInputElement = selector.querySelector(
+        "#toggle",
+    ) as HTMLInputElement;
     selector.addEventListener("mouseup", () => {
-        // setTimeout(() => {
-        //     console.log(selector.dataset.configProperty, checkbox.checked)
-        // }, 0);
+        setTimeout(() => {
+            selector.dispatchEvent(
+                new CustomEvent<ConfigChangeEventDetail>("configchange", {
+                    bubbles: true,
+                    detail: {
+                        setting: selector.dataset.configProperty as string,
+                        value: checkbox.checked,
+                    },
+                }),
+            );
+        }, 0);
     });
 }
 
@@ -85,12 +110,35 @@ function addRangeSelectorListeners(selector: HTMLElement): void {
     slider.addEventListener("input", () => {
         label.textContent = Math.round(parseFloat(slider.value)).toString();
         updateSliderStyle(slider);
+
+        selector.dispatchEvent(
+            new CustomEvent<ConfigChangeEventDetail>("configchange", {
+                bubbles: true,
+                detail: {
+                    setting: selector.dataset.configProperty as string,
+                    value: parseFloat(slider.value) as number,
+                },
+            }),
+        );
     });
 }
 
-// function addStringSelectorListeners(selector: HTMLElement): void {
-
-// }
+function addStringSelectorListeners(selector: HTMLElement): void {
+    const textInput: HTMLInputElement = selector.querySelector(
+        ".string-selector-input",
+    ) as HTMLInputElement;
+    textInput.addEventListener("input", () => {
+        selector.dispatchEvent(
+            new CustomEvent<ConfigChangeEventDetail>("configchange", {
+                bubbles: true,
+                detail: {
+                    setting: selector.dataset.configProperty as string,
+                    value: textInput.value,
+                },
+            }),
+        );
+    });
+}
 
 function updateSliderStyle(slider: HTMLInputElement): void {
     slider.parentElement?.style.setProperty(
@@ -106,4 +154,5 @@ export {
     addToggleSelectorListeners,
     addDropdownSelectorListeners,
     addRangeSelectorListeners,
+    addStringSelectorListeners,
 };

@@ -61,6 +61,7 @@ enum PanelTypeTemplate {
  * @a
  */
 class PanelTypeConfig {
+    public static readonly NONE: null = null;
     // public readonly NOTEPAD: zod.ZodObject = "https://smorgas-board-backend.vercel.app/definitions/panels/notepad";
     // public readonly PHOTO: zod.ZodObject = "https://smorgas-board-backend.vercel.app/definitions/panels/photo";
     public static readonly CLOCK: PanelTypeConfig = new PanelTypeConfig(
@@ -116,16 +117,6 @@ class PanelTypeConfig {
                         },
                     ],
                 }),
-            testNumber: zod.custom<ConfigEntry.Number>().default({
-                label: "Test Number Config Entry",
-                value: 12,
-                range: { min: 5, max: 15, step: 1 },
-            }),
-            testString: zod.custom<ConfigEntry.String>().default({
-                label: "Test String Config Entry",
-                value: "Example",
-                placeholder: "Weeee",
-            }),
         }),
     );
 
@@ -155,18 +146,21 @@ class PanelType {
         PanelTypeName.PREVIEW,
         PanelTypeData.NONE,
         PanelTypeTemplate.PREVIEW,
+        PanelTypeConfig.NONE,
     );
     static readonly DEFAULT = new PanelType(
         PanelTypeId.DEFAULT,
         PanelTypeName.DEFAULT,
         PanelTypeData.NONE,
         PanelTypeTemplate.DEFAULT,
+        PanelTypeConfig.NONE,
     );
     static readonly NOTEPAD = new PanelType(
         PanelTypeId.NOTEPAD,
         PanelTypeName.NOTEPAD,
         PanelTypeData.LOCAL,
         PanelTypeTemplate.NOTEPAD,
+        PanelTypeConfig.NONE,
         { width: 2, height: 2 },
     );
     static readonly PHOTO = new PanelType(
@@ -174,14 +168,15 @@ class PanelType {
         PanelTypeName.PHOTO,
         PanelTypeData.LOCAL,
         PanelTypeTemplate.PHOTO,
+        PanelTypeConfig.NONE,
     );
     static readonly CLOCK = new PanelType(
         PanelTypeId.CLOCK,
         PanelTypeName.CLOCK,
         PanelTypeData.NONE,
         PanelTypeTemplate.CLOCK,
-        { width: 2, height: 1 },
         PanelTypeConfig.CLOCK,
+        { width: 2, height: 1 },
     );
 
     /**
@@ -201,13 +196,13 @@ class PanelType {
         private readonly typeName: PanelTypeName,
         private readonly typeData: PanelTypeData,
         private readonly typeTemplate: PanelTypeTemplate,
-        private readonly typeMinSize?: Size,
-        private readonly typeConfig?: PanelTypeConfig,
+        private readonly typeConfig: PanelTypeConfig | null,
+        private readonly typeMinSize: Size = { width: 1, height: 1 },
         private readonly typeDataSource?: string,
     ) {}
 
     /**
-     * @description: Returns the type name of the Panel type when used in @type {string} contexts
+     * @description: Returns the Panel Type's internal name when used in @type {string} contexts
      *
      * @return {string}
      * @memberof PanelType
@@ -240,8 +235,8 @@ class PanelType {
         return this.typeTemplate;
     }
 
-    public getConfigSchema(): zod.ZodObject | undefined {
-        return this.typeConfig?.getConfig();
+    public getConfigSchema(): zod.ZodObject | null {
+        return this.typeConfig?.getConfig() ?? null;
     }
 
     public getMinSize(): Size {
@@ -257,7 +252,7 @@ class PanelType {
     }
 
     /**
-     * @description: Returns the panel from @alias (PanelDataTypes) that has @param {id} as a @member {typeId}
+     * @description: Returns the panel from @alias (PanelDataTypes) that has @param id as a @member {typeId}
      *
      * @static
      * @param {number} id

@@ -2,7 +2,7 @@ import * as get from "./functions/accessors.js";
 import * as utils from "./functions/util.js";
 
 import { Area } from "./classes/area.js";
-import { PanelType, PanelTypeConfig } from "./classes/panel_type.js";
+import { PanelType } from "./classes/panel_type.js";
 import { Panel } from "./classes/panel.js";
 import { Dashboard, Theme } from "./classes/dashboard.js";
 
@@ -11,7 +11,6 @@ import {
     rotatePanel,
     rotateElementStyle,
 } from "./functions/manip.js";
-// import { months, weekdays } from "./definitions/constants.js";
 import {
     deletePanelButton,
     editModeButton,
@@ -22,8 +21,7 @@ import {
 } from "./elements/context_menu.js";
 
 import * as ConfigEntry from "./classes/config/config_entry.js";
-import { Config, getDefaultConfig } from "./classes/config/config.js";
-import { configMenu } from "./classes/config/config_menu_builder.js";
+import { Config } from "./classes/config/config.js";
 
 //#region
 
@@ -37,8 +35,8 @@ const dashboard: Dashboard = document.querySelector(
 ) as Dashboard;
 dashboard.loadStoredPanels();
 const holdHandler = {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     drag: (e: MouseEvent): void => {
-        console.log(e);
         return;
     },
     release: releaseHandler,
@@ -47,6 +45,20 @@ const hoverHandler = {
     enter: enterPanelHoverHandler,
     move: movePanelHoverHandler,
     exit: exitPanelHoverHandler,
+};
+
+const commonHandler = {
+    mouseDown: function (panel: Panel): void {
+        current.panel = panel;
+        panel.classList.add(current.flag, "being-manipulated");
+        panel.initPreview();
+        setDocumentHandlers();
+    },
+
+    drag: function (panel: Panel, e: MouseEvent): void {
+        e.preventDefault();
+        panel.updatePreview();
+    },
 };
 
 const preview: Panel = new Panel(Area.INIT, PanelType.PREVIEW, -1);
@@ -134,9 +146,6 @@ document.addEventListener("keydown", async (e) => {
             break;
         case "ArrowRight":
             dashboard.toggleEditMode();
-            console.log(
-                configMenu(getDefaultConfig(PanelTypeConfig.CLOCK.getConfig())),
-            );
             break;
         case "ArrowLeft":
             dashboard.spawnPanelOfType(PanelType.CLOCK);
@@ -156,13 +165,13 @@ deletePanelButton?.addEventListener("click", () => {
 
 // TODO: Config menu, which should implement next steps 2 and 3 from last commit.
 
-// TODO: Add the config menu to the base HTML template and make it/the button visible if and only if the panel type has a config schema.
+// [x] Add the config menu to the base HTML template and make it/the button visible if and only if the panel type has a config schema.
 
-// TODO: Make the inputs dispatch custom events when the input value is changed.
+// [x] Make the inputs dispatch custom events when the input value is changed.
 
 // ~ Panel Data Functionality
 
-function formatTime(time: Date, options?: Config): string {
+function formatTime(time: Date, options: Config): string {
     return time.toLocaleTimeString("en-gb", {
         hour12: !(options?.use24HrTime as ConfigEntry.Boolean).value,
         timeStyle: (options?.showSeconds as ConfigEntry.Boolean).value
@@ -218,6 +227,7 @@ Object.entries(PanelType).forEach((panelType) => {
 
 export {
     current,
+    commonHandler,
     preview,
     holdHandler,
     hoverHandler,

@@ -7,70 +7,9 @@ import { Panel, PanelInstance } from "./panel.js";
 import { deletePanelSection } from "../elements/context_menu.js";
 import { AlertLevel, spawnAlert } from "../elements/alert.js";
 import { getDefaultConfig } from "./config/config.js";
-
-/**
- * @description: A class to facilitate the storage and usage of Themes in the application, with useful fields and methods
- *
- * @class Theme
- */
-class Theme {
-    /**
-     * @description: These are all the Defined Themes in the project/application. They can be accessed during runtime to switch themes and have any necessary info.
-     *
-     * @static
-     * @memberof Theme
-     */
-
-    static readonly DEFAULT = new Theme(
-        0,
-        "Default Theme",
-        "themes/default.css",
-    );
-    static readonly CONSOLE = new Theme(
-        1,
-        "Hacker-man Theme",
-        "themes/console.css",
-    );
-
-    // TODO Implement Mode preference themes like Light and Dark Mode
-
-    /**
-     * @description: Creates an instance of a Theme.
-     *
-     * NOTE: Constructor is private so we cannot create any other themes during runtime.
-     *
-     * @constructor
-     * @param {number} id
-     * @param {string} name
-     * @param {string} url
-     * @memberof Theme
-     */
-    private constructor(
-        private readonly id: number,
-        private readonly name: string,
-        private readonly url: string, // private readonly mode:
-    ) {}
-
-    /**
-     * @description: Returns the name of the theme if it is in a @type {string} context
-     *
-     * @return {string}
-     * @memberof Theme
-     */
-    public toString(): string {
-        return this.name;
-    }
-
-    /**
-     * @description: Returns ths URL/Location of the theme, used when setting themes.
-     *
-     * @return {string}
-     * @memberof Theme
-     */
-    public getUrl(): string {
-        return this.url;
-    }
-}
+import { Theme } from "./theme.js";
+import zod from "zod";
+import { current } from "../app.js";
 
 class Dashboard extends HTMLElement {
     private panels: Panel[];
@@ -85,20 +24,13 @@ class Dashboard extends HTMLElement {
 
         const cells = document.createElement("div");
         cells.part = "cell-container";
-        for (
-            let i = 0;
-            i
-            < get.cssPropertyValue(document.body, "--num-of-rows")
-                * get.cssPropertyValue(document.body, "--num-of-cols");
-            i++
-        ) {
-            const cell = document.createElement("div");
+        for (let i = 0; i < Dashboard.getRows() * Dashboard.getCols(); i++) {
+            const cell: HTMLDivElement = document.createElement("div");
             cell.classList.add("cell");
             cell.part = "cell";
             cells.append(cell);
         }
-        shadow.append(cells);
-        shadow.append(document.createElement("slot"));
+        shadow.append(cells, document.createElement("slot"));
 
         const storedTheme = localStorage.getItem("last-theme");
         if (storedTheme) {
@@ -149,6 +81,7 @@ class Dashboard extends HTMLElement {
     public spawnPanelOfType(panelType: PanelType, updateStored = true): void {
         let finalArea: Area = Area.INIT;
         let slotFound = false;
+        let panelToSpawn: Panel;
         for (
             let y = 0;
             y <= Dashboard.getRows() - panelType.getMinHeight();
@@ -179,24 +112,21 @@ class Dashboard extends HTMLElement {
                 this.freeIds.delete(id);
             } else id = this.panels.length;
 
-            const configSchema = panelType.getConfigSchema();
+            const configSchema: zod.ZodObject | null =
+                panelType.getConfigSchema();
             if (configSchema != undefined) {
-                this.spawnPanel(
-                    new Panel(
-                        finalArea,
-                        panelType,
-                        id,
-                        undefined,
-                        getDefaultConfig(configSchema),
-                    ),
-                    updateStored,
+                panelToSpawn = new Panel(
+                    finalArea,
+                    panelType,
+                    id,
+                    undefined,
+                    getDefaultConfig(configSchema),
                 );
             } else {
-                this.spawnPanel(
-                    new Panel(finalArea, panelType, id),
-                    updateStored,
-                );
+                panelToSpawn = new Panel(finalArea, panelType, id);
             }
+
+            this.spawnPanel(panelToSpawn, updateStored);
         } else {
             spawnAlert(
                 `No space for a ${panelType.getName()} found. Either move panels around, or delete some!`,
@@ -206,6 +136,10 @@ class Dashboard extends HTMLElement {
     }
 
     private spawnPanel(panel: Panel, updateStored = true): void {
+        panel.addEventListener("updatepanel", () => {
+            this.updateStoredPanels();
+        });
+        current.panel = panel;
         this.append(panel);
         this.panels.push(panel);
         if (updateStored) this.updateStoredPanels();
@@ -232,9 +166,7 @@ class Dashboard extends HTMLElement {
             localStorage.getItem("free-panel-ids") ?? "[]",
         );
 
-        loadedIds.forEach((i) => {
-            this.freeIds.add(i);
-        });
+        this.freeIds = new Set<number>(loadedIds);
 
         const queriedPanels: Panel[] = [
             ...document.querySelectorAll<Panel>("panel-element"),
@@ -322,7 +254,7 @@ class Dashboard extends HTMLElement {
     public setCurrentTheme(theme: Theme): void {
         this.currentTheme = theme;
         const themeFileLink: HTMLElement | null =
-            document.querySelector<HTMLElement>("#app-theme");
+            document.querySelector("#app-theme");
         if (themeFileLink == null) return;
         themeFileLink.setAttribute("href", theme.getUrl());
     }

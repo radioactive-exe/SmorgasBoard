@@ -5,7 +5,7 @@ import { Dashboard } from "./dashboard.js";
 /**
  * @description: A Coordinate object, stores the x and y positions of the item they belong to.
  *
- *  @property {isAbsolute} - This member is passed when we are passing these types in functions and constructors. Having this optional member allows us to be able to instantiate and pass Areas and Coordinates in both fractional and absolute units without having to (a) do a lot of calculations in the function call scope, or (b) take in an extra parameter in the functions.
+ *  @property {isAbsolute} - This member is passed when we are passing these types in functions and constructors. Having this optional member allows us to be able to instantiate and pass Areas and Coordinates in both fractional and absolute units without having to (a) do a lot of calculations in the caller, or (b) take in an extra parameter in the functions.
  * @this Coordinate */
 interface Coordinate {
     x: number;
@@ -60,7 +60,10 @@ class Area {
      * @static
      * @memberof Area
      */
-    static readonly INIT = new Area({ x: 0, y: 0 }, { width: 1, height: 1 });
+    static readonly INIT: Area = new Area(
+        { x: 0, y: 0 },
+        { width: 1, height: 1 },
+    );
 
     /**
      * @description: Position of this Area.
@@ -80,46 +83,19 @@ class Area {
     private size: Size;
 
     /**
-     * @description: Creates an instance of Area.
-     * NOTE: If @param {arg0} is a Coordinate, then we are creating an Area with an input of both a Coordinate and a Size.
-     * POINT: If @param {arg0} is of @type {Area}, then @param {arg1} is disregarded, and a new area is instantiated/created as a copy of the other. A console warning is sent out to inform of this. This is an unused instantiation method so far, and will be removed if it remains unused, sticking to Coord-Size instantiation.
-     * NOTE: @param {arg1} is set as optional so that we do not have to input a dummy @param {arg1} if instantiating with another Area
+     * @description: Creates an instance of Area from a pair of Coordinates and a Size. If no size is passed, a size of {1, 1} is used instead.
      *
      * @constructor
-     * @param {(Coordinate | Area)} arg0
-     * @param {Size} [arg1]
+     * @param {Coordinate} coords
+     * @param {Size} size
      * @memberof Area
      */
-    public constructor(arg0: Coordinate | Area, arg1?: Size) {
-        // INFO: If the passed @param {arg0} is a full Area
-        if (arg0 instanceof Area) {
-            // INFO: If we passed an extra Size despite passing a full Area, it is announced and discarded.
-            if (arg1 != null) {
-                console.warn(
-                    "Second parameter is unused. First argument (arg0) was a complete Area. To create a new Area with the coordinates of the first parameter and the size in the second parameter, use arg0.getPos().",
-                );
-            }
-
-            this.pos = arg0.pos;
-            this.size = arg0.size;
-
-            // INFO: If the passed @param {arg0} is only a Coordinate
-        } else if (!(arg0 instanceof Area)) {
-            // INFO: The absolute/fractional nature is dealt with in setCoordinates()
-            this.setCoordinates(arg0);
-
-            // INFO: If the user passed only a Coordinate and no second parameter, a default size is created, and it is announced
-            if (arg1 == null) {
-                this.size = { width: 1, height: 1 };
-
-                console.warn(
-                    "No size passed. Area will be initialised with a width and height of 1 fraction.",
-                );
-            } else {
-                // INFO: The absolute/fractional nature is dealt with in setSize()
-                this.setSize(arg1);
-            }
-        }
+    public constructor(
+        coords: Coordinate,
+        size: Size = { width: 1, height: 1 },
+    ) {
+        this.setCoordinates(coords);
+        this.setSize(size);
     }
 
     /**
@@ -169,7 +145,7 @@ class Area {
      * @memberof Area
      */
     public getCoordinates(): Coordinate {
-        return { x: this.pos.x, y: this.pos.y };
+        return this.pos;
     }
 
     /**

@@ -2,6 +2,7 @@ import * as ConfigEntry from "./config_entry";
 import {
     addDropdownSelectorListeners,
     addRangeSelectorListeners,
+    addStringSelectorListeners,
     addToggleSelectorListeners,
 } from "../../elements/inputs";
 import { Config } from "./config";
@@ -101,12 +102,13 @@ function builtStringEntryInput(entry: ConfigEntry.String): HTMLElement {
                 class="string-selector-input"
                 type="text"
                 required
+                value="${entry.value}"
             />
             <span class="string-selector-label-text">${entry.placeholder}</span>
         </label>
     `;
 
-    // addStringSelectorListeners(stringSelector);
+    addStringSelectorListeners(stringSelector);
 
     return stringSelector;
 }

@@ -1,6 +1,11 @@
 import zod from "zod";
 import { Entry } from "./config_entry";
 
+interface ConfigChangeEventDetail {
+    setting: string;
+    value: string | boolean | number;
+}
+
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const ConfigSchema: zod.ZodObject = zod
     .object({})
@@ -18,4 +23,4 @@ function getDefaultConfig(configSchema: zod.ZodObject): Config {
     );
 }
 
-export { Config, getDefaultConfig };
+export { ConfigChangeEventDetail, Config, getDefaultConfig };

@@ -1,19 +1,18 @@
-/* eslint-disable no-async-promise-executor */
 import * as get from "../functions/accessors.js";
 
 import { Coordinate, Size, AreaInstance, Area } from "./area.js";
-import { PanelTypeTemplate, PanelType } from "./panel_type.js";
+import { PanelTypeTemplate, PanelType, PanelTypeConfig } from "./panel_type.js";
 
 import * as zod from "zod";
 
 import {
     current,
     hoverHandler,
-    setDocumentHandlers,
     preview,
     holdHandler,
     formatTime,
     formatDate,
+    commonHandler,
 } from "../app.js";
 import {
     movePanelWithinScreen,
@@ -21,8 +20,13 @@ import {
     snapElementToGrid,
     snapElementToTarget,
 } from "../functions/manip.js";
-import { Config, getDefaultConfig } from "./config/config.js";
+import {
+    Config,
+    ConfigChangeEventDetail,
+    getDefaultConfig,
+} from "./config/config.js";
 import { configMenu } from "./config/config_menu_builder.js";
+import * as ConfigEntry from "./config/config_entry.js";
 
 /**
  * @description: A type that defines the structure of a @type {Panel} in its stored format, either in localStorage or the cloud.
@@ -36,6 +40,11 @@ interface PanelInstance {
     config: Config | undefined;
 }
 
+interface PanelFetchResponse {
+    panel_type: string;
+    panel_template: string;
+}
+
 /**
  * @description: A custom HTMLElement, implements many methods for custom use with the program to make work more efficient
  *
@@ -46,9 +55,6 @@ class Panel extends HTMLElement {
     /**
      * @description: Creates an instance of a Panel.
      *
-     * POINT: @param body is optional, but the data member is not, so it is instantiated either way
-     *
-     * NOTE: The if()s to check @param {body} are nested to assure the compiler that @param {body} is not null by then.
      *
      * @constructor
      * @param {Area} area
@@ -72,27 +78,22 @@ class Panel extends HTMLElement {
         this.dashboardId = dashboardId;
         this.dataset.panelId = dashboardId.toString();
         this.dataset.panelType = type.toString();
-        this.style.setProperty("--min-width", `${type.getMinWidth()}fr`);
-        this.style.setProperty("--min-height", `${type.getMinHeight()}fr`);
-        this.init().then(() => {
-            this.initConfig(config).then(() => {
-                if (body) this.setContent(body);
-            });
-        });
+        this.init(config, body);
     }
 
-    private init(): Promise<void> {
-        return new Promise((resolve) => {
-            this.initTemplate().then(() =>
-                this.addHoverListeners().then(() =>
-                    this.addHandleListeners().then(() => {
-                        // this.classList.add("loaded");
-                        this.beginBehaviour();
-                        resolve();
-                    }),
-                ),
-            );
-        });
+    private init(existentConfig?: Config, body?: string): void {
+        this.initTemplate()
+            .then(() => {
+                this.addHoverListeners();
+                this.addHandleListeners();
+            })
+            .then(() => {
+                this.initConfig(existentConfig);
+            })
+            .finally(() => {
+                if (body) this.setContent(body);
+                this.beginBehaviour();
+            });
     }
 
     /**
@@ -101,69 +102,99 @@ class Panel extends HTMLElement {
      * @memberof Panel
      */
     private initTemplate(): Promise<void> {
+        // eslint-disable-next-line no-async-promise-executor
         return new Promise(async (resolve) => {
-            const baseResponse = await fetch(PanelTypeTemplate.BASE).then(
-                (res) => res.json(),
-            );
-            const response = await fetch(this.type.getTemplate()).then((res) =>
-                res.json(),
-            );
-            const baseResponseBody = await new DOMParser().parseFromString(
+            const baseResponse: PanelFetchResponse = await fetch(
+                PanelTypeTemplate.BASE,
+            ).then((res: Response) => res.json());
+            const baseResponseBody: Document = new DOMParser().parseFromString(
                 baseResponse.panel_template,
                 "text/html",
             );
-            const responseBody = await new DOMParser().parseFromString(
+            const base: HTMLTemplateElement = baseResponseBody.querySelector(
+                "template",
+            ) as HTMLTemplateElement;
+
+            const response: PanelFetchResponse = await fetch(
+                this.type.getTemplate(),
+            ).then((res: Response) => res.json());
+            const responseBody: Document = new DOMParser().parseFromString(
                 response.panel_template,
                 "text/html",
             );
+            const template: HTMLTemplateElement = responseBody.querySelector(
+                "template",
+            ) as HTMLTemplateElement;
 
-            const base: HTMLTemplateElement =
-                (baseResponseBody.querySelector(
-                    "template",
-                ) as HTMLTemplateElement)
-                ?? (document.createElement("template") as HTMLTemplateElement);
-            const template: HTMLTemplateElement =
-                (responseBody.querySelector("template") as HTMLTemplateElement)
-                ?? (document.createElement("template") as HTMLTemplateElement);
+            const shadow: ShadowRoot = this.attachShadow({ mode: "open" });
 
-            const shadow = this.attachShadow({ mode: "open" });
-
-            if (this.type != PanelType.PREVIEW && template && base)
+            if (this.type != PanelType.PREVIEW && template && base) {
                 shadow.prepend(base.content.cloneNode(true));
-            this.prepend(template.content.cloneNode(true));
+                this.prepend(template.content.cloneNode(true));
+            }
             resolve();
         });
     }
 
     private initConfig(existentConfig?: Config): Promise<void> {
-        return new Promise((resolve) => {
-            if (this.type.getConfigSchema() != null) {
-                const configRootElement: HTMLElement =
+        return new Promise((resolve): void => {
+            const configSchema: zod.ZodObject | null =
+                this.type.getConfigSchema();
+            console.log(configSchema);
+
+            if (configSchema != PanelTypeConfig.NONE) {
+                const configContainer: HTMLElement =
                     this.shadowRoot?.querySelector(".config") as HTMLElement;
-                const configDiv: HTMLElement = configRootElement?.querySelector(
-                    ".config-menu",
-                ) as HTMLElement;
-                configRootElement.removeAttribute("hidden");
+                const configMenuDiv: HTMLElement =
+                    configContainer?.querySelector(
+                        ".config-menu",
+                    ) as HTMLElement;
+                const configButton: HTMLElement =
+                    configContainer?.querySelector(
+                        ".config-button",
+                    ) as HTMLElement;
+
+                configContainer.removeAttribute("hidden");
+                configButton.removeAttribute("hidden");
+
                 if (existentConfig) {
                     try {
-                        const parsedConfig: Config = this.type
-                            .getConfigSchema()
-                            ?.parse(existentConfig) as Config;
-                        this.config = parsedConfig;
-                        configDiv.appendChild(configMenu(parsedConfig));
+                        this.config = configSchema.parse(existentConfig);
                     } catch (error) {
                         console.error(
                             error,
-                            "Invalid Panel Config provided. Please ensure the config is for the appropriate Panel Type:",
+                            "Invalid Panel Config provided. Please ensure the config is for the appropriate Panel Type.",
                         );
                     }
-                } else if (!existentConfig) {
-                    const defaultConfig: Config = getDefaultConfig(
-                        this.type.getConfigSchema() as zod.ZodObject,
-                    );
-                    this.config = defaultConfig;
-                    configDiv.appendChild(configMenu(defaultConfig));
+                } else {
+                    this.config = getDefaultConfig(configSchema);
                 }
+
+                configMenuDiv.appendChild(configMenu(this.config as Config));
+
+                configButton.addEventListener("click", () => {
+                    this.classList.toggle("configuring");
+                    if (this.classList.contains("configuring")) {
+                        this.moveToCentre();
+                    } else this.setArea(this.getArea());
+                });
+
+                configMenuDiv.addEventListener("configchange", (e: Event) => {
+                    const customEventParsed: CustomEvent<ConfigChangeEventDetail> =
+                        e as CustomEvent<ConfigChangeEventDetail>;
+                    if (this.config) {
+                        const val = customEventParsed.detail.value;
+                        (
+                            this.config[
+                                customEventParsed.detail.setting
+                            ] as ConfigEntry.Entry
+                        ).value = val;
+                    }
+
+                    this.dispatchEvent(
+                        new CustomEvent("updatepanel", { bubbles: true }),
+                    );
+                });
             }
             resolve();
         });
@@ -249,6 +280,22 @@ class Panel extends HTMLElement {
         this.style.setProperty("--y", y + "px");
     }
 
+    public moveToCentre(): void {
+        const elemBox = this.getBoundingClientRect();
+        // ? Get the X and Y coordinates of the element
+        const x: number = elemBox.x;
+        const y: number = elemBox.y;
+        // ? Get Centre of the window
+        const windHorizCentre = window.innerWidth / 2;
+        const windVertCentre = window.innerHeight / 2;
+        // ? Get the vector you need to move to get to the centre
+        const xVector = windHorizCentre - window.innerWidth * 0.4 - x;
+        const yVector = windVertCentre - window.innerHeight * 0.4 - y;
+
+        this.style.setProperty("--x-vector", xVector + "px");
+        this.style.setProperty("--y-vector", yVector + "px");
+    }
+
     /**
      * @description: Gets the size of the Panel ('s Area) as an object of @type {Size}
      *
@@ -310,25 +357,18 @@ class Panel extends HTMLElement {
     public setContent(contentString: string): void {
         const content = JSON.parse(contentString);
         let focus;
-        try {
-            switch (this.type) {
-                case PanelType.NOTEPAD:
-                    focus = this.querySelector<HTMLTextAreaElement>("textarea");
-                    if (focus) focus.value = content.body;
-                    break;
-                case PanelType.PHOTO:
-                    focus =
-                        this.shadowRoot?.querySelector<HTMLTextAreaElement>(
-                            "textarea",
-                        );
-                    if (focus) focus.value = content.body;
-                    break;
-            }
-        } catch (error) {
-            console.error(error);
-            setTimeout(() => {
-                this.setContent(contentString);
-            }, 50);
+        switch (this.type) {
+            case PanelType.NOTEPAD:
+                focus = this.querySelector<HTMLTextAreaElement>("textarea");
+                if (focus) focus.value = content.body;
+                break;
+            case PanelType.PHOTO:
+                focus =
+                    this.shadowRoot?.querySelector<HTMLTextAreaElement>(
+                        "textarea",
+                    );
+                if (focus) focus.value = content.body;
+                break;
         }
     }
 
@@ -336,77 +376,60 @@ class Panel extends HTMLElement {
         return this.config;
     }
 
-    public addHandleListeners(): Promise<void> {
-        return new Promise((resolve) => {
-            this.shadowRoot
-                ?.querySelector<HTMLElement>(".drag-handle")
-                ?.addEventListener("mousedown", (e) => {
-                    current.flag = "being-dragged";
-                    current.panel = this;
-                    this.classList.add(current.flag, "being-manipulated");
+    public addHandleListeners(): void {
+        this.shadowRoot
+            ?.querySelector<HTMLElement>(".drag-handle")
+            ?.addEventListener("mousedown", (e) => {
+                current.flag = "being-dragged";
 
-                    this.initPreview();
+                const initData = {
+                    eventCoords: {
+                        x: e.clientX,
+                        y: e.pageY,
+                    } as Coordinate,
+                    panelPos: {
+                        x: this.offsetLeft,
+                        y: this.offsetTop,
+                    } as Coordinate,
+                };
 
-                    const initData = {
-                        eventCoords: {
-                            x: e.clientX,
-                            y: e.pageY,
-                        } as Coordinate,
-                        panelPos: {
-                            x: this.offsetLeft,
-                            y: this.offsetTop,
-                        } as Coordinate,
-                    };
+                holdHandler.drag = (e: MouseEvent): void => {
+                    commonHandler.drag(this, e);
+                    movePanelWithinScreen(this, e as MouseEvent, initData);
+                };
 
-                    holdHandler.drag = (e: MouseEvent): void => {
-                        e.preventDefault();
-                        movePanelWithinScreen(this, e as MouseEvent, initData);
-                        this.updatePreview();
-                    };
+                commonHandler.mouseDown(this);
+            });
 
-                    setDocumentHandlers();
-                });
+        this.shadowRoot
+            ?.querySelector<HTMLElement>(".resize-handle")
+            ?.addEventListener("mousedown", (e) => {
+                current.flag = "being-resized";
 
-            this.shadowRoot
-                ?.querySelector<HTMLElement>(".resize-handle")
-                ?.addEventListener("mousedown", (e) => {
-                    current.flag = "being-resized";
-                    current.panel = this;
+                const initData = {
+                    eventCoords: {
+                        x: e.clientX,
+                        y: e.pageY,
+                    } as Coordinate,
+                    panelSize: {
+                        width: this.offsetWidth,
+                        height: this.offsetHeight,
+                    } as Size,
+                };
 
-                    this.classList.add(current.flag, "being-manipulated");
+                holdHandler.drag = (e: MouseEvent): void => {
+                    commonHandler.drag(this, e);
+                    resizePanel(this, e as MouseEvent, initData);
+                };
 
-                    this.initPreview();
-
-                    const initData = {
-                        eventCoords: {
-                            x: e.clientX,
-                            y: e.pageY,
-                        } as Coordinate,
-                        panelSize: {
-                            width: this.offsetWidth,
-                            height: this.offsetHeight,
-                        } as Size,
-                    };
-
-                    holdHandler.drag = (e: MouseEvent): void => {
-                        e.preventDefault();
-                        resizePanel(this, e as MouseEvent, initData);
-                        this.updatePreview();
-                    };
-
-                    setDocumentHandlers();
-                });
-            resolve();
-        });
+                commonHandler.mouseDown(this);
+            });
     }
 
-    public addHoverListeners(): Promise<void> {
-        return new Promise((resolve) => {
-            this.addEventListener("mouseenter", hoverHandler.enter);
-            this.addEventListener("mousemove", hoverHandler.move);
-            this.addEventListener("mouseleave", hoverHandler.exit);
-            resolve();
-        });
+    public addHoverListeners(): void {
+        this.addEventListener("mouseenter", hoverHandler.enter);
+        this.addEventListener("mousemove", hoverHandler.move);
+        this.addEventListener("mouseleave", hoverHandler.exit);
     }
 
     public removeHoverListeners(): void {
@@ -440,7 +463,10 @@ class Panel extends HTMLElement {
                     const timeText: HTMLElement | null =
                         this.querySelector(".time-text");
                     if (timeText)
-                        timeText.textContent = formatTime(now, this.config);
+                        timeText.textContent = formatTime(
+                            now,
+                            this.config as Config,
+                        );
                 }, 1000);
                 break;
 

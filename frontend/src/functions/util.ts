@@ -33,7 +33,7 @@ function collidesWithAnyPanel(area: Area): boolean {
 function removeClassAfterTransition(
     el: HTMLElement,
     cl: string,
-    removeFromDashboard?: boolean,
+    removeFromDashboard = false,
 ): void {
     setTimeout(
         () => {
