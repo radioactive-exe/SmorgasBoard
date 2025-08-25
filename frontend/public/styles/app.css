@@ -708,18 +708,16 @@ input:-webkit-autofill:active {
 
 .skeleton {
     display: grid;
-    grid-template: repeat(12, 1fr) / repeat(10, 1fr);
-    gap: 1rem;
-    width: 40rem;
-    height: 25rem;
-    background: rgb(0 136 255);
+    grid-template: repeat(8, 1fr) / repeat(8, 1fr);
+    width: 100%;
+    height: 100%;
 
     & .placeholder {
         position: relative;
         display: block;
         overflow: hidden;
-        width: 100%;
-        height: 100%;
+        width: 80%;
+        height: 80%;
         border-radius: var(--small-border-radius);
         background: var(--cell-bg);
 
@@ -728,7 +726,7 @@ input:-webkit-autofill:active {
             position: absolute;
             display: block;
             width: 10rem;
-            height: 20rem;
+            height: 400%;
             background: linear-gradient(90deg, transparent 0%, hsl(from var(--cell-bg) h s l / 0.5) 50%, transparent 100%);
             transform: translate(-10rem, -10rem) rotate(15deg);
             animation: shine 1s linear infinite var(--delay, 0s);
