@@ -6,6 +6,9 @@ import { Panel } from "../classes/panel.js";
 import { dashboard, preview } from "../app.js";
 import { ListSelectionOption } from "../classes/config/config_entry.js";
 
+let previewDeletionTimeout: NodeJS.Timeout,
+    elementDeletionTimeout: NodeJS.Timeout;
+
 function areaCollisionWithElement(area: Area, el: Panel): boolean {
     return !(
         area.getAbsoluteY() + area.getAbsoluteHeight() < el.offsetTop + 10
@@ -50,12 +53,14 @@ function deleteAfterTransition(
     el: HTMLElement,
     parent: HTMLElement = dashboard,
 ): void {
-    setTimeout(
+    const deletionTimeout = setTimeout(
         () => {
             parent?.removeChild(el);
         },
         get.normalisedCssPropertyValue(el, "transition-duration"),
     );
+    if (el instanceof Panel) previewDeletionTimeout = deletionTimeout;
+    else elementDeletionTimeout = deletionTimeout;
 }
 
 function isValidOption(
@@ -83,6 +88,8 @@ export {
     areaCollisionWithElement,
     collidesWithAnyPanel,
     removeClassAfterTransition,
+    previewDeletionTimeout,
+    elementDeletionTimeout,
     deleteAfterTransition,
     isValidOption,
     getOptionLabelFromList,

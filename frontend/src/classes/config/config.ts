@@ -13,7 +13,10 @@ const ConfigSchema: zod.ZodObject = zod
 
 type Config = zod.infer<typeof ConfigSchema>;
 
-function getDefaultConfig(configSchema: zod.ZodObject): Config {
+function getDefaultConfig(
+    configSchema: zod.ZodObject | undefined,
+): Config | undefined {
+    if (configSchema == undefined) return undefined;
     return Object.fromEntries(
         Object.entries(configSchema.shape).map(([option, value]) => {
             if (value instanceof zod.ZodDefault)

@@ -8,7 +8,6 @@ import { deletePanelSection } from "../elements/context_menu.js";
 import { AlertLevel, spawnAlert } from "../elements/alert.js";
 import { getDefaultConfig } from "./config/config.js";
 import { Theme } from "./theme.js";
-import zod from "zod";
 import { current } from "../app.js";
 
 class Dashboard extends HTMLElement {
@@ -75,6 +74,8 @@ class Dashboard extends HTMLElement {
                 "panel-element.hovering",
             );
             if (activePanel) activePanel.dispatchEvent(new Event("mouseleave"));
+        } else {
+            current.panel.classList.remove("configuring");
         }
     }
 
@@ -107,24 +108,18 @@ class Dashboard extends HTMLElement {
 
         if (slotFound) {
             let id: number;
-            if (this.freeIds.size > 0) {
-                id = this.freeIds.values().next().value ?? 0;
-                this.freeIds.delete(id);
-            } else id = this.panels.length;
 
-            const configSchema: zod.ZodObject | null =
-                panelType.getConfigSchema();
-            if (configSchema != undefined) {
-                panelToSpawn = new Panel(
-                    finalArea,
-                    panelType,
-                    id,
-                    undefined,
-                    getDefaultConfig(configSchema),
-                );
-            } else {
-                panelToSpawn = new Panel(finalArea, panelType, id);
-            }
+            if (this.freeIds.size > 0) {
+                id = this.freeIds.values().next().value as number;
+            } else id = this.panels.length;
+            this.freeIds.delete(id);
+
+            panelToSpawn = new Panel(
+                finalArea,
+                panelType,
+                id,
+                getDefaultConfig(panelType.getConfigSchema()),
+            );
 
             this.spawnPanel(panelToSpawn, updateStored);
         } else {
@@ -212,8 +207,8 @@ class Dashboard extends HTMLElement {
                             new Area(i.area.pos, i.area.size),
                             PanelType.getTypeFromId(i.panel_type_id),
                             i.panel_id,
-                            i.content,
                             i.config,
+                            i.content,
                         ),
                         false,
                     );
@@ -226,9 +221,7 @@ class Dashboard extends HTMLElement {
         const panelStorage: PanelInstance[] = this.panels.map(
             (i): PanelInstance => {
                 return {
-                    panel_id: parseInt(
-                        i.dataset.panelId ? i.dataset.panelId : "0",
-                    ),
+                    panel_id: parseInt(i.dataset.panelId ?? "0"),
                     panel_type_id: i.getType().getId(),
                     area: i.getArea().toJson(),
                     content: JSON.stringify(i.getContent()),

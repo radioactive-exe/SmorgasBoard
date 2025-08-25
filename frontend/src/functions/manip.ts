@@ -108,8 +108,6 @@ function snapElementToGrid(
     source: Panel = panel,
     shouldAnimate = true,
 ): void {
-    const aspectRatio: number = get.elementAspectRatio(source);
-
     potentialX = get.normalisedCssPropertyValue(source, "--x");
     potentialY = get.normalisedCssPropertyValue(source, "--y");
     potentialWidth = math.clamp(
@@ -136,15 +134,13 @@ function snapElementToGrid(
         },
     );
 
-    const potentialRatio = math.roundToNearest(
-        potentialArea.getWidth() / potentialArea.getHeight(),
-        0.001,
-    );
-
     if (
         !utils.collidesWithAnyPanel(potentialArea)
-        && ((aspectRatio != 0 && potentialRatio == aspectRatio)
-            || aspectRatio == 0)
+        && (panel.getType().getAspectRatios().length == 0
+            || panel.getType().getAspectRatios().includes({
+                width: potentialArea.getWidth(),
+                height: potentialArea.getHeight(),
+            }))
     ) {
         if (shouldAnimate) panel.classList.add("snapping");
         panel.setArea(potentialArea);

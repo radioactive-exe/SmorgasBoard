@@ -105,6 +105,10 @@
                         transition: all var(--med-transition-time) var(--bezier-function);
                         transform: translate(8rem);
                     }
+
+                    & .item-text {
+                        width: fit-content;
+                    }
                 }
 
                 & .selected-icon.visible {

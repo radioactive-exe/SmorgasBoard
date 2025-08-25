@@ -61,7 +61,7 @@ enum PanelTypeTemplate {
  * @a
  */
 class PanelTypeConfig {
-    public static readonly NONE: null = null;
+    public static readonly NONE: undefined = undefined;
     // public readonly NOTEPAD: zod.ZodObject = "https://smorgas-board-backend.vercel.app/definitions/panels/notepad";
     // public readonly PHOTO: zod.ZodObject = "https://smorgas-board-backend.vercel.app/definitions/panels/photo";
     public static readonly CLOCK: PanelTypeConfig = new PanelTypeConfig(
@@ -162,6 +162,7 @@ class PanelType {
         PanelTypeTemplate.NOTEPAD,
         PanelTypeConfig.NONE,
         { width: 2, height: 2 },
+        [{ width: 1, height: 1 }],
     );
     static readonly PHOTO = new PanelType(
         PanelTypeId.PHOTO,
@@ -196,8 +197,9 @@ class PanelType {
         private readonly typeName: PanelTypeName,
         private readonly typeData: PanelTypeData,
         private readonly typeTemplate: PanelTypeTemplate,
-        private readonly typeConfig: PanelTypeConfig | null,
+        private readonly typeConfig: PanelTypeConfig | undefined,
         private readonly typeMinSize: Size = { width: 1, height: 1 },
+        private readonly typeAspectRatios: Size[] = [],
         private readonly typeDataSource?: string,
     ) {}
 
@@ -235,8 +237,8 @@ class PanelType {
         return this.typeTemplate;
     }
 
-    public getConfigSchema(): zod.ZodObject | null {
-        return this.typeConfig?.getConfig() ?? null;
+    public getConfigSchema(): zod.ZodObject | undefined {
+        return this.typeConfig?.getConfig();
     }
 
     public getMinSize(): Size {
@@ -249,6 +251,10 @@ class PanelType {
 
     public getMinHeight(): number {
         return this.typeMinSize?.height ?? 1;
+    }
+
+    public getAspectRatios(): Size[] {
+        return this.typeAspectRatios;
     }
 
     /**

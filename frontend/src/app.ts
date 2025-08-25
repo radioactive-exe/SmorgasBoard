@@ -2,7 +2,7 @@ import * as get from "./functions/accessors.js";
 import * as utils from "./functions/util.js";
 
 import { Area } from "./classes/area.js";
-import { PanelType } from "./classes/panel_type.js";
+import { PanelType, PanelTypeConfig } from "./classes/panel_type.js";
 import { Panel } from "./classes/panel.js";
 import { Dashboard, Theme } from "./classes/dashboard.js";
 
@@ -49,6 +49,7 @@ const hoverHandler = {
 
 const commonHandler = {
     mouseDown: function (panel: Panel): void {
+        clearTimeout(utils.previewDeletionTimeout);
         current.panel = panel;
         panel.classList.add(current.flag, "being-manipulated");
         panel.initPreview();
@@ -61,7 +62,12 @@ const commonHandler = {
     },
 };
 
-const preview: Panel = new Panel(Area.INIT, PanelType.PREVIEW, -1);
+const preview: Panel = new Panel(
+    Area.INIT,
+    PanelType.PREVIEW,
+    -1,
+    PanelTypeConfig.NONE,
+);
 preview.classList.add("final-preview");
 
 function releaseHandler(): void {
@@ -134,12 +140,15 @@ function setDocumentHandlers(): void {
 
 window.addEventListener("resize", () => {
     dashboard.organiseElements();
+    if (current.panel.classList.contains("configuring"))
+        current.panel.moveToCentre();
 });
 
 document.addEventListener("keydown", async (e) => {
     switch (e.key) {
         case "ArrowDown":
             dashboard.setCurrentTheme(Theme.DEFAULT);
+            dashboard.spawnPanelOfType(PanelType.DEFAULT);
             break;
         case "ArrowUp":
             dashboard.setCurrentTheme(Theme.CONSOLE);
@@ -162,12 +171,6 @@ editModeButton?.addEventListener("click", () => {
 deletePanelButton?.addEventListener("click", () => {
     dashboard.deletePanel(current.panel);
 });
-
-// TODO: Config menu, which should implement next steps 2 and 3 from last commit.
-
-// [x] Add the config menu to the base HTML template and make it/the button visible if and only if the panel type has a config schema.
-
-// [x] Make the inputs dispatch custom events when the input value is changed.
 
 // ~ Panel Data Functionality
 

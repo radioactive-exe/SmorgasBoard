@@ -1,5 +1,3 @@
-import { Dashboard } from "../classes/dashboard.js";
-
 function numericalValue(string: string): number {
     return parseFloat(string.replace(/\D+$/g, ""));
 }
@@ -12,8 +10,8 @@ function cssPropertyValue(el: HTMLElement, property: string): number {
     return numericalValue(cssProperty(el, property));
 }
 
-function normalisedValue(input: string, property: string): number {
-    // INFO: This is separate so we can call this manually if we need to, and pass by "width" or "height" simply to give the function a flag to show which axis we need to get the fractional dimensions in
+function normalisedValue(input: string): number {
+    // INFO: This is separate so we can call this manually if we need to
 
     if (input == "0") return 0; // No unit is often specified with 0
 
@@ -23,22 +21,12 @@ function normalisedValue(input: string, property: string): number {
     switch (propertyUnit) {
         case "rem":
             return numericalValue(input) * 10;
-            break;
         case "px":
             return numericalValue(input);
-            break;
         case "s":
             return numericalValue(input) * 1000;
-            break;
         case "ms":
             return numericalValue(input);
-            break;
-        case "fr":
-            if (property.toLowerCase().includes("width"))
-                return numericalValue(input) * Dashboard.getFractionalWidth();
-            else if (property.toLowerCase().includes("height"))
-                return numericalValue(input) * Dashboard.getFractionalHeight();
-            break;
         default:
             return numericalValue(input);
     }
@@ -47,7 +35,7 @@ function normalisedValue(input: string, property: string): number {
 }
 
 function normalisedCssPropertyValue(el: HTMLElement, property: string): number {
-    return normalisedValue(cssProperty(el, property), property);
+    return normalisedValue(cssProperty(el, property));
 }
 
 function elementAspectRatio(el: HTMLElement): number {

@@ -67,9 +67,8 @@ class Panel extends HTMLElement {
         private area: Area,
         private type: PanelType,
         private dashboardId: number,
+        private config: Config | undefined,
         body?: string,
-        private config?: Config,
-        // private readonly potentialAspectRatios: number[] | null
     ) {
         super();
 
@@ -82,12 +81,16 @@ class Panel extends HTMLElement {
     }
 
     private init(existentConfig?: Config, body?: string): void {
-        this.initTemplate()
+        this.classList.add("loading");
+        this.initBase()
             .then(() => {
                 this.addHoverListeners();
                 this.addHandleListeners();
             })
+            .then(() => this.initTemplate())
             .then(() => {
+                this.classList.remove("loading");
+                console.log("Fetched");
                 this.initConfig(existentConfig);
             })
             .finally(() => {
@@ -96,12 +99,7 @@ class Panel extends HTMLElement {
             });
     }
 
-    /**
-     * @description: Initiates the panel's body based on its template
-     *
-     * @memberof Panel
-     */
-    private initTemplate(): Promise<void> {
+    private initBase(): Promise<void> {
         // eslint-disable-next-line no-async-promise-executor
         return new Promise(async (resolve) => {
             const baseResponse: PanelFetchResponse = await fetch(
@@ -114,7 +112,23 @@ class Panel extends HTMLElement {
             const base: HTMLTemplateElement = baseResponseBody.querySelector(
                 "template",
             ) as HTMLTemplateElement;
+            const shadow: ShadowRoot = this.attachShadow({ mode: "open" });
 
+            if (this.type != PanelType.PREVIEW && base) {
+                shadow.prepend(base.content.cloneNode(true));
+            }
+            resolve();
+        });
+    }
+
+    /**
+     * @description: Initiates the panel's body based on its template
+     *
+     * @memberof Panel
+     */
+    private initTemplate(): Promise<void> {
+        // eslint-disable-next-line no-async-promise-executor
+        return new Promise(async (resolve) => {
             const response: PanelFetchResponse = await fetch(
                 this.type.getTemplate(),
             ).then((res: Response) => res.json());
@@ -126,10 +140,7 @@ class Panel extends HTMLElement {
                 "template",
             ) as HTMLTemplateElement;
 
-            const shadow: ShadowRoot = this.attachShadow({ mode: "open" });
-
-            if (this.type != PanelType.PREVIEW && template && base) {
-                shadow.prepend(base.content.cloneNode(true));
+            if (this.type != PanelType.PREVIEW && template) {
                 this.prepend(template.content.cloneNode(true));
             }
             resolve();
@@ -138,9 +149,8 @@ class Panel extends HTMLElement {
 
     private initConfig(existentConfig?: Config): Promise<void> {
         return new Promise((resolve): void => {
-            const configSchema: zod.ZodObject | null =
+            const configSchema: zod.ZodObject | undefined =
                 this.type.getConfigSchema();
-            console.log(configSchema);
 
             if (configSchema != PanelTypeConfig.NONE) {
                 const configContainer: HTMLElement =
@@ -175,6 +185,7 @@ class Panel extends HTMLElement {
                 configButton.addEventListener("click", () => {
                     this.classList.toggle("configuring");
                     if (this.classList.contains("configuring")) {
+                        current.panel = this;
                         this.moveToCentre();
                     } else this.setArea(this.getArea());
                 });
@@ -470,13 +481,16 @@ class Panel extends HTMLElement {
                 }, 1000);
                 break;
 
+            case PanelType.NOTEPAD:
+                break;
+
             default:
                 break;
         }
     }
 
     public static defaultPanel(): Panel {
-        return new Panel(Area.INIT, PanelType.DEFAULT, 0);
+        return new Panel(Area.INIT, PanelType.DEFAULT, 0, PanelTypeConfig.NONE);
     }
 }
 
