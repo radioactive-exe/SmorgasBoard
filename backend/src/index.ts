@@ -18,17 +18,7 @@ const allowedOrigins: string[] = [
 
 app.use(
     cors({
-        origin: function (origin, callback) {
-            if (!origin || allowedOrigins.indexOf(origin) !== -1) {
-                callback(null, true);
-            } else {
-                callback(
-                    new Error(
-                        "Domain not White-listed by CORS. Please contact github.com/Radioactive_exe if this is an issue"
-                    )
-                );
-            }
-        },
+        origin: true,
         credentials: true,
     })
 );

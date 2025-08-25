@@ -82,12 +82,11 @@ class Panel extends HTMLElement {
 
     private init(existentConfig?: Config, body?: string): void {
         this.classList.add("loading");
-        this.initBase()
+        this.initTemplate()
             .then(() => {
                 this.addHoverListeners();
                 this.addHandleListeners();
             })
-            .then(() => this.initTemplate())
             .then(() => {
                 this.classList.remove("loading");
                 console.log("Fetched");
@@ -129,6 +128,18 @@ class Panel extends HTMLElement {
     private initTemplate(): Promise<void> {
         // eslint-disable-next-line no-async-promise-executor
         return new Promise(async (resolve) => {
+            const baseResponse: PanelFetchResponse = await fetch(
+                PanelTypeTemplate.BASE,
+            ).then((res: Response) => res.json());
+            const baseResponseBody: Document = new DOMParser().parseFromString(
+                baseResponse.panel_template,
+                "text/html",
+            );
+            const base: HTMLTemplateElement = baseResponseBody.querySelector(
+                "template",
+            ) as HTMLTemplateElement;
+            const shadow: ShadowRoot = this.attachShadow({ mode: "open" });
+
             const response: PanelFetchResponse = await fetch(
                 this.type.getTemplate(),
             ).then((res: Response) => res.json());
@@ -140,8 +151,9 @@ class Panel extends HTMLElement {
                 "template",
             ) as HTMLTemplateElement;
 
-            if (this.type != PanelType.PREVIEW && template) {
+            if (this.type != PanelType.PREVIEW && template && base) {
                 this.prepend(template.content.cloneNode(true));
+                shadow.prepend(base.content.cloneNode(true));
             }
             resolve();
         });
