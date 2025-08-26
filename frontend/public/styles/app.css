@@ -137,11 +137,11 @@ smorgas-board {
 
         &:hover::part(panel-body) {
             filter: drop-shadow(var(--shadow-offset-x) var(--shadow-offset-y) 0.2rem var(--shadow-col));
-
         }
 
         &::part(panel-body in-motion) {
-            transition: 0s;
+            transition: all 0s;
+            animation: lerp-transition forwards var(--med-transition-time) ease;
         }
 
         &.being-manipulated {
@@ -230,7 +230,7 @@ smorgas-board {
             height: 0;
             padding: 0;
             border-radius: var(--small-border-radius);
-            background: var(--panel-handle-bg);
+            background: hsl(from var(--panel-handle-bg) h s l / 0.6);
             cursor: grab;
             user-select: none;
             transition: var(--panel-transition-time) ease;
@@ -316,7 +316,6 @@ smorgas-board {
     }
 
     &.in-edit-mode {
-
         & ::part(panel-content) {
             pointer-events: none;
         }
@@ -376,9 +375,7 @@ smorgas-board {
 }
 
 panel-element {
-
     &[data-panel-type="NOTEPAD"] {
-
         &::part(panel-content) {
             flex-direction: column;
             align-items: stretch;
@@ -410,6 +407,12 @@ panel-element {
     &[data-panel-type="CLOCK"] {
         color: var(--text-col);
 
+        & time {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+
         .date-time {
             position: absolute;
             inset: 0;
@@ -433,6 +436,9 @@ panel-element {
             }
 
             & .time {
+                display: inherit;
+                justify-content: inherit;
+                align-items: inherit;
                 width: 100%;
 
                 & span {
@@ -537,8 +543,6 @@ panel-element {
 
             &#theme-item:hover,
             &#add-panel-item:hover {
-
-
                 & .menu-caret {
                     transform: rotate(0deg);
                 }
@@ -696,7 +700,6 @@ input:-webkit-autofill:active {
 } */
 
 @keyframes spawn-in {
-
     0% {
         clip-path: circle(0 at 50% 50%);
     }
@@ -709,15 +712,16 @@ input:-webkit-autofill:active {
 .skeleton {
     display: grid;
     grid-template: repeat(8, 1fr) / repeat(8, 1fr);
+    gap: clamp(0.5rem, 5%, 1rem);
     width: 100%;
-    height: 100%;
+    height: min(20rem, 100%);
 
     & .placeholder {
         position: relative;
         display: block;
         overflow: hidden;
-        width: 80%;
-        height: 80%;
+        width: 100%;
+        height: 100%;
         border-radius: var(--small-border-radius);
         background: var(--cell-bg);
 
@@ -733,58 +737,57 @@ input:-webkit-autofill:active {
         }
 
         &:nth-of-type(1) {
-            grid-area: 2 / 2 / 6 / 4;
+            grid-area: 1 / 1 / 5 / 4;
         }
 
         &:nth-of-type(2) {
             --delay: 0.2s;
-            grid-area: 2 / 4 / 4 / 7;
+            grid-area: 1 / 4 / 3 / 7;
         }
 
         &:nth-of-type(3) {
             --delay: 0.48s;
-            grid-area: 2 / 7 / 4 / 9;
+            grid-area: 1 / 7 / 3 / 9;
         }
 
         &:nth-of-type(4) {
             --delay: 0.24s;
-            grid-area: 4 / 4 / 5 / 10;
+            grid-area: 3 / 4 / 4 / 8;
         }
 
         &:nth-of-type(5) {
             --delay: 0.26s;
-            grid-area: 5 / 4 / 6 / 8;
+            grid-area: 4 / 4 / 5 / 7;
         }
 
         &:nth-of-type(6) {
             --delay: 0.09s;
-            grid-area: 6 / 2 / 8 / 10;
+            grid-area: 5 / 1 / 6 / 9;
         }
 
         &:nth-of-type(7) {
             --delay: 0.125s;
-            grid-area: 8 / 2 / 9 / 9;
+            grid-area: 6 / 1 / 7 / 6;
         }
 
         &:nth-of-type(8) {
             --delay: 0.14s;
-            grid-area: 9 / 2 / 10 / 10;
+            grid-area: 7 / 1 / 8 / 7;
         }
 
         &:nth-of-type(9) {
             --delay: 0.155s;
-            grid-area: 10 / 2 / 11 / 6;
+            grid-area: 8 / 1 / 9 / 5;
         }
 
         &:nth-of-type(10) {
             --delay: 0.7s;
-            grid-area: 10 / 8 / 12 / 10;
+            grid-area: 6 / 7 / 9 / 9;
         }
     }
 }
 
 @keyframes shine {
-
     0% {
         transform: translate(-10rem, -50%) rotate(15deg);
     }
@@ -792,4 +795,101 @@ input:-webkit-autofill:active {
     100% {
         transform: translate(40rem, -50%) rotate(15deg);
     }
+}
+
+.loader {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: var(--dashboard-bg);
+
+    & .ball-container {
+        position: relative;
+        display: inherit;
+        justify-content: space-evenly;
+        align-items: flex-end;
+        width: 25rem;
+        height: 10rem;
+
+        & .ball {
+            isolation: isolate;
+
+            &:nth-of-type(1) {
+                --delay: 0s;
+            }
+
+            &:nth-of-type(2) {
+                --delay: 0.3s;
+            }
+
+            &:nth-of-type(3) {
+                --delay: 0.6s;
+            }
+
+            &::before {
+                content: '';
+                display: block;
+                width: 5rem;
+                height: 5rem;
+                border-radius: 50%;
+                background: var(--text-col);
+                box-shadow: inset 0.5rem -0.5rem 0.5rem var(--shadow-col);
+                transform: translateY(-10rem);
+                animation: bounce 0.6s var(--bezier-function) infinite alternate var(--delay);
+            }
+
+            &::after {
+                content: '';
+                position: absolute;
+                z-index: -1;
+                display: block;
+                width: 2rem;
+                height: 1rem;
+                border-radius: 50%;
+                background: var(--shadow-col);
+                filter: blur(2px);
+                transform: translate(1.5rem, -0.5rem);
+                animation: ball-shadow 0.6s var(--bezier-function) infinite alternate var(--delay);
+            }
+        }
+    }
+}
+
+@keyframes bounce {
+    0% {
+        transform: translateY(-10rem);
+    }
+
+    100% {
+        height: 2.5rem;
+        border-radius: 10rem 10rem 5rem 5rem;
+        box-shadow: inset 0.5rem -0.2rem 0.5rem var(--shadow-col);
+        transform: translateY(0);
+    }
+}
+
+@keyframes ball-shadow {
+    0% {
+        width: 2rem;
+        filter: blur(2px);
+        transform: translate(1.5rem, -0.5rem);
+    }
+
+    100% {
+        width: 5rem;
+        filter: blur(1px);
+        transform: translate(0, -0.5rem);
+    }
+}
+
+@keyframes lerp-transition {
+    0% { 
+        transition: all var(--panel-transition-time) ease;
+    }    
+
+    100% { 
+        transition: all 0s;
+    }    
 }

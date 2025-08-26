@@ -3,7 +3,7 @@ import * as utils from "./util.js";
 import * as math from "./math.js";
 
 import { Area, Coordinate, Offset, Size } from "../classes/area.js";
-import { Panel } from "../classes/panel.js";
+import { Panel } from "../classes/panel/panel.js";
 import { Dashboard } from "../classes/dashboard.js";
 
 let top: number,

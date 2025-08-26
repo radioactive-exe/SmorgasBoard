@@ -2,8 +2,8 @@ import * as get from "./functions/accessors.js";
 import * as utils from "./functions/util.js";
 
 import { Area } from "./classes/area.js";
-import { PanelType, PanelTypeConfig } from "./classes/panel_type.js";
-import { Panel } from "./classes/panel.js";
+import { PanelType, PanelTypeConfig } from "./classes/panel/panel_type.js";
+import { Panel } from "./classes/panel/panel.js";
 import { Dashboard, Theme } from "./classes/dashboard.js";
 
 import {
@@ -20,15 +20,14 @@ import {
     themeMenu,
 } from "./elements/context_menu.js";
 
-import * as ConfigEntry from "./classes/config/config_entry.js";
-import { Config } from "./classes/config/config.js";
-
 //#region
 
 const current = {
     flag: "" as string,
     panel: Panel.defaultPanel() as Panel,
 };
+
+const loader: HTMLElement = document.querySelector(".loader") as HTMLElement;
 
 const dashboard: Dashboard = document.querySelector(
     "smorgas-board",
@@ -174,34 +173,6 @@ deletePanelButton?.addEventListener("click", () => {
 
 // ~ Panel Data Functionality
 
-function formatTime(time: Date, options: Config): string {
-    return time.toLocaleTimeString("en-gb", {
-        hour12: !(options?.use24HrTime as ConfigEntry.Boolean).value,
-        timeStyle: (options?.showSeconds as ConfigEntry.Boolean).value
-            ? "medium"
-            : "short",
-    });
-    // const hours: number = time.getHours();
-    // const minutes: number = time.getMinutes();
-    // const seconds: number = time.getSeconds();
-    // return `${hours.toString().padStart(2, "0")}:${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
-}
-
-function formatDate(time: Date, options?: Config): string {
-    return time.toLocaleDateString("en-gb", {
-        dateStyle: (options?.dateFormat as ConfigEntry.ListSelection).value as
-            | "full"
-            | "long"
-            | "short",
-        localeMatcher: "best fit",
-    });
-    // const weekday = time.getDay();
-    // const day = time.getDate();
-    // const month = time.getMonth();
-    // const year = time.getFullYear();
-    // return `${weekdays[weekday]}, ${months[month]} ${day}, ${year}`;
-}
-
 Object.entries(Theme).forEach((theme) => {
     const menuEntry: HTMLElement = document.createElement("li");
     menuEntry.classList.add("item");
@@ -230,12 +201,11 @@ Object.entries(PanelType).forEach((panelType) => {
 
 export {
     current,
+    loader,
     commonHandler,
     preview,
     holdHandler,
     hoverHandler,
     dashboard,
     setDocumentHandlers,
-    formatTime,
-    formatDate,
 };

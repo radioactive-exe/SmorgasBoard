@@ -2,13 +2,13 @@ import * as get from "../functions/accessors.js";
 import * as utils from "../functions/util.js";
 
 import { Area, Size } from "./area.js";
-import { PanelType } from "./panel_type.js";
-import { Panel, PanelInstance } from "./panel.js";
+import { PanelType } from "./panel/panel_type.js";
+import { Panel, PanelInstance } from "./panel/panel.js";
 import { deletePanelSection } from "../elements/context_menu.js";
 import { AlertLevel, spawnAlert } from "../elements/alert.js";
 import { getDefaultConfig } from "./config/config.js";
 import { Theme } from "./theme.js";
-import { current } from "../app.js";
+import { current, loader } from "../app.js";
 
 class Dashboard extends HTMLElement {
     private panels: Panel[];
@@ -154,67 +154,83 @@ class Dashboard extends HTMLElement {
         });
     }
 
-    public loadStoredPanels(): void {
-        this.panels = [];
-
-        const loadedIds: number[] = JSON.parse(
-            localStorage.getItem("free-panel-ids") ?? "[]",
-        );
-
-        this.freeIds = new Set<number>(loadedIds);
-
-        const queriedPanels: Panel[] = [
-            ...document.querySelectorAll<Panel>("panel-element"),
-        ];
-
-        if (queriedPanels.length != 0) {
-            spawnAlert(
-                "Panels in body found. Failed to load panels from storage",
-                AlertLevel.ERROR,
+    public loadStoredPanels(): Promise<void> {
+        return new Promise((resolve) => {
+            
+            this.panels = [];
+    
+            const loadedIds: number[] = JSON.parse(
+                localStorage.getItem("free-panel-ids") ?? "[]",
             );
-            queriedPanels.forEach((i) => {
-                i.updateArea();
-            });
-            this.panels = queriedPanels;
-        } else {
-            const loadedString = localStorage.getItem("local-panel-storage");
-
-            if (loadedString == null || loadedString == "[]") {
+    
+            this.freeIds = new Set<number>(loadedIds);
+    
+            const queriedPanels: Panel[] = [
+                ...document.querySelectorAll<Panel>("panel-element"),
+            ];
+    
+            if (queriedPanels.length != 0) {
                 spawnAlert(
-                    "No stored panels! Initiating base board with a random Panel. To Add more, Right Click and hover on 'Add Panel', and have fun!",
-                    AlertLevel.INFO,
+                    "Panels in body found. Failed to load panels from storage",
+                    AlertLevel.ERROR,
                 );
-
-                const possiblePanelTypes: PanelType[] = Object.entries(
-                    PanelType,
-                )
-                    .slice(2)
-                    .map((type) => {
-                        return type[1];
-                    });
-
-                this.spawnPanelOfType(
-                    possiblePanelTypes[
-                        Math.floor(Math.random() * possiblePanelTypes.length)
-                    ],
-                );
+                queriedPanels.forEach((i) => {
+                    i.updateArea();
+                });
+                this.panels = queriedPanels;
             } else {
-                const loadedPanels: PanelInstance[] = JSON.parse(loadedString);
+                const loadedString = localStorage.getItem("local-panel-storage");
+    
+                if (loadedString == null || loadedString == "[]") {
+                    spawnAlert(
+                        "No stored panels! Initiating base board with a random Panel. To Add more, Right Click and hover on 'Add Panel', and have fun!",
+                        AlertLevel.INFO,
+                    );
+    
+                    const possiblePanelTypes: PanelType[] = Object.entries(
+                        PanelType,
+                    )
+                        .slice(2)
+                        .map((type) => {
+                            return type[1];
+                        });
+    
+                    this.spawnPanelOfType(
+                        possiblePanelTypes[
+                            Math.floor(Math.random() * possiblePanelTypes.length)
+                        ],
+                    );
+                    loader.remove();
+                } else {
+                    const loadedPanels: PanelInstance[] = JSON.parse(loadedString);
 
-                loadedPanels.map((i: PanelInstance) => {
-                    this.spawnPanel(
-                        new Panel(
+                    let numOfPanels = 0;
+    
+                    loadedPanels.map((i: PanelInstance) => {
+                        const panelToSpawn: Panel = new Panel(
                             new Area(i.area.pos, i.area.size),
                             PanelType.getTypeFromId(i.panel_type_id),
                             i.panel_id,
                             i.config,
                             i.content,
-                        ),
-                        false,
-                    );
-                });
+                        );
+
+                        panelToSpawn.addEventListener("finished-loading", () => {
+                            numOfPanels++;
+                            if (numOfPanels == loadedPanels.length) {
+                                loader.remove();
+                            }
+                        })
+
+                        this.spawnPanel(
+                            panelToSpawn,
+                            false,
+                        );
+                    });
+                }
+                resolve();
             }
-        }
+        });
     }
 
     public updateStoredPanels(): void {

@@ -1,6 +1,6 @@
-import * as get from "../functions/accessors.js";
+import * as get from "../../functions/accessors.js";
 
-import { Coordinate, Size, AreaInstance, Area } from "./area.js";
+import { Coordinate, Size, AreaInstance, Area } from "../area.js";
 import { PanelTypeTemplate, PanelType, PanelTypeConfig } from "./panel_type.js";
 
 import * as zod from "zod";
@@ -10,23 +10,22 @@ import {
     hoverHandler,
     preview,
     holdHandler,
-    formatTime,
-    formatDate,
     commonHandler,
-} from "../app.js";
+} from "../../app.js";
 import {
     movePanelWithinScreen,
     resizePanel,
     snapElementToGrid,
     snapElementToTarget,
-} from "../functions/manip.js";
+} from "../../functions/manip.js";
 import {
     Config,
     ConfigChangeEventDetail,
     getDefaultConfig,
-} from "./config/config.js";
-import { configMenu } from "./config/config_menu_builder.js";
-import * as ConfigEntry from "./config/config_entry.js";
+} from "../config/config.js";
+import { configMenu } from "../config/config_menu_builder.js";
+import * as ConfigEntry from "../config/config_entry.js";
+import { updateTimeAndDate } from "./panel_behaviour.js";
 
 /**
  * @description: A type that defines the structure of a @type {Panel} in its stored format, either in localStorage or the cloud.
@@ -81,18 +80,15 @@ class Panel extends HTMLElement {
     }
 
     private init(existentConfig?: Config, body?: string): void {
-        this.classList.add("loading");
-        this.initTemplate()
+        this.initBase()
             .then(() => {
                 this.addHoverListeners();
                 this.addHandleListeners();
             })
+            .then(() => this.initTemplate())
+            .then(() => this.initConfig(existentConfig))
             .then(() => {
-                this.classList.remove("loading");
-                console.log("Fetched");
-                this.initConfig(existentConfig);
-            })
-            .finally(() => {
+                this.dispatchEvent(new CustomEvent("finished-loading"));
                 if (body) this.setContent(body);
                 this.beginBehaviour();
             });
@@ -128,18 +124,6 @@ class Panel extends HTMLElement {
     private initTemplate(): Promise<void> {
         // eslint-disable-next-line no-async-promise-executor
         return new Promise(async (resolve) => {
-            const baseResponse: PanelFetchResponse = await fetch(
-                PanelTypeTemplate.BASE,
-            ).then((res: Response) => res.json());
-            const baseResponseBody: Document = new DOMParser().parseFromString(
-                baseResponse.panel_template,
-                "text/html",
-            );
-            const base: HTMLTemplateElement = baseResponseBody.querySelector(
-                "template",
-            ) as HTMLTemplateElement;
-            const shadow: ShadowRoot = this.attachShadow({ mode: "open" });
-
             const response: PanelFetchResponse = await fetch(
                 this.type.getTemplate(),
             ).then((res: Response) => res.json());
@@ -151,9 +135,11 @@ class Panel extends HTMLElement {
                 "template",
             ) as HTMLTemplateElement;
 
-            if (this.type != PanelType.PREVIEW && template && base) {
+            if (this.type != PanelType.PREVIEW && template) {
+                const skeleton: HTMLElement | null | undefined =
+                    this.shadowRoot?.querySelector(".skeleton");
+                if (skeleton) skeleton.remove();
                 this.prepend(template.content.cloneNode(true));
-                shadow.prepend(base.content.cloneNode(true));
             }
             resolve();
         });
@@ -475,22 +461,13 @@ class Panel extends HTMLElement {
     }
 
     public beginBehaviour(): void {
+        const dateText: HTMLSpanElement | null =
+            this.querySelector(".date-text");
+        const timeText: HTMLSpanElement | null =
+            this.querySelector(".time-text");
         switch (this.type) {
             case PanelType.CLOCK:
-                setInterval(() => {
-                    const now = new Date();
-                    const dateText: HTMLElement | null =
-                        this.querySelector(".date-text");
-                    if (dateText)
-                        dateText.textContent = formatDate(now, this.config);
-                    const timeText: HTMLElement | null =
-                        this.querySelector(".time-text");
-                    if (timeText)
-                        timeText.textContent = formatTime(
-                            now,
-                            this.config as Config,
-                        );
-                }, 1000);
+                updateTimeAndDate(this, dateText, timeText);
                 break;
 
             case PanelType.NOTEPAD:

@@ -1,6 +1,6 @@
 import * as math from "../functions/math.js";
 
-import { Panel } from "../classes/panel.js";
+import { Panel } from "../classes/panel/panel.js";
 import { dashboard, current } from "../app.js";
 
 const contextMenu = document.querySelector(".context-menu") as HTMLElement;
