@@ -47,6 +47,7 @@
 
 body {
     overflow: hidden;
+    color: var(--text-col);
 }
 
 smorgas-board {
@@ -153,7 +154,7 @@ smorgas-board {
             }
 
             &::part(panel-body) {
-                background-color: rgb(from var(--panel-bg) r g b / var(--panel-manip-opacity));
+                background: rgb(from var(--panel-bg) r g b / var(--panel-manip-opacity));
                 box-shadow: inset 0.2rem 0.2rem 0.5rem 0.1rem hsl(from var(--panel-bg) h s calc(l * 2) / 0.4), inset -0.2rem -0.2rem 0.5rem 0.1rem hsl(from var(--panel-bg) h s calc(l * 0.4) / 0.4);
                 filter: drop-shadow(1.5rem 1.5rem 2rem var(--shadow-col));
                 backdrop-filter: blur(1px);
@@ -166,6 +167,12 @@ smorgas-board {
 
             &::part(handle) {
                 cursor: grabbing;
+            }
+
+            &::part(config-button) {
+                width: 0;
+                height: 0;
+                padding: 0;
             }
 
             &.being-dragged {
@@ -234,6 +241,7 @@ smorgas-board {
             cursor: grab;
             user-select: none;
             transition: var(--panel-transition-time) ease;
+            backdrop-filter: blur(0.2rem) url("#glass-distortion");
         }
 
         &::part(handle):hover {
@@ -484,6 +492,10 @@ panel-element {
     &.theme-icon {
         --icon-svg: url("../assets/graphics/palette.svg");
     }
+
+    &.image-drop-icon {
+        --icon-svg: url("../public/assets/graphics/add-image.svg");
+    }
 }
 
 .context-menu {
@@ -492,7 +504,6 @@ panel-element {
     width: 22rem;
     height: 16rem;
     padding: 0.5rem;
-    color: var(--text-col);
 
     & .menu {
         position: absolute;
@@ -699,16 +710,6 @@ input:-webkit-autofill:active {
     -webkit-text-fill-color: var(--text-col);
 } */
 
-@keyframes spawn-in {
-    0% {
-        clip-path: circle(0 at 50% 50%);
-    }
-
-    100% {
-        clip-path: circle(100% at 50% 50%);
-    }
-}
-
 .skeleton {
     display: grid;
     grid-template: repeat(8, 1fr) / repeat(8, 1fr);
@@ -787,16 +788,6 @@ input:-webkit-autofill:active {
     }
 }
 
-@keyframes shine {
-    0% {
-        transform: translate(-10rem, -50%) rotate(15deg);
-    }
-
-    100% {
-        transform: translate(40rem, -50%) rotate(15deg);
-    }
-}
-
 .loader {
     position: fixed;
     inset: 0;
@@ -837,7 +828,7 @@ input:-webkit-autofill:active {
                 background: var(--text-col);
                 box-shadow: inset 0.5rem -0.5rem 0.5rem var(--shadow-col);
                 transform: translateY(-10rem);
-                animation: bounce 0.6s var(--bezier-function) infinite alternate var(--delay);
+                animation: bounce 0.6s var(--bezier-function) infinite alternate var(--delay), bounce-squish 0.6s cubic-bezier(0.8, 0, .57, 1) var(--delay) infinite alternate;
             }
 
             &::after {
@@ -857,16 +848,96 @@ input:-webkit-autofill:active {
     }
 }
 
+.panel {
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+    width: 40rem;
+    height: 30rem;
+    background: var(--panel-bg);
+}
+
+.drop-area {
+    display: flex;
+    flex-flow: column nowrap;
+    gap: 1rem;
+    justify-content: center;
+    align-items: center;
+    width: 80%;
+    height: 80%;
+    border: 0.8rem dashed var(--input-secondary);
+    border-radius: var(--small-border-radius);
+    text-align: center;
+    filter: drop-shadow(0 0 0 var(--input-secondary));
+    transition: var(--quick-transition-time) ease;
+
+    & .image-drop-icon {
+        width: 8rem;
+        height: 8rem;
+        background: var(--input-secondary);
+    }
+
+    & .drop-area-text {
+        user-select: none;
+
+        &.drop-area-info {
+            font-style: italic;
+            font-size: var(--small-font);
+        }
+
+        &.drop-area-subinfo {
+            font-size: var(--sub-font);
+        }
+    }
+
+    &.active {
+        border-radius: calc(var(--small-border-radius) * 3);
+        filter: drop-shadow(0 0 1rem var(--input-secondary));
+    }
+}
+
+/* region Keyframes */
+
+@keyframes spawn-in {
+    0% {
+        clip-path: circle(0 at 50% 50%);
+    }
+
+    100% {
+        clip-path: circle(100% at 50% 50%);
+    }
+}
+
+@keyframes shine {
+    0% {
+        transform: translate(-10rem, -50%) rotate(15deg);
+    }
+
+    100% {
+        transform: translate(40rem, -50%) rotate(15deg);
+    }
+}
+
 @keyframes bounce {
     0% {
         transform: translateY(-10rem);
     }
 
     100% {
+        transform: translateY(0);
+    }
+}
+
+@keyframes bounce-squish {
+    0% {
+        height: 5rem;
+    }
+
+    100% {
         height: 2.5rem;
         border-radius: 10rem 10rem 5rem 5rem;
         box-shadow: inset 0.5rem -0.2rem 0.5rem var(--shadow-col);
-        transform: translateY(0);
     }
 }
 
@@ -885,11 +956,13 @@ input:-webkit-autofill:active {
 }
 
 @keyframes lerp-transition {
-    0% { 
+    0% {
         transition: all var(--panel-transition-time) ease;
-    }    
+    }
 
-    100% { 
+    100% {
         transition: all 0s;
-    }    
+    }
 }
+
+/* endregion */

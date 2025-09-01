@@ -1,12 +1,14 @@
-import * as ConfigEntry from "./config_entry";
 import {
     addDropdownSelectorListeners,
     addRangeSelectorListeners,
     addStringSelectorListeners,
     addToggleSelectorListeners,
-} from "../../elements/inputs";
-import { Config } from "./config";
-import { getOptionLabelFromList } from "../../functions/util";
+} from "../../elements/inputs.js";
+
+import { getOptionLabelFromList } from "../../functions/util.js";
+
+import { Config } from "./config.js";
+import * as ConfigEntry from "./config_entry.js";
 
 function configMenu(config: Config): HTMLUListElement {
     const lineList: HTMLUListElement = document.createElement("ul");
@@ -75,7 +77,7 @@ function builtNumberEntryInput(entry: ConfigEntry.Number): HTMLElement {
 
     rangeSelector.innerHTML = `
         <label class="range-selector-label">
-            <span class="range-selector-text">1500</span>
+            <p><span class="range-selector-text">1500</span></p>
             <input
                 class="range-slider"
                 type="range"
@@ -104,7 +106,7 @@ function builtStringEntryInput(entry: ConfigEntry.String): HTMLElement {
                 required
                 value="${entry.value}"
             />
-            <span class="string-selector-label-text">${entry.placeholder}</span>
+            <p><span class="string-selector-label-text">${entry.placeholder}</span></p>
         </label>
     `;
 
@@ -119,7 +121,7 @@ function builtListEntryInput(entry: ConfigEntry.ListSelection): HTMLElement {
 
     dropdownSelector.innerHTML = `
         <div class="selection">
-            <span class="selection-text">${getOptionLabelFromList(entry.possibleOptions, entry.value)}</span>
+            <p><span class="selection-text">${getOptionLabelFromList(entry.possibleOptions, entry.value)}</span></p>
             <div class="menu-caret icon"></div>
         </div>
         <ul class="dropdown-list">
@@ -135,7 +137,7 @@ function builtListEntryInput(entry: ConfigEntry.ListSelection): HTMLElement {
         dropdownList.innerHTML += `
             <li data-config-value="${option.optionValue}" class="dropdown-item${isSelected ? " selected" : ""}">
                 <div class="item-content">
-                    <span class="item-text">${option.optionLabel}</span>
+                    <p><span class="item-text">${option.optionLabel}</span></p>
                     <div class="icon selected-icon${isSelected ? " visible" : ""}"></div>
                 </div>
             </li>

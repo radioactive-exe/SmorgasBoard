@@ -1,0 +1,15 @@
+{
+    "version": "0.2",
+    "ignorePaths": [
+        "**/*eslint.config.mjs",
+        "**/*package.json",
+        "**/*tsconfig.json",
+        "**/*tsdoc.json",
+        "**/*vite.config.js"
+    ],
+    "dictionaryDefinitions": [],
+    "dictionaries": [],
+    "words": [],
+    "ignoreWords": [],
+    "import": []
+}

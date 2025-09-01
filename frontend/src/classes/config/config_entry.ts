@@ -1,3 +1,4 @@
+/* eslint-disable import/order */
 import zod from "zod";
 
 const EntryObject = zod.object({

@@ -1,7 +1,7 @@
+import { current, dashboard } from "../app.js";
+import { Panel } from "../classes/panel/panel.js";
 import * as math from "../functions/math.js";
 
-import { Panel } from "../classes/panel/panel.js";
-import { dashboard, current } from "../app.js";
 
 const contextMenu = document.querySelector(".context-menu") as HTMLElement;
 const themeMenu: HTMLElement = document.querySelector(
@@ -91,12 +91,12 @@ function removeContextMenu(): void {
 }
 
 export {
-    editModeButton,
     deletePanelButton,
     deletePanelSection,
-    themeMenu,
-    panelMenu,
-    spawnContextMenu,
+    editModeButton,
     keepContextMenu,
+    panelMenu,
     removeContextMenu,
+    spawnContextMenu,
+    themeMenu,
 };

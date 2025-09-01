@@ -1,0 +1,15 @@
+/**
+ * @description An @enum of User-friendly names for each panel type, which are the names used in the UI, etc.
+ * @enum {number}
+ */
+enum PanelTypeName {
+    PREVIEW = "Preview Panel. You shouldn't be seeing this.",
+    DEFAULT = "Default Panel. Or this.",
+    NOTEPAD = "Notepad Panel",
+    PHOTO = "Photo Panel",
+    CLOCK = "Clock Panel",
+}
+
+export {
+    PanelTypeName
+}

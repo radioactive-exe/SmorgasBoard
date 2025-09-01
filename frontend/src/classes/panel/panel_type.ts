@@ -1,142 +1,23 @@
 import * as zod from "zod";
+
 import { Size } from "../area.js";
-import * as ConfigEntry from "../config/config_entry.js";
-import { isValidOption } from "../../functions/util.js";
+
+import { Panel } from "./panel.js";
+import { PanelTypeBehaviour } from "./panel_type_properties/panel_type_behaviour.js";
+import { PanelTypeConfig } from "./panel_type_properties/panel_type_config.js";
+import { PanelTypeData } from "./panel_type_properties/panel_type_data.js";
+import { PanelTypeId } from "./panel_type_properties/panel_type_id.js";
+import { PanelTypeName } from "./panel_type_properties/panel_type_name.js";
+import { PanelTypeTemplate } from "./panel_type_properties/panel_type_template.js";
 
 /**
- * @description: Different Panel Data Types, the keys of the entries being the type of data content, and the values being their respective ID.
- *
- * @enum {number}
- */
-enum PanelTypeData {
-    NONE = -1,
-    LOCAL = 0,
-    GLOBAL = 1,
-    EXTERNAL = 2,
-}
-
-/**
- * @description: Different Panel Types/Kinds (Notepad, Default (empty), Preview, etc.), the keys of the entries being the type of panel, and the values being their respective ID.
- *
- * @enum {number}
- */
-enum PanelTypeId {
-    PREVIEW = -1,
-    DEFAULT = 0,
-    NOTEPAD = 1,
-    PHOTO = 2,
-    CLOCK = 3,
-}
-
-/**
- * @description: Different Panel Types/Kinds (Notepad, Default (empty), Preview, etc.), the keys of the entries being the type of panel, and the values being their user-friendly names for menus, etc..
- *
- * @enum {number}
- */
-enum PanelTypeName {
-    PREVIEW = "Preview Panel. You shouldn't be seeing this.",
-    DEFAULT = "Default Panel. Or this.",
-    NOTEPAD = "Notepad Panel",
-    PHOTO = "Photo Panel",
-    CLOCK = "Clock Panel",
-}
-
-/**
- * @description: An @enum of different important constants relating to Panel Content, such as the default content for an empty panel.
- *
- * @enum {url}
- */
-enum PanelTypeTemplate {
-    BASE = "https://smorgas-board-backend.vercel.app/definitions/panels/base",
-    PREVIEW = "https://smorgas-board-backend.vercel.app/definitions/panels/preview",
-    DEFAULT = "https://smorgas-board-backend.vercel.app/definitions/panels/default",
-    NOTEPAD = "https://smorgas-board-backend.vercel.app/definitions/panels/notepad",
-    PHOTO = "https://smorgas-board-backend.vercel.app/definitions/panels/photo",
-    CLOCK = "https://smorgas-board-backend.vercel.app/definitions/panels/clock",
-}
-
-/**
- * @description: An @enum of different important constants relating to Panel Content, such as the default content for an empty panel.
- *
- * @a
- */
-class PanelTypeConfig {
-    public static readonly NONE: undefined = undefined;
-    // public readonly NOTEPAD: zod.ZodObject = "https://smorgas-board-backend.vercel.app/definitions/panels/notepad";
-    // public readonly PHOTO: zod.ZodObject = "https://smorgas-board-backend.vercel.app/definitions/panels/photo";
-    public static readonly CLOCK: PanelTypeConfig = new PanelTypeConfig(
-        zod.strictObject({
-            use24HrTime: zod.custom<ConfigEntry.Boolean>().default({
-                label: "Use 24-hour Time",
-                value: true,
-            }),
-            showSeconds: zod.custom<ConfigEntry.Boolean>().default({
-                label: "Show Seconds",
-                value: false,
-            }),
-            showDate: zod.custom<ConfigEntry.Boolean>().default({
-                label: "Show Date above Time",
-                value: true,
-            }),
-            dateFormat: zod
-                .custom<ConfigEntry.ListSelection>((entry) => {
-                    const options: ConfigEntry.ListSelectionOption[] = [
-                        {
-                            optionLabel: "Full, including weekday",
-                            optionValue: "full",
-                        },
-                        {
-                            optionLabel: "Long - Month is spelled out",
-                            optionValue: "long",
-                        },
-                        {
-                            optionLabel: "Short - DD/MM/YYYY",
-                            optionValue: "short",
-                        },
-                    ];
-                    return isValidOption(
-                        options,
-                        (entry as ConfigEntry.ListSelection).value,
-                    );
-                })
-                .default({
-                    label: "Date Format (if shown)",
-                    value: "full",
-                    possibleOptions: [
-                        {
-                            optionLabel: "Full, including weekday",
-                            optionValue: "full",
-                        },
-                        {
-                            optionLabel: "Long - Month is spelled out",
-                            optionValue: "long",
-                        },
-                        {
-                            optionLabel: "Short - DD/MM/YYYY",
-                            optionValue: "short",
-                        },
-                    ],
-                }),
-        }),
-    );
-
-    private constructor(private config: zod.ZodObject) {}
-
-    public getConfig(): zod.ZodObject {
-        return this.config;
-    }
-}
-
-/**
- * @description: PanelType Class, this is class that unifies all information about a panel's type, including the name, data type, and other useful information and methods.
- *
+ * @description PanelType Class, this is class that unifies all information about a panel's type, including the name, data type, and other useful information and methods.
  * @class PanelType
  */
 class PanelType {
     /**
-     * @description: These are all the Defined Panel Types in the project/application. New Types cannot be created during runtime unless needed.
-     *
-     * @this @alias (PanelDataTypes)
+     * @description These are all the Defined Panel Types in the project/application. New Types cannot be created during runtime unless needed.
+     * @alias (PanelTypes)
      * @static
      * @memberof PanelType
      */
@@ -147,6 +28,7 @@ class PanelType {
         PanelTypeData.NONE,
         PanelTypeTemplate.PREVIEW,
         PanelTypeConfig.NONE,
+        PanelTypeBehaviour.NONE,
     );
     static readonly DEFAULT = new PanelType(
         PanelTypeId.DEFAULT,
@@ -154,6 +36,7 @@ class PanelType {
         PanelTypeData.NONE,
         PanelTypeTemplate.DEFAULT,
         PanelTypeConfig.NONE,
+        PanelTypeBehaviour.NONE,
     );
     static readonly NOTEPAD = new PanelType(
         PanelTypeId.NOTEPAD,
@@ -161,6 +44,7 @@ class PanelType {
         PanelTypeData.LOCAL,
         PanelTypeTemplate.NOTEPAD,
         PanelTypeConfig.NONE,
+        PanelTypeBehaviour.NONE,
         { width: 2, height: 2 },
         [{ width: 1, height: 1 }],
     );
@@ -170,6 +54,7 @@ class PanelType {
         PanelTypeData.LOCAL,
         PanelTypeTemplate.PHOTO,
         PanelTypeConfig.NONE,
+        PanelTypeBehaviour.NONE,
     );
     static readonly CLOCK = new PanelType(
         PanelTypeId.CLOCK,
@@ -177,19 +62,23 @@ class PanelType {
         PanelTypeData.NONE,
         PanelTypeTemplate.CLOCK,
         PanelTypeConfig.CLOCK,
+        PanelTypeBehaviour.CLOCK,
         { width: 2, height: 1 },
     );
 
     /**
-     * @description: Creates an instance of PanelType.
-     *
-     * NOTE: Similarly to themes, these should not be created at runtime and will instead be set types with set data types and names, unless otherwise is required. All the necessary types are declared at @alias (PanelDataTypes)
-     *
+     * @description Creates an instance of PanelType.
+     * NOTE: Similarly to themes, these should not be created at runtime and will instead be set types with set data types and names, unless otherwise is required. All the necessary types are declared at @alias (PanelTypes)
      * @constructor
-     * @param {number} typeId
+     * @param {PanelTypeId} typeId
+     * @param {PanelTypeName} typeName
      * @param {PanelTypeData} typeData
-     * @param {PanelTypeId} typeName
-     * @param {PanelTypeTemplate} typeTemplate
+     * @param {PanelTypeTemplate} typeTemplate - The panel's template source from the backend. This is stored in an @enum {PanelTypeTemplate}, whose values are strings.
+     * @param {(PanelTypeConfig | undefined)} typeConfig - The panel type's config schema. Either an object of @type {PanelTypeConfig}, which has an object of @type {Config}, or undefined if there is no config for this panel type.
+     * @param {((panel: Panel) => void) | null} typeBehaviour - The panel type's behaviour function, if this Panel has any post-initialisation behaviour, such as a clock, etc.
+     * @param {Size} typeMinSize - The minimum size for this type of panel. If no custom minimum size is declared, the default value {1, 1} is used
+     * @param {Size[]} typeAspectRatios - Any aspect ratios that this panel type has to have. If it can have any aspect ratio, this array is empty.
+     * @param {string?} typeDataSource - If the panel's data type is external, the source/api is stored here
      * @memberof PanelType
      */
     private constructor(
@@ -198,15 +87,16 @@ class PanelType {
         private readonly typeData: PanelTypeData,
         private readonly typeTemplate: PanelTypeTemplate,
         private readonly typeConfig: PanelTypeConfig | undefined,
+        private readonly typeBehaviour: ((panel: Panel) => void) | null,
         private readonly typeMinSize: Size = { width: 1, height: 1 },
         private readonly typeAspectRatios: Size[] = [],
         private readonly typeDataSource?: string,
     ) {}
 
     /**
-     * @description: Returns the Panel Type's internal name when used in @type {string} contexts
+     * @description Returns the Panel Type's internal name when used in @type {string} contexts
      *
-     * @return {string}
+     * @returns{string}
      * @memberof PanelType
      */
     public toString(): string {
@@ -214,9 +104,9 @@ class PanelType {
     }
 
     /**
-     * @description: Returns the ID number for this type of panel
+     * @description Returns the ID number for this type of panel
      *
-     * @return {number}
+     * @returns{number}
      * @memberof PanelType
      */
     public getId(): number {
@@ -228,9 +118,9 @@ class PanelType {
     }
 
     /**
-     * @description: Returns the name of the template for this PanelType
+     * @description Returns the name of the template for this PanelType
      *
-     * @return {string}
+     * @returns{string}
      * @memberof PanelType
      */
     public getTemplate(): string {
@@ -257,12 +147,16 @@ class PanelType {
         return this.typeAspectRatios;
     }
 
+    public execute(panel: Panel): void {
+        if (this.typeBehaviour) this.typeBehaviour(panel);
+    }
+
     /**
-     * @description: Returns the panel from @alias (PanelDataTypes) that has @param id as a @member {typeId}
+     * @description Returns the panel from @alias (PanelDataTypes) that has @param id as a @member {typeId}
      *
      * @static
      * @param {number} id
-     * @return {PanelType}
+     * @returns{PanelType}
      * @memberof PanelType
      */
     public static getTypeFromId(id: number): PanelType {
@@ -281,4 +175,4 @@ class PanelType {
     }
 }
 
-export { PanelTypeTemplate, PanelType, PanelTypeConfig };
+export { PanelType, PanelTypeConfig, PanelTypeTemplate };

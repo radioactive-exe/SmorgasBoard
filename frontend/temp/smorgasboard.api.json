@@ -1,0 +1,451 @@
+{
+  "metadata": {
+    "toolPackage": "@microsoft/api-extractor",
+    "toolVersion": "7.52.11",
+    "schemaVersion": 1011,
+    "oldestForwardsCompatibleVersion": 1001,
+    "tsdocConfig": {
+      "$schema": "https://developer.microsoft.com/json-schemas/tsdoc/v0/tsdoc.schema.json",
+      "noStandardTags": true,
+      "tagDefinitions": [
+        {
+          "tagName": "@alpha",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@beta",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@defaultValue",
+          "syntaxKind": "block"
+        },
+        {
+          "tagName": "@decorator",
+          "syntaxKind": "block",
+          "allowMultiple": true
+        },
+        {
+          "tagName": "@deprecated",
+          "syntaxKind": "block"
+        },
+        {
+          "tagName": "@eventProperty",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@example",
+          "syntaxKind": "block",
+          "allowMultiple": true
+        },
+        {
+          "tagName": "@experimental",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@inheritDoc",
+          "syntaxKind": "inline"
+        },
+        {
+          "tagName": "@internal",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@label",
+          "syntaxKind": "inline"
+        },
+        {
+          "tagName": "@link",
+          "syntaxKind": "inline",
+          "allowMultiple": true
+        },
+        {
+          "tagName": "@override",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@packageDocumentation",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@param",
+          "syntaxKind": "block",
+          "allowMultiple": true
+        },
+        {
+          "tagName": "@privateRemarks",
+          "syntaxKind": "block"
+        },
+        {
+          "tagName": "@public",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@readonly",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@remarks",
+          "syntaxKind": "block"
+        },
+        {
+          "tagName": "@returns",
+          "syntaxKind": "block"
+        },
+        {
+          "tagName": "@sealed",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@see",
+          "syntaxKind": "block"
+        },
+        {
+          "tagName": "@throws",
+          "syntaxKind": "block",
+          "allowMultiple": true
+        },
+        {
+          "tagName": "@typeParam",
+          "syntaxKind": "block",
+          "allowMultiple": true
+        },
+        {
+          "tagName": "@virtual",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@betaDocumentation",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@internalRemarks",
+          "syntaxKind": "block"
+        },
+        {
+          "tagName": "@preapproved",
+          "syntaxKind": "modifier"
+        }
+      ],
+      "supportForTags": {
+        "@alpha": true,
+        "@beta": true,
+        "@defaultValue": true,
+        "@decorator": true,
+        "@deprecated": true,
+        "@eventProperty": true,
+        "@example": true,
+        "@experimental": true,
+        "@inheritDoc": true,
+        "@internal": true,
+        "@label": true,
+        "@link": true,
+        "@override": true,
+        "@packageDocumentation": true,
+        "@param": true,
+        "@privateRemarks": true,
+        "@public": true,
+        "@readonly": true,
+        "@remarks": true,
+        "@returns": true,
+        "@sealed": true,
+        "@see": true,
+        "@throws": true,
+        "@typeParam": true,
+        "@virtual": true,
+        "@betaDocumentation": true,
+        "@internalRemarks": true,
+        "@preapproved": true
+      },
+      "reportUnsupportedHtmlElements": false
+    }
+  },
+  "kind": "Package",
+  "canonicalReference": "smorgasboard!",
+  "docComment": "",
+  "name": "smorgasboard",
+  "preserveMemberOrder": false,
+  "members": [
+    {
+      "kind": "EntryPoint",
+      "canonicalReference": "smorgasboard!",
+      "name": "",
+      "preserveMemberOrder": false,
+      "members": [
+        {
+          "kind": "Variable",
+          "canonicalReference": "smorgasboard!commonHandler:var",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "commonHandler: "
+            },
+            {
+              "kind": "Content",
+              "text": "{\n    mouseDown: (panel: "
+            },
+            {
+              "kind": "Reference",
+              "text": "Panel",
+              "canonicalReference": "smorgasboard!~Panel:class"
+            },
+            {
+              "kind": "Content",
+              "text": ") => void;\n    drag: (panel: "
+            },
+            {
+              "kind": "Reference",
+              "text": "Panel",
+              "canonicalReference": "smorgasboard!~Panel:class"
+            },
+            {
+              "kind": "Content",
+              "text": ", e: "
+            },
+            {
+              "kind": "Reference",
+              "text": "MouseEvent",
+              "canonicalReference": "!MouseEvent:interface"
+            },
+            {
+              "kind": "Content",
+              "text": ") => void;\n}"
+            }
+          ],
+          "fileUrlPath": "src/app.ts",
+          "isReadonly": true,
+          "releaseTag": "Public",
+          "name": "commonHandler",
+          "variableTypeTokenRange": {
+            "startIndex": 1,
+            "endIndex": 8
+          }
+        },
+        {
+          "kind": "Variable",
+          "canonicalReference": "smorgasboard!current:var",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "current: "
+            },
+            {
+              "kind": "Content",
+              "text": "{\n    flag: string;\n    panel: "
+            },
+            {
+              "kind": "Reference",
+              "text": "Panel",
+              "canonicalReference": "smorgasboard!~Panel:class"
+            },
+            {
+              "kind": "Content",
+              "text": ";\n}"
+            }
+          ],
+          "fileUrlPath": "src/app.ts",
+          "isReadonly": true,
+          "releaseTag": "Public",
+          "name": "current",
+          "variableTypeTokenRange": {
+            "startIndex": 1,
+            "endIndex": 4
+          }
+        },
+        {
+          "kind": "Variable",
+          "canonicalReference": "smorgasboard!dashboard:var",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "dashboard: "
+            },
+            {
+              "kind": "Reference",
+              "text": "Dashboard",
+              "canonicalReference": "smorgasboard!~Dashboard:class"
+            }
+          ],
+          "fileUrlPath": "src/app.ts",
+          "isReadonly": true,
+          "releaseTag": "Public",
+          "name": "dashboard",
+          "variableTypeTokenRange": {
+            "startIndex": 1,
+            "endIndex": 2
+          }
+        },
+        {
+          "kind": "Variable",
+          "canonicalReference": "smorgasboard!holdHandler:var",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "holdHandler: "
+            },
+            {
+              "kind": "Content",
+              "text": "{\n    drag: (e: "
+            },
+            {
+              "kind": "Reference",
+              "text": "MouseEvent",
+              "canonicalReference": "!MouseEvent:interface"
+            },
+            {
+              "kind": "Content",
+              "text": ") => void;\n    release: typeof "
+            },
+            {
+              "kind": "Reference",
+              "text": "releaseHandler",
+              "canonicalReference": "smorgasboard!~releaseHandler:function"
+            },
+            {
+              "kind": "Content",
+              "text": ";\n}"
+            }
+          ],
+          "fileUrlPath": "src/app.ts",
+          "isReadonly": true,
+          "releaseTag": "Public",
+          "name": "holdHandler",
+          "variableTypeTokenRange": {
+            "startIndex": 1,
+            "endIndex": 6
+          }
+        },
+        {
+          "kind": "Variable",
+          "canonicalReference": "smorgasboard!hoverHandler:var",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "hoverHandler: "
+            },
+            {
+              "kind": "Content",
+              "text": "{\n    enter: typeof "
+            },
+            {
+              "kind": "Reference",
+              "text": "enterPanelHoverHandler",
+              "canonicalReference": "smorgasboard!~enterPanelHoverHandler:function"
+            },
+            {
+              "kind": "Content",
+              "text": ";\n    move: typeof "
+            },
+            {
+              "kind": "Reference",
+              "text": "movePanelHoverHandler",
+              "canonicalReference": "smorgasboard!~movePanelHoverHandler:function"
+            },
+            {
+              "kind": "Content",
+              "text": ";\n    exit: typeof "
+            },
+            {
+              "kind": "Reference",
+              "text": "exitPanelHoverHandler",
+              "canonicalReference": "smorgasboard!~exitPanelHoverHandler:function"
+            },
+            {
+              "kind": "Content",
+              "text": ";\n}"
+            }
+          ],
+          "fileUrlPath": "src/app.ts",
+          "isReadonly": true,
+          "releaseTag": "Public",
+          "name": "hoverHandler",
+          "variableTypeTokenRange": {
+            "startIndex": 1,
+            "endIndex": 8
+          }
+        },
+        {
+          "kind": "Variable",
+          "canonicalReference": "smorgasboard!loader:var",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "loader: "
+            },
+            {
+              "kind": "Reference",
+              "text": "HTMLElement",
+              "canonicalReference": "!HTMLElement:interface"
+            }
+          ],
+          "fileUrlPath": "src/app.ts",
+          "isReadonly": true,
+          "releaseTag": "Public",
+          "name": "loader",
+          "variableTypeTokenRange": {
+            "startIndex": 1,
+            "endIndex": 2
+          }
+        },
+        {
+          "kind": "Variable",
+          "canonicalReference": "smorgasboard!preview:var",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "preview: "
+            },
+            {
+              "kind": "Reference",
+              "text": "Panel",
+              "canonicalReference": "smorgasboard!~Panel:class"
+            }
+          ],
+          "fileUrlPath": "src/app.ts",
+          "isReadonly": true,
+          "releaseTag": "Public",
+          "name": "preview",
+          "variableTypeTokenRange": {
+            "startIndex": 1,
+            "endIndex": 2
+          }
+        },
+        {
+          "kind": "Function",
+          "canonicalReference": "smorgasboard!setDocumentHandlers:function(1)",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "declare function setDocumentHandlers(): "
+            },
+            {
+              "kind": "Content",
+              "text": "void"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "fileUrlPath": "src/app.ts",
+          "returnTypeTokenRange": {
+            "startIndex": 1,
+            "endIndex": 2
+          },
+          "releaseTag": "Public",
+          "overloadIndex": 1,
+          "parameters": [],
+          "name": "setDocumentHandlers"
+        }
+      ]
+    }
+  ]
+}

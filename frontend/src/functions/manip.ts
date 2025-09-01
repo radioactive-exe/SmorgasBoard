@@ -1,10 +1,11 @@
-import * as get from "./accessors.js";
-import * as utils from "./util.js";
-import * as math from "./math.js";
-
 import { Area, Coordinate, Offset, Size } from "../classes/area.js";
-import { Panel } from "../classes/panel/panel.js";
 import { Dashboard } from "../classes/dashboard.js";
+import { Panel } from "../classes/panel/panel.js";
+
+import * as get from "./accessors.js";
+import * as math from "./math.js";
+import * as utils from "./util.js";
+
 
 let top: number,
     right: number,
@@ -162,8 +163,8 @@ function snapElementToTarget(
 export {
     movePanelWithinScreen,
     resizePanel,
-    rotatePanel,
     rotateElementStyle,
+    rotatePanel,
     snapElementToGrid,
     snapElementToTarget,
 };

@@ -1,16 +1,9 @@
-import * as get from "./functions/accessors.js";
-import * as utils from "./functions/util.js";
 
 import { Area } from "./classes/area.js";
-import { PanelType, PanelTypeConfig } from "./classes/panel/panel_type.js";
-import { Panel } from "./classes/panel/panel.js";
 import { Dashboard, Theme } from "./classes/dashboard.js";
+import { Panel } from "./classes/panel/panel.js";
+import { PanelType, PanelTypeConfig } from "./classes/panel/panel_type.js";
 
-import {
-    snapElementToTarget,
-    rotatePanel,
-    rotateElementStyle,
-} from "./functions/manip.js";
 import {
     deletePanelButton,
     editModeButton,
@@ -20,7 +13,17 @@ import {
     themeMenu,
 } from "./elements/context_menu.js";
 
-//#region
+import * as get from "./functions/accessors.js";
+
+import {
+    rotateElementStyle,
+    rotatePanel,
+    snapElementToTarget,
+} from "./functions/manip.js";
+
+import * as utils from "./functions/util.js";
+
+//#region Constant Declarations
 
 const current = {
     flag: "" as string,
@@ -32,10 +35,11 @@ const loader: HTMLElement = document.querySelector(".loader") as HTMLElement;
 const dashboard: Dashboard = document.querySelector(
     "smorgas-board",
 ) as Dashboard;
-dashboard.loadStoredPanels();
+dashboard.load();
 const holdHandler = {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     drag: (e: MouseEvent): void => {
+
         return;
     },
     release: releaseHandler,
@@ -69,6 +73,8 @@ const preview: Panel = new Panel(
 );
 preview.classList.add("final-preview");
 
+//#endregion
+
 function releaseHandler(): void {
     snapElementToTarget(current.panel, preview);
 
@@ -76,7 +82,7 @@ function releaseHandler(): void {
     preview.classList.remove("visible");
     current.panel.classList.remove(current.flag, "being-manipulated");
 
-    dashboard.updateStoredPanels();
+    dashboard.save();
 
     document.removeEventListener("mouseup", holdHandler.release);
     document.removeEventListener("mousemove", holdHandler.drag);
@@ -147,7 +153,6 @@ document.addEventListener("keydown", async (e) => {
     switch (e.key) {
         case "ArrowDown":
             dashboard.setCurrentTheme(Theme.DEFAULT);
-            dashboard.spawnPanelOfType(PanelType.DEFAULT);
             break;
         case "ArrowUp":
             dashboard.setCurrentTheme(Theme.CONSOLE);
@@ -156,7 +161,6 @@ document.addEventListener("keydown", async (e) => {
             dashboard.toggleEditMode();
             break;
         case "ArrowLeft":
-            dashboard.spawnPanelOfType(PanelType.CLOCK);
     }
 });
 
@@ -200,12 +204,12 @@ Object.entries(PanelType).forEach((panelType) => {
 //#endregion
 
 export {
-    current,
-    loader,
     commonHandler,
-    preview,
+    current,
+    dashboard,
     holdHandler,
     hoverHandler,
-    dashboard,
+    loader,
+    preview,
     setDocumentHandlers,
 };

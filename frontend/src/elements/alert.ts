@@ -54,4 +54,4 @@ function spawnAlert(
     });
 }
 
-export { spawnAlert, AlertLevel };
+export { AlertLevel, spawnAlert };

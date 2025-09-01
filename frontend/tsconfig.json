@@ -12,9 +12,13 @@
         "noImplicitReturns": true,
         "strict": true,
         "sourceMap": true,
-        "outDir": "public/dist"
+        "outDir": "public/dist",
+        "declaration": true,
+        "declarationDir": "public/dist/lib/types",
+        "declarationMap": true
     },
     "exclude": [
-        "**/node_modules/*"
+        "**/node_modules/*",
+        "**/dist/**/*"
     ]
 }

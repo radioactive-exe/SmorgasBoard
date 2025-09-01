@@ -1,5 +1,6 @@
 import zod from "zod";
-import { Entry } from "./config_entry";
+
+import { Entry } from "./config_entry.js";
 
 interface ConfigChangeEventDetail {
     setting: string;
@@ -17,13 +18,13 @@ function getDefaultConfig(
     configSchema: zod.ZodObject | undefined,
 ): Config | undefined {
     if (configSchema == undefined) return undefined;
-    return Object.fromEntries(
+    return structuredClone(Object.fromEntries(
         Object.entries(configSchema.shape).map(([option, value]) => {
             if (value instanceof zod.ZodDefault)
                 return [option, value.def.defaultValue];
             return [option, undefined];
         }),
-    );
+    ));
 }
 
-export { ConfigChangeEventDetail, Config, getDefaultConfig };
+export { Config, ConfigChangeEventDetail, getDefaultConfig };

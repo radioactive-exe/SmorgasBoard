@@ -1,15 +1,22 @@
-import * as get from "./accessors.js";
-
-import { Area } from "../classes/area.js";
-import { Panel } from "../classes/panel/panel.js";
 
 import { dashboard, preview } from "../app.js";
+import { Area } from "../classes/area.js";
 import { ListSelectionOption } from "../classes/config/config_entry.js";
+import { Panel } from "../classes/panel/panel.js";
+
+import * as get from "./accessors.js";
 
 let previewDeletionTimeout: NodeJS.Timeout,
     elementDeletionTimeout: NodeJS.Timeout;
 
-function areaCollisionWithElement(area: Area, el: Panel): boolean {
+/**
+ * @description Checks if an inputted Area collides with a particular HTMLElement.
+ * @param {Area} area - The area input we are checking for collision.
+ * @param {HTMLElement} el - The HTML Element we are checking for collision with @param area.
+ * @returns {boolean} - True if @param area and @param el collide. False otherwise.
+ * @example areaCollisionWithElement(new Area({x: 3, y: 1}, {width: 2, height: 2}), someConstDivElement) -> true if the defined Area at the coordinates (3, 1) and with a size of (2, 2) overlaps our arbitrary "someConstantDivElement".
+ */
+function areaCollisionWithElement(area: Area, el: HTMLElement): boolean {
     return !(
         area.getAbsoluteY() + area.getAbsoluteHeight() < el.offsetTop + 10
         || area.getAbsoluteY() >= el.offsetTop + el.offsetHeight - 20
@@ -21,7 +28,7 @@ function areaCollisionWithElement(area: Area, el: Panel): boolean {
 function collidesWithAnyPanel(area: Area): boolean {
     let flag = false;
 
-    dashboard.getPanels().forEach((i) => {
+    dashboard.getPanels().forEach((i: Panel) => {
         if (
             i.dataset.panelId != preview.dataset.callerId
             && areaCollisionWithElement(area, i)
@@ -87,10 +94,10 @@ function getOptionLabelFromList(
 export {
     areaCollisionWithElement,
     collidesWithAnyPanel,
-    removeClassAfterTransition,
-    previewDeletionTimeout,
-    elementDeletionTimeout,
     deleteAfterTransition,
-    isValidOption,
+    elementDeletionTimeout,
     getOptionLabelFromList,
+    isValidOption,
+    previewDeletionTimeout,
+    removeClassAfterTransition,
 };

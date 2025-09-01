@@ -1,36 +1,47 @@
-import * as get from "../../functions/accessors.js";
+/**
+ * @file
+ * A file containing the {@link Panel} class.
+ * @author Radioactive.exe
+ * {@link https://github.com/radioactive-exe | GitHub Profile}
+ */
 
-import { Coordinate, Size, AreaInstance, Area } from "../area.js";
-import { PanelTypeTemplate, PanelType, PanelTypeConfig } from "./panel_type.js";
 
+/** File Header Delimiter. */
 import * as zod from "zod";
 
 import {
+    commonHandler,
     current,
+    holdHandler,
     hoverHandler,
     preview,
-    holdHandler,
-    commonHandler,
 } from "../../app.js";
+
+import * as get from "../../functions/accessors.js";
+
 import {
     movePanelWithinScreen,
     resizePanel,
     snapElementToGrid,
     snapElementToTarget,
 } from "../../functions/manip.js";
+
+import { Area, AreaInstance, Coordinate, Size } from "../area.js";
+
 import {
     Config,
     ConfigChangeEventDetail,
     getDefaultConfig,
 } from "../config/config.js";
-import { configMenu } from "../config/config_menu_builder.js";
+
 import * as ConfigEntry from "../config/config_entry.js";
-import { updateTimeAndDate } from "./panel_behaviour.js";
+import { configMenu } from "../config/config_menu_builder.js";
+
+import { PanelType, PanelTypeConfig, PanelTypeTemplate } from "./panel_type.js";
 
 /**
- * @description: A type that defines the structure of a @type {Panel} in its stored format, either in localStorage or the cloud.
- *
- * @this PanelInstance */
+ * @description A type that defines the structure of a @type {Panel} in its stored format, either in localStorage or the cloud.
+ */
 interface PanelInstance {
     panel_id: number;
     panel_type_id: number;
@@ -45,14 +56,14 @@ interface PanelFetchResponse {
 }
 
 /**
- * @description: A custom HTMLElement, implements many methods for custom use with the program to make work more efficient
+ * @description A custom HTMLElement, implements many methods for custom use with the program to make work more efficient
  *
- * @class Panel
+ * {@label Panel}
  * @extends {HTMLElement}
  */
 class Panel extends HTMLElement {
     /**
-     * @description: Creates an instance of a Panel.
+     * @description Creates an instance of a Panel.
      *
      *
      * @constructor
@@ -63,10 +74,10 @@ class Panel extends HTMLElement {
      * @memberof Panel
      */
     public constructor(
-        private area: Area,
-        private type: PanelType,
-        private dashboardId: number,
-        private config: Config | undefined,
+        protected area: Area,
+        protected type: PanelType,
+        protected dashboardId: number,
+        protected config: Config | undefined,
         body?: string,
     ) {
         super();
@@ -97,6 +108,10 @@ class Panel extends HTMLElement {
     private initBase(): Promise<void> {
         // eslint-disable-next-line no-async-promise-executor
         return new Promise(async (resolve) => {
+            if (this.type == PanelType.PREVIEW) {
+                resolve();
+                return;
+            }
             const baseResponse: PanelFetchResponse = await fetch(
                 PanelTypeTemplate.BASE,
             ).then((res: Response) => res.json());
@@ -109,7 +124,7 @@ class Panel extends HTMLElement {
             ) as HTMLTemplateElement;
             const shadow: ShadowRoot = this.attachShadow({ mode: "open" });
 
-            if (this.type != PanelType.PREVIEW && base) {
+            if (base) {
                 shadow.prepend(base.content.cloneNode(true));
             }
             resolve();
@@ -117,13 +132,17 @@ class Panel extends HTMLElement {
     }
 
     /**
-     * @description: Initiates the panel's body based on its template
+     * @description Initiates the panel's body based on its template
      *
      * @memberof Panel
      */
     private initTemplate(): Promise<void> {
         // eslint-disable-next-line no-async-promise-executor
         return new Promise(async (resolve) => {
+            if (this.type == PanelType.PREVIEW) {
+                resolve();
+                return;
+            }
             const response: PanelFetchResponse = await fetch(
                 this.type.getTemplate(),
             ).then((res: Response) => res.json());
@@ -135,7 +154,7 @@ class Panel extends HTMLElement {
                 "template",
             ) as HTMLTemplateElement;
 
-            if (this.type != PanelType.PREVIEW && template) {
+            if (template) {
                 const skeleton: HTMLElement | null | undefined =
                     this.shadowRoot?.querySelector(".skeleton");
                 if (skeleton) skeleton.remove();
@@ -214,9 +233,9 @@ class Panel extends HTMLElement {
     }
 
     /**
-     * @description: Gets the Area of the current Panel, as an object of @type {Area}
+     * @description Gets the Area of the current Panel, as an object of @type {Area}
      *
-     * @return  {Area}
+     * @returns {Area}
      * @memberof Panel
      */
     public getArea(): Area {
@@ -224,7 +243,7 @@ class Panel extends HTMLElement {
     }
 
     /**
-     * @description: Sets the Panel's Area with a complete @type {Area} input
+     * @description Sets the Panel's Area with a complete @type {Area} input
      *
      * @param {Area} other
      * @memberof Panel
@@ -240,7 +259,7 @@ class Panel extends HTMLElement {
     }
 
     /**
-     * @description: Updates the current Panel's Area with the values in the style, in case there is ever a disconnect between the two. This should never be the case, but it is a contingency. This is for queried Panels, in case they exist. Usually, they won't, but just in case.
+     * @description Updates the current Panel's Area with the values in the style, in case there is ever a disconnect between the two. This should never be the case, but it is a contingency. This is for queried Panels, in case they exist. Usually, they won't, but just in case.
      *
      * @memberof Panel
      */
@@ -262,9 +281,9 @@ class Panel extends HTMLElement {
     }
 
     /**
-     * @description: Gets the Panel's (Area's) position, as an object of @type {Coordinate}
+     * @description Gets the Panel's (Area's) position, as an object of @type {Coordinate}
      *
-     * @return  {Coordinate}
+     * @returns {Coordinate}
      * @memberof Panel
      */
     public getPosition(): Coordinate {
@@ -272,7 +291,7 @@ class Panel extends HTMLElement {
     }
 
     /**
-     * @description: Sets the Panel's position from an input set of numbers.
+     * @description Sets the Panel's position from an input set of numbers.
      *
      * @param {number} x - The x (horizontal) coordinate
      * @param {number} y - The y (vertical) coordinate
@@ -306,9 +325,9 @@ class Panel extends HTMLElement {
     }
 
     /**
-     * @description: Gets the size of the Panel ('s Area) as an object of @type {Size}
+     * @description Gets the size of the Panel ('s Area) as an object of @type {Size}
      *
-     * @return {Size}
+     * @returns{Size}
      * @memberof Panel
      */
     public getSize(): Size {
@@ -316,7 +335,7 @@ class Panel extends HTMLElement {
     }
 
     /**
-     * @description: Sets the Panel's size from an input set of numbers.
+     * @description Sets the Panel's size from an input set of numbers.
      *
      * @param {number} width
      * @param {number} height
@@ -334,9 +353,9 @@ class Panel extends HTMLElement {
     }
 
     /**
-     * @description: Returns the Panel's type, as an object of @type {PanelType}
+     * @description Returns the Panel's type, as an object of @type {PanelType}
      *
-     * @return {PanelType}
+     * @returns{PanelType}
      * @memberof Panel
      */
     public getType(): PanelType {
@@ -344,7 +363,7 @@ class Panel extends HTMLElement {
     }
 
     /**
-     *  @description: Sets the Panel Type from a received input of @type {PanelType}
+     *  @description Sets the Panel Type from a received input of @type {PanelType}
      *
      * @param {PanelType} type
      * @memberof Panel
@@ -461,21 +480,7 @@ class Panel extends HTMLElement {
     }
 
     public beginBehaviour(): void {
-        const dateText: HTMLSpanElement | null =
-            this.querySelector(".date-text");
-        const timeText: HTMLSpanElement | null =
-            this.querySelector(".time-text");
-        switch (this.type) {
-            case PanelType.CLOCK:
-                updateTimeAndDate(this, dateText, timeText);
-                break;
-
-            case PanelType.NOTEPAD:
-                break;
-
-            default:
-                break;
-        }
+        this.type.execute(this);
     }
 
     public static defaultPanel(): Panel {
@@ -485,4 +490,4 @@ class Panel extends HTMLElement {
 
 window.customElements.define("panel-element", Panel);
 
-export { PanelInstance, Panel };
+export { Panel, PanelInstance };

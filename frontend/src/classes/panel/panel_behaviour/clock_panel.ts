@@ -1,6 +1,12 @@
-import { Config } from "../config/config.js";
-import * as ConfigEntry from "../config/config_entry.js";
-import { Panel } from "./panel.js";
+import { Config } from "../../config/config.js";
+import * as ConfigEntry from "../../config/config_entry.js";
+import { Panel } from "../panel.js";
+
+function execute(panel: Panel): void {
+    const dateText: HTMLSpanElement | null = panel.querySelector(".date-text");
+    const timeText: HTMLSpanElement | null = panel.querySelector(".time-text");
+    updateTimeAndDate(panel, dateText, timeText);
+}
 
 function formatTime(time: Date, options: Config): string {
     return time.toLocaleTimeString("en-gb", {
@@ -52,4 +58,4 @@ function updateTimeAndDate(
     }, 1000);
 }
 
-export { updateTimeAndDate };
+export { execute };

@@ -51,7 +51,7 @@ function elementAspectRatio(el: HTMLElement): number {
 export {
     cssProperty,
     cssPropertyValue,
-    normalisedValue,
-    normalisedCssPropertyValue,
     elementAspectRatio,
+    normalisedCssPropertyValue,
+    normalisedValue,
 };

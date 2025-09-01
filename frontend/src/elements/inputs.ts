@@ -1,4 +1,4 @@
-import { ConfigChangeEventDetail } from "../classes/config/config";
+import { ConfigChangeEventDetail } from "../classes/config/config.js";
 
 let optionEventListener: (e: MouseEvent) => void,
     previouslyFocusedSelector: HTMLElement,
@@ -151,8 +151,8 @@ function updateSliderStyle(slider: HTMLInputElement): void {
 }
 
 export {
-    addToggleSelectorListeners,
     addDropdownSelectorListeners,
     addRangeSelectorListeners,
     addStringSelectorListeners,
+    addToggleSelectorListeners,
 };
