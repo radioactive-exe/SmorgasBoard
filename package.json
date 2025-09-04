@@ -1,0 +1,20 @@
+{
+    "name": "smorgasboard",
+    "version": "0.0.1",
+    "description": "",
+    "homepage": "https://github.com/radioactive-exe/SmorgasBoard#readme",
+    "bugs": {
+        "url": "https://github.com/radioactive-exe/SmorgasBoard/issues"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/radioactive-exe/SmorgasBoard.git"
+    },
+    "license": "ISC",
+    "author": "Radioactive-exe",
+    "type": "commonjs",
+    "findUnusedExports": {
+        "include": ["**/*/src/**/*"],
+        "exclude": ["**/*/node_modules/**/*"]
+    }
+}

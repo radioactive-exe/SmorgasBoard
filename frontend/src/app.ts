@@ -1,6 +1,6 @@
-
 import { Area } from "./classes/area.js";
-import { Dashboard, Theme } from "./classes/dashboard.js";
+import type { Dashboard } from "./classes/dashboard.js";
+import { Theme } from "./classes/dashboard.js";
 import { Panel } from "./classes/panel/panel.js";
 import { PanelType, PanelTypeConfig } from "./classes/panel/panel_type.js";
 
@@ -25,21 +25,16 @@ import * as utils from "./functions/util.js";
 
 //#region Constant Declarations
 
-const current = {
-    flag: "" as string,
-    panel: Panel.defaultPanel() as Panel,
-};
+const spawnablePanelTypes: [string, PanelType][] =
+    Object.entries(PanelType).slice(2);
 
 const loader: HTMLElement = document.querySelector(".loader") as HTMLElement;
 
 const dashboard: Dashboard = document.querySelector(
     "smorgas-board",
 ) as Dashboard;
-dashboard.load();
 const holdHandler = {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    drag: (e: MouseEvent): void => {
-
+    drag: (_e: MouseEvent): void => {
         return;
     },
     release: releaseHandler,
@@ -72,6 +67,15 @@ const preview: Panel = new Panel(
     PanelTypeConfig.NONE,
 );
 preview.classList.add("final-preview");
+
+const current = {
+    flag: "" as string,
+    panel: preview,
+};
+
+dashboard.load().then(() => {
+    loader.remove();
+})
 
 //#endregion
 
@@ -161,10 +165,15 @@ document.addEventListener("keydown", async (e) => {
             dashboard.toggleEditMode();
             break;
         case "ArrowLeft":
+            const wa = await fetch("/something");
+            const wajs = await wa.json();
+            console.log(wajs);
     }
 });
 
 dashboard.addEventListener("contextmenu", spawnContextMenu);
+
+dashboard.addEventListener("loaded", loader.remove)
 
 editModeButton?.addEventListener("click", () => {
     dashboard.toggleEditMode();
@@ -177,11 +186,11 @@ deletePanelButton?.addEventListener("click", () => {
 
 // ~ Panel Data Functionality
 
-Object.entries(Theme).forEach((theme) => {
+Object.entries(Theme).forEach((theme: [string, Theme]) => {
     const menuEntry: HTMLElement = document.createElement("li");
     menuEntry.classList.add("item");
     menuEntry.id = `${theme[0].toLowerCase()}-entry`;
-    menuEntry.innerHTML = `<span class="item-text">${theme[1].name}</span>`;
+    menuEntry.innerHTML = `<span class="item-text">${theme[1]}</span>`;
     menuEntry.addEventListener("mousedown", () => {
         localStorage.setItem("last-theme", theme[0]);
         dashboard.setCurrentTheme(theme[1]);
@@ -189,12 +198,11 @@ Object.entries(Theme).forEach((theme) => {
     themeMenu.appendChild(menuEntry);
 });
 
-Object.entries(PanelType).forEach((panelType) => {
-    if (panelType[0] == "DEFAULT" || panelType[0] == "PREVIEW") return;
+spawnablePanelTypes.forEach((panelType: [string, PanelType]) => {
     const menuEntry: HTMLElement = document.createElement("li");
     menuEntry.classList.add("item");
     menuEntry.id = `${panelType[0].toLowerCase()}-entry`;
-    menuEntry.innerHTML = `<span class="item-text">${panelType[1].typeName}</span>`;
+    menuEntry.innerHTML = `<span class="item-text">${panelType[1].getName()}</span>`;
     menuEntry.addEventListener("mousedown", () => {
         dashboard.spawnPanelOfType(panelType[1]);
     });
@@ -212,4 +220,5 @@ export {
     loader,
     preview,
     setDocumentHandlers,
+    spawnablePanelTypes,
 };

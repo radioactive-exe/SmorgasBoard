@@ -1,8 +1,7 @@
 import zod from "zod";
 
 import { isValidOption } from "../../../functions/util.js";
-import * as ConfigEntry from "../../config/config_entry.js";
-
+import type * as ConfigEntry from "../../config/config_entry.js";
 
 class PanelTypeConfig {
     public static readonly NONE: undefined = undefined;
@@ -62,14 +61,11 @@ class PanelTypeConfig {
         }),
     );
 
-    private constructor(private config: zod.ZodObject) {
-    }
+    private constructor(private config: zod.ZodObject) {}
 
     public getConfig(): zod.ZodObject {
         return this.config;
     }
 }
 
-export {
-    PanelTypeConfig
-}
+export { PanelTypeConfig };

@@ -1,8 +1,8 @@
-import * as zod from "zod";
+import type * as zod from "zod";
 
-import { Size } from "../area.js";
+import type { Size } from "../area.js";
 
-import { Panel } from "./panel.js";
+import type { Panel } from "./panel.js";
 import { PanelTypeBehaviour } from "./panel_type_properties/panel_type_behaviour.js";
 import { PanelTypeConfig } from "./panel_type_properties/panel_type_config.js";
 import { PanelTypeData } from "./panel_type_properties/panel_type_data.js";
@@ -69,17 +69,16 @@ class PanelType {
     /**
      * @description Creates an instance of PanelType.
      * NOTE: Similarly to themes, these should not be created at runtime and will instead be set types with set data types and names, unless otherwise is required. All the necessary types are declared at @alias (PanelTypes)
-     * @constructor
-     * @param {PanelTypeId} typeId
-     * @param {PanelTypeName} typeName
-     * @param {PanelTypeData} typeData
-     * @param {PanelTypeTemplate} typeTemplate - The panel's template source from the backend. This is stored in an @enum {PanelTypeTemplate}, whose values are strings.
-     * @param {(PanelTypeConfig | undefined)} typeConfig - The panel type's config schema. Either an object of @type {PanelTypeConfig}, which has an object of @type {Config}, or undefined if there is no config for this panel type.
-     * @param {((panel: Panel) => void) | null} typeBehaviour - The panel type's behaviour function, if this Panel has any post-initialisation behaviour, such as a clock, etc.
-     * @param {Size} typeMinSize - The minimum size for this type of panel. If no custom minimum size is declared, the default value {1, 1} is used
-     * @param {Size[]} typeAspectRatios - Any aspect ratios that this panel type has to have. If it can have any aspect ratio, this array is empty.
-     * @param {string?} typeDataSource - If the panel's data type is external, the source/api is stored here
-     * @memberof PanelType
+     * @param typeId
+     * @param typeName
+     * @param typeData
+     * @param typeTemplate - The panel's template source from the backend. This is stored in an enum, {@link PanelTypeTemplate}, whose values are strings.
+     * @param typeConfig - The panel type's config schema. Either an object of {@link PanelTypeConfig}, which has an object of {@link Config}, or undefined if there is no config for this panel type.
+     * @param typeBehaviour - The panel type's behaviour function, if this Panel has any post-initialisation behaviour, such as a clock, etc.
+     * @param typeMinSize - The minimum size for this type of panel. If no custom minimum size is declared, the default value {1, 1} is used
+     * @param typeAspectRatios - Any aspect ratios that this panel type has to have. If it can have any aspect ratio, this array is empty.
+     * @param typeDataSource - If the panel's data type is external, the source/api is stored here
+     * @example
      */
     private constructor(
         private readonly typeId: PanelTypeId,
@@ -155,7 +154,7 @@ class PanelType {
      * @description Returns the panel from @alias (PanelDataTypes) that has @param id as a @member {typeId}
      *
      * @static
-     * @param {number} id
+     * @param id
      * @returns{PanelType}
      * @memberof PanelType
      */

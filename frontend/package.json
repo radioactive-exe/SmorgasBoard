@@ -13,7 +13,6 @@
   "license": "ISC",
   "author": "Radioactive-exe",
   "type": "commonjs",
-  "main": "backend/index.js",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build && api-extractor run --local --verbose",

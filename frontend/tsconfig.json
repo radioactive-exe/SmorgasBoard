@@ -17,6 +17,9 @@
         "declarationDir": "public/dist/lib/types",
         "declarationMap": true
     },
+    "include": [
+        "**/src/**/*"
+    ],
     "exclude": [
         "**/node_modules/*",
         "**/dist/**/*"

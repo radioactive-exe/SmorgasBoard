@@ -9,7 +9,12 @@ import jsdoc from "eslint-plugin-jsdoc";
 import tsdoc from "eslint-plugin-tsdoc";
 
 export default defineConfig([
-    globalIgnores(["eslint.config.mjs", "vite.config.js", "vercel.json", "**/*config.js*"]),
+    globalIgnores([
+        "eslint.config.mjs",
+        "vite.config.js",
+        "vercel.json",
+        "**/*config.js*",
+    ]),
     tseslint.configs.strict,
     tseslint.configs.stylistic,
     importPlugin.flatConfigs.recommended,
@@ -19,8 +24,26 @@ export default defineConfig([
         files: ["**/*.{js,mjs,cjs,ts,mts,cts}"],
         plugins: { tsdoc },
         languageOptions: { globals: globals.browser },
+        extends: [
+            importPlugin.flatConfigs.typescript,
+            importPlugin.flatConfigs.recommended,
+            importPlugin.flatConfigs.errors,
+        ],
         rules: {
             "@typescript-eslint/explicit-function-return-type": "error",
+            "@typescript-eslint/consistent-type-imports": "error",
+            "@typescript-eslint/no-unused-vars": [
+                "error",
+                {
+                    args: "all",
+                    argsIgnorePattern: "^_",
+                    caughtErrors: "all",
+                    caughtErrorsIgnorePattern: "^_",
+                    destructuredArrayIgnorePattern: "^_",
+                    varsIgnorePattern: "^_",
+                    ignoreRestSiblings: true,
+                },
+            ],
             "import/order": [
                 "error",
                 {
@@ -34,6 +57,7 @@ export default defineConfig([
                 },
             ],
             "import/no-unresolved": "off",
+            "import/no-cycle": "error",
             "jsdoc/require-jsdoc": [
                 "warn",
                 {

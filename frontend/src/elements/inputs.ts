@@ -1,4 +1,4 @@
-import { ConfigChangeEventDetail } from "../classes/config/config.js";
+import type { ConfigChangeEventDetail } from "../classes/config/config.js";
 
 let optionEventListener: (e: MouseEvent) => void,
     previouslyFocusedSelector: HTMLElement,

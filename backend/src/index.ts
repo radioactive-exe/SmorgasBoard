@@ -1,4 +1,18 @@
+import { createClient, SupabaseClient } from "@supabase/supabase-js";
+
 import { cors, express, path } from "./declarations.js";
+
+require("dotenv").config();
+
+
+const supabaseUrl: string = process.env.SUPABASE_URL ?? "";
+const supabaseKey: string = process.env.SUPABASE_ANON_KEY ?? "";
+
+if (!supabaseUrl || !supabaseKey) {
+    throw new Error("Supabase Environment Variables not properly configured!");
+}
+
+const supabase: SupabaseClient = createClient(supabaseUrl, supabaseKey);
 
 const definitionsRouter: express.Router = require("./routers/definitions_router");
 
@@ -26,9 +40,14 @@ app.use(
 app.use("/definitions/", definitionsRouter);
 // app.use("/api/", apiRouter);
 
+app.get("/something", () => {
+    console.log(supabase);
+})
+
 app.get("/", (req: express.Request, res: express.Response) => {
     res.sendFile(path.resolve(__dirname + "/../index.html"));
 });
+
 
 app.listen(port, () =>
     console.log(

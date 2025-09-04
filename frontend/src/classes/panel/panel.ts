@@ -5,9 +5,8 @@
  * {@link https://github.com/radioactive-exe | GitHub Profile}
  */
 
-
 /** File Header Delimiter. */
-import * as zod from "zod";
+import type * as zod from "zod";
 
 import {
     commonHandler,
@@ -26,21 +25,17 @@ import {
     snapElementToTarget,
 } from "../../functions/manip.js";
 
-import { Area, AreaInstance, Coordinate, Size } from "../area.js";
-
-import {
-    Config,
-    ConfigChangeEventDetail,
-    getDefaultConfig,
-} from "../config/config.js";
-
-import * as ConfigEntry from "../config/config_entry.js";
+import type { AreaInstance, Coordinate, Size } from "../area.js";
+import { Area } from "../area.js";
+import type { Config, ConfigChangeEventDetail } from "../config/config.js";
+import { getDefaultConfig } from "../config/config.js";
+import type * as ConfigEntry from "../config/config_entry.js";
 import { configMenu } from "../config/config_menu_builder.js";
 
 import { PanelType, PanelTypeConfig, PanelTypeTemplate } from "./panel_type.js";
 
 /**
- * @description A type that defines the structure of a @type {Panel} in its stored format, either in localStorage or the cloud.
+ * A type that defines the structure of a @type {Panel} in its stored format, either in localStorage or the cloud.
  */
 interface PanelInstance {
     panel_id: number;
@@ -56,15 +51,14 @@ interface PanelFetchResponse {
 }
 
 /**
- * @description A custom HTMLElement, implements many methods for custom use with the program to make work more efficient
+ * A custom HTMLElement, implements many methods for custom use with the program to make work more efficient
  *
  * {@label Panel}
  * @extends {HTMLElement}
  */
 class Panel extends HTMLElement {
     /**
-     * @description Creates an instance of a Panel.
-     *
+     * Creates an instance of a Panel.
      *
      * @constructor
      * @param {Area} area
@@ -87,7 +81,7 @@ class Panel extends HTMLElement {
         this.dashboardId = dashboardId;
         this.dataset.panelId = dashboardId.toString();
         this.dataset.panelType = type.toString();
-        this.init(config, body);
+        if (type != PanelType.PREVIEW) this.init(config, body);
     }
 
     private init(existentConfig?: Config, body?: string): void {
@@ -108,10 +102,6 @@ class Panel extends HTMLElement {
     private initBase(): Promise<void> {
         // eslint-disable-next-line no-async-promise-executor
         return new Promise(async (resolve) => {
-            if (this.type == PanelType.PREVIEW) {
-                resolve();
-                return;
-            }
             const baseResponse: PanelFetchResponse = await fetch(
                 PanelTypeTemplate.BASE,
             ).then((res: Response) => res.json());
@@ -132,17 +122,12 @@ class Panel extends HTMLElement {
     }
 
     /**
-     * @description Initiates the panel's body based on its template
-     *
+     * Initiates the panel's body based on its template
      * @memberof Panel
      */
     private initTemplate(): Promise<void> {
         // eslint-disable-next-line no-async-promise-executor
         return new Promise(async (resolve) => {
-            if (this.type == PanelType.PREVIEW) {
-                resolve();
-                return;
-            }
             const response: PanelFetchResponse = await fetch(
                 this.type.getTemplate(),
             ).then((res: Response) => res.json());
@@ -169,61 +154,64 @@ class Panel extends HTMLElement {
             const configSchema: zod.ZodObject | undefined =
                 this.type.getConfigSchema();
 
-            if (configSchema != PanelTypeConfig.NONE) {
-                const configContainer: HTMLElement =
-                    this.shadowRoot?.querySelector(".config") as HTMLElement;
-                const configMenuDiv: HTMLElement =
-                    configContainer?.querySelector(
-                        ".config-menu",
-                    ) as HTMLElement;
-                const configButton: HTMLElement =
-                    configContainer?.querySelector(
-                        ".config-button",
-                    ) as HTMLElement;
+            if (configSchema == PanelTypeConfig.NONE) {
+                resolve();
+                return;
+            }
 
-                configContainer.removeAttribute("hidden");
-                configButton.removeAttribute("hidden");
+            const configContainer: HTMLElement = this.shadowRoot?.querySelector(
+                ".config",
+            ) as HTMLElement;
+            const configMenuDiv: HTMLElement = configContainer?.querySelector(
+                ".config-menu",
+            ) as HTMLElement;
+            const configButton: HTMLElement = configContainer?.querySelector(
+                ".config-button",
+            ) as HTMLElement;
 
-                if (existentConfig) {
-                    try {
-                        this.config = configSchema.parse(existentConfig);
-                    } catch (error) {
-                        console.error(
-                            error,
-                            "Invalid Panel Config provided. Please ensure the config is for the appropriate Panel Type.",
-                        );
-                    }
-                } else {
-                    this.config = getDefaultConfig(configSchema);
+            configContainer.removeAttribute("hidden");
+            configButton.removeAttribute("hidden");
+
+            if (existentConfig) {
+                try {
+                    this.config = configSchema.parse(existentConfig);
+                } catch (error) {
+                    console.error(
+                        error,
+                        "Invalid Panel Config provided. Please ensure the config is for the appropriate Panel Type.",
+                    );
+                }
+            } else {
+                this.config = getDefaultConfig(configSchema);
+            }
+
+            configMenuDiv.appendChild(configMenu(this.config as Config));
+
+            configButton.addEventListener("click", () => {
+                this.classList.toggle("configuring");
+                if (this.classList.contains("configuring")) {
+                    current.panel = this;
+                    this.moveToCentre();
+                }
+            });
+
+            configMenuDiv.addEventListener("configchange", (e: Event) => {
+                const customEventParsed: CustomEvent<ConfigChangeEventDetail> =
+                    e as CustomEvent<ConfigChangeEventDetail>;
+                if (this.config) {
+                    const val = customEventParsed.detail.value;
+                    (
+                        this.config[
+                            customEventParsed.detail.setting
+                        ] as ConfigEntry.Entry
+                    ).value = val;
                 }
 
-                configMenuDiv.appendChild(configMenu(this.config as Config));
+                this.dispatchEvent(
+                    new CustomEvent("updatepanel", { bubbles: true }),
+                );
+            });
 
-                configButton.addEventListener("click", () => {
-                    this.classList.toggle("configuring");
-                    if (this.classList.contains("configuring")) {
-                        current.panel = this;
-                        this.moveToCentre();
-                    } else this.setArea(this.getArea());
-                });
-
-                configMenuDiv.addEventListener("configchange", (e: Event) => {
-                    const customEventParsed: CustomEvent<ConfigChangeEventDetail> =
-                        e as CustomEvent<ConfigChangeEventDetail>;
-                    if (this.config) {
-                        const val = customEventParsed.detail.value;
-                        (
-                            this.config[
-                                customEventParsed.detail.setting
-                            ] as ConfigEntry.Entry
-                        ).value = val;
-                    }
-
-                    this.dispatchEvent(
-                        new CustomEvent("updatepanel", { bubbles: true }),
-                    );
-                });
-            }
             resolve();
         });
     }
@@ -233,8 +221,7 @@ class Panel extends HTMLElement {
     }
 
     /**
-     * @description Gets the Area of the current Panel, as an object of @type {Area}
-     *
+     * Gets the Area of the current Panel, as an object of @type {Area}
      * @returns {Area}
      * @memberof Panel
      */
@@ -243,24 +230,17 @@ class Panel extends HTMLElement {
     }
 
     /**
-     * @description Sets the Panel's Area with a complete @type {Area} input
-     *
+     * Sets the Panel's Area with a complete @type {Area} input
      * @param {Area} other
      * @memberof Panel
      */
     public setArea(other: Area): void {
-        this.area = new Area(other.getCoordinates(), other.getSize());
-
-        this.style.setProperty("--x", other.getAbsoluteX() + "px");
-        this.style.setProperty("--y", other.getAbsoluteY() + "px");
-
-        this.style.setProperty("--width", other.getAbsoluteWidth() + "px");
-        this.style.setProperty("--height", other.getAbsoluteHeight() + "px");
+        this.setPosition(other.getAbsoluteX(), other.getAbsoluteY());
+        this.setSize(other.getAbsoluteWidth(), other.getAbsoluteHeight());
     }
 
     /**
-     * @description Updates the current Panel's Area with the values in the style, in case there is ever a disconnect between the two. This should never be the case, but it is a contingency. This is for queried Panels, in case they exist. Usually, they won't, but just in case.
-     *
+     * Updates the current Panel's Area with the values in the style, in case there is ever a disconnect between the two. This should never be the case, but it is a contingency. This is for queried Panels, in case they exist. Usually, they won't, but just in case.
      * @memberof Panel
      */
     public updateArea(): void {
@@ -281,8 +261,7 @@ class Panel extends HTMLElement {
     }
 
     /**
-     * @description Gets the Panel's (Area's) position, as an object of @type {Coordinate}
-     *
+     * Gets the Panel's (Area's) position, as an object of @type {Coordinate}
      * @returns {Coordinate}
      * @memberof Panel
      */
@@ -291,8 +270,7 @@ class Panel extends HTMLElement {
     }
 
     /**
-     * @description Sets the Panel's position from an input set of numbers.
-     *
+     * Sets the Panel's position from an input set of numbers.
      * @param {number} x - The x (horizontal) coordinate
      * @param {number} y - The y (vertical) coordinate
      * @memberof Panel
@@ -325,8 +303,7 @@ class Panel extends HTMLElement {
     }
 
     /**
-     * @description Gets the size of the Panel ('s Area) as an object of @type {Size}
-     *
+     * Gets the size of the Panel ('s Area) as an object of @type {Size}
      * @returns{Size}
      * @memberof Panel
      */
@@ -335,8 +312,7 @@ class Panel extends HTMLElement {
     }
 
     /**
-     * @description Sets the Panel's size from an input set of numbers.
-     *
+     * Sets the Panel's size from an input set of numbers.
      * @param {number} width
      * @param {number} height
      * @memberof Panel
@@ -353,8 +329,7 @@ class Panel extends HTMLElement {
     }
 
     /**
-     * @description Returns the Panel's type, as an object of @type {PanelType}
-     *
+     * Returns the Panel's type, as an object of @type {PanelType}
      * @returns{PanelType}
      * @memberof Panel
      */
@@ -363,8 +338,7 @@ class Panel extends HTMLElement {
     }
 
     /**
-     *  @description Sets the Panel Type from a received input of @type {PanelType}
-     *
+     *  Sets the Panel Type from a received input of @type {PanelType}
      * @param {PanelType} type
      * @memberof Panel
      */

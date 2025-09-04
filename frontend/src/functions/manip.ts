@@ -1,6 +1,7 @@
-import { Area, Coordinate, Offset, Size } from "../classes/area.js";
+import type { Coordinate, Offset, Size } from "../classes/area.js";
+import { Area } from "../classes/area.js";
 import { Dashboard } from "../classes/dashboard.js";
-import { Panel } from "../classes/panel/panel.js";
+import type { Panel } from "../classes/panel/panel.js";
 
 import * as get from "./accessors.js";
 import * as math from "./math.js";

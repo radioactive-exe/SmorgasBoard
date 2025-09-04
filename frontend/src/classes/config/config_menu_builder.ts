@@ -7,7 +7,7 @@ import {
 
 import { getOptionLabelFromList } from "../../functions/util.js";
 
-import { Config } from "./config.js";
+import type { Config } from "./config.js";
 import * as ConfigEntry from "./config_entry.js";
 
 function configMenu(config: Config): HTMLUListElement {

@@ -379,6 +379,10 @@ smorgas-board {
 
     &:has(.being-manipulated) panel-element:not(.being-manipulated) {
         pointer-events: none;
+
+        &::part(config-button) {
+            pointer-events: none;
+        }
     }
 }
 

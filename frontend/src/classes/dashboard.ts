@@ -8,15 +8,17 @@
 
 /** File Header Delimiter. */
 
-import { current, loader } from "../app.js";
+import { current, spawnablePanelTypes } from "../app.js";
 import { AlertLevel, spawnAlert } from "../elements/alert.js";
 import { deletePanelSection } from "../elements/context_menu.js";
 import * as get from "../functions/accessors.js";
 import * as utils from "../functions/util.js";
 
-import { Area, Size } from "./area.js";
+import type { Size } from "./area.js";
+import { Area } from "./area.js";
 import { getDefaultConfig } from "./config/config.js";
-import { Panel, PanelInstance } from "./panel/panel.js";
+import type { PanelInstance } from "./panel/panel.js";
+import { Panel } from "./panel/panel.js";
 import { PanelType } from "./panel/panel_type.js";
 import { Theme } from "./theme.js";
 
@@ -61,9 +63,26 @@ class Dashboard extends HTMLElement {
      */
     public constructor() {
         super();
+        this.panels = [];
 
-        const shadow = this.attachShadow({ mode: "open" });
+        this.attachShadow({ mode: "open" });
+        this.populateCells();
 
+        const storedTheme: string | null = localStorage.getItem("last-theme");
+        if (storedTheme) {
+            this.setCurrentTheme(Theme[storedTheme as keyof typeof Theme]);
+        }
+
+    }
+
+    /**
+     * Fills the Dashboard with cells.
+     * @remarks
+     * The Dashboard gets divided into a visual grid with cells for all the rows and columns.
+     */
+    private populateCells(): void {
+        if (!this.shadowRoot) return;
+        this.shadowRoot.innerHTML = "";
         const cells = document.createElement("div");
         cells.part = "cell-container";
         for (let i = 0; i < Dashboard.getRows() * Dashboard.getCols(); i++) {
@@ -72,12 +91,7 @@ class Dashboard extends HTMLElement {
             cell.part = "cell";
             cells.append(cell);
         }
-        shadow.append(cells, document.createElement("slot"));
-
-        const storedTheme = localStorage.getItem("last-theme");
-        if (storedTheme) {
-            this.setCurrentTheme(Theme[storedTheme as keyof typeof Theme]);
-        }
+        this.shadowRoot.append(cells, document.createElement("slot"));
     }
 
     /**
@@ -161,11 +175,7 @@ class Dashboard extends HTMLElement {
     public spawnPanelOfType(panelType: PanelType): void {
         let finalArea: Area = Area.INIT;
         let slotFound = false;
-        for (
-            let y = 0;
-            y <= Dashboard.getRows() - panelType.getMinHeight();
-            y++
-        ) {
+        for (let y = 0; y <= Dashboard.getRows() - panelType.getMinHeight(); y++) {
             for (
                 let x = 0;
                 x <= Dashboard.getCols() - panelType.getMinWidth();
@@ -238,8 +248,6 @@ class Dashboard extends HTMLElement {
 
     private loadStoredPanels(): Promise<void> {
         return new Promise((resolve) => {
-            this.panels = [];
-
             const loadedIds: number[] = JSON.parse(
                 localStorage.getItem("free-panel-ids") ?? "[]",
             );
@@ -272,21 +280,13 @@ class Dashboard extends HTMLElement {
                     "No stored panels! Initiating base board with a random Panel. To Add more, Right Click and hover on 'Add Panel', and have fun!",
                     AlertLevel.INFO,
                 );
-
-                const possiblePanelTypes: PanelType[] = Object.entries(
-                    PanelType,
-                )
-                    .slice(2)
-                    .map((type) => {
-                        return type[1];
-                    });
+                this.freeIds.clear();
 
                 this.spawnPanelOfType(
-                    possiblePanelTypes[
-                        Math.floor(Math.random() * possiblePanelTypes.length)
-                    ],
+                    spawnablePanelTypes[
+                        Math.floor(Math.random() * spawnablePanelTypes.length)
+                    ][1],
                 );
-                loader.remove();
                 resolve();
                 return;
             }
@@ -304,17 +304,15 @@ class Dashboard extends HTMLElement {
                     i.content,
                 );
 
+                this.spawnPanel(panelToSpawn, false);
+
                 panelToSpawn.addEventListener("finished-loading", () => {
                     numOfPanels++;
                     if (numOfPanels == loadedPanels.length) {
-                        loader.remove();
+                        resolve();
                     }
                 });
-
-                this.spawnPanel(panelToSpawn, false);
             });
-
-            resolve();
         });
     }
 

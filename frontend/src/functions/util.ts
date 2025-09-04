@@ -1,7 +1,7 @@
 
 import { dashboard, preview } from "../app.js";
-import { Area } from "../classes/area.js";
-import { ListSelectionOption } from "../classes/config/config_entry.js";
+import type { Area } from "../classes/area.js";
+import type { ListSelectionOption } from "../classes/config/config_entry.js";
 import { Panel } from "../classes/panel/panel.js";
 
 import * as get from "./accessors.js";

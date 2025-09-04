@@ -1,6 +1,6 @@
-import { Config } from "../../config/config.js";
-import * as ConfigEntry from "../../config/config_entry.js";
-import { Panel } from "../panel.js";
+import type { Config } from "../../config/config.js";
+import type * as ConfigEntry from "../../config/config_entry.js";
+import type { Panel } from "../panel.js";
 
 function execute(panel: Panel): void {
     const dateText: HTMLSpanElement | null = panel.querySelector(".date-text");
