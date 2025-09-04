@@ -4,7 +4,6 @@ import { cors, express, path } from "./declarations.js";
 
 require("dotenv").config();
 
-
 const supabaseUrl: string = process.env.SUPABASE_URL ?? "";
 const supabaseKey: string = process.env.SUPABASE_ANON_KEY ?? "";
 
@@ -30,24 +29,22 @@ const allowedOrigins: string[] = [
     "http://localhost:3003",
 ];
 
-app.use(
-    cors({
-        origin: true,
-        credentials: true,
-    })
-);
+app.use(cors(
+    {
+        origin: allowedOrigins
+    }
+));
 
 app.use("/definitions/", definitionsRouter);
 // app.use("/api/", apiRouter);
 
 app.get("/something", () => {
     console.log(supabase);
-})
+});
 
 app.get("/", (req: express.Request, res: express.Response) => {
     res.sendFile(path.resolve(__dirname + "/../index.html"));
 });
-
 
 app.listen(port, () =>
     console.log(

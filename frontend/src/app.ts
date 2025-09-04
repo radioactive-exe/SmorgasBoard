@@ -165,7 +165,9 @@ document.addEventListener("keydown", async (e) => {
             dashboard.toggleEditMode();
             break;
         case "ArrowLeft":
-            const wa = await fetch("/something");
+            const wa = await fetch(
+                "https://smorgas-board-backend.vercel.app/something",
+            );
             const wajs = await wa.json();
             console.log(wajs);
     }
