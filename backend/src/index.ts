@@ -2,9 +2,7 @@ import { createClient, SupabaseClient } from "@supabase/supabase-js";
 
 import { cors, express, path } from "./declarations.js";
 
-require("dotenv").config({
-    path: "../"
-});
+require("dotenv").config();
 
 const supabaseUrl: string = process.env.SUPABASE_URL ?? "";
 const supabaseKey: string = process.env.SUPABASE_ANON_KEY ?? "";
