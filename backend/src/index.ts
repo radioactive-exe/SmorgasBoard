@@ -43,9 +43,11 @@ app.get("/", (req: express.Request, res: express.Response) => {
     res.sendFile(path.resolve(__dirname + "/../index.html"));
 });
 
-app.get("/something", (req: express.Request, res: express.Response) => {
+app.get("/something", async (req: express.Request, res: express.Response) => {
+
+    const {data , error } = await supabase.from("test_table").select();
     // console.log(supabase);
-    res.send(supabase.from("test_table").select());
+    res.send(data);
 });
 
 app.listen(port, () =>

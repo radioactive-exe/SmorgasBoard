@@ -169,7 +169,7 @@ document.addEventListener("keydown", async (e) => {
             break;
         case "ArrowLeft":
             const wa = await fetch(
-                "/something",
+                "https://smorgas-board-backend.vercel.app/something",
             );
             const wajs = await wa.json();
             console.log(wajs);
