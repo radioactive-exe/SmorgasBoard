@@ -171,7 +171,8 @@ document.addEventListener("keydown", async (e) => {
             const wa = await fetch(
                 "https://smorgas-board-backend.vercel.app/something",
             ).then(res => res.json());
-            console.log(wa);
+            const wajs = await wa.json();
+            console.log(wajs);
     }
 });
 
