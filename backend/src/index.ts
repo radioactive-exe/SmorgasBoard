@@ -43,7 +43,7 @@ app.get("/", (req: express.Request, res: express.Response) => {
     res.sendFile(path.resolve(__dirname + "/../index.html"));
 });
 
-app.get("/something", (res: express.Response) => {
+app.get("/something", (req: express.Request, res: express.Response) => {
     // console.log(supabase);
     res.send(supabase);
 });
