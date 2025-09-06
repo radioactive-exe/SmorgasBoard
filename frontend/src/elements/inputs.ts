@@ -57,6 +57,7 @@ function addDropdownSelectorListeners(selector: HTMLElement): void {
                             "configchange",
                             {
                                 bubbles: true,
+                                composed: true,
                                 detail: {
                                     setting: selector.dataset
                                         .configProperty as string,
@@ -85,6 +86,7 @@ function addToggleSelectorListeners(selector: HTMLElement): void {
             selector.dispatchEvent(
                 new CustomEvent<ConfigChangeEventDetail>("configchange", {
                     bubbles: true,
+                    composed: true,
                     detail: {
                         setting: selector.dataset.configProperty as string,
                         value: checkbox.checked,
@@ -114,6 +116,7 @@ function addRangeSelectorListeners(selector: HTMLElement): void {
         selector.dispatchEvent(
             new CustomEvent<ConfigChangeEventDetail>("configchange", {
                 bubbles: true,
+                composed: true,
                 detail: {
                     setting: selector.dataset.configProperty as string,
                     value: parseFloat(slider.value) as number,
@@ -131,6 +134,7 @@ function addStringSelectorListeners(selector: HTMLElement): void {
         selector.dispatchEvent(
             new CustomEvent<ConfigChangeEventDetail>("configchange", {
                 bubbles: true,
+                composed: true,
                 detail: {
                     setting: selector.dataset.configProperty as string,
                     value: textInput.value,

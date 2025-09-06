@@ -6,10 +6,10 @@ import { cors, express, path } from "./declarations.js";
 
 
 const supabaseUrl: string = process.env.SUPABASE_URL ?? "";
-const supabaseKey: string = process.env.SUPABASE_ANON_KEY ?? "";
+const supabaseKey: string = process.env.SUPABASE_KEY ?? "";
 
 if (!supabaseUrl || !supabaseKey) {
-    throw new Error("Supabase Environment Variables not properly configured!");
+    throw new Error("Supabase environment variables not properly configured!");
 }
 
 const supabase: SupabaseClient = createClient(supabaseUrl, supabaseKey);
@@ -39,12 +39,13 @@ app.use(cors(
 app.use("/definitions/", definitionsRouter);
 // app.use("/api/", apiRouter);
 
-app.get("/something", () => {
-    console.log(supabase);
-});
-
 app.get("/", (req: express.Request, res: express.Response) => {
     res.sendFile(path.resolve(__dirname + "/../index.html"));
+});
+
+app.get("something", (res: express.Response) => {
+    // console.log(supabase);
+    res.send(supabase);
 });
 
 app.listen(port, () =>

@@ -74,8 +74,8 @@ const current = {
 };
 
 dashboard.load().then(() => {
-    loader.remove();
-})
+    finishLoading(loader);
+});
 
 //#endregion
 
@@ -145,6 +145,9 @@ function setDocumentHandlers(): void {
     document.addEventListener("mouseup", holdHandler.release);
 }
 
+function finishLoading(loader: HTMLElement): void {
+    loader.classList.add("despawning");
+}
 // ~ Listener Initialisation
 
 window.addEventListener("resize", () => {
@@ -166,7 +169,7 @@ document.addEventListener("keydown", async (e) => {
             break;
         case "ArrowLeft":
             const wa = await fetch(
-                "https://smorgas-board-backend.vercel.app/something",
+                "/something",
             );
             const wajs = await wa.json();
             console.log(wajs);
@@ -175,7 +178,7 @@ document.addEventListener("keydown", async (e) => {
 
 dashboard.addEventListener("contextmenu", spawnContextMenu);
 
-dashboard.addEventListener("loaded", loader.remove)
+// dashboard.addEventListener("loaded", loader.remove);
 
 editModeButton?.addEventListener("click", () => {
     dashboard.toggleEditMode();
@@ -224,3 +227,4 @@ export {
     setDocumentHandlers,
     spawnablePanelTypes,
 };
+

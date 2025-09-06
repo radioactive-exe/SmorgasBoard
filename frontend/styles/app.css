@@ -438,8 +438,6 @@ panel-element {
             transform-style: preserve-3d;
 
             & .date {
-                width: 100%;
-
                 & span {
                     display: block;
                     width: 100%;
@@ -451,12 +449,11 @@ panel-element {
                 display: inherit;
                 justify-content: inherit;
                 align-items: inherit;
-                width: 100%;
 
                 & span {
                     display: block;
                     width: 100%;
-                    font-size: clamp(calc(var(--med-font) * 0.7), var(--med-font), 50cqw);
+                    font-size: calc(clamp(calc(var(--med-font) * 0.7), var(--med-font), 50cqw * var(--size-coeff, 1)) );
                 }
             }
         }
@@ -799,6 +796,8 @@ input:-webkit-autofill:active {
     justify-content: center;
     align-items: center;
     background: var(--dashboard-bg);
+    transition: all var(--quick-transition-time) ease;
+    clip-path: circle(100% at center);
 
     & .ball-container {
         position: relative;
@@ -899,6 +898,10 @@ input:-webkit-autofill:active {
         border-radius: calc(var(--small-border-radius) * 3);
         filter: drop-shadow(0 0 1rem var(--input-secondary));
     }
+}
+
+.despawning {
+    clip-path: circle(0% at center);
 }
 
 /* region Keyframes */
