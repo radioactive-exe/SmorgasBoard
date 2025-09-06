@@ -45,7 +45,7 @@ app.get("/", (req: express.Request, res: express.Response) => {
 
 app.get("/something", (req: express.Request, res: express.Response) => {
     // console.log(supabase);
-    res.send(supabase);
+    res.send(supabase.from("test_table").select());
 });
 
 app.listen(port, () =>
