@@ -45,7 +45,7 @@ app.get("/", (req: express.Request, res: express.Response) => {
 
 app.get("/something", async (req: express.Request, res: express.Response) => {
 
-    const {data , error } = await supabase.from("test_table").select();
+    const {data , error } = await supabase.from("test_table").insert({title: "Weee", method: "Shake and bake", rating: 6});
     // console.log(supabase);
     res.send(data);
 });
