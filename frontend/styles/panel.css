@@ -1,0 +1,280 @@
+@import url("./app.css");
+
+smorgas-board panel-element {
+    position: fixed;
+    top: var(--y);
+    left: var(--x);
+    overflow: visible;
+    width: var(--width);
+    height: var(--height);
+    transform: perspective(200rem);
+    transform-style: preserve-3d;
+
+    /* clip-path: circle(0 at 50% 50%);
+        left: 0;
+        top: 0; */
+
+    &::before {
+        content: '';
+        position: absolute;
+        inset: var(--panel-body-inset);
+        border-radius: var(--panel-border-radius);
+        opacity: 0;
+        transition: all var(--panel-transition-time) ease;
+        backdrop-filter: url("#glass-distortion");
+    }
+
+    &::part(panel-body) {
+        position: absolute;
+        inset: var(--panel-body-inset);
+        width: calc(100% - 2 * var(--panel-body-inset));
+        height: calc(100% - 2 * var(--panel-body-inset));
+        border-radius: var(--panel-border-radius);
+        background: var(--panel-bg);
+        transition: all var(--panel-transition-time) ease;
+        transform: perspective(200rem) rotateX(var(--rotate-x)) rotateY(var(--rotate-y));
+        transform-style: preserve-3d;
+    }
+
+    &:hover::part(panel-body) {
+        filter: drop-shadow(var(--shadow-offset-x) var(--shadow-offset-y) 0.2rem var(--shadow-col));
+    }
+
+    &::part(panel-body in-motion) {
+        transition: all 0s;
+        animation: lerp-transition forwards var(--med-transition-time) ease;
+    }
+
+    &::part(panel-content) {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: var(--panel-content-padding);
+        border-radius: var(--panel-border-radius);
+        transition: all var(--panel-transition-time) ease;
+        container-type: inline-size;
+        transform-style: preserve-3d;
+
+        /* overflow: hidden; */
+        /* transform: perspective(200rem) translateZ(5rem); */
+    }
+
+    &::part(handle) {
+        position: absolute;
+        box-sizing: border-box;
+        width: 0;
+        height: 0;
+        padding: 0;
+        border-radius: var(--small-border-radius);
+        background: hsl(from var(--panel-handle-bg) h s l / 0.6);
+        cursor: grab;
+        user-select: none;
+        transition: var(--panel-transition-time) var(--jelly-function);
+        backdrop-filter: blur(0.2rem) url("#glass-distortion");
+    }
+
+    &::part(handle):hover {
+        width: var(--square-handle-full-side);
+        height: var(--square-handle-full-side);
+    }
+
+    &::part(resize-handle) {
+        right: 0;
+        bottom: 0;
+        transform: rotate(90deg);
+    }
+
+    &::part(handle-icon) {
+        width: 100%;
+        pointer-events: none;
+    }
+
+    &::part(button-icon) {
+        width: 100%;
+        pointer-events: none;
+    }
+
+    &::part(config) {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        flex-flow: column nowrap;
+        align-items: end;
+        overflow: hidden;
+        border-radius: inherit;
+        font-size: var(--small-font);
+        pointer-events: none;
+    }
+
+    &::part(config-button) {
+        position: absolute;
+        top: 0.5rem;
+        right: 0.5rem;
+        z-index: 2;
+        box-sizing: border-box;
+        width: 0;
+        height: 0;
+        padding: 0;
+        border-radius: var(--panel-border-radius);
+        cursor: pointer;
+        pointer-events: all;
+        user-select: none;
+        transition: var(--panel-transition-time) ease;
+    }
+
+    &::part(config-button):hover {
+        transform: rotate(90deg);
+    }
+
+    &::part(config-menu) {
+        position: absolute;
+        inset: 0;
+        overflow: auto;
+        background: hsl(from var(--panel-bg) h s calc(l * 0.9));
+        pointer-events: all;
+        transition: all calc(2 * var(--panel-transition-time)) var(--bezier-function);
+        clip-path: circle(0% at center);
+    }
+
+    &::part(config-menu-line) {
+        display: flex;
+        flex-flow: row;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    &:hover {
+        z-index: 5;
+    }
+}
+
+smorgas-board panel-element.being-manipulated {
+    z-index: 5;
+    pointer-events: none;
+
+    &::before {
+        opacity: 1;
+    }
+
+    &::part(panel-body) {
+        background: rgb(from var(--panel-bg) r g b / var(--panel-manip-opacity));
+        box-shadow: inset 0.2rem 0.2rem 0.5rem 0.1rem hsl(from var(--panel-bg) h s calc(l * 2) / 0.4), inset -0.2rem -0.2rem 0.5rem 0.1rem hsl(from var(--panel-bg) h s calc(l * 0.4) / 0.4);
+        filter: drop-shadow(1.5rem 1.5rem 2rem var(--shadow-col));
+        backdrop-filter: blur(1px);
+    }
+
+    &::part(panel-content) {
+        opacity: calc(var(--panel-manip-opacity) * 0.8);
+        filter: blur(1px);
+    }
+
+    &::part(handle) {
+        cursor: grabbing;
+    }
+
+    &::part(config-button) {
+        width: 0;
+        height: 0;
+        padding: 0;
+    }
+
+    &.being-dragged {
+        transition: all var(--panel-transition-time) ease, left 0s, top 0s;
+        scale: 1.1;
+
+        &::part(drag-handle) {
+            width: var(--square-handle-full-side);
+            height: var(--square-handle-full-side);
+            opacity: var(--panel-manip-opacity);
+        }
+
+        &::part(resize-handle) {
+            width: 0;
+            height: 0;
+            padding: 0;
+        }
+    }
+
+    &.being-resized {
+        transition: all var(--panel-transition-time) ease, width 0s, height 0s;
+
+        &::part(resize-handle) {
+            width: var(--square-handle-full-side);
+            height: var(--square-handle-full-side);
+            opacity: var(--panel-manip-opacity);
+        }
+
+        &::part(drag-handle) {
+            width: 0;
+            height: 0;
+            padding: 0;
+        }
+    }
+}
+
+smorgas-board panel-element.configuring {
+    z-index: 10;
+
+    &::part(handle) {
+        width: 0;
+        height: 0;
+        padding: 0;
+    }
+
+    &::part(panel-body) {
+        width: 80vw;
+        height: 80vh;
+        transform: translate(var(--x-vector), var(--y-vector));
+    }
+
+    &::part(config-button) {
+        top: 2rem;
+        right: 2rem;
+        transform: rotate(180deg);
+    }
+
+    &::part(config-button):hover {
+        transform: rotate(90deg);
+    }
+
+    &::part(config-menu) {
+        padding: var(--panel-content-padding);
+        padding-top: calc(var(--panel-content-padding) * 2);
+        clip-path: circle(100% at center);
+    }
+
+}
+
+smorgas-board panel-element.snapping:not(.final-preview) {
+    z-index: 1;
+    transition: all var(--panel-transition-time) var(--bezier-function);
+}
+
+smorgas-board panel-element.final-preview {
+    position: absolute;
+    top: var(--y);
+    left: var(--x);
+    width: var(--width);
+    height: var(--height);
+    border-radius: 2rem;
+    background: var(--preview-bg);
+    opacity: 0;
+    transition: all var(--panel-transition-time) ease, left 0s, top 0s, width 0s, height 0s;
+
+    /* transform: translateX(var(--x)) translateY(var(--y)); */
+
+    &:has(~ .being-dragged),
+    &:has(~ .being-resized) {
+        opacity: 1;
+    }
+
+    &.snapping {
+        transition: all var(--panel-transition-time) ease;
+    }
+
+    &.visible {
+        opacity: 1;
+    }
+}

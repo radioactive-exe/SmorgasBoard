@@ -222,7 +222,6 @@ class Dashboard extends HTMLElement {
         panel.addEventListener("updatepanel", () => {
             this.updateStoredPanels();
         });
-        current.panel = panel;
         this.append(panel);
         this.panels.push(panel);
         if (updateStored) this.updateStoredPanels();

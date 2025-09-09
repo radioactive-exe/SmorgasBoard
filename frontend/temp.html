@@ -11,11 +11,11 @@
             href="https://fonts.googleapis.com/css2?family=Google+Sans+Code:ital,wght@0,300..800;1,300..800&family=Spline+Sans+Mono:ital,wght@0,300..700;1,300..700&display=swap"
             rel="stylesheet"
         />
-        <link rel="stylesheet" href="./themes/default.css" />
+        <link rel="stylesheet" href="./themes/console.css" />
         <link rel="stylesheet" href="./styles/app.css" />
         <title>Testing</title>
     </head>
-    <body>
+    <body style="background: var(--dashboard-bg)">
         <div class="panel">
             <!-- <div class="drop-area">
                 <div class="icon image-drop-icon"></div>
@@ -28,6 +28,28 @@
                     >
                 </p>
             </div> -->
+        </div>
+
+        <div class="personal-nav">
+            <div class="personal-nav-menu">
+                <div class="auth-options">
+                    <div class="anon-options auth-options-section">
+                        <h2 id="anon-title">
+                            Want to use your dashboard anywhere?
+                        </h2>
+                        <p><span class="clickable">Sign Up</span></p>
+                        <p><span class="clickable">Log In</span></p>
+                    </div>
+                    <div class="logged-in-options auth-options-section" style="display: none">
+                        <h2 id="logged-in-title">Hello, <span class="username">{username}</span>!</h2>
+                        <p><span class="clickable">Log Out</span></p>
+                    </div>
+                </div>
+            </div>
+            <div class="button glassy">
+                <div class="icon personal-icon"></div>
+                <div class="icon question-icon"></div>
+            </div>
         </div>
 
         <script type="module" src="./temp.js"></script>

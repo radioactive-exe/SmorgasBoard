@@ -46,6 +46,100 @@
             </ul>
         </div>
 
+        <form action="" class="selector string-selector" id="auth-form">
+            <button type="button" class="button" id="close-form-button">
+                    Maybe Later
+                    <div class="icon exit-icon"></div>
+                </button>
+            <div class="form-title-container">
+                <h1 id="register-title">Join the Family!</h1>
+                <h1 id="login-title">Welcome Back!</h1>
+            </div>
+            <label class="string-selector-label" id="username-selector">
+                <input
+                    type="text"
+                    name="username"
+                    id="username"
+                    class="string-selector-input"
+                />
+                <span class="string-selector-label-text">Username</span>
+            </label>
+            <label class="string-selector-label" id="email-selector">
+                <input
+                    type="email"
+                    name=""
+                    id="email"
+                    class="string-selector-input"
+                    placeholder=""
+                    required
+                />
+                <span class="string-selector-label-text">E-mail</span>
+            </label>
+            <label class="string-selector-label" id="password-selector">
+                <input
+                    type="password"
+                    name=""
+                    id="password"
+                    class="string-selector-input"
+                    placeholder=""
+                    required
+                />
+                <span class="string-selector-label-text">Password</span>
+                <div
+                    class="icon eye-icon"
+                    id="password-visibility-button"
+                ></div>
+            </label>
+            <div class="subtitle-container">
+                <p class="subtitle" id="register-subtitle">
+                    First time here?
+                    <span
+                        class="clickable"
+                        id="register-subtitle-clickable"
+                        >Sign up!</span
+                    >
+                </p>
+                <p class="subtitle" id="login-subtitle">
+                    Already part of the family?
+                    <span
+                        class="clickable"
+                        id="login-subtitle-clickable"
+                        >Log in!</span
+                    >
+                </p>
+            </div>
+            <div class="button-container">
+                <button class="button submit-button" id="register-button">
+                    Sign Up
+                </button>
+                <button class="button submit-button" id="login-button">
+                    Login
+                </button>
+            </div>
+        </form>
+
+        <div class="personal-nav">
+            <div class="personal-nav-menu">
+                <div class="auth-options">
+                    <div class="anon-options auth-options-section">
+                        <h2 class="auth-options-section-title" id="anon-title">
+                            Want to use your dashboard anywhere?
+                        </h2>
+                        <p id="register-clickable"><span class="clickable">Sign Up</span></p>
+                        <p id="login-clickable"><span class="clickable">Log In</span></p>
+                    </div>
+                    <div class="logged-in-options auth-options-section">
+                        <h2 class="auth-options-section-title" id="logged-in-title">Hello, <span class="username">{username}</span>!</h2>
+                        <p id="logout-clickable"><span class="clickable">Log Out</span></p>
+                    </div>
+                </div>
+            </div>
+            <div class="button glassy">
+                <div class="icon personal-icon"></div>
+                <div class="icon cloud-exclam-icon"></div>
+            </div>
+        </div>
+
         <div class="loader">
             <div class="ball-container">
                 <div class="ball"></div>

@@ -1,18 +1,6 @@
-require("dotenv").config();
+dotenv.config();
 
-import { createClient, SupabaseClient } from "@supabase/supabase-js";
-
-import { cors, express, path } from "./declarations.js";
-
-
-const supabaseUrl: string = process.env.SUPABASE_URL ?? "";
-const supabaseKey: string = process.env.SUPABASE_KEY ?? "";
-
-if (!supabaseUrl || !supabaseKey) {
-    throw new Error("Supabase environment variables not properly configured!");
-}
-
-const supabase: SupabaseClient = createClient(supabaseUrl, supabaseKey);
+import { cors, express, path, dotenv } from "./declarations.js";
 
 const definitionsRouter: express.Router = require("./routers/definitions_router");
 
@@ -30,11 +18,11 @@ const allowedOrigins: string[] = [
     "http://localhost:3003",
 ];
 
-app.use(cors(
-    {
-        origin: allowedOrigins
-    }
-));
+app.use(
+    cors({
+        origin: allowedOrigins,
+    })
+);
 
 app.use("/definitions/", definitionsRouter);
 // app.use("/api/", apiRouter);
@@ -43,15 +31,8 @@ app.get("/", (req: express.Request, res: express.Response) => {
     res.sendFile(path.resolve(__dirname + "/../index.html"));
 });
 
-app.get("/something", async (req: express.Request, res: express.Response) => {
-
-    const {data , error } = await supabase.from("test_table").select().eq("id", 2).single();
-    // console.log(supabase);
-    res.send(data);
-});
-
 app.listen(port, () =>
     console.log(
-        `SmorgasBoard listening on SmorgasPort ${port}! (Get it? Cuz... Smorg- eh whatever)`
+        `SmorgasBoard listening on SmorgasPort ${port}! (Get it? Cuz... SmorgasB- eh whatever)`
     )
 );

@@ -29,7 +29,7 @@ function formatTime(time: Date, options: Config): string {
         timeStyle: (options?.showSeconds as ConfigEntry.Boolean).value
             ? "medium"
             : "short",
-    });
+    }).toUpperCase();
     // const hours: number = time.getHours();
     // const minutes: number = time.getMinutes();
     // const seconds: number = time.getSeconds();

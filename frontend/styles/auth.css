@@ -1,0 +1,207 @@
+#auth-form {
+    position: fixed;
+    inset: 0;
+    z-index: 6;
+    display: flex;
+    flex-flow: column nowrap;
+    gap: var(--input-padding);
+    align-items: center;
+    margin: 0;
+    padding: 10rem;
+    background: var(--panel-bg);
+    transition: all var(--med-transition-time) var(--bezier-function);
+
+    & .form-title-container {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+        height: var(--input-height);
+        transition: inherit;
+        transition-duration: var(--quick-transition-time);
+
+        h1 {
+            position: absolute;
+            transition: inherit;
+
+            &#register-title {
+                opacity: 0;
+                transform: translate(-10rem);
+            }
+        }
+    }
+
+    & #username-selector {
+        position: absolute;
+        opacity: 0;
+        transform: translate(0, calc(var(--input-height) + var(--input-padding)));
+    }
+
+    & #password-selector {
+        & #password {
+            padding-right: 4rem;
+        }
+
+        & #password-visibility-button {
+            --icon-svg: url("../public/assets/graphics/eye.svg");
+            position: absolute;
+            top: 0;
+            right: 1rem;
+            height: 100%;
+            background: var(--input-secondary);
+            cursor: pointer;
+            pointer-events: all;
+            transition: all var(--quick-transition-time) var(--bezier-function);
+        }
+    }
+
+    & .button-container {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+        height: var(--input-height);
+        transition: inherit;
+        transition-duration: var(--quick-transition-time);
+    }
+
+    & .button {
+        position: absolute;
+        width: 10rem;
+        height: var(--input-height);
+        border: none;
+        border-radius: var(--small-border-radius);
+        background: var(--input-bg);
+        color: inherit;
+        box-shadow: 0.1rem 0.1rem 1rem 0.1rem var(--shadow-col),
+            inset 0.2rem 0.2rem 0.2rem 0 hsl(from var(--input-bg) h s calc(l * 2) / 0.6),
+            inset -0.2rem -0.2rem 0.2rem 0 hsl(from var(--input-bg) h s calc(l * 0.4) / 0.6),
+            0 0 0 -0.2rem transparent;
+        font-family: inherit;
+        text-transform: uppercase;
+        cursor: pointer;
+        transition: inherit;
+
+        &#register-button {
+            opacity: 0;
+            pointer-events: none;
+            transform: translate(-12rem);
+        }
+
+        &#close-form-button {
+            top: var(--input-padding);
+            right: var(--input-padding);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            width: 13rem;
+
+            &:hover {
+                width: 18rem;
+            }
+
+            & .exit-icon {
+                background: var(--text-col);
+            }
+        }
+
+        &:hover {
+            width: 12rem;
+            background: hsl(from var(--input-bg) h s calc(l * 1.1));
+            box-shadow: 0.1rem 0.1rem 1rem 0.1rem var(--shadow-col),
+                inset 0.2rem 0.2rem 0.2rem 0 hsl(from var(--input-bg) h s calc(l * 2) / 0.6),
+                inset -0.2rem -0.2rem 0.2rem 0 hsl(from var(--input-bg) h s calc(l * 0.4) / 0.6);
+            letter-spacing: 0.4rem;
+        }
+
+        &:active {
+            background: hsl(from var(--input-bg) h s calc(l * 0.8));
+            box-shadow: 0.1rem 0.1rem 1rem 0.1rem var(--shadow-col),
+                inset 0.1rem 0.1rem 0.1rem 0 hsl(from var(--input-secondary) h s calc(l * 2) / 0.6),
+                inset -0.1rem -0.1rem 0.1rem 0 hsl(from var(--input-secondary) h s calc(l * 0.4) / 0.6);
+        }
+
+    }
+
+    & .subtitle-container {
+        display: flex;
+        justify-content: center;
+        height: var(--input-padding);
+        margin-top: auto;
+        margin-bottom: -1rem;
+        transition: inherit;
+        transition-duration: var(--quick-transition-time);
+
+        & .subtitle {
+            position: absolute;
+            user-select: none;
+            transition: inherit;
+
+            &#login-subtitle {
+                opacity: 0;
+                pointer-events: none;
+                transform: translate(-15rem);
+            }
+        }
+    }
+
+    &.new-user {
+        & #username-selector {
+            opacity: 1;
+        }
+
+        & #email-selector {
+            margin-top: calc(var(--input-height) + var(--input-padding));
+        }
+
+        & .form-title-container h1 {
+            &#register-title {
+                opacity: 1;
+                transform: translate(0);
+            }
+
+            &#login-title {
+                opacity: 0;
+                transform: translate(10rem);
+            }
+        }
+
+        & .button-container {
+            & .button {
+                &#register-button {
+                    opacity: 1;
+                    pointer-events: all;
+                    transform: translate(0);
+                }
+
+                &#login-button {
+                    opacity: 0;
+                    pointer-events: none;
+                    transform: translate(12rem);
+                }
+            }
+        }
+
+        & .subtitle-container {
+            & .subtitle {
+                &#register-subtitle {
+                    opacity: 0;
+                    pointer-events: none;
+                    transform: translate(15rem);
+                }
+
+                &#login-subtitle {
+                    opacity: 1;
+                    pointer-events: all;
+                    transform: translate(0);
+                }
+            }
+        }
+    }
+
+    &:not(.visible) {
+        clip-path: circle(0% at calc(100% - 5rem) calc(100% - 5rem));
+    }
+
+    &.visible {
+        clip-path: circle(200% at center)
+    }
+}

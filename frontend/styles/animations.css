@@ -1,0 +1,65 @@
+@keyframes spawn-in {
+    0% {
+        clip-path: circle(0 at 50% 50%);
+    }
+
+    100% {
+        clip-path: circle(100% at 50% 50%);
+    }
+}
+
+@keyframes shine {
+    0% {
+        transform: translate(-10rem, -50%) rotate(15deg);
+    }
+
+    100% {
+        transform: translate(40rem, -50%) rotate(15deg);
+    }
+}
+
+@keyframes bounce {
+    0% {
+        transform: translateY(-10rem);
+    }
+
+    100% {
+        transform: translateY(0);
+    }
+}
+
+@keyframes bounce-squish {
+    0% {
+        height: 5rem;
+    }
+
+    100% {
+        height: 2.5rem;
+        border-radius: 10rem 10rem 5rem 5rem;
+        box-shadow: inset 0.5rem -0.2rem 0.5rem var(--shadow-col);
+    }
+}
+
+@keyframes ball-shadow {
+    0% {
+        width: 2rem;
+        filter: blur(2px);
+        transform: translate(1.5rem, -0.5rem);
+    }
+
+    100% {
+        width: 5rem;
+        filter: blur(1px);
+        transform: translate(0, -0.5rem);
+    }
+}
+
+@keyframes lerp-transition {
+    0% {
+        transition: all var(--panel-transition-time) ease;
+    }
+
+    100% {
+        transition: all 0s;
+    }
+}

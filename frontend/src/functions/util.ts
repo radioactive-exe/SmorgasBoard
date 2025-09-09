@@ -30,8 +30,8 @@ function collidesWithAnyPanel(area: Area): boolean {
 
     dashboard.getPanels().forEach((i: Panel) => {
         if (
-            i.dataset.panelId != preview.dataset.callerId
-            && areaCollisionWithElement(area, i)
+            areaCollisionWithElement(area, i)
+            && i.dataset.panelId != preview.dataset.callerId
         ) {
             flag = true;
         }

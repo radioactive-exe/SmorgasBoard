@@ -15,7 +15,8 @@
         "outDir": "public/dist",
         "declaration": true,
         "declarationDir": "public/dist/lib/types",
-        "declarationMap": true
+        "declarationMap": true,
+        "types": ["vite/client"]
     },
     "include": [
         "**/src/**/*"

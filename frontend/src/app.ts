@@ -1,3 +1,11 @@
+import type {
+    AuthChangeEvent,
+    Session,
+    SupabaseClient,
+} from "@supabase/supabase-js";
+
+import { createClient } from "@supabase/supabase-js";
+
 import { Area } from "./classes/area.js";
 import type { Dashboard } from "./classes/dashboard.js";
 import { Theme } from "./classes/dashboard.js";
@@ -21,9 +29,24 @@ import {
     snapElementToTarget,
 } from "./functions/manip.js";
 
+// eslint-disable-next-line import/order
 import * as utils from "./functions/util.js";
 
 //#region Constant Declarations
+
+const supabaseUrl: string = import.meta.env.VITE_SUPABASE_URL ?? "";
+const supabaseKey: string = import.meta.env.VITE_SUPABASE_KEY ?? "";
+
+if (!supabaseUrl || !supabaseKey) {
+    throw new Error("Supabase environment variables not properly configured!");
+}
+
+const supabase: SupabaseClient = createClient(supabaseUrl, supabaseKey);
+
+let user: { email: string; username: string } | null = null;
+
+// eslint-disable-next-line import/order
+import { login, logout, register } from "./auth.js";
 
 const spawnablePanelTypes: [string, PanelType][] =
     Object.entries(PanelType).slice(2);
@@ -77,6 +100,109 @@ dashboard.load().then(() => {
     finishLoading(loader);
 });
 
+const form: HTMLFormElement | null = document.querySelector("form");
+
+const usernameInput: HTMLInputElement =
+    form?.querySelector("#username") ?? document.createElement("input");
+const emailInput: HTMLInputElement =
+    form?.querySelector("#email") ?? document.createElement("input");
+const passwordInput: HTMLInputElement =
+    form?.querySelector("#password") ?? document.createElement("input");
+const loginFormClickable: HTMLInputElement | null = form?.querySelector(
+    "#login-subtitle-clickable",
+) as HTMLInputElement | null;
+const registerFormClickable: HTMLElement | null = form?.querySelector(
+    "#register-subtitle-clickable",
+) as HTMLElement | null;
+const loginClickable: HTMLInputElement | null = document?.querySelector(
+    "#login-clickable",
+) as HTMLInputElement | null;
+const registerClickable: HTMLElement | null = document?.querySelector(
+    "#register-clickable",
+) as HTMLElement | null;
+const logoutClickable: HTMLElement | null = document?.querySelector(
+    "#logout-clickable",
+) as HTMLElement | null;
+const registerButton: HTMLButtonElement | null = form?.querySelector(
+    "#register-button",
+) as HTMLButtonElement | null;
+const loginButton: HTMLButtonElement | null = form?.querySelector(
+    "#login-button",
+) as HTMLButtonElement | null;
+const closeFormButton: HTMLButtonElement | null =
+    form?.querySelector("#close-form-button") as HTMLButtonElement | null;
+
+const passwordVisibilityButton: HTMLElement | null = form?.querySelector(
+    "#password-visibility-button",
+) as HTMLElement | null;
+
+function goToRegisterScreen(): void {
+    form?.classList.add("visible");
+    form?.classList.add("new-user");
+    usernameInput.setAttribute("required", "true");
+}
+
+function goToLoginScreen(): void {
+    form?.classList.add("visible");
+    form?.classList.remove("new-user");
+    usernameInput.removeAttribute("required");
+}
+
+loginFormClickable?.addEventListener("click", goToLoginScreen);
+registerFormClickable?.addEventListener("click", goToRegisterScreen);
+loginClickable?.addEventListener("click", goToLoginScreen);
+registerClickable?.addEventListener("click", goToRegisterScreen);
+logoutClickable?.addEventListener("click", logout);
+
+function hidePassword(): void {
+    passwordVisibilityButton?.style.setProperty(
+        "background",
+        "var(--input-secondary)",
+    );
+    passwordInput?.setAttribute("type", "password");
+    document.removeEventListener("mouseup", hidePassword);
+}
+
+passwordVisibilityButton?.addEventListener("mousedown", () => {
+    passwordVisibilityButton.style.setProperty(
+        "background",
+        "var(--input-accent)",
+    );
+    passwordInput?.setAttribute("type", "text");
+    document.addEventListener("mouseup", hidePassword);
+});
+
+registerButton?.addEventListener("click", () => {
+    register(usernameInput.value, emailInput.value, passwordInput?.value);
+});
+
+loginButton?.addEventListener("click", () => {
+    login(emailInput.value, passwordInput.value);
+});
+
+closeFormButton?.addEventListener("click", () => {
+    form?.classList.remove("visible");
+})
+
+form?.addEventListener("submit", (e) => {
+    e.preventDefault();
+});
+
+const personalNavButton: HTMLElement | null = document.querySelector(
+    ".personal-nav .button",
+);
+
+personalNavButton?.addEventListener("click", () => {
+    personalNavButton.classList.toggle("active");
+});
+
+const anonOptions: HTMLElement | null = document.querySelector(
+    ".personal-nav .anon-options",
+);
+const loggedInOptions: HTMLElement | null = document.querySelector(
+    ".personal-nav .logged-in-options",
+);
+
 //#endregion
 
 function releaseHandler(): void {
@@ -90,7 +216,7 @@ function releaseHandler(): void {
 
     document.removeEventListener("mouseup", holdHandler.release);
     document.removeEventListener("mousemove", holdHandler.drag);
-
+    preview.dataset.callerId = "-1";
     utils.deleteAfterTransition(preview);
 }
 
@@ -148,6 +274,7 @@ function setDocumentHandlers(): void {
 function finishLoading(loader: HTMLElement): void {
     loader.classList.add("despawning");
 }
+
 // ~ Listener Initialisation
 
 window.addEventListener("resize", () => {
@@ -168,11 +295,7 @@ document.addEventListener("keydown", async (e) => {
             dashboard.toggleEditMode();
             break;
         case "ArrowLeft":
-            const wa = await fetch(
-                "https://smorgas-board-backend.vercel.app/something",
-            ).then(res => res.json());
-            const wajs = await wa.json();
-            console.log(wajs);
+            form?.classList.toggle("visible");
     }
 });
 
@@ -216,6 +339,38 @@ spawnablePanelTypes.forEach((panelType: [string, PanelType]) => {
 
 //#endregion
 
+supabase.auth.onAuthStateChange(
+    (e: AuthChangeEvent, session: Session | null) => {
+        if (e == "SIGNED_IN" && session && session.user) {
+            user = {
+                email: session.user.email as string,
+                username:
+                    session.user.identities?.at(0)?.identity_data?.["username"],
+            };
+            (
+                document.querySelectorAll(
+                    ".username",
+                ) as NodeListOf<HTMLElement>
+            )?.forEach((u: HTMLElement) => {
+                if (u) u.textContent = user?.username as string;
+            });
+
+            anonOptions?.style.setProperty("display", "none");
+            loggedInOptions?.style.setProperty("display", "inherit");
+
+            personalNavButton?.classList.remove("active");
+            form?.classList.remove("visible");
+        } else if (e == "SIGNED_OUT") {
+            user = null;
+            anonOptions?.style.setProperty("display", "inherit");
+            loggedInOptions?.style.setProperty("display", "none");
+
+            personalNavButton?.classList.remove("active");
+        }
+        // console.log("!!", e, session);
+    },
+);
+
 export {
     commonHandler,
     current,
@@ -226,5 +381,6 @@ export {
     preview,
     setDocumentHandlers,
     spawnablePanelTypes,
+    supabase,
+    user,
 };
-
