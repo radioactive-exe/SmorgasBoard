@@ -6,7 +6,7 @@ databaseRouter.use(cors({ origin: true, credentials: true }));
 
 databaseRouter.get("/get", async (req: express.Request, res: express.Response) => {
 
-    const target: string = req.params.target;
+    const target = req.query.target;
 
     const fetched = await fetch(
         "https://bvrmyobereaeybqpatjg.supabase.co/rest/v1/dashboard_data?select=" + target,
