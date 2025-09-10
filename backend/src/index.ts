@@ -1,6 +1,6 @@
-dotenv.config();
-
 import { cors, express, path, dotenv } from "./declarations.js";
+
+dotenv.config();
 
 const definitionsRouter: express.Router = require("./routers/definitions_router");
 
