@@ -103,7 +103,7 @@ class Panel extends HTMLElement {
         // eslint-disable-next-line no-async-promise-executor
         return new Promise(async (resolve) => {
             const baseResponse: PanelFetchResponse = await fetch(
-                PanelTypeTemplate.BASE,
+                import.meta.env.VITE_BACKEND_URL + PanelTypeTemplate.BASE,
             ).then((res: Response) => res.json());
             const baseResponseBody: Document = new DOMParser().parseFromString(
                 baseResponse.panel_template,
@@ -129,7 +129,7 @@ class Panel extends HTMLElement {
         // eslint-disable-next-line no-async-promise-executor
         return new Promise(async (resolve) => {
             const response: PanelFetchResponse = await fetch(
-                this.type.getTemplate(),
+                import.meta.env.VITE_BACKEND_URL + this.type.getTemplate(),
             ).then((res: Response) => res.json());
             const responseBody: Document = new DOMParser().parseFromString(
                 response.panel_template,

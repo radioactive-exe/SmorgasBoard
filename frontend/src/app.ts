@@ -43,7 +43,8 @@ if (!supabaseUrl || !supabaseKey) {
 
 const supabase: SupabaseClient = createClient(supabaseUrl, supabaseKey);
 
-let user: { email: string; username: string } | null = null;
+let user: { email: string; username: string; access_token: string } | null =
+    null;
 
 // eslint-disable-next-line import/order
 import { login, logout, register } from "./auth.js";
@@ -129,8 +130,9 @@ const registerButton: HTMLButtonElement | null = form?.querySelector(
 const loginButton: HTMLButtonElement | null = form?.querySelector(
     "#login-button",
 ) as HTMLButtonElement | null;
-const closeFormButton: HTMLButtonElement | null =
-    form?.querySelector("#close-form-button") as HTMLButtonElement | null;
+const closeFormButton: HTMLButtonElement | null = form?.querySelector(
+    "#close-form-button",
+) as HTMLButtonElement | null;
 
 const passwordVisibilityButton: HTMLElement | null = form?.querySelector(
     "#password-visibility-button",
@@ -182,7 +184,7 @@ loginButton?.addEventListener("click", () => {
 
 closeFormButton?.addEventListener("click", () => {
     form?.classList.remove("visible");
-})
+});
 
 form?.addEventListener("submit", (e) => {
     e.preventDefault();
@@ -295,7 +297,10 @@ document.addEventListener("keydown", async (e) => {
             dashboard.toggleEditMode();
             break;
         case "ArrowLeft":
-            form?.classList.toggle("visible");
+            const fetched = await fetch(
+                import.meta.env.VITE_BACKEND_URL + "smorgasbase/get?target=id",
+            );
+            console.log(fetched);
     }
 });
 
@@ -346,6 +351,7 @@ supabase.auth.onAuthStateChange(
                 email: session.user.email as string,
                 username:
                     session.user.identities?.at(0)?.identity_data?.["username"],
+                access_token: session.access_token,
             };
             (
                 document.querySelectorAll(

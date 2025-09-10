@@ -3,3 +3,5 @@ export import cors = require("cors");
 export import fs = require("fs");
 export import path = require("path");
 export import dotenv = require("dotenv");
+import { createClient } from "@supabase/supabase-js";
+export { createClient };

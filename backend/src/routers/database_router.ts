@@ -1,0 +1,25 @@
+import { express, cors } from "../declarations";
+
+const databaseRouter = express.Router();
+
+databaseRouter.use(cors({ origin: true, credentials: true }));
+
+databaseRouter.get("/get", async (req: express.Request, res: express.Response) => {
+
+    const target: string = req.params.target;
+
+    const fetched = await fetch(
+        "https://bvrmyobereaeybqpatjg.supabase.co/rest/v1/dashboard_data?select=" + target,
+        {
+            headers: {
+                apiKey: process.env.SUPABASE_KEY ?? "",
+                Authorization: req.headers.authorization ?? "",
+            },
+        }
+    );
+
+    const data = await fetched.json();
+    res.json(data);
+});
+
+module.exports = databaseRouter;

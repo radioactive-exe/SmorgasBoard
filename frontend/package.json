@@ -15,7 +15,7 @@
   "type": "commonjs",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build && api-extractor run --local --verbose",
+    "build": "tsc && vite build",
     "watch": "tsc --watch && vite build --watch",
     "preview": "vite preview"
   },

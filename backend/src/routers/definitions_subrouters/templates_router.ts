@@ -8,7 +8,7 @@ templatesRouter.get("/:panel", (req: express.Request, res: express.Response) => 
     var templateHtml = fs.readFileSync(
         __dirname + `/../../../definitions/templates/${req.params.panel}.html`
     );
-    res.send({
+    res.json({
         panel_type: req.params.panel,
         panel_template: templateHtml.toString(),
     });

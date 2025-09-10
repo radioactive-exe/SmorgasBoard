@@ -1,8 +1,12 @@
-import { cors, express, path, dotenv } from "./declarations.js";
+import { cors, express, path, dotenv, createClient } from "./declarations.js";
 
 dotenv.config();
 
-const definitionsRouter: express.Router = require("./routers/definitions_router");
+const supabase = createClient(process.env.SUPABASE_URL ?? "", process.env.SUPABASE_KEY ?? "");
+
+
+const definitionsRouter: express.Router = require("./routers/definitions_router.js");
+const databaseRouter: express.Router = require("./routers/database_router.js")
 
 const app = express();
 const port = 3000;
@@ -25,6 +29,7 @@ app.use(
 );
 
 app.use("/definitions/", definitionsRouter);
+app.use("/smorgasbase/", databaseRouter);
 // app.use("/api/", apiRouter);
 
 app.get("/", (req: express.Request, res: express.Response) => {

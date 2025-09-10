@@ -4,12 +4,12 @@
  * @enum
  */
 enum PanelTypeTemplate {
-    BASE = "https://smorgas-board-backend.vercel.app/definitions/panels/base",
-    PREVIEW = "https://smorgas-board-backend.vercel.app/definitions/panels/preview",
-    DEFAULT = "https://smorgas-board-backend.vercel.app/definitions/panels/default",
-    NOTEPAD = "https://smorgas-board-backend.vercel.app/definitions/panels/notepad",
-    PHOTO = "https://smorgas-board-backend.vercel.app/definitions/panels/photo",
-    CLOCK = "https://smorgas-board-backend.vercel.app/definitions/panels/clock",
+    BASE = "definitions/panels/base",
+    PREVIEW = "definitions/panels/preview",
+    DEFAULT = "definitions/panels/default",
+    NOTEPAD = "definitions/panels/notepad",
+    PHOTO = "definitions/panels/photo",
+    CLOCK = "definitions/panels/clock",
 }
 
 export {
