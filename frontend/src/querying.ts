@@ -63,7 +63,7 @@ async function patchIntoSmorgasBase(
 
         }
     } catch (error) {
-        console.error(error, "Passed value does not m")
+        console.error(error, "Passed value does not match target field.")
     }
 
     const fetched = await fetch(

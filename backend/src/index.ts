@@ -46,6 +46,7 @@ app.listen(port, () =>
     )
 );
 
+module.exports = app;
 export {
     supabase
 }
