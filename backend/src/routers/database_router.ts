@@ -4,7 +4,6 @@ import { express, cors } from "../declarations.js";
 const databaseRouter = express.Router();
 
 databaseRouter.use(cors({ origin: true, credentials: true }));
-databaseRouter.use(express.json());
 
 databaseRouter.get(
     "/get",
