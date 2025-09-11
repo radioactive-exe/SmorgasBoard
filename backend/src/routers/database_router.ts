@@ -54,7 +54,7 @@ databaseRouter.get(
                     apiKey: process.env.SUPABASE_KEY ?? "",
                     Authorization: req.headers.authorization ?? "",
                 },
-                body: JSON.stringify(req.body),
+                body: req.body,
             }
         );
 
