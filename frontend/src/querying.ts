@@ -66,6 +66,8 @@ async function patchIntoSmorgasBase(
         console.error(error, "Passed value does not match target field.")
     }
 
+    console.log(parsedBody);
+
     const fetched = await fetch(
         import.meta.env.VITE_BACKEND_URL
             + "smorgasbase/patch?target="

@@ -32,6 +32,7 @@ import {
 
 // eslint-disable-next-line import/order
 import * as utils from "./functions/util.js";
+import { patchIntoSmorgasBase } from "./querying.js";
 import type { Database } from "./types/database.types.js";
 
 //#region Constant Declarations
@@ -209,22 +210,23 @@ document.addEventListener("keydown", async (e) => {
             dashboard.toggleEditMode();
             break;
         case "ArrowLeft":
-            const userId = await (await supabase.auth.getUser(user?.access_token)).data.user?.id;
-            console.log(userId);
-            const fetched = await fetch(
-                "https://bvrmyobereaeybqpatjg.supabase.co/rest/v1/dashboard_data?id=eq." + user?.id,
-                {
-                    method: "PATCH",
-                    headers: {
-                        "Content-Type": "application/json",
-                        apiKey: import.meta.env.VITE_SUPABASE_KEY ?? "",
-                        Authorization: "Bearer " + user?.access_token,
-                    },
-                    body: JSON.stringify({
-                        theme: 1,
-                    }),
-                },
-            );
+            // const userId = await (await supabase.auth.getUser(user?.access_token)).data.user?.id;
+            // console.log(userId);
+            // const fetched = await fetch(
+            //     "https://bvrmyobereaeybqpatjg.supabase.co/rest/v1/dashboard_data?id=eq." + user?.id,
+            //     {
+            //         method: "PATCH",
+            //         headers: {
+            //             "Content-Type": "application/json",
+            //             apiKey: import.meta.env.VITE_SUPABASE_KEY ?? "",
+            //             Authorization: "Bearer " + user?.access_token,
+            //         },
+            //         body: JSON.stringify({
+            //             theme: 1,
+            //         }),
+            //     },
+            // );
+            const fetched = (await patchIntoSmorgasBase("theme", 1))[0];
             console.log(fetched);
     }
 });
