@@ -28,7 +28,7 @@ databaseRouter.get(
     }
 );
 
-databaseRouter.get(
+databaseRouter.patch(
     "/patch",
     async (req: express.Request, res: express.Response) => {
         const target = req.query.target;
