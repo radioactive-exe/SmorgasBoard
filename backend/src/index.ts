@@ -45,3 +45,7 @@ app.listen(port, () =>
         `SmorgasBoard listening on SmorgasPort ${port}! (Get it? Cuz... SmorgasB- eh whatever)`
     )
 );
+
+export {
+    supabase
+}

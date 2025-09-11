@@ -1,46 +1,65 @@
-import { express, cors } from "../declarations";
+import { supabase } from "../index.js";
+import { express, cors } from "../declarations.js";
 
 const databaseRouter = express.Router();
 
 databaseRouter.use(cors({ origin: true, credentials: true }));
 
-databaseRouter.get("/get", async (req: express.Request, res: express.Response) => {
+databaseRouter.get(
+    "/get",
+    async (req: express.Request, res: express.Response) => {
+        const target = req.query.target;
 
-    const target = req.query.target;
+        const fetched = await fetch(
+            "https://bvrmyobereaeybqpatjg.supabase.co/rest/v1/dashboard_data?select=" +
+                target,
+            {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    apiKey: process.env.SUPABASE_KEY ?? "",
+                    Authorization: req.headers.authorization ?? "",
+                },
+            }
+        );
 
-    const fetched = await fetch(
-        "https://bvrmyobereaeybqpatjg.supabase.co/rest/v1/dashboard_data?select=" + target,
-        {
-            method: "GET",
-            headers: {
-                apiKey: process.env.SUPABASE_KEY ?? "",
-                Authorization: req.headers.authorization ?? "",
-            },
+        const data = await fetched.json();
+        res.json(data);
+    }
+);
+
+databaseRouter.get(
+    "/patch",
+    async (req: express.Request, res: express.Response) => {
+        const target = req.query.target;
+
+        let userId: string;
+        try {
+            const user = await supabase.auth.getUser(
+                req.headers.authorization?.trim().split(" ")[1]
+            );
+            userId = user.data.user?.id as string;
+        } catch {
+            userId = "";
         }
-    );
 
-    const data = await fetched.json();
-    res.json(data);
-});
+        const fetched = await fetch(
+            "https://bvrmyobereaeybqpatjg.supabase.co/rest/v1/dashboard_data?id=eq." +
+                userId,
+            {
+                method: "PATCH",
+                headers: {
+                    "Content-Type": "application/json",
+                    apiKey: process.env.SUPABASE_KEY ?? "",
+                    Authorization: req.headers.authorization ?? "",
+                },
+                body: JSON.stringify(req.body),
+            }
+        );
 
-databaseRouter.get("/patch", async (req: express.Request, res: express.Response) => {
-
-    const target = req.query.target;
-
-    const fetched = await fetch(
-        "https://bvrmyobereaeybqpatjg.supabase.co/rest/v1/dashboard_data?select=" + target,
-        {
-            method: "PATCH",
-            headers: {
-                apiKey: process.env.SUPABASE_KEY ?? "",
-                Authorization: req.headers.authorization ?? "",
-            },
-            body: req.body
-        }
-    );
-
-    const data = await fetched.json();
-    res.json(data);
-});
+        const data = await fetched.json();
+        res.json(data);
+    }
+);
 
 module.exports = databaseRouter;

@@ -6,7 +6,6 @@ import type {
 
 import { createClient } from "@supabase/supabase-js";
 
-
 import { form } from "./auth.js";
 import { Area } from "./classes/area.js";
 import type { Dashboard } from "./classes/dashboard.js";
@@ -33,7 +32,7 @@ import {
 
 // eslint-disable-next-line import/order
 import * as utils from "./functions/util.js";
-import type { Database } from './types/database.types.js';
+import type { Database } from "./types/database.types.js";
 
 //#region Constant Declarations
 
@@ -44,9 +43,12 @@ if (!supabaseUrl || !supabaseKey) {
     throw new Error("Supabase environment variables not properly configured!");
 }
 
-const supabase: SupabaseClient = createClient<Database>(supabaseUrl, supabaseKey);
+const supabase: SupabaseClient = createClient<Database>(
+    supabaseUrl,
+    supabaseKey,
+);
 
-let user: { email: string; username: string; access_token: string } | null =
+let user: { id: string, email: string; username: string; access_token: string } | null =
     null;
 
 // eslint-disable-next-line import/order
@@ -98,7 +100,6 @@ const current = {
     flag: "" as string,
     panel: preview,
 };
-
 
 const personalNavButton: HTMLElement | null = document.querySelector(
     ".personal-nav .button",
@@ -208,7 +209,21 @@ document.addEventListener("keydown", async (e) => {
             dashboard.toggleEditMode();
             break;
         case "ArrowLeft":
-            console.log(Object.entries(Theme));
+            const fetched = await fetch(
+                "https://bvrmyobereaeybqpatjg.supabase.co/rest/v1/dashboard_data?id=eq." + user?.id,
+                {
+                    method: "PATCH",
+                    headers: {
+                        "Content-Type": "application/json",
+                        apiKey: import.meta.env.VITE_SUPABASE_KEY ?? "",
+                        Authorization: "Bearer " + user?.access_token,
+                    },
+                    body: JSON.stringify({
+                        theme: 1,
+                    }),
+                },
+            );
+            console.log(fetched);
     }
 });
 
@@ -256,6 +271,7 @@ supabase.auth.onAuthStateChange(
         console.log(e);
         if (e == "SIGNED_IN" && session && session.user) {
             user = {
+                id: session.user.id,
                 email: session.user.email as string,
                 username:
                     session.user.identities?.at(0)?.identity_data?.["username"],
@@ -288,7 +304,6 @@ supabase.auth.onAuthStateChange(
         // console.log("!!", e, session);
     },
 );
-
 
 export {
     commonHandler,
