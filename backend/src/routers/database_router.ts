@@ -28,7 +28,7 @@ databaseRouter.get("/patch", async (req: express.Request, res: express.Response)
     const target = req.query.target;
 
     const fetched = await fetch(
-        "https://bvrmyobereaeybqpatjg.supabase.co/rest/v1/dashboard_data?update=" + target,
+        "https://bvrmyobereaeybqpatjg.supabase.co/rest/v1/dashboard_data?select=" + target,
         {
             method: "PATCH",
             headers: {
