@@ -80,6 +80,10 @@ smorgas-board panel-element {
         height: var(--square-handle-full-side);
     }
 
+    &::part(.handle):active {
+        cursor: grabbing;
+    }
+
     &::part(resize-handle) {
         right: 0;
         bottom: 0;

@@ -8,11 +8,12 @@
 
 /** File Header Delimiter. */
 
-import { current, spawnablePanelTypes } from "../app.js";
+import { current, spawnablePanelTypes, user } from "../app.js";
 import { AlertLevel, spawnAlert } from "../elements/alert.js";
 import { deletePanelSection } from "../elements/context_menu.js";
 import * as get from "../functions/accessors.js";
 import * as utils from "../functions/util.js";
+import { getFromSmorgasBase } from "../querying.js";
 
 import type { Size } from "./area.js";
 import { Area } from "./area.js";
@@ -67,12 +68,6 @@ class Dashboard extends HTMLElement {
 
         this.attachShadow({ mode: "open" });
         this.populateCells();
-
-        const storedTheme: string | null = localStorage.getItem("last-theme");
-        if (storedTheme) {
-            this.setCurrentTheme(Theme[storedTheme as keyof typeof Theme]);
-        }
-
     }
 
     /**
@@ -175,7 +170,11 @@ class Dashboard extends HTMLElement {
     public spawnPanelOfType(panelType: PanelType): void {
         let finalArea: Area = Area.INIT;
         let slotFound = false;
-        for (let y = 0; y <= Dashboard.getRows() - panelType.getMinHeight(); y++) {
+        for (
+            let y = 0;
+            y <= Dashboard.getRows() - panelType.getMinHeight();
+            y++
+        ) {
             for (
                 let x = 0;
                 x <= Dashboard.getCols() - panelType.getMinWidth();
@@ -242,7 +241,7 @@ class Dashboard extends HTMLElement {
     }
 
     public load(): Promise<void> {
-        return this.loadStoredPanels();
+        return this.loadStoredTheme().then(() => this.loadStoredPanels());
     }
 
     private loadStoredPanels(): Promise<void> {
@@ -345,6 +344,23 @@ class Dashboard extends HTMLElement {
         );
     }
 
+    private saveStoredPanelsToCloud(): void {
+        return;
+    }
+
+    public loadStoredTheme(): Promise<void> {
+        return new Promise(async (resolve) => {
+            let storedTheme: number = parseInt(
+                localStorage.getItem("last-theme") ?? "0",
+            );
+            if (user)
+                storedTheme =
+                    (await getFromSmorgasBase("theme"))?.[0].theme ?? 0;
+            this.setCurrentTheme(Object.entries(Theme)[storedTheme][1]);
+            resolve();
+        });
+    }
+
     public getCurrentTheme(): Theme {
         return this.currentTheme;
     }
@@ -357,10 +373,11 @@ class Dashboard extends HTMLElement {
             themeFileLink = document.createElement("link");
             document.head.appendChild(themeFileLink);
         }
+        localStorage.setItem("last-theme", theme.getId().toString());
         themeFileLink.setAttribute("href", theme.getUrl());
     }
 }
 
 window.customElements.define("smorgas-board", Dashboard);
 
-export { Dashboard, Theme };
+export { Dashboard };

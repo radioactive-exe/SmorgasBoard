@@ -56,6 +56,16 @@ class Theme {
     ) {}
 
     /**
+     * Returns the Theme ID.
+     * @remarks
+     * The ID will be used to later set the Theme from a stored ID
+     * @returns The Theme's ID.
+     */
+    public getId(): number {
+        return this.id;
+    }
+
+    /**
      * Returns the name of the Theme.
      * @remarks
      * The name returned is the user-friendly UI-facing name.

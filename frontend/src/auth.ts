@@ -38,7 +38,6 @@ async function register(
         isAuthApiError(registrationResult.error)
         || registrationResult.error instanceof AuthWeakPasswordError
     ) {
-        console.log(registrationResult.error.code);
         switch (registrationResult.error.code) {
             case "user_already_exists":
                 statusMessage = {
@@ -89,9 +88,9 @@ async function register(
         (statusMessage.error ?? statusMessage.success ?? "")
             + (registrationResult.error?.code == "weak_password"
                 ? (
-                      statusMessage.requirements?.map((reason) => {
-                          return "\n> " + parsedReason(reason);
-                      }) as string[]
+                      statusMessage.requirements?.map(
+                          (reason) => "\n> " + parsedReason(reason),
+                      ) as string[]
                   ).join("\n")
                 : ""),
         statusMessage.error ? AlertLevel.ERROR : AlertLevel.INFO,
@@ -149,8 +148,96 @@ function parsedReason(reason: string): string {
 }
 
 function logout(): void {
-    console.log("Bye bye");
     supabase.auth.signOut();
 }
 
-export { login, logout, register, statusMessage };
+const form: HTMLFormElement | null = document.querySelector("form");
+
+const usernameInput: HTMLInputElement =
+    form?.querySelector("#username") ?? document.createElement("input");
+const emailInput: HTMLInputElement =
+    form?.querySelector("#email") ?? document.createElement("input");
+const passwordInput: HTMLInputElement =
+    form?.querySelector("#password") ?? document.createElement("input");
+const loginFormClickable: HTMLInputElement | null = form?.querySelector(
+    "#login-subtitle-clickable",
+) as HTMLInputElement | null;
+const registerFormClickable: HTMLElement | null = form?.querySelector(
+    "#register-subtitle-clickable",
+) as HTMLElement | null;
+const loginClickable: HTMLInputElement | null = document?.querySelector(
+    "#login-clickable",
+) as HTMLInputElement | null;
+const registerClickable: HTMLElement | null = document?.querySelector(
+    "#register-clickable",
+) as HTMLElement | null;
+const logoutClickable: HTMLElement | null = document?.querySelector(
+    "#logout-clickable",
+) as HTMLElement | null;
+const registerButton: HTMLButtonElement | null = form?.querySelector(
+    "#register-button",
+) as HTMLButtonElement | null;
+const loginButton: HTMLButtonElement | null = form?.querySelector(
+    "#login-button",
+) as HTMLButtonElement | null;
+const closeFormButton: HTMLButtonElement | null = form?.querySelector(
+    "#close-form-button",
+) as HTMLButtonElement | null;
+
+const passwordVisibilityButton: HTMLElement | null = form?.querySelector(
+    "#password-visibility-button",
+) as HTMLElement | null;
+
+function goToRegisterScreen(): void {
+    form?.classList.add("visible");
+    form?.classList.add("new-user");
+    usernameInput.setAttribute("required", "true");
+}
+
+function goToLoginScreen(): void {
+    form?.classList.add("visible");
+    form?.classList.remove("new-user");
+    usernameInput.removeAttribute("required");
+}
+
+loginFormClickable?.addEventListener("click", goToLoginScreen);
+registerFormClickable?.addEventListener("click", goToRegisterScreen);
+loginClickable?.addEventListener("click", goToLoginScreen);
+registerClickable?.addEventListener("click", goToRegisterScreen);
+logoutClickable?.addEventListener("click", logout);
+
+function hidePassword(): void {
+    passwordVisibilityButton?.style.setProperty(
+        "background",
+        "var(--input-secondary)",
+    );
+    passwordInput?.setAttribute("type", "password");
+    document.removeEventListener("mouseup", hidePassword);
+}
+
+passwordVisibilityButton?.addEventListener("mousedown", () => {
+    passwordVisibilityButton.style.setProperty(
+        "background",
+        "var(--input-accent)",
+    );
+    passwordInput?.setAttribute("type", "text");
+    document.addEventListener("mouseup", hidePassword);
+});
+
+registerButton?.addEventListener("click", () => {
+    register(usernameInput.value, emailInput.value, passwordInput?.value);
+});
+
+loginButton?.addEventListener("click", () => {
+    login(emailInput.value, passwordInput.value);
+});
+
+closeFormButton?.addEventListener("click", () => {
+    form?.classList.remove("visible");
+});
+
+form?.addEventListener("submit", (e) => {
+    e.preventDefault();
+});
+
+export { form, login, logout, register, statusMessage };

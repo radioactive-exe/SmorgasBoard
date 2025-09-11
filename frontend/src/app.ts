@@ -6,11 +6,13 @@ import type {
 
 import { createClient } from "@supabase/supabase-js";
 
+
+import { form } from "./auth.js";
 import { Area } from "./classes/area.js";
 import type { Dashboard } from "./classes/dashboard.js";
-import { Theme } from "./classes/dashboard.js";
 import { Panel } from "./classes/panel/panel.js";
 import { PanelType, PanelTypeConfig } from "./classes/panel/panel_type.js";
+import { Theme } from "./classes/theme.js";
 
 import {
     deletePanelButton,
@@ -31,6 +33,7 @@ import {
 
 // eslint-disable-next-line import/order
 import * as utils from "./functions/util.js";
+import type { Database } from './types/database.types.js';
 
 //#region Constant Declarations
 
@@ -41,13 +44,12 @@ if (!supabaseUrl || !supabaseKey) {
     throw new Error("Supabase environment variables not properly configured!");
 }
 
-const supabase: SupabaseClient = createClient(supabaseUrl, supabaseKey);
+const supabase: SupabaseClient = createClient<Database>(supabaseUrl, supabaseKey);
 
 let user: { email: string; username: string; access_token: string } | null =
     null;
 
 // eslint-disable-next-line import/order
-import { login, logout, register } from "./auth.js";
 
 const spawnablePanelTypes: [string, PanelType][] =
     Object.entries(PanelType).slice(2);
@@ -97,98 +99,6 @@ const current = {
     panel: preview,
 };
 
-dashboard.load().then(() => {
-    finishLoading(loader);
-});
-
-const form: HTMLFormElement | null = document.querySelector("form");
-
-const usernameInput: HTMLInputElement =
-    form?.querySelector("#username") ?? document.createElement("input");
-const emailInput: HTMLInputElement =
-    form?.querySelector("#email") ?? document.createElement("input");
-const passwordInput: HTMLInputElement =
-    form?.querySelector("#password") ?? document.createElement("input");
-const loginFormClickable: HTMLInputElement | null = form?.querySelector(
-    "#login-subtitle-clickable",
-) as HTMLInputElement | null;
-const registerFormClickable: HTMLElement | null = form?.querySelector(
-    "#register-subtitle-clickable",
-) as HTMLElement | null;
-const loginClickable: HTMLInputElement | null = document?.querySelector(
-    "#login-clickable",
-) as HTMLInputElement | null;
-const registerClickable: HTMLElement | null = document?.querySelector(
-    "#register-clickable",
-) as HTMLElement | null;
-const logoutClickable: HTMLElement | null = document?.querySelector(
-    "#logout-clickable",
-) as HTMLElement | null;
-const registerButton: HTMLButtonElement | null = form?.querySelector(
-    "#register-button",
-) as HTMLButtonElement | null;
-const loginButton: HTMLButtonElement | null = form?.querySelector(
-    "#login-button",
-) as HTMLButtonElement | null;
-const closeFormButton: HTMLButtonElement | null = form?.querySelector(
-    "#close-form-button",
-) as HTMLButtonElement | null;
-
-const passwordVisibilityButton: HTMLElement | null = form?.querySelector(
-    "#password-visibility-button",
-) as HTMLElement | null;
-
-function goToRegisterScreen(): void {
-    form?.classList.add("visible");
-    form?.classList.add("new-user");
-    usernameInput.setAttribute("required", "true");
-}
-
-function goToLoginScreen(): void {
-    form?.classList.add("visible");
-    form?.classList.remove("new-user");
-    usernameInput.removeAttribute("required");
-}
-
-loginFormClickable?.addEventListener("click", goToLoginScreen);
-registerFormClickable?.addEventListener("click", goToRegisterScreen);
-loginClickable?.addEventListener("click", goToLoginScreen);
-registerClickable?.addEventListener("click", goToRegisterScreen);
-logoutClickable?.addEventListener("click", logout);
-
-function hidePassword(): void {
-    passwordVisibilityButton?.style.setProperty(
-        "background",
-        "var(--input-secondary)",
-    );
-    passwordInput?.setAttribute("type", "password");
-    document.removeEventListener("mouseup", hidePassword);
-}
-
-passwordVisibilityButton?.addEventListener("mousedown", () => {
-    passwordVisibilityButton.style.setProperty(
-        "background",
-        "var(--input-accent)",
-    );
-    passwordInput?.setAttribute("type", "text");
-    document.addEventListener("mouseup", hidePassword);
-});
-
-registerButton?.addEventListener("click", () => {
-    register(usernameInput.value, emailInput.value, passwordInput?.value);
-});
-
-loginButton?.addEventListener("click", () => {
-    login(emailInput.value, passwordInput.value);
-});
-
-closeFormButton?.addEventListener("click", () => {
-    form?.classList.remove("visible");
-});
-
-form?.addEventListener("submit", (e) => {
-    e.preventDefault();
-});
 
 const personalNavButton: HTMLElement | null = document.querySelector(
     ".personal-nav .button",
@@ -275,6 +185,7 @@ function setDocumentHandlers(): void {
 
 function finishLoading(loader: HTMLElement): void {
     loader.classList.add("despawning");
+    utils.deleteAfterTransition(loader, document.body);
 }
 
 // ~ Listener Initialisation
@@ -297,10 +208,7 @@ document.addEventListener("keydown", async (e) => {
             dashboard.toggleEditMode();
             break;
         case "ArrowLeft":
-            const fetched = await fetch(
-                import.meta.env.VITE_BACKEND_URL + "smorgasbase/get?target=id",
-            );
-            console.log(fetched);
+            console.log(Object.entries(Theme));
     }
 });
 
@@ -325,7 +233,6 @@ Object.entries(Theme).forEach((theme: [string, Theme]) => {
     menuEntry.id = `${theme[0].toLowerCase()}-entry`;
     menuEntry.innerHTML = `<span class="item-text">${theme[1]}</span>`;
     menuEntry.addEventListener("mousedown", () => {
-        localStorage.setItem("last-theme", theme[0]);
         dashboard.setCurrentTheme(theme[1]);
     });
     themeMenu.appendChild(menuEntry);
@@ -346,6 +253,7 @@ spawnablePanelTypes.forEach((panelType: [string, PanelType]) => {
 
 supabase.auth.onAuthStateChange(
     (e: AuthChangeEvent, session: Session | null) => {
+        console.log(e);
         if (e == "SIGNED_IN" && session && session.user) {
             user = {
                 email: session.user.email as string,
@@ -372,10 +280,15 @@ supabase.auth.onAuthStateChange(
             loggedInOptions?.style.setProperty("display", "none");
 
             personalNavButton?.classList.remove("active");
+        } else if (e == "INITIAL_SESSION") {
+            dashboard.load().then(() => {
+                finishLoading(loader);
+            });
         }
         // console.log("!!", e, session);
     },
 );
+
 
 export {
     commonHandler,

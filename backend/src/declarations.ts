@@ -4,4 +4,5 @@ export import fs = require("fs");
 export import path = require("path");
 export import dotenv = require("dotenv");
 import { createClient } from "@supabase/supabase-js";
-export { createClient };
+import type { SupabaseClient } from "@supabase/supabase-js";
+export { createClient, SupabaseClient };
