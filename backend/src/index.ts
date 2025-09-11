@@ -32,6 +32,8 @@ app.use(
     })
 );
 
+app.use(express.json());
+
 app.use("/definitions/", definitionsRouter);
 app.use("/smorgasbase/", databaseRouter);
 // app.use("/api/", apiRouter);
