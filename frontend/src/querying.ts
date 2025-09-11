@@ -41,7 +41,7 @@ async function patchIntoSmorgasBase(
 ): Promise<DashboardDataFetch[]> {
     const parsedBody: {
         theme?: number;
-        freeIds?: number[];
+        free_ids?: number[];
         panels?: PanelInstance[];
         username?: string;
     } = {};
@@ -49,16 +49,16 @@ async function patchIntoSmorgasBase(
     try {
         switch (target) {
             case "theme":
-                parsedBody.theme = value as number;
+                parsedBody["theme"] = value as number;
                 break;
             case "free_ids":
-                parsedBody.freeIds = value as number[];
+                parsedBody["free_ids"] = value as number[];
                 break;
             case "panels":
-                parsedBody.panels = value as PanelInstance[];
+                parsedBody["panels"] = value as PanelInstance[];
                 break;
             case "username":
-                parsedBody.username = value as string;
+                parsedBody["username"] = value as string;
                 break;
 
         }
