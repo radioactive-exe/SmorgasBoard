@@ -43,6 +43,8 @@ databaseRouter.get(
             userId = "";
         }
 
+        console.log(req.body);
+
         const fetched = await fetch(
             "https://bvrmyobereaeybqpatjg.supabase.co/rest/v1/dashboard_data?id=eq." +
                 userId,
@@ -55,7 +57,7 @@ databaseRouter.get(
                     apiKey: process.env.SUPABASE_KEY ?? "",
                     Authorization: req.headers.authorization ?? "",
                 },
-                body: JSON.parse(req.body),
+                body: req.body,
             }
         );
 
