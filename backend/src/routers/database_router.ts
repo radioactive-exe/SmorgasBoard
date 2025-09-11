@@ -50,6 +50,7 @@ databaseRouter.get(
                 method: "PATCH",
                 headers: {
                     "Content-Type": "application/json",
+                    Prefer: "return=representation",
                     apiKey: process.env.SUPABASE_KEY ?? "",
                     Authorization: req.headers.authorization ?? "",
                 },

@@ -209,6 +209,8 @@ document.addEventListener("keydown", async (e) => {
             dashboard.toggleEditMode();
             break;
         case "ArrowLeft":
+            const userId = await (await supabase.auth.getUser(user?.access_token)).data.user?.id;
+            console.log(userId);
             const fetched = await fetch(
                 "https://bvrmyobereaeybqpatjg.supabase.co/rest/v1/dashboard_data?id=eq." + user?.id,
                 {
