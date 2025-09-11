@@ -2,7 +2,7 @@ import { user } from "./app";
 import type { PanelInstance } from "./classes/panel/panel";
 
 interface DashboardDataFetch {
-    panels?: PanelInstance;
+    panels?: PanelInstance[];
     theme?: number;
     username?: string;
 }

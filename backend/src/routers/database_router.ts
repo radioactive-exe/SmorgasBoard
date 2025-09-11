@@ -11,6 +11,7 @@ databaseRouter.get("/get", async (req: express.Request, res: express.Response) =
     const fetched = await fetch(
         "https://bvrmyobereaeybqpatjg.supabase.co/rest/v1/dashboard_data?select=" + target,
         {
+            method: "GET",
             headers: {
                 apiKey: process.env.SUPABASE_KEY ?? "",
                 Authorization: req.headers.authorization ?? "",
@@ -29,6 +30,7 @@ databaseRouter.get("/patch", async (req: express.Request, res: express.Response)
     const fetched = await fetch(
         "https://bvrmyobereaeybqpatjg.supabase.co/rest/v1/dashboard_data?update=" + target,
         {
+            method: "PATCH",
             headers: {
                 apiKey: process.env.SUPABASE_KEY ?? "",
                 Authorization: req.headers.authorization ?? "",

@@ -13,7 +13,7 @@ import { AlertLevel, spawnAlert } from "../elements/alert.js";
 import { deletePanelSection } from "../elements/context_menu.js";
 import * as get from "../functions/accessors.js";
 import * as utils from "../functions/util.js";
-import { getFromSmorgasBase } from "../querying.js";
+import { getFromSmorgasBase, patchIntoSmorgasBase } from "../querying.js";
 
 import type { Size } from "./area.js";
 import { Area } from "./area.js";
@@ -230,6 +230,7 @@ class Dashboard extends HTMLElement {
         this.panels.splice(this.panels.indexOf(panel), 1);
         this.freeIds.add(panel.getId());
         this.removeChild(panel);
+        if (this.panels.length == 0) this.freeIds.clear();
         deletePanelSection.classList.remove("visible");
         this.updateStoredPanels();
     }
@@ -245,10 +246,15 @@ class Dashboard extends HTMLElement {
     }
 
     private loadStoredPanels(): Promise<void> {
-        return new Promise((resolve) => {
-            const loadedIds: number[] = JSON.parse(
-                localStorage.getItem("free-panel-ids") ?? "[]",
-            );
+        return new Promise(async (resolve) => {
+            let loadedIds: number[];
+            try {
+                loadedIds = JSON.parse(
+                    localStorage.getItem("free-panel-ids") as string,
+                );
+            } catch {
+                loadedIds = [];
+            }
 
             this.freeIds = new Set<number>(loadedIds);
 
@@ -269,11 +275,20 @@ class Dashboard extends HTMLElement {
                 return;
             }
 
-            const loadedString: string | null = localStorage.getItem(
-                "local-panel-storage",
-            );
+            let loadedPanelInstances: PanelInstance[];
+            try {
+                loadedPanelInstances = JSON.parse(
+                    localStorage.getItem("local-panel-storage") as string,
+                );
+                if (user)
+                    loadedPanelInstances = (
+                        await getFromSmorgasBase("panels")
+                    )[0].panels as PanelInstance[];
+            } catch {
+                loadedPanelInstances = [];
+            }
 
-            if (loadedString == null || loadedString == "[]") {
+            if (loadedPanelInstances.length == 0) {
                 spawnAlert(
                     "No stored panels! Initiating base board with a random Panel. To Add more, Right Click and hover on 'Add Panel', and have fun!",
                     AlertLevel.INFO,
@@ -288,12 +303,9 @@ class Dashboard extends HTMLElement {
                 resolve();
                 return;
             }
-
-            const loadedPanels: PanelInstance[] = JSON.parse(loadedString);
-
             let numOfPanels = 0;
 
-            loadedPanels.map((i: PanelInstance) => {
+            loadedPanelInstances.map((i: PanelInstance) => {
                 const panelToSpawn: Panel = new Panel(
                     new Area(i.area.pos, i.area.size),
                     PanelType.getTypeFromId(i.panel_type_id),
@@ -306,7 +318,7 @@ class Dashboard extends HTMLElement {
 
                 panelToSpawn.addEventListener("finished-loading", () => {
                     numOfPanels++;
-                    if (numOfPanels == loadedPanels.length) {
+                    if (numOfPanels == loadedPanelInstances.length) {
                         resolve();
                     }
                 });
@@ -345,18 +357,26 @@ class Dashboard extends HTMLElement {
     }
 
     private saveStoredPanelsToCloud(): void {
+        console.log("a");
         return;
     }
 
     public loadStoredTheme(): Promise<void> {
         return new Promise(async (resolve) => {
-            let storedTheme: number = parseInt(
-                localStorage.getItem("last-theme") ?? "0",
-            );
-            if (user)
-                storedTheme =
-                    (await getFromSmorgasBase("theme"))?.[0].theme ?? 0;
-            this.setCurrentTheme(Object.entries(Theme)[storedTheme][1]);
+            const storedTheme: string | null =
+                localStorage.getItem("last-theme");
+            let storedThemeId: number;
+
+            try {
+                storedThemeId = parseInt(storedTheme as string);
+                if (user)
+                    storedThemeId = (await getFromSmorgasBase("theme"))?.[0]
+                        .theme as number;
+            } catch {
+                storedThemeId = 0;
+            }
+
+            this.setCurrentTheme(Object.entries(Theme)[storedThemeId][1]);
             resolve();
         });
     }
@@ -374,6 +394,11 @@ class Dashboard extends HTMLElement {
             document.head.appendChild(themeFileLink);
         }
         localStorage.setItem("last-theme", theme.getId().toString());
+        try {
+            if (user) patchIntoSmorgasBase("theme", theme.getId());
+        } catch {
+            console.log("Failed to store");
+        }
         themeFileLink.setAttribute("href", theme.getUrl());
     }
 }
