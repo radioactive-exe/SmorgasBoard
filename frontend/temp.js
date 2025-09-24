@@ -63,7 +63,7 @@
 //     document.addEventListener("mouseup", hidePassword);
 // });
 
-const personalNavButton = document.querySelector(".personal-nav .button");
+//const personalNavButton = document.querySelector(".personal-nav .button");
 
 personalNavButton.addEventListener("click", () => {
     personalNavButton.classList.toggle("active");
