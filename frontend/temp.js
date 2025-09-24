@@ -68,3 +68,66 @@ const personalNavButton = document.querySelector(".personal-nav .button");
 personalNavButton.addEventListener("click", () => {
     personalNavButton.classList.toggle("active");
 });
+
+const matrix = document.querySelector(".matrix");
+
+let lastMax;
+
+function updateDimensionsMatrix() {
+    matrix.addEventListener("mouseleave", () => {
+        [...matrix.children].forEach((cell) => {
+            cell.classList.remove("active");
+        });
+    });
+
+    const max = {
+        width: Math.floor(window.innerWidth / 50),
+        height: Math.floor(window.innerHeight / 50),
+    };
+
+    if (lastMax && lastMax.width == max.width && lastMax.height == max.height)
+        return;
+    else {
+        matrix.style.setProperty("--matrix-width", max.width.toString());
+        matrix.style.setProperty("--matrix-height", max.height.toString());
+        lastMax = max;
+        matrix.replaceChildren();
+    }
+
+    for (let i = 0; i < max.height; i++) {
+        for (let j = 0; j < max.width; j++) {
+            const matrixCell = document.createElement("div");
+            matrixCell.classList.add("matrix-cell");
+            matrixCell.dataset.row = i;
+            matrixCell.dataset.column = j;
+
+            function cellMouseEnterHandler() {
+                [...matrix.children].forEach((cell) => {
+                    if (
+                        parseInt(cell.dataset.row)
+                            <= parseInt(matrixCell.dataset.row)
+                        && parseInt(cell.dataset.column)
+                            <= parseInt(matrixCell.dataset.column)
+                    )
+                        cell.classList.add("active");
+                    else cell.classList.remove("active");
+                });
+            }
+
+            matrixCell.addEventListener("mouseenter", cellMouseEnterHandler);
+            matrixCell.addEventListener("click", () => {
+                console.log(
+                    "Dashboard is now "
+                        + (j + 1).toString()
+                        + "x"
+                        + (i + 1).toString(),
+                );
+            });
+            matrix.appendChild(matrixCell);
+        }
+    }
+}
+
+updateDimensionsMatrix();
+
+window.addEventListener("resize", updateDimensionsMatrix);

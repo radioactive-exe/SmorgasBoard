@@ -8,7 +8,14 @@
 
 /** File Header Delimiter. */
 
-import { current, spawnablePanelTypes, user } from "../app.js";
+import {
+    current,
+    finishLoading,
+    loader,
+    spawnablePanelTypes,
+    user,
+} from "../app.js";
+
 import { AlertLevel, spawnAlert } from "../elements/alert.js";
 import { deletePanelSection } from "../elements/context_menu.js";
 import * as get from "../functions/accessors.js";
@@ -53,7 +60,8 @@ class Dashboard extends HTMLElement {
      * The dimensions in Units of the Dashboard.
      * @remarks
      * This holds the number of Rows and Columns that the Dashboard is divided into, as an object of type {@link Size}
-     * TODO: Implement the proper dimensions behaviour, and the ability to change the number of rows and columns when editing the Dashboard.
+     * [x] Implement the proper dimensions behaviour, and the ability to change the number of rows and columns when editing the Dashboard.
+     * TODO: Implement dashboard dimension changes preview.
      */
     private dimensions: Size;
 
@@ -97,6 +105,10 @@ class Dashboard extends HTMLElement {
         return this.panels;
     }
 
+    public getDimensions(): Size {
+        return this.dimensions;
+    }
+
     /**
      * Get the number of rows in the Dashboard.
      * @returns The number of rows the dashboard is divided into.
@@ -127,6 +139,40 @@ class Dashboard extends HTMLElement {
      */
     public static getFractionalHeight(): number {
         return window.innerHeight / this.getRows();
+    }
+
+    public static getMaxDimensions(): Size {
+        return {
+            width: Math.floor(window.innerWidth / 100),
+            height: Math.floor(window.innerHeight / 100),
+        };
+    }
+
+    public setDimensions(size: Size): void {
+        if (!utils.wouldFit(size, this.panels)) {
+            spawnAlert(
+                "You have panels that would not fit in this size. Please delete or move them away from the bottom and right sides, or delete them, to be able to set the Dashboard to these dimensions.",
+                AlertLevel.WARNING,
+            );
+            return;
+        }
+        this.dimensions = size;
+        document.body.style.setProperty("--num-of-cols", size.width.toString());
+        document.body.style.setProperty(
+            "--num-of-rows",
+            size.height.toString(),
+        );
+        this.populateCells();
+        this.organiseElements();
+
+        localStorage.setItem("dimensions", JSON.stringify(size));
+        try {
+            if (user) {
+                patchIntoSmorgasBase("dimensions", size);
+            }
+        } catch {
+            console.error("Failed to store Dimensions in database.");
+        }
     }
 
     /**
@@ -242,16 +288,57 @@ class Dashboard extends HTMLElement {
     }
 
     public load(): Promise<void> {
-        return this.loadStoredTheme().then(() => this.loadStoredPanels());
+        loader.classList.remove("despawning");
+        return this.loadStoredTheme()
+            .then(() => this.loadStoredPanels())
+            .then(() => this.loadStoredDimensions())
+            .then(() => finishLoading(loader));
+    }
+
+    public save(): void {
+        this.updateStoredPanels();
+    }
+
+    public loadStoredDimensions(): Promise<void> {
+        return new Promise(async (resolve) => {
+            let loadedDimensions: Size;
+            try {
+                if (user) {
+                    loadedDimensions = (
+                        await getFromSmorgasBase("dimensions")
+                    )[0].dimensions as Size;
+                } else {
+                    loadedDimensions = JSON.parse(
+                        localStorage.getItem("dimensions") as string,
+                    );
+                }
+
+                if (!loadedDimensions)
+                    loadedDimensions = Dashboard.getMaxDimensions();
+            } catch {
+                loadedDimensions = Dashboard.getMaxDimensions();
+            }
+
+            this.setDimensions(loadedDimensions);
+            resolve();
+        });
     }
 
     private loadStoredPanels(): Promise<void> {
         return new Promise(async (resolve) => {
+            if (this.isEditing()) this.toggleEditMode();
+            this.clearLoadedPanels();
             let loadedIds: number[];
             try {
-                loadedIds = JSON.parse(
-                    localStorage.getItem("free-panel-ids") as string,
-                );
+                if (user) {
+                    loadedIds = (await getFromSmorgasBase("free_ids"))[0]
+                        .free_ids as number[];
+                    localStorage.setItem("free-ids", JSON.stringify(loadedIds));
+                } else {
+                    loadedIds = JSON.parse(
+                        localStorage.getItem("free-ids") as string,
+                    );
+                }
             } catch {
                 loadedIds = [];
             }
@@ -277,18 +364,21 @@ class Dashboard extends HTMLElement {
 
             let loadedPanelInstances: PanelInstance[];
             try {
-                loadedPanelInstances = JSON.parse(
-                    localStorage.getItem("local-panel-storage") as string,
-                );
-                if (user)
+                if (user) {
                     loadedPanelInstances = (
                         await getFromSmorgasBase("panels")
                     )[0].panels as PanelInstance[];
+                    localStorage.removeItem("panels");
+                } else {
+                    loadedPanelInstances = JSON.parse(
+                        localStorage.getItem("panels") as string,
+                    );
+                }
             } catch {
                 loadedPanelInstances = [];
             }
 
-            if (loadedPanelInstances.length == 0) {
+            if (!loadedPanelInstances || loadedPanelInstances.length == 0) {
                 spawnAlert(
                     "No stored panels! Initiating base board with a random Panel. To Add more, Right Click and hover on 'Add Panel', and have fun!",
                     AlertLevel.INFO,
@@ -304,6 +394,11 @@ class Dashboard extends HTMLElement {
                 return;
             }
             let numOfPanels = 0;
+
+            localStorage.setItem(
+                "panels",
+                JSON.stringify(loadedPanelInstances),
+            );
 
             loadedPanelInstances.map((i: PanelInstance) => {
                 const panelToSpawn: Panel = new Panel(
@@ -326,10 +421,6 @@ class Dashboard extends HTMLElement {
         });
     }
 
-    public save(): void {
-        this.updateStoredPanels();
-    }
-
     private updateStoredPanels(): void {
         const panelStorage: PanelInstance[] = this.panels.map(
             (i): PanelInstance => {
@@ -340,25 +431,27 @@ class Dashboard extends HTMLElement {
                         pos: i.getPosition(),
                         size: i.getSize(),
                     },
-                    content: JSON.stringify(i.getContent()),
+                    content: i.getContent(),
                     config: i.getConfig(),
                 };
             },
         );
 
-        localStorage.setItem(
-            "local-panel-storage",
-            JSON.stringify(panelStorage),
-        );
-        localStorage.setItem(
-            "free-panel-ids",
-            JSON.stringify([...this.freeIds]),
-        );
+        localStorage.setItem("panels", JSON.stringify(panelStorage));
+        localStorage.setItem("free-ids", JSON.stringify([...this.freeIds]));
+        if (user) this.saveStoredPanelsToCloud();
     }
 
     private saveStoredPanelsToCloud(): void {
-        console.log("a");
-        return;
+        try {
+            patchIntoSmorgasBase(
+                "panels",
+                JSON.parse(localStorage.getItem("panels") as string),
+            );
+            patchIntoSmorgasBase("free_ids", [...this.freeIds]);
+        } catch {
+            console.error("Invalid panels sent. Check storage");
+        }
     }
 
     public loadStoredTheme(): Promise<void> {
@@ -368,10 +461,13 @@ class Dashboard extends HTMLElement {
             let storedThemeId: number;
 
             try {
-                storedThemeId = parseInt(storedTheme as string);
-                if (user)
+                if (user) {
                     storedThemeId = (await getFromSmorgasBase("theme"))?.[0]
                         .theme as number;
+                } else {
+                    storedThemeId = parseInt(storedTheme as string);
+                }
+                if (!storedThemeId) storedThemeId = 0;
             } catch {
                 storedThemeId = 0;
             }
@@ -397,9 +493,23 @@ class Dashboard extends HTMLElement {
         try {
             if (user) patchIntoSmorgasBase("theme", theme.getId());
         } catch {
-            console.log("Failed to store");
+            console.error("Failed to store Theme in Database");
         }
         themeFileLink.setAttribute("href", theme.getUrl());
+    }
+
+    public clear(): void {
+        this.setCurrentTheme(Theme.DEFAULT);
+        localStorage.removeItem("dimensions");
+        localStorage.removeItem("panels");
+        localStorage.removeItem("free-ids");
+        this.clearLoadedPanels();
+    }
+
+    public clearLoadedPanels(): void {
+        this.panels = [];
+        this.freeIds.clear();
+        this.replaceChildren();
     }
 }
 

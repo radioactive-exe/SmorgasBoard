@@ -1,6 +1,5 @@
-
 import { dashboard, preview } from "../app.js";
-import type { Area } from "../classes/area.js";
+import type { Area, Size } from "../classes/area.js";
 import type { ListSelectionOption } from "../classes/config/config_entry.js";
 import { Panel } from "../classes/panel/panel.js";
 
@@ -40,6 +39,22 @@ function collidesWithAnyPanel(area: Area): boolean {
     return flag;
 }
 
+function wouldFit(potentialSize: Size, panels: Panel[]): boolean {
+    let flag = true;
+    panels.forEach((panel: Panel) => {
+        if (
+            panel.getArea().getX() > potentialSize.width
+            || panel.getArea().getX() + panel.getArea().getWidth()
+                > potentialSize.width
+            || panel.getArea().getY() > potentialSize.height
+            || panel.getArea().getY() + panel.getArea().getHeight()
+                > potentialSize.height
+        )
+            flag = false;
+    });
+    return flag;
+}
+
 function removeClassAfterTransition(
     el: HTMLElement,
     cl: string,
@@ -62,7 +77,7 @@ function deleteAfterTransition(
 ): void {
     const deletionTimeout = setTimeout(
         () => {
-            parent?.removeChild(el);
+            if (parent.contains(el)) parent?.removeChild(el);
         },
         get.normalisedCssPropertyValue(el, "transition-duration"),
     );
@@ -100,4 +115,5 @@ export {
     isValidOption,
     previewDeletionTimeout,
     removeClassAfterTransition,
+    wouldFit,
 };

@@ -1,7 +1,7 @@
 import type { AuthResponse } from "@supabase/supabase-js";
 import { AuthWeakPasswordError, isAuthApiError } from "@supabase/supabase-js";
 
-import { supabase, user } from "./app.js";
+import { setFirstTime, supabase, user } from "./app.js";
 import { AlertLevel, spawnAlert } from "./elements/alert.js";
 
 const unexpectedErrorMessage =
@@ -17,6 +17,7 @@ async function register(
     email: string,
     password: string,
 ): Promise<void> {
+    setFirstTime(true);
     if (username == "") {
         statusMessage = { error: "Please enter a username!" };
         spawnAlert(statusMessage.error as string, AlertLevel.ERROR);
@@ -129,6 +130,7 @@ async function login(email: string, password: string): Promise<void> {
         statusMessage = {
             success: `Welcome back, ${user?.username ?? "Placeholder_User"}!`,
         };
+        setFirstTime(false);
     }
     spawnAlert(
         statusMessage.error ?? statusMessage.success ?? "",

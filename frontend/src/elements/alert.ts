@@ -1,6 +1,5 @@
 let alertDismissTimeout: NodeJS.Timeout;
 
-import { dashboard } from "../app.js";
 import { deleteAfterTransition } from "../functions/util.js";
 
 enum AlertLevel {
@@ -11,7 +10,7 @@ enum AlertLevel {
 
 function dismissAlert(alert: HTMLElement): void {
     alert.classList.remove("visible");
-    deleteAfterTransition(alert);
+    deleteAfterTransition(alert, document.body);
 }
 
 function spawnAlert(
@@ -36,7 +35,7 @@ function spawnAlert(
                 </div>
             </div>`;
 
-    dashboard.appendChild(alert);
+    document.body.appendChild(alert);
 
     const dismissButton = alert.querySelector(".close-alert-button");
 

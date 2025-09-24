@@ -7,8 +7,9 @@ import type {
 import { createClient } from "@supabase/supabase-js";
 
 import { form } from "./auth.js";
+import type { Size } from "./classes/area.js";
 import { Area } from "./classes/area.js";
-import type { Dashboard } from "./classes/dashboard.js";
+import { Dashboard } from "./classes/dashboard.js";
 import { Panel } from "./classes/panel/panel.js";
 import { PanelType, PanelTypeConfig } from "./classes/panel/panel_type.js";
 import { Theme } from "./classes/theme.js";
@@ -30,7 +31,6 @@ import {
     snapElementToTarget,
 } from "./functions/manip.js";
 
-// eslint-disable-next-line import/order
 import * as utils from "./functions/util.js";
 import { patchIntoSmorgasBase } from "./querying.js";
 import type { Database } from "./types/database.types.js";
@@ -49,10 +49,17 @@ const supabase: SupabaseClient = createClient<Database>(
     supabaseKey,
 );
 
-let user: { id: string, email: string; username: string; access_token: string } | null =
-    null;
+let user: {
+    id: string;
+    email: string;
+    username: string;
+    access_token: string;
+} | null = null;
 
-// eslint-disable-next-line import/order
+let firstTime = false;
+function setFirstTime(val: boolean): void {
+    firstTime = val;
+}
 
 const spawnablePanelTypes: [string, PanelType][] =
     Object.entries(PanelType).slice(2);
@@ -116,6 +123,7 @@ const anonOptions: HTMLElement | null = document.querySelector(
 const loggedInOptions: HTMLElement | null = document.querySelector(
     ".personal-nav .logged-in-options",
 );
+const matrix: HTMLElement | null = document.querySelector(".matrix");
 
 //#endregion
 
@@ -187,8 +195,67 @@ function setDocumentHandlers(): void {
 
 function finishLoading(loader: HTMLElement): void {
     loader.classList.add("despawning");
-    utils.deleteAfterTransition(loader, document.body);
 }
+
+let lastMax: Size;
+
+function updateDimensionsMatrix(): void {
+    const max = Dashboard.getMaxDimensions();
+
+    if (lastMax && lastMax.width == max.width && lastMax.height == max.height)
+        return;
+    else {
+        document.body.style.setProperty("--matrix-width", max.width.toString());
+        document.body.style.setProperty(
+            "--matrix-height",
+            max.height.toString(),
+        );
+        lastMax = max;
+        matrix?.replaceChildren();
+    }
+
+    for (let i = 0; i < max.height; i++) {
+        for (let j = 0; j < max.width; j++) {
+            const matrixCell = document.createElement("div");
+            matrixCell.classList.add("matrix-cell");
+            matrixCell.dataset.row = i.toString();
+            matrixCell.dataset.column = j.toString();
+
+            function cellMouseEnterHandler(): void {
+                [
+                    ...((matrix?.childNodes as NodeListOf<HTMLElement>) ?? []),
+                ].forEach((cell: HTMLElement) => {
+                    if (
+                        parseInt(cell.dataset.row as string)
+                            <= parseInt(matrixCell.dataset.row as string)
+                        && parseInt(cell.dataset.column as string)
+                            <= parseInt(matrixCell.dataset.column as string)
+                    )
+                        cell.classList.add("active");
+                    else cell.classList.remove("active");
+                });
+            }
+
+            matrixCell.addEventListener("mouseenter", cellMouseEnterHandler);
+            matrixCell.addEventListener("click", () => {
+                dashboard.setDimensions({ width: j + 1, height: i + 1 });
+                patchIntoSmorgasBase("dimensions", {
+                    width: j + 1,
+                    height: i + 1,
+                });
+                console.log(
+                    "Dashboard is now "
+                        + (j + 1).toString()
+                        + "x"
+                        + (i + 1).toString(),
+                );
+            });
+            matrix?.appendChild(matrixCell);
+        }
+    }
+}
+
+updateDimensionsMatrix();
 
 // ~ Listener Initialisation
 
@@ -196,6 +263,13 @@ window.addEventListener("resize", () => {
     dashboard.organiseElements();
     if (current.panel.classList.contains("configuring"))
         current.panel.moveToCentre();
+    updateDimensionsMatrix();
+});
+
+matrix?.addEventListener("mouseleave", () => {
+    [...(matrix?.children ?? [])].forEach((cell) => {
+        cell.classList.remove("active");
+    });
 });
 
 document.addEventListener("keydown", async (e) => {
@@ -210,30 +284,10 @@ document.addEventListener("keydown", async (e) => {
             dashboard.toggleEditMode();
             break;
         case "ArrowLeft":
-            // const userId = await (await supabase.auth.getUser(user?.access_token)).data.user?.id;
-            // console.log(userId);
-            // const fetched = await fetch(
-            //     "https://bvrmyobereaeybqpatjg.supabase.co/rest/v1/dashboard_data?id=eq." + user?.id,
-            //     {
-            //         method: "PATCH",
-            //         headers: {
-            //             "Content-Type": "application/json",
-            //             apiKey: import.meta.env.VITE_SUPABASE_KEY ?? "",
-            //             Authorization: "Bearer " + user?.access_token,
-            //         },
-            //         body: JSON.stringify({
-            //             theme: 1,
-            //         }),
-            //     },
-            // );
-            const fetched = (await patchIntoSmorgasBase("theme", 1))[0];
-            console.log(fetched);
     }
 });
 
 dashboard.addEventListener("contextmenu", spawnContextMenu);
-
-// dashboard.addEventListener("loaded", loader.remove);
 
 editModeButton?.addEventListener("click", () => {
     dashboard.toggleEditMode();
@@ -272,7 +326,6 @@ spawnablePanelTypes.forEach((panelType: [string, PanelType]) => {
 
 supabase.auth.onAuthStateChange(
     (e: AuthChangeEvent, session: Session | null) => {
-        console.log(e);
         if (e == "SIGNED_IN" && session && session.user) {
             user = {
                 id: session.user.id,
@@ -294,16 +347,27 @@ supabase.auth.onAuthStateChange(
 
             personalNavButton?.classList.remove("active");
             form?.classList.remove("visible");
+
+            if (!firstTime) {
+                dashboard.load().then(() => {
+                    finishLoading(loader);
+                });
+            } else {
+                dashboard.setCurrentTheme(dashboard.getCurrentTheme());
+                dashboard.save();
+            }
         } else if (e == "SIGNED_OUT") {
             user = null;
             anonOptions?.style.setProperty("display", "inherit");
             loggedInOptions?.style.setProperty("display", "none");
-
+            dashboard.clear();
+            dashboard.load();
             personalNavButton?.classList.remove("active");
         } else if (e == "INITIAL_SESSION") {
-            dashboard.load().then(() => {
-                finishLoading(loader);
-            });
+            if (!user)
+                dashboard.load().then(() => {
+                    finishLoading(loader);
+                });
         }
         // console.log("!!", e, session);
     },
@@ -313,11 +377,13 @@ export {
     commonHandler,
     current,
     dashboard,
+    finishLoading,
     holdHandler,
     hoverHandler,
     loader,
     preview,
     setDocumentHandlers,
+    setFirstTime,
     spawnablePanelTypes,
     supabase,
     user,

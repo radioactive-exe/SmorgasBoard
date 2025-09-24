@@ -74,7 +74,6 @@ interface Offset {
  * The simple object format of an {@link Area}.
  * @remarks
  * This is used when we are instantiating an {@link Area} from an Object, or when we need an Object-format version of an Area to `JSON.stringify()` for storage - either local or in the database. This instance, similar to the Area's parsed coordinates and sizes, uses fractional units.
- * TODO: Implement Database behaviour.
  */
 interface AreaInstance {
     pos: Coordinate;
@@ -84,7 +83,7 @@ interface AreaInstance {
 /**
  * This is the Area class.
  * @remarks
- * This class holds all information for the Area (position and size) of a Panel or other object, with relevant and helpful methods and members.
+ * This class holds all information for the Area (position and size) of a {@link import("./panel/panel.ts").Panel} or other object, with relevant and helpful methods and members.
  * TODO: Fix Panel Link
  * It includes setters and getters, as well as parsing for both absolute and fractional units used for Sizes and Coordinates.
  * This class is used when checking for collision, snapping Panels, and holistically keeping the dashboard organised.

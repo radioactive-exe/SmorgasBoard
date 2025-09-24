@@ -7,7 +7,6 @@ import * as get from "./accessors.js";
 import * as math from "./math.js";
 import * as utils from "./util.js";
 
-
 let top: number,
     right: number,
     left: number,
@@ -45,12 +44,13 @@ function resizePanel(
     panel.setSize(
         math.clamp(
             initData.panelSize.width + e.clientX - initData.eventCoords.x,
-            panel.getType().getMinWidth() * Dashboard.getFractionalWidth(),
+            panel.getType().getMinWidth() * Dashboard.getFractionalWidth() - 10,
             window.innerWidth - panel.offsetLeft,
         ),
         math.clamp(
             initData.panelSize.height + e.pageY - initData.eventCoords.y,
-            panel.getType().getMinHeight() * Dashboard.getFractionalHeight(),
+            panel.getType().getMinHeight() * Dashboard.getFractionalHeight()
+                - 10,
             window.innerHeight - panel.offsetTop,
         ),
     );
@@ -80,11 +80,11 @@ function rotatePanel(e: MouseEvent): void {
     const centreX = (left + right) / 2;
     const centreY = (top + bottom) / 2;
 
-    const offsetX = ((eventCoords.x - centreX) / (right - left)) * 60;
-    const offsetY = ((eventCoords.y - centreY) / (bottom - top)) * 40;
+    const offsetX = ((eventCoords.x - centreX) / (right - left)) * 30;
+    const offsetY = ((eventCoords.y - centreY) / (bottom - top)) * 20;
 
-    const shadowOffsetX = ((eventCoords.x - centreX) / (right - left)) * -8;
-    const shadowOffsetY = ((eventCoords.y - centreY) / (top - bottom)) * -6;
+    const shadowOffsetX = ((eventCoords.x - centreX) / (right - left)) * -4;
+    const shadowOffsetY = ((eventCoords.y - centreY) / (top - bottom)) * -3;
 
     rotateElementStyle(panel, {
         rotation: {

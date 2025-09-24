@@ -43,6 +43,7 @@ panel-element[data-panel-type="CLOCK"] {
         flex-flow: column nowrap;
         justify-content: center;
         align-items: center;
+        overflow: hidden;
         border-radius: var(--panel-border-radius);
         text-align: center;
         resize: horizontal;

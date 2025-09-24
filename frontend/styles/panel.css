@@ -7,7 +7,7 @@ smorgas-board panel-element {
     overflow: visible;
     width: var(--width);
     height: var(--height);
-    transform: perspective(200rem);
+    transform: perspective(1000rem);
     transform-style: preserve-3d;
 
     /* clip-path: circle(0 at 50% 50%);
@@ -32,12 +32,12 @@ smorgas-board panel-element {
         border-radius: var(--panel-border-radius);
         background: var(--panel-bg);
         transition: all var(--panel-transition-time) ease;
-        transform: perspective(200rem) rotateX(var(--rotate-x)) rotateY(var(--rotate-y));
         transform-style: preserve-3d;
     }
 
     &:hover::part(panel-body) {
         filter: drop-shadow(var(--shadow-offset-x) var(--shadow-offset-y) 0.2rem var(--shadow-col));
+        transform: scale(1.02) perspective(200rem) rotateX(var(--rotate-x, 0)) rotateY(var(--rotate-y, 0));
     }
 
     &::part(panel-body in-motion) {

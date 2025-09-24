@@ -35,19 +35,23 @@ import { configMenu } from "../config/config_menu_builder.js";
 import { PanelType, PanelTypeConfig, PanelTypeTemplate } from "./panel_type.js";
 
 /**
- * A type that defines the structure of a @type {Panel} in its stored format, either in localStorage or the cloud.
+ * A type that defines the structure of a {@link Panel} in its stored format, either in localStorage or the cloud.
  */
 interface PanelInstance {
     panel_id: number;
     panel_type_id: number;
     area: AreaInstance;
-    content: string;
+    content: object;
     config: Config | undefined;
 }
 
 interface PanelFetchResponse {
     panel_type: string;
     panel_template: string;
+}
+
+interface PanelContent {
+    body?: string;
 }
 
 /**
@@ -72,7 +76,7 @@ class Panel extends HTMLElement {
         protected type: PanelType,
         protected dashboardId: number,
         protected config: Config | undefined,
-        body?: string,
+        body?: object,
     ) {
         super();
 
@@ -84,7 +88,7 @@ class Panel extends HTMLElement {
         if (type != PanelType.PREVIEW) this.init(config, body);
     }
 
-    private init(existentConfig?: Config, body?: string): void {
+    private init(existentConfig?: Config, body?: object): void {
         this.initBase()
             .then(() => {
                 this.addHoverListeners();
@@ -356,20 +360,14 @@ class Panel extends HTMLElement {
         return {};
     }
 
-    public setContent(contentString: string): void {
-        const content = JSON.parse(contentString);
+    public setContent(content: PanelContent): void {
         let focus;
         switch (this.type) {
             case PanelType.NOTEPAD:
                 focus = this.querySelector<HTMLTextAreaElement>("textarea");
-                if (focus) focus.value = content.body;
+                if (focus) focus.value = content.body as string;
                 break;
             case PanelType.PHOTO:
-                focus =
-                    this.shadowRoot?.querySelector<HTMLTextAreaElement>(
-                        "textarea",
-                    );
-                if (focus) focus.value = content.body;
                 break;
         }
     }
