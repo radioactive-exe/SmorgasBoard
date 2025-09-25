@@ -83,7 +83,7 @@ interface AreaInstance {
 /**
  * This is the Area class.
  * @remarks
- * This class holds all information for the Area (position and size) of a {@link import("./panel/panel.ts").Panel} or other object, with relevant and helpful methods and members.
+ * This class holds all information for the Area (position and size) of a {@link Panel} or other object, with relevant and helpful methods and members.
  * TODO: Fix Panel Link
  * It includes setters and getters, as well as parsing for both absolute and fractional units used for Sizes and Coordinates.
  * This class is used when checking for collision, snapping Panels, and holistically keeping the dashboard organised.

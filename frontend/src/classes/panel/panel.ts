@@ -55,21 +55,18 @@ interface PanelContent {
 }
 
 /**
- * A custom HTMLElement, implements many methods for custom use with the program to make work more efficient
+ * A custom HTMLElement, implements many methods for custom use with the program to make work more efficient.
  *
- * {@label Panel}
- * @extends {HTMLElement}
+ * {@label Panel}.
  */
 class Panel extends HTMLElement {
     /**
      * Creates an instance of a Panel.
-     *
-     * @constructor
-     * @param {Area} area
-     * @param {PanelType} type
-     * @param {number} dashboardId
-     * @param {string} [body]
-     * @memberof Panel
+     * @param area
+     * @param type
+     * @param dashboardId
+     * @param config
+     * @param [body]
      */
     public constructor(
         protected area: Area,
@@ -126,11 +123,9 @@ class Panel extends HTMLElement {
     }
 
     /**
-     * Initiates the panel's body based on its template
-     * @memberof Panel
+     * Initiates the panel's body based on its template.
      */
     private initTemplate(): Promise<void> {
-        // eslint-disable-next-line no-async-promise-executor
         return new Promise(async (resolve) => {
             const response: PanelFetchResponse = await fetch(
                 import.meta.env.VITE_BACKEND_URL + this.type.getTemplate(),
@@ -225,18 +220,16 @@ class Panel extends HTMLElement {
     }
 
     /**
-     * Gets the Area of the current Panel, as an object of @type {Area}
-     * @returns {Area}
-     * @memberof Panel
+     * Gets the Area of the current Panel, as an object of @type {Area}.
+     * @returns
      */
     public getArea(): Area {
         return this.area;
     }
 
     /**
-     * Sets the Panel's Area with a complete @type {Area} input
-     * @param {Area} other
-     * @memberof Panel
+     * Sets the Panel's Area with a complete @type {Area} input.
+     * @param other
      */
     public setArea(other: Area): void {
         this.setPosition(other.getAbsoluteX(), other.getAbsoluteY());
@@ -245,7 +238,6 @@ class Panel extends HTMLElement {
 
     /**
      * Updates the current Panel's Area with the values in the style, in case there is ever a disconnect between the two. This should never be the case, but it is a contingency. This is for queried Panels, in case they exist. Usually, they won't, but just in case.
-     * @memberof Panel
      */
     public updateArea(): void {
         this.setArea(
@@ -265,9 +257,8 @@ class Panel extends HTMLElement {
     }
 
     /**
-     * Gets the Panel's (Area's) position, as an object of @type {Coordinate}
-     * @returns {Coordinate}
-     * @memberof Panel
+     * Gets the Panel's (Area's) position, as an object of @type {Coordinate}.
+     * @returns
      */
     public getPosition(): Coordinate {
         return this.area.getCoordinates();
@@ -275,9 +266,8 @@ class Panel extends HTMLElement {
 
     /**
      * Sets the Panel's position from an input set of numbers.
-     * @param {number} x - The x (horizontal) coordinate
-     * @param {number} y - The y (vertical) coordinate
-     * @memberof Panel
+     * @param x - The x (horizontal) coordinate.
+     * @param y - The y (vertical) coordinate.
      */
     public setPosition(x: number, y: number): void {
         this.area.setCoordinates({
@@ -307,9 +297,8 @@ class Panel extends HTMLElement {
     }
 
     /**
-     * Gets the size of the Panel ('s Area) as an object of @type {Size}
-     * @returns{Size}
-     * @memberof Panel
+     * Gets the size of the Panel ('s Area) as an object of @type {Size}.
+     * @returns
      */
     public getSize(): Size {
         return this.area.getSize();
@@ -317,9 +306,8 @@ class Panel extends HTMLElement {
 
     /**
      * Sets the Panel's size from an input set of numbers.
-     * @param {number} width
-     * @param {number} height
-     * @memberof Panel
+     * @param width
+     * @param height
      */
     public setSize(width: number, height: number): void {
         this.area.setSize({
@@ -333,18 +321,16 @@ class Panel extends HTMLElement {
     }
 
     /**
-     * Returns the Panel's type, as an object of @type {PanelType}
+     * Returns the Panel's type, as an object of @type {PanelType}.
      * @returns{PanelType}
-     * @memberof Panel
      */
     public getType(): PanelType {
         return this.type;
     }
 
     /**
-     *  Sets the Panel Type from a received input of @type {PanelType}
-     * @param {PanelType} type
-     * @memberof Panel
+     *  Sets the Panel Type from a received input of @type {PanelType}.
+     * @param type
      */
     public setType(type: PanelType): void {
         this.type = type;
