@@ -127,13 +127,6 @@ const matrix: HTMLElement | null = document.querySelector(".matrix");
 
 //#endregion
 
-function init(): void {
-    const linkFiles = document.head.querySelectorAll("link");
-    linkFiles.forEach((link) => {
-        if (link.href.includes("themes")) link.id = "app-theme";
-    });
-}
-
 function releaseHandler(): void {
     snapElementToTarget(current.panel, preview);
 
@@ -262,7 +255,6 @@ function updateDimensionsMatrix(): void {
     }
 }
 
-init();
 updateDimensionsMatrix();
 
 // ~ Listener Initialisation
