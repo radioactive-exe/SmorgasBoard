@@ -17,8 +17,12 @@ export default {
     build: {
         rollupOptions: {
             output: {
-                entryFileNames: `assets/app.js`,
-                assetFileNames: `assets/app.[ext]`,
+                entryFileNames: `app.js`,
+                assetFileNames: (assetInfo) => {
+                    if (assetInfo.name.endsWith(".css"))
+                        return `styles/app.[ext]`;
+                    else return `assets/app.[ext]`;
+                },
             },
         },
     },

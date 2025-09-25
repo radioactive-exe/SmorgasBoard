@@ -86,7 +86,7 @@ function spawnContextMenu(e: MouseEvent): void {
         contextMenu.addEventListener("mouseenter", keepContextMenu);
         contextMenu.addEventListener("mousemove", keepContextMenu);
         contextMenu.addEventListener("click", keepContextMenu);
-        // contextMenu.addEventListener("mouseleave", removeContextMenu);
+        contextMenu.addEventListener("mouseleave", removeContextMenu);
     } catch (error) {
         console.error(error);
     }
