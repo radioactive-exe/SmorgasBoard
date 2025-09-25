@@ -1,6 +1,7 @@
 /** @type {import('vite').UserConfig} */
 
 import autoprefixer from "autoprefixer";
+import { build } from "vite";
 
 export default {
     publicDir: "./public",
@@ -11,6 +12,14 @@ export default {
     css: {
         postcss: {
             plugins: [autoprefixer],
+        },
+    },
+    build: {
+        rollupOptions: {
+            output: {
+                entryFileNames: `assets/app.js`,
+                assetFileNames: `assets/app.[ext]`,
+            },
         },
     },
 };

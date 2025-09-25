@@ -12,17 +12,12 @@
         "noImplicitReturns": true,
         "strict": true,
         "sourceMap": true,
-        "outDir": "public/dist",
+        "outDir": "build/dist",
         "declaration": true,
-        "declarationDir": "public/dist/lib/types",
+        "declarationDir": "build/dist/lib/types",
         "declarationMap": true,
         "types": ["vite/client"]
     },
-    "include": [
-        "**/src/**/*"
-    ],
-    "exclude": [
-        "**/node_modules/*",
-        "**/dist/**/*"
-    ]
+    "include": ["**/src/**/*"],
+    "exclude": ["**/node_modules/*", "**/dist/**/*"]
 }
