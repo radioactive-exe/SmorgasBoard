@@ -337,11 +337,15 @@ class Dashboard extends HTMLElement {
                     );
                 }
 
+                console.log(loadedDimensions);
+
                 if (!loadedDimensions)
                     loadedDimensions = Dashboard.getMaxDimensions();
             } catch {
                 loadedDimensions = Dashboard.getMaxDimensions();
             }
+
+            console.log("Now:", loadedDimensions);
 
             this.setDimensions(loadedDimensions);
             resolve();
