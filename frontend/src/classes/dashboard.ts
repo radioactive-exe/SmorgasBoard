@@ -65,6 +65,8 @@ class Dashboard extends HTMLElement {
      */
     private dimensions: Size;
 
+    private cells: HTMLElement[];
+
     /**
      * Creates a new Dashboard.
      * @remarks
@@ -85,14 +87,20 @@ class Dashboard extends HTMLElement {
      */
     private populateCells(): void {
         if (!this.shadowRoot) return;
+        this.cells = [];
         this.shadowRoot.innerHTML = "";
         const cells = document.createElement("div");
         cells.part = "cell-container";
-        for (let i = 0; i < Dashboard.getRows() * Dashboard.getCols(); i++) {
-            const cell: HTMLDivElement = document.createElement("div");
-            cell.classList.add("cell");
-            cell.part = "cell";
-            cells.append(cell);
+        for (let i = 0; i < Dashboard.getRows(); i++) {
+            for (let j = 0; j < Dashboard.getCols(); j++) {
+                const cell: HTMLDivElement = document.createElement("div");
+                cell.classList.add("cell");
+                cell.part = "cell";
+                cell.dataset.row = i.toString();
+                cell.dataset.column = j.toString();
+                cells.append(cell);
+                this.cells.push(cell);
+            }
         }
         this.shadowRoot.append(cells, document.createElement("slot"));
     }
@@ -103,6 +111,10 @@ class Dashboard extends HTMLElement {
      */
     public getPanels(): Panel[] {
         return this.panels;
+    }
+
+    public getCells(): HTMLElement[] {
+        return this.cells;
     }
 
     public getDimensions(): Size {
@@ -148,13 +160,25 @@ class Dashboard extends HTMLElement {
         };
     }
 
-    public setDimensions(size: Size): void {
-        if (!utils.wouldFit(size, this.panels)) {
+    public setDimensions(size: Size, truncate = false): void {
+        if (!truncate && !utils.wouldFit(size, this.panels)) {
             spawnAlert(
                 "You have panels that would not fit in this size. Please delete or move them away from the bottom and right sides, or delete them, to be able to set the Dashboard to these dimensions.",
                 AlertLevel.WARNING,
             );
             return;
+        } else if (truncate) {
+            this.panels.forEach((panel: Panel) => {
+                if (
+                    panel.getArea().getX() > size.width
+                    || panel.getArea().getX() + panel.getArea().getWidth()
+                        > size.width
+                    || panel.getArea().getY() > size.height
+                    || panel.getArea().getY() + panel.getArea().getHeight()
+                        > size.height
+                )
+                    this.deletePanel(panel);
+            });
         }
         this.dimensions = size;
         document.body.style.setProperty("--num-of-cols", size.width.toString());

@@ -2,7 +2,7 @@
     --alert-accent: hsl(from var(--alert-bg) h s calc(l * 0.8));
     position: fixed;
     right: -100%;
-    z-index: 10;
+    z-index: 3;
     display: flex;
     flex-flow: row nowrap;
     gap: 1rem;

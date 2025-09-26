@@ -63,3 +63,9 @@
         transition: all 0s;
     }
 }
+
+@keyframes pulse {
+    100% {
+        background: var(--input-secondary);
+    }
+}

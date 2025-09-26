@@ -1,7 +1,7 @@
 #auth-form {
     position: fixed;
     inset: 0;
-    z-index: 6;
+    z-index: 1;
     display: flex;
     flex-flow: column nowrap;
     gap: var(--input-padding);
@@ -54,31 +54,8 @@
         }
     }
 
-    & .button-container {
-        display: flex;
-        justify-content: center;
-        width: 100%;
-        height: var(--input-height);
-        transition: inherit;
-        transition-duration: var(--quick-transition-time);
-    }
-
-    & .button {
+    & button {
         position: absolute;
-        width: 10rem;
-        height: var(--input-height);
-        border: none;
-        border-radius: var(--small-border-radius);
-        background: var(--input-bg);
-        color: inherit;
-        box-shadow: 0.1rem 0.1rem 1rem 0.1rem var(--shadow-col),
-            inset 0.2rem 0.2rem 0.2rem 0 hsl(from var(--input-bg) h s calc(l * 2) / 0.6),
-            inset -0.2rem -0.2rem 0.2rem 0 hsl(from var(--input-bg) h s calc(l * 0.4) / 0.6),
-            0 0 0 -0.2rem transparent;
-        font-family: inherit;
-        text-transform: uppercase;
-        cursor: pointer;
-        transition: inherit;
 
         &#register-button {
             opacity: 0;
@@ -102,23 +79,6 @@
                 background: var(--text-col);
             }
         }
-
-        &:hover {
-            width: 12rem;
-            background: hsl(from var(--input-bg) h s calc(l * 1.1));
-            box-shadow: 0.1rem 0.1rem 1rem 0.1rem var(--shadow-col),
-                inset 0.2rem 0.2rem 0.2rem 0 hsl(from var(--input-bg) h s calc(l * 2) / 0.6),
-                inset -0.2rem -0.2rem 0.2rem 0 hsl(from var(--input-bg) h s calc(l * 0.4) / 0.6);
-            letter-spacing: 0.4rem;
-        }
-
-        &:active {
-            background: hsl(from var(--input-bg) h s calc(l * 0.8));
-            box-shadow: 0.1rem 0.1rem 1rem 0.1rem var(--shadow-col),
-                inset 0.1rem 0.1rem 0.1rem 0 hsl(from var(--input-secondary) h s calc(l * 2) / 0.6),
-                inset -0.1rem -0.1rem 0.1rem 0 hsl(from var(--input-secondary) h s calc(l * 0.4) / 0.6);
-        }
-
     }
 
     & .subtitle-container {

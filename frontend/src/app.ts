@@ -125,6 +125,27 @@ const loggedInOptions: HTMLElement | null = document.querySelector(
 );
 const matrix: HTMLElement | null = document.querySelector(".matrix");
 
+const sizeWarningOverlay: HTMLElement | null = document.querySelector(
+    "#size-warning-overlay",
+);
+
+const shrinkButton: HTMLButtonElement | null =
+    document.querySelector("#shrink-button");
+
+shrinkButton?.addEventListener("click", () => {
+    dashboard.setDimensions(Dashboard.getMaxDimensions(), true);
+    sizeWarningOverlay?.classList.remove("visible");
+});
+
+const overlayDismissButtons: NodeListOf<HTMLButtonElement> | null =
+    document.querySelectorAll("button.dismiss-button");
+
+overlayDismissButtons?.forEach((button) => {
+    button.addEventListener("click", () => {
+        button.closest(".warning-overlay")?.classList.remove("visible");
+    });
+});
+
 //#endregion
 
 function releaseHandler(): void {
@@ -220,6 +241,7 @@ function updateDimensionsMatrix(): void {
             matrixCell.classList.add("matrix-cell");
             matrixCell.dataset.row = i.toString();
             matrixCell.dataset.column = j.toString();
+            matrixCell.title = `${i + 1}x${j + 1}`;
 
             function cellMouseEnterHandler(): void {
                 [
@@ -234,6 +256,17 @@ function updateDimensionsMatrix(): void {
                         cell.classList.add("active");
                     else cell.classList.remove("active");
                 });
+
+                dashboard.getCells().forEach((c: HTMLElement) => {
+                    if (
+                        parseInt(c.dataset.row as string)
+                            <= parseInt(matrixCell.dataset.row as string)
+                        && parseInt(c.dataset.column as string)
+                            <= parseInt(matrixCell.dataset.column as string)
+                    )
+                        c.part.add("previewing");
+                    else c.part.remove("previewing");
+                });
             }
 
             matrixCell.addEventListener("mouseenter", cellMouseEnterHandler);
@@ -243,6 +276,7 @@ function updateDimensionsMatrix(): void {
                     width: j + 1,
                     height: i + 1,
                 });
+
                 console.log(
                     "Dashboard is now "
                         + (j + 1).toString()
@@ -255,7 +289,16 @@ function updateDimensionsMatrix(): void {
     }
 }
 
-updateDimensionsMatrix();
+function init(): void {
+    if (
+        Dashboard.getFractionalWidth() < 100
+        || Dashboard.getFractionalHeight() < 100
+    ) {
+        sizeWarningOverlay?.classList.add("visible");
+    }
+
+    updateDimensionsMatrix();
+}
 
 // ~ Listener Initialisation
 
@@ -264,11 +307,20 @@ window.addEventListener("resize", () => {
     if (current.panel.classList.contains("configuring"))
         current.panel.moveToCentre();
     updateDimensionsMatrix();
+    if (
+        Dashboard.getFractionalWidth() < 100
+        || Dashboard.getFractionalHeight() < 100
+    )
+        sizeWarningOverlay?.classList.add("visible");
+    else sizeWarningOverlay?.classList.remove("visible");
 });
 
 matrix?.addEventListener("mouseleave", () => {
     [...(matrix?.children ?? [])].forEach((cell) => {
         cell.classList.remove("active");
+    });
+    dashboard.getCells().forEach((cell) => {
+        cell.part.remove("previewing");
     });
 });
 
@@ -350,6 +402,7 @@ supabase.auth.onAuthStateChange(
 
             if (!firstTime) {
                 dashboard.load().then(() => {
+                    init();
                     finishLoading(loader);
                 });
             } else {
@@ -366,10 +419,11 @@ supabase.auth.onAuthStateChange(
         } else if (e == "INITIAL_SESSION") {
             if (!user)
                 dashboard.load().then(() => {
+                    init();
                     finishLoading(loader);
                 });
         }
-        // console.log("!!", e, session);
+        // console.log("!!", e);
     },
 );
 

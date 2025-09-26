@@ -157,6 +157,7 @@ smorgas-board {
         transition: var(--med-transition-time) ease;
     }
 
+
     &.in-edit-mode {
         & ::part(panel-content) {
             pointer-events: none;
@@ -175,6 +176,13 @@ smorgas-board {
 
         &::part(cell) {
             opacity: 1;
+        }
+
+        &::part(cell previewing) {
+            width: calc(100% - 1rem);
+            height: calc(100% - 1rem);
+            margin: 0.5rem;
+            border: 0.5rem solid var(--cell-bg);
         }
     }
 
@@ -479,6 +487,37 @@ input:-webkit-autofill:active {
         &.active::after {
             background: var(--input-accent);
             transition-duration: var(--quick-transition-time);
+        }
+    }
+}
+
+.modal-layer {
+    z-index: 5;
+    isolation: isolate;
+
+    & .warning-overlay {
+        position: fixed;
+        inset: 0;
+        display: flex;
+        flex-flow: column nowrap;
+        gap: 3rem;
+        justify-content: center;
+        align-items: center;
+        background: hsl(from var(--dashboard-bg) h s l / 0.6);
+        opacity: 0;
+        pointer-events: none;
+        transition: all var(--med-transition-time) ease, pointer-events 0s ease var(--med-transition-time);
+        backdrop-filter: blur(0.8rem);
+
+
+        & .warning-description {
+            max-width: 60%;
+            text-align: justify;
+        }
+
+        &.visible {
+            opacity: 1;
+            pointer-events: all;
         }
     }
 }

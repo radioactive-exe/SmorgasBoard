@@ -344,7 +344,7 @@
         & .string-selector-label {
             position: relative;
             transition: all var(--quick-transition-time) var(--bezier-function), border var(--med-transition-time) var(--jelly-function);
-            
+
             & .string-selector-label-text {
                 position: absolute;
                 top: calc(50% - var(--small-font) / 2);
@@ -381,8 +381,7 @@
                 &:hover,
                 &:not(input[type="email"], input[type="password"]):valid,
                 &:is(input[type="email"]):not(:placeholder-shown),
-                &:is(input[type="password"]):not(:placeholder-shown)
-                {
+                &:is(input[type="password"]):not(:placeholder-shown) {
                     box-shadow: inset 0 0 0 0 transparent,
                         0.1rem 0.1rem 1rem 0.1rem var(--shadow-col),
                         inset 0.2rem 0.2rem 0.2rem 0 hsl(from var(--input-bg) h s calc(l * 2) / 0.6),
@@ -405,7 +404,7 @@
                 &:is(input[type="password"]):not(:valid, :placeholder-shown) {
                     border: 4px solid var(--alert-error-bg);
                     transform: scale(1, 1.1);
-                    
+
                     & ~ .string-selector-label-text {
                         border: 4px solid var(--alert-error-bg);
                         border-bottom: none;
@@ -436,4 +435,48 @@
 
 ::-webkit-scrollbar-corner {
     background: transparent;
+}
+
+.button-container {
+    display: flex;
+    gap: 2rem;
+    justify-content: center;
+    width: 100%;
+    height: var(--input-height);
+    transition: inherit;
+    transition-duration: var(--quick-transition-time);
+}
+
+button {
+    width: 10rem;
+    height: var(--input-height);
+    border: none;
+    border-radius: var(--small-border-radius);
+    background: var(--input-bg);
+    color: inherit;
+    box-shadow: 0.1rem 0.1rem 1rem 0.1rem var(--shadow-col),
+        inset 0.2rem 0.2rem 0.2rem 0 hsl(from var(--input-bg) h s calc(l * 2) / 0.6),
+        inset -0.2rem -0.2rem 0.2rem 0 hsl(from var(--input-bg) h s calc(l * 0.4) / 0.6),
+        0 0 0 -0.2rem transparent;
+    font-family: inherit;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: inherit;
+
+    &:hover {
+        width: 12rem;
+        background: hsl(from var(--input-bg) h s calc(l * 1.1));
+        box-shadow: 0.1rem 0.1rem 1rem 0.1rem var(--shadow-col),
+            inset 0.2rem 0.2rem 0.2rem 0 hsl(from var(--input-bg) h s calc(l * 2) / 0.6),
+            inset -0.2rem -0.2rem 0.2rem 0 hsl(from var(--input-bg) h s calc(l * 0.4) / 0.6);
+        letter-spacing: 0.4rem;
+    }
+
+    &:active {
+        background: hsl(from var(--input-bg) h s calc(l * 0.8));
+        box-shadow: 0.1rem 0.1rem 1rem 0.1rem var(--shadow-col),
+            inset 0.1rem 0.1rem 0.1rem 0 hsl(from var(--input-secondary) h s calc(l * 2) / 0.6),
+            inset -0.1rem -0.1rem 0.1rem 0 hsl(from var(--input-secondary) h s calc(l * 0.4) / 0.6);
+    }
+
 }

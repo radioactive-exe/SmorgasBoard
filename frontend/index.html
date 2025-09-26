@@ -141,6 +141,44 @@
                 </div>
             </form>
 
+            <div id="size-warning-overlay" class="warning-overlay">
+                <h1 class="warning-title">Too Small!</h1>
+                <h3 class="warning-description">
+                    Seems like your screen size is a bit smaller than what can
+                    comfortably support the dashboard dimensions you've chosen.
+                    I can't promise that stuff will look good, because it most
+                    likely won't.
+                </h3>
+                <h3 class="warning-description">
+                    You can:
+                    <ol>
+                        <li>Resize this window.</li>
+                        <li>
+                            Dismiss this and deal with it yourself, either by
+                            leaving as is or by removing panels and shrinking
+                            the dashboard,
+                        </li>
+                        <li>
+                            Force the dashboard size to the maximum possible one
+                            (while automatically shaving off any panels that
+                            wouldn't fit)
+                        </li>
+                        <li>
+                            Or, simply set the dashboard size to something
+                            smaller on another device (if you are logged in).
+                        </li>
+                    </ol>
+                </h3>
+                <div class="button-container">
+                    <button class="dismiss-button" type="button">
+                        Dismiss
+                    </button>
+                    <button id="shrink-button" type="button">
+                        Shrink & Delete!
+                    </button>
+                </div>
+            </div>
+
             <div class="loader">
                 <div class="ball-container">
                     <div class="ball"></div>

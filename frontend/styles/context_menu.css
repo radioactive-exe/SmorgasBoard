@@ -32,7 +32,7 @@
             margin: 0;
             padding: 0;
             pointer-events: none;
-            transition: max-height var(--med-transition-time) var(--bezier-function);
+            transition: max-height var(--med-transition-time) var(--bezier-function), background var(--quick-transition-time) ease;
 
 
             & .icon,
@@ -42,7 +42,7 @@
                 margin: 0;
                 padding: 0;
                 opacity: 0;
-                transition: all var(--quick-transition-time) ease, max-height var(--med-transition-time) var(--bezier-function), opacity var(--med-transition-time) var(--bezier-function);
+                transition: max-height var(--med-transition-time) var(--bezier-function), opacity var(--med-transition-time) var(--bezier-function), transform var(--quick-transition-time) ease;
             }
         }
 
