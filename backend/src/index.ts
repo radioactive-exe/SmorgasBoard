@@ -16,6 +16,7 @@ const app = express();
 const port = 3000;
 const allowedOrigins: string[] = [
     "https://smorgasboard.vercel.app/",
+    "https://smorgasboard.vercel.app",
     "http://127.0.0.1:3000",
     "http://127.0.0.1:3001",
     "http://127.0.0.1:3002",
