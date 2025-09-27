@@ -32,7 +32,6 @@ import {
 } from "./functions/manip.js";
 
 import * as utils from "./functions/util.js";
-import { patchIntoSmorgasBase } from "./querying.js";
 import type { Database } from "./types/database.types.js";
 
 //#region Constant Declarations
@@ -124,6 +123,11 @@ const loggedInOptions: HTMLElement | null = document.querySelector(
     ".personal-nav .logged-in-options",
 );
 const matrix: HTMLElement | null = document.querySelector(".matrix");
+
+const offscreenDownArrow: HTMLElement | null =
+    document.querySelector("#off-screen-down");
+const offscreenRightArrow: HTMLElement | null =
+    document.querySelector("#off-screen-right");
 
 const sizeWarningOverlay: HTMLElement | null = document.querySelector(
     "#size-warning-overlay",
@@ -267,22 +271,26 @@ function updateDimensionsMatrix(): void {
                         c.part.add("previewing");
                     else c.part.remove("previewing");
                 });
+
+                if (
+                    parseInt(matrixCell.dataset.row as string)
+                    >= Dashboard.getRows()
+                ) {
+                    offscreenDownArrow?.classList.add("visible");
+                } else offscreenDownArrow?.classList.remove("visible");
+                if (
+                    parseInt(matrixCell.dataset.column as string)
+                    >= Dashboard.getCols()
+                ) {
+                    offscreenRightArrow?.classList.add("visible");
+                } else offscreenRightArrow?.classList.remove("visible");
             }
 
             matrixCell.addEventListener("mouseenter", cellMouseEnterHandler);
             matrixCell.addEventListener("click", () => {
                 dashboard.setDimensions({ width: j + 1, height: i + 1 });
-                patchIntoSmorgasBase("dimensions", {
-                    width: j + 1,
-                    height: i + 1,
-                });
-
-                console.log(
-                    "Dashboard is now "
-                        + (j + 1).toString()
-                        + "x"
-                        + (i + 1).toString(),
-                );
+                offscreenDownArrow?.classList.remove("visible");
+                offscreenRightArrow?.classList.remove("visible");
             });
             matrix?.appendChild(matrixCell);
         }
@@ -322,6 +330,8 @@ matrix?.addEventListener("mouseleave", () => {
     dashboard.getCells().forEach((cell) => {
         cell.part.remove("previewing");
     });
+    offscreenDownArrow?.classList.remove("visible");
+    offscreenRightArrow?.classList.remove("visible");
 });
 
 document.addEventListener("keydown", async (e) => {

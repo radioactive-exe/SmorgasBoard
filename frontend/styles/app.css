@@ -117,6 +117,10 @@ body {
     &.dimensions-icon {
         --icon-svg: url("../public/assets/graphics/resize.svg");
     }
+
+    &.arrow-icon {
+        --icon-svg: url("../public/assets/graphics/arrow-alt-square-right.svg");
+    }
 }
 
 .glassy {
@@ -151,10 +155,11 @@ smorgas-board {
         width: calc(100% - 2rem);
         height: calc(100% - 2rem);
         margin: 1rem;
+        border: 0 solid var(--cell-bg);
         border-radius: 2rem;
         background: var(--cell-bg);
         opacity: 0.1;
-        transition: var(--med-transition-time) ease;
+        transition: all var(--med-transition-time) ease;
     }
 
 
@@ -179,10 +184,10 @@ smorgas-board {
         }
 
         &::part(cell previewing) {
-            width: calc(100% - 1rem);
-            height: calc(100% - 1rem);
-            margin: 0.5rem;
-            border: 0.5rem solid var(--cell-bg);
+            width: calc(100% - 2.2rem);
+            height: calc(100% - 2.2rem);
+            margin: 0.1rem;
+            border: 1rem solid var(--cell-bg);
         }
     }
 
@@ -491,7 +496,7 @@ input:-webkit-autofill:active {
     }
 }
 
-.modal-layer {
+#modal-layer {
     z-index: 5;
     isolation: isolate;
 
@@ -519,5 +524,51 @@ input:-webkit-autofill:active {
             opacity: 1;
             pointer-events: all;
         }
+    }
+
+    & .off-screen-arrows {
+        pointer-events: none;
+
+        & .icon {
+            position: absolute;
+            width: 8rem;
+            height: 8rem;
+            background: var(--input-accent);
+            opacity: 0;
+            filter: drop-shadow(0 0 0.5rem var(--shadow-col));
+            transition: all var(--quick-transition-time) ease;
+            animation-duration: 0.5s;
+            animation-play-state: paused;
+            animation-timing-function: ease;
+            animation-iteration-count: infinite;
+            animation-direction: alternate;
+
+            &#off-screen-right {
+                top: calc(50% - 4rem);
+                right: 2rem;
+                animation-name: arrow-bounce;
+            }
+
+            &#off-screen-down {
+                bottom: 2rem;
+                left: calc(50% - 4rem);
+                transform: rotate(90deg);
+                animation-name: arrow-bounce-down;
+            }
+
+            &.visible {
+                opacity: 1;
+            }
+        }
+    }
+}
+
+.context-menu:has(#dimensions-item:hover) ~ #modal-layer {
+
+    /* A comment because my linter doesn't like this blank line */
+
+    & #off-screen-down,
+    & #off-screen-right {
+        animation-play-state: running;
     }
 }

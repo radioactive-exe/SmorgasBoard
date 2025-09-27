@@ -71,7 +71,7 @@ smorgas-board panel-element {
         background: hsl(from var(--panel-handle-bg) h s l / 0.6);
         cursor: grab;
         user-select: none;
-        transition: var(--panel-transition-time) var(--jelly-function);
+        transition: var(--quick-transition-time) ease;
         backdrop-filter: blur(0.2rem) url("#glass-distortion");
     }
 

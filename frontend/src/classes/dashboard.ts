@@ -61,7 +61,7 @@ class Dashboard extends HTMLElement {
      * @remarks
      * This holds the number of Rows and Columns that the Dashboard is divided into, as an object of type {@link Size}
      * [x] Implement the proper dimensions behaviour, and the ability to change the number of rows and columns when editing the Dashboard.
-     * TODO: Implement dashboard dimension changes preview.
+     * [x] Implement dashboard dimension changes preview.
      */
     private dimensions: Size;
 
@@ -337,15 +337,11 @@ class Dashboard extends HTMLElement {
                     );
                 }
 
-                console.log(loadedDimensions);
-
                 if (!loadedDimensions)
                     loadedDimensions = Dashboard.getMaxDimensions();
             } catch {
                 loadedDimensions = Dashboard.getMaxDimensions();
             }
-
-            console.log("Now:", loadedDimensions);
 
             this.setDimensions(loadedDimensions);
             resolve();
