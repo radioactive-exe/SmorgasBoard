@@ -80,7 +80,7 @@ smorgas-board panel-element {
         height: var(--square-handle-full-side);
     }
 
-    &::part(.handle):active {
+    &::part(handle):active {
         cursor: grabbing;
     }
 
@@ -112,10 +112,8 @@ smorgas-board panel-element {
         pointer-events: none;
     }
 
-    &::part(config-button) {
+    &::part(icon-button) {
         position: absolute;
-        top: 0.5rem;
-        right: 0.5rem;
         z-index: 2;
         box-sizing: border-box;
         width: 0;
@@ -128,8 +126,18 @@ smorgas-board panel-element {
         transition: var(--panel-transition-time) ease;
     }
 
+    &::part(config-button) {
+        top: 0.5rem;
+        right: 0.5rem;
+    }
+
     &::part(config-button):hover {
         transform: rotate(90deg);
+    }
+
+    &::part(delete-button) {
+        bottom: 0.5rem;
+        left: 0.5rem;
     }
 
     &::part(config-menu) {
