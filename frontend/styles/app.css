@@ -174,7 +174,7 @@ smorgas-board {
             padding: 1rem;
         }
 
-        & ::part(config-button) {
+        & panel-element::part(icon-button) {
             width: 2rem;
             height: 2rem;
         }
