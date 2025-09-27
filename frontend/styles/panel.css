@@ -97,6 +97,7 @@ smorgas-board panel-element {
 
     &::part(button-icon) {
         width: 100%;
+        background: var(--input-accent);
         pointer-events: none;
     }
 
