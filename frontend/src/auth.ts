@@ -214,16 +214,16 @@ function hidePassword(): void {
         "var(--input-secondary)",
     );
     passwordInput?.setAttribute("type", "password");
-    document.removeEventListener("mouseup", hidePassword);
+    document.removeEventListener("pointerup", hidePassword);
 }
 
-passwordVisibilityButton?.addEventListener("mousedown", () => {
+passwordVisibilityButton?.addEventListener("pointerdown", () => {
     passwordVisibilityButton.style.setProperty(
         "background",
         "var(--input-accent)",
     );
     passwordInput?.setAttribute("type", "text");
-    document.addEventListener("mouseup", hidePassword);
+    document.addEventListener("pointerup", hidePassword);
 });
 
 registerButton?.addEventListener("click", () => {

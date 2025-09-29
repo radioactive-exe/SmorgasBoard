@@ -17,6 +17,7 @@ import { Theme } from "./classes/theme.js";
 import {
     deletePanelButton,
     editModeButton,
+    innerMenu,
     panelMenu,
     removeContextMenu,
     spawnContextMenu,
@@ -69,7 +70,7 @@ const dashboard: Dashboard = document.querySelector(
     "smorgas-board",
 ) as Dashboard;
 const holdHandler = {
-    drag: (_e: MouseEvent): void => {
+    drag: (_e: PointerEvent): void => {
         return;
     },
     release: releaseHandler,
@@ -81,7 +82,7 @@ const hoverHandler = {
 };
 
 const commonHandler = {
-    mouseDown: function (panel: Panel): void {
+    pointerdown: function (panel: Panel): void {
         clearTimeout(utils.previewDeletionTimeout);
         current.panel = panel;
         panel.classList.add(current.flag, "being-manipulated");
@@ -89,7 +90,7 @@ const commonHandler = {
         setDocumentHandlers();
     },
 
-    drag: function (panel: Panel, e: MouseEvent): void {
+    drag: function (panel: Panel, e: PointerEvent): void {
         e.preventDefault();
         panel.updatePreview();
     },
@@ -108,13 +109,38 @@ const current = {
     panel: preview,
 };
 
+const modalLayer: HTMLElement =
+    document.querySelector("#modal-layer") ?? document.createElement("div");
+
+const navButtons: NodeListOf<HTMLElement> =
+    document.querySelectorAll(".nav-entry .button");
+
 const personalNavButton: HTMLElement | null = document.querySelector(
     ".personal-nav .button",
 );
 
-personalNavButton?.addEventListener("click", () => {
-    personalNavButton.classList.toggle("active");
+const mainNavButton: HTMLElement | null =
+    document.querySelector(".main-nav .button");
+
+const contextNavButton: HTMLElement | null = document.querySelector(
+    ".context-nav .button",
+);
+
+navButtons.forEach((navButton) => {
+    navButton?.addEventListener("click", () => {
+        if (navButton != contextNavButton) navButton.classList.toggle("active");
+
+        navButtons.forEach((otherButton) => {
+            if (
+                otherButton != navButton
+                && !(navButton != mainNavButton && otherButton == mainNavButton)
+            )
+                otherButton.classList.remove("active");
+        });
+    });
 });
+
+contextNavButton?.addEventListener("click", spawnContextMenu);
 
 const anonOptions: HTMLElement | null = document.querySelector(
     ".personal-nav .anon-options",
@@ -161,8 +187,8 @@ function releaseHandler(): void {
 
     dashboard.save();
 
-    document.removeEventListener("mouseup", holdHandler.release);
-    document.removeEventListener("mousemove", holdHandler.drag);
+    document.removeEventListener("pointerup", holdHandler.release);
+    document.removeEventListener("pointermove", holdHandler.drag);
     preview.dataset.callerId = "-1";
     utils.deleteAfterTransition(preview);
 }
@@ -214,8 +240,8 @@ function exitPanelHoverHandler(e: MouseEvent): void {
 }
 
 function setDocumentHandlers(): void {
-    document.addEventListener("mousemove", holdHandler.drag);
-    document.addEventListener("mouseup", holdHandler.release);
+    document.addEventListener("pointermove", holdHandler.drag);
+    document.addEventListener("pointerup", holdHandler.release);
 }
 
 function finishLoading(loader: HTMLElement): void {
@@ -297,12 +323,27 @@ function updateDimensionsMatrix(): void {
     }
 }
 
+function contextMenuLoseFocusHandler(e: MouseEvent): void {
+    const target: HTMLElement = e.target as HTMLElement;
+    if (
+        target != innerMenu
+        && target.closest(".context-menu") == null
+        && target != contextNavButton
+    )
+        removeContextMenu();
+}
+
 function init(): void {
     if (
         Dashboard.getFractionalWidth() < 100
         || Dashboard.getFractionalHeight() < 100
     ) {
         sizeWarningOverlay?.classList.add("visible");
+    }
+
+    if (!document.body.contains(modalLayer)) {
+        modalLayer.id = "modal-layer";
+        document.body.appendChild(modalLayer);
     }
 
     updateDimensionsMatrix();
@@ -351,8 +392,17 @@ document.addEventListener("keydown", async (e) => {
 
 dashboard.addEventListener("contextmenu", spawnContextMenu);
 
-editModeButton?.addEventListener("click", () => {
+editModeButton?.addEventListener("click", (_e: MouseEvent) => {
     dashboard.toggleEditMode();
+    if (!innerMenu) return;
+    // const y: number = math.clamp(
+    //     e.pageY - 0.5 * innerMenu.offsetHeight,
+    //     0,
+    //     window.innerHeight - innerMenu.offsetHeight - 10,
+    // );
+
+    // contextMenu.style.top = y + "px";
+
     removeContextMenu();
 });
 
@@ -367,7 +417,7 @@ Object.entries(Theme).forEach((theme: [string, Theme]) => {
     menuEntry.classList.add("item");
     menuEntry.id = `${theme[0].toLowerCase()}-entry`;
     menuEntry.innerHTML = `<span class="item-text">${theme[1]}</span>`;
-    menuEntry.addEventListener("mousedown", () => {
+    menuEntry.addEventListener("pointerdown", () => {
         dashboard.setCurrentTheme(theme[1]);
     });
     themeMenu.appendChild(menuEntry);
@@ -378,7 +428,7 @@ spawnablePanelTypes.forEach((panelType: [string, PanelType]) => {
     menuEntry.classList.add("item");
     menuEntry.id = `${panelType[0].toLowerCase()}-entry`;
     menuEntry.innerHTML = `<span class="item-text">${panelType[1].getName()}</span>`;
-    menuEntry.addEventListener("mousedown", () => {
+    menuEntry.addEventListener("pointerdown", () => {
         dashboard.spawnPanelOfType(panelType[1]);
     });
     panelMenu.appendChild(menuEntry);
@@ -439,12 +489,14 @@ supabase.auth.onAuthStateChange(
 
 export {
     commonHandler,
+    contextMenuLoseFocusHandler,
     current,
     dashboard,
     finishLoading,
     holdHandler,
     hoverHandler,
     loader,
+    modalLayer,
     preview,
     setDocumentHandlers,
     setFirstTime,

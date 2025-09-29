@@ -19,7 +19,7 @@ let top: number,
 
 function movePanelWithinScreen(
     panel: Panel,
-    e: MouseEvent,
+    e: PointerEvent,
     initData: { eventCoords: Coordinate; panelPos: Coordinate },
 ): void {
     panel.setPosition(
@@ -38,7 +38,7 @@ function movePanelWithinScreen(
 
 function resizePanel(
     panel: Panel,
-    e: MouseEvent,
+    e: PointerEvent,
     initData: { eventCoords: Coordinate; panelSize: Size },
 ): void {
     panel.setSize(

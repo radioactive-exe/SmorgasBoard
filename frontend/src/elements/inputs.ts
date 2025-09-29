@@ -1,13 +1,13 @@
 import type { ConfigChangeEventDetail } from "../classes/config/config.js";
 
-let optionEventListener: (e: MouseEvent) => void,
+let optionEventListener: (e: PointerEvent) => void,
     previouslyFocusedSelector: HTMLElement,
     selectionText: HTMLSpanElement,
     dropdownOptions: HTMLElement[],
     lastActive: HTMLElement;
 
 function addDropdownSelectorListeners(selector: HTMLElement): void {
-    selector.addEventListener("mousedown", () => {
+    selector.addEventListener("pointerdown", () => {
         selectionText = selector.querySelector(
             ".selection-text",
         ) as HTMLSpanElement;
@@ -35,7 +35,7 @@ function addDropdownSelectorListeners(selector: HTMLElement): void {
                 const selectedIcon: HTMLElement = option.querySelector(
                     ".selected-icon",
                 ) as HTMLElement;
-                optionEventListener = (e: MouseEvent): void => {
+                optionEventListener = (e: PointerEvent): void => {
                     e.stopPropagation();
                     selectionText.textContent = option.textContent;
 
@@ -67,11 +67,11 @@ function addDropdownSelectorListeners(selector: HTMLElement): void {
                         ),
                     );
                 };
-                option.addEventListener("mousedown", optionEventListener);
+                option.addEventListener("pointerdown", optionEventListener);
             });
         } else {
             dropdownOptions.forEach((option) => {
-                option.removeEventListener("mousedown", optionEventListener);
+                option.removeEventListener("pointerdown", optionEventListener);
             });
         }
     });
@@ -81,7 +81,7 @@ function addToggleSelectorListeners(selector: HTMLElement): void {
     const checkbox: HTMLInputElement = selector.querySelector(
         "#toggle",
     ) as HTMLInputElement;
-    selector.addEventListener("mouseup", () => {
+    selector.addEventListener("pointerup", () => {
         setTimeout(() => {
             selector.dispatchEvent(
                 new CustomEvent<ConfigChangeEventDetail>("configchange", {

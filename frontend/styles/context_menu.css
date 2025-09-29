@@ -1,16 +1,13 @@
 .context-menu {
-    position: absolute;
-    z-index: 10;
-    width: 22rem;
-    height: 16rem;
-    padding: 0.5rem;
+    position: fixed;
+    z-index: 6;
 
     & .menu {
-        position: absolute;
         display: flex;
         flex-direction: column;
         align-items: center;
         width: 22rem;
+        height: max-content;
         margin: 0.5rem;
         border-radius: var(--small-border-radius);
         background: rgb(from var(--panel-bg) r g b / var(--panel-manip-opacity));
@@ -19,7 +16,7 @@
         filter: drop-shadow(0 0 0.5rem var(--shadow-col));
         transition: width var(--quick-transition-time) ease var(--med-transition-time),
             background var(--med-transition-time) ease;
-        transform-origin: 0 10rem;
+        transform-origin: bottom;
 
         & .section {
             display: inherit;
@@ -68,6 +65,7 @@
             }
 
             &.hover-item .sub-menu {
+                position: absolute;
                 z-index: 2;
                 overflow: hidden;
                 width: 0;

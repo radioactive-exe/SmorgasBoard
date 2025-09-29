@@ -1,5 +1,6 @@
 let alertDismissTimeout: NodeJS.Timeout;
 
+import { modalLayer } from "../app.js";
 import { deleteAfterTransition } from "../functions/util.js";
 
 enum AlertLevel {
@@ -10,7 +11,7 @@ enum AlertLevel {
 
 function dismissAlert(alert: HTMLElement): void {
     alert.classList.remove("visible");
-    deleteAfterTransition(alert, document.body);
+    deleteAfterTransition(alert, modalLayer);
 }
 
 function spawnAlert(
@@ -47,7 +48,7 @@ function spawnAlert(
         dismissAlert(alert);
     }, 5000);
 
-    dismissButton?.addEventListener("mousedown", () => {
+    dismissButton?.addEventListener("click", () => {
         clearTimeout(alertDismissTimeout);
         dismissAlert(alert);
     });

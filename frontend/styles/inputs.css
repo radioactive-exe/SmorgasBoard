@@ -8,13 +8,13 @@
 .selector {
     margin: var(--input-padding) 0;
     color: var(--text-col);
+    isolation: isolate;
 
     &.dropdown-selector {
         position: relative;
         width: var(--input-width);
         font-size: var(--small-font);
         cursor: pointer;
-        isolation: isolate;
 
         & .selection {
             position: relative;

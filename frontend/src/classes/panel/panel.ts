@@ -11,6 +11,7 @@ import type * as zod from "zod";
 import {
     commonHandler,
     current,
+    dashboard,
     holdHandler,
     hoverHandler,
     preview,
@@ -89,7 +90,7 @@ class Panel extends HTMLElement {
         this.initBase()
             .then(() => {
                 this.addHoverListeners();
-                this.addHandleListeners();
+                this.addButtonListeners();
             })
             .then(() => this.initTemplate())
             .then(() => this.initConfig(existentConfig))
@@ -362,10 +363,10 @@ class Panel extends HTMLElement {
         return this.config;
     }
 
-    public addHandleListeners(): void {
+    public addButtonListeners(): void {
         this.shadowRoot
             ?.querySelector<HTMLElement>(".drag-handle")
-            ?.addEventListener("mousedown", (e) => {
+            ?.addEventListener("pointerdown", (e) => {
                 current.flag = "being-dragged";
 
                 const initData = {
@@ -379,17 +380,17 @@ class Panel extends HTMLElement {
                     } as Coordinate,
                 };
 
-                holdHandler.drag = (e: MouseEvent): void => {
+                holdHandler.drag = (e: PointerEvent): void => {
                     commonHandler.drag(this, e);
-                    movePanelWithinScreen(this, e as MouseEvent, initData);
+                    movePanelWithinScreen(this, e as PointerEvent, initData);
                 };
 
-                commonHandler.mouseDown(this);
+                commonHandler.pointerdown(this);
             });
 
         this.shadowRoot
             ?.querySelector<HTMLElement>(".resize-handle")
-            ?.addEventListener("mousedown", (e) => {
+            ?.addEventListener("pointerdown", (e) => {
                 current.flag = "being-resized";
 
                 const initData = {
@@ -403,24 +404,30 @@ class Panel extends HTMLElement {
                     } as Size,
                 };
 
-                holdHandler.drag = (e: MouseEvent): void => {
+                holdHandler.drag = (e: PointerEvent): void => {
                     commonHandler.drag(this, e);
-                    resizePanel(this, e as MouseEvent, initData);
+                    resizePanel(this, e as PointerEvent, initData);
                 };
 
-                commonHandler.mouseDown(this);
+                commonHandler.pointerdown(this);
+            });
+
+        this.shadowRoot
+            ?.querySelector<HTMLElement>(".delete-button")
+            ?.addEventListener("click", () => {
+                dashboard.deletePanel(this);
             });
     }
 
     public addHoverListeners(): void {
         this.addEventListener("mouseenter", hoverHandler.enter);
-        this.addEventListener("mousemove", hoverHandler.move);
+        this.addEventListener("pointermove", hoverHandler.move);
         this.addEventListener("mouseleave", hoverHandler.exit);
     }
 
     public removeHoverListeners(): void {
         this.removeEventListener("mouseenter", hoverHandler.enter);
-        this.removeEventListener("mousemove", hoverHandler.move);
+        this.removeEventListener("pointermove", hoverHandler.move);
         this.dispatchEvent(new Event("mouseleave"));
         this.removeEventListener("mouseleave", hoverHandler.exit);
     }

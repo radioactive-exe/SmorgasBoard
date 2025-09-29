@@ -93,3 +93,13 @@
         }
     }
 }
+
+@keyframes shake {
+    0% {
+        transform: rotate(-15deg);
+    }
+
+    100% {
+        transform: rotate(15deg);
+    }
+}

@@ -9,6 +9,7 @@
     margin: 0;
     padding: 10rem;
     background: var(--panel-bg);
+    pointer-events: all;
     transition: all var(--med-transition-time) var(--bezier-function);
 
     & .form-title-container {

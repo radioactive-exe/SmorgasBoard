@@ -15,6 +15,7 @@
     background: var(--alert-bg);
     box-shadow: 0 0 1rem 0 var(--shadow-col);
     font-size: var(--small-font);
+    pointer-events: all;
     transition: var(--med-transition-time) cubic-bezier(0.645, 0.045, 0.355, 1);
 
 

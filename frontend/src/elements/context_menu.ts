@@ -1,8 +1,10 @@
-import { current } from "../app.js";
+import { contextMenuLoseFocusHandler, current } from "../app.js";
 import { Panel } from "../classes/panel/panel.js";
 import * as math from "../functions/math.js";
 
 const contextMenu = document.querySelector(".context-menu") as HTMLElement;
+const innerMenu: HTMLElement | null =
+    contextMenu.firstElementChild as HTMLElement | null;
 const themeMenu: HTMLElement = document.querySelector(
     "#theme-menu",
 ) as HTMLElement;
@@ -23,10 +25,15 @@ const deletePanelButton = document.querySelector(
 ) as HTMLElement;
 
 let contextMenuDeleteTimeout: NodeJS.Timeout;
-function spawnContextMenu(e: MouseEvent): void {
+function spawnContextMenu(e: PointerEvent): void {
     e.preventDefault();
-    if (contextMenu == null || themeMenu == null || panelMenu == null) return;
-
+    if (
+        contextMenu == null
+        || themeMenu == null
+        || panelMenu == null
+        || innerMenu == null
+    )
+        return;
     if (
         e.target instanceof Panel
         || (e.target instanceof HTMLElement
@@ -70,12 +77,12 @@ function spawnContextMenu(e: MouseEvent): void {
         const x: number = math.clamp(
             e.pageX,
             0,
-            window.innerWidth - contextMenu.offsetWidth - 10,
+            window.innerWidth - innerMenu.offsetWidth - 10,
         );
         const y: number = math.clamp(
-            e.pageY - 0.5 * contextMenu.offsetHeight,
+            e.pageY - 0.5 * innerMenu.offsetHeight,
             0,
-            window.innerHeight - contextMenu.offsetHeight + 10,
+            window.innerHeight - innerMenu.offsetHeight - 10,
         );
 
         contextMenu.style.left = x + "px";
@@ -84,9 +91,10 @@ function spawnContextMenu(e: MouseEvent): void {
         contextMenu.classList.add("visible");
 
         contextMenu.addEventListener("mouseenter", keepContextMenu);
-        contextMenu.addEventListener("mousemove", keepContextMenu);
+        contextMenu.addEventListener("pointermove", keepContextMenu);
         contextMenu.addEventListener("click", keepContextMenu);
         contextMenu.addEventListener("mouseleave", removeContextMenu);
+        document.addEventListener("click", contextMenuLoseFocusHandler);
     } catch (error) {
         console.error(error);
     }
@@ -102,13 +110,16 @@ function removeContextMenu(): void {
     contextMenuDeleteTimeout = setTimeout(() => {
         contextMenu.classList.remove("visible");
         contextMenu.removeEventListener("mouseleave", removeContextMenu);
+        document.removeEventListener("click", contextMenuLoseFocusHandler);
     }, 1000);
 }
 
 export {
+    contextMenu,
     deletePanelButton,
     deletePanelSection,
     editModeButton,
+    innerMenu,
     keepContextMenu,
     panelMenu,
     removeContextMenu,

@@ -297,6 +297,7 @@ class Dashboard extends HTMLElement {
     }
 
     public deletePanel(panel: Panel): void {
+        if (!this.contains(panel)) return;
         this.panels.splice(this.panels.indexOf(panel), 1);
         this.freeIds.add(panel.getId());
         this.removeChild(panel);

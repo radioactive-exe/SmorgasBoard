@@ -1,5 +1,14 @@
 @import url("./app.css");
 
+@media (hover: hover) {
+    smorgas-board panel-element {
+        &:hover::part(panel-body) {
+            filter: drop-shadow(var(--shadow-offset-x) var(--shadow-offset-y) 0.2rem var(--shadow-col));
+            transform: scale(1.02) perspective(200rem) rotateX(var(--rotate-x, 0)) rotateY(var(--rotate-y, 0));
+        }
+    }
+}
+
 smorgas-board panel-element {
     position: fixed;
     top: var(--y);
@@ -36,8 +45,7 @@ smorgas-board panel-element {
     }
 
     &:hover::part(panel-body) {
-        filter: drop-shadow(var(--shadow-offset-x) var(--shadow-offset-y) 0.2rem var(--shadow-col));
-        transform: scale(1.02) perspective(200rem) rotateX(var(--rotate-x, 0)) rotateY(var(--rotate-y, 0));
+        transform: scale(1.02);
     }
 
     &::part(panel-body in-motion) {
@@ -72,6 +80,7 @@ smorgas-board panel-element {
         cursor: grab;
         user-select: none;
         transition: var(--quick-transition-time) ease;
+        touch-action: none;
         backdrop-filter: blur(0.2rem) url("#glass-distortion");
     }
 
@@ -125,6 +134,7 @@ smorgas-board panel-element {
         pointer-events: all;
         user-select: none;
         transition: var(--panel-transition-time) ease;
+        transform-origin: center;
     }
 
     &::part(config-button) {
@@ -139,6 +149,14 @@ smorgas-board panel-element {
     &::part(delete-button) {
         bottom: 0.5rem;
         left: 0.5rem;
+    }
+
+    &::part(delete-button-icon) {
+        background: var(--alert-error-bg);
+    }
+
+    &::part(delete-button):hover {
+        animation: shake 0.1s infinite alternate;
     }
 
     &::part(config-menu) {
@@ -159,12 +177,12 @@ smorgas-board panel-element {
     }
 
     &:hover {
-        z-index: 5;
+        z-index: 2;
     }
 }
 
 smorgas-board panel-element.being-manipulated {
-    z-index: 5;
+    z-index: 3;
     pointer-events: none;
 
     &::before {
@@ -228,9 +246,15 @@ smorgas-board panel-element.being-manipulated {
 }
 
 smorgas-board panel-element.configuring {
-    z-index: 10;
+    z-index: 6;
 
     &::part(handle) {
+        width: 0;
+        height: 0;
+        padding: 0;
+    }
+
+    &::part(delete-button) {
         width: 0;
         height: 0;
         padding: 0;
