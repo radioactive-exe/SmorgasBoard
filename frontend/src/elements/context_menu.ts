@@ -23,6 +23,9 @@ const deletePanelSection = document.querySelector(
 const deletePanelButton = document.querySelector(
     "#remove-panel-button",
 ) as HTMLElement;
+const hoverItems = contextMenu.querySelectorAll(
+    ".hover-item",
+) as NodeListOf<HTMLElement>;
 
 let contextMenuDeleteTimeout: NodeJS.Timeout;
 function spawnContextMenu(e: PointerEvent): void {
@@ -45,7 +48,17 @@ function spawnContextMenu(e: PointerEvent): void {
     } else deletePanelSection?.classList.remove("visible");
 
     try {
-        if (
+        if (e.pageY > window.innerHeight - contextMenu.offsetHeight - 100) {
+            themeMenu.style.top = "";
+            themeMenu.style.left = "-2%";
+            themeMenu.style.bottom = "88%";
+            panelMenu.style.top = "";
+            panelMenu.style.left = "-2%";
+            panelMenu.style.bottom = "88%";
+            dimensionsMenu.style.top = "";
+            dimensionsMenu.style.left = "-2%";
+            dimensionsMenu.style.bottom = "88%";
+        } else if (
             window.innerWidth < 2 * contextMenu.offsetWidth
             || (e.pageX > window.innerWidth - 2 * contextMenu.offsetWidth
                 && e.pageX < contextMenu.offsetWidth)
@@ -59,34 +72,42 @@ function spawnContextMenu(e: PointerEvent): void {
         } else if (e.pageX > window.innerWidth - 2 * contextMenu.offsetWidth) {
             themeMenu.style.top = "";
             themeMenu.style.left = "-102%";
+            themeMenu.style.bottom = "";
             panelMenu.style.top = "";
             panelMenu.style.left = "-102%";
+            panelMenu.style.bottom = "";
             dimensionsMenu.style.top = "88%";
             dimensionsMenu.style.left = "-2%";
+            dimensionsMenu.style.bottom = "";
         } else {
             themeMenu.style.top = "";
             themeMenu.style.left = "98%";
+            themeMenu.style.bottom = "";
             panelMenu.style.top = "";
             panelMenu.style.left = "98%";
+            panelMenu.style.bottom = "";
             dimensionsMenu.style.top = "";
             dimensionsMenu.style.left = "98%";
+            dimensionsMenu.style.bottom = "";
         }
+
+        contextMenu.classList.remove("lerping");
 
         clearTimeout(contextMenuDeleteTimeout);
 
         const x: number = math.clamp(
             e.pageX,
             0,
-            window.innerWidth - innerMenu.offsetWidth - 10,
+            window.innerWidth - contextMenu.offsetWidth - 10,
         );
         const y: number = math.clamp(
-            e.pageY - 0.5 * innerMenu.offsetHeight,
+            e.pageY,
             0,
             window.innerHeight - innerMenu.offsetHeight - 10,
         );
 
-        contextMenu.style.left = x + "px";
-        contextMenu.style.top = y + "px";
+        contextMenu.style.setProperty("--x", x + "px");
+        contextMenu.style.setProperty("--y", y + "px");
 
         contextMenu.classList.add("visible");
 
@@ -119,6 +140,7 @@ export {
     deletePanelButton,
     deletePanelSection,
     editModeButton,
+    hoverItems,
     innerMenu,
     keepContextMenu,
     panelMenu,

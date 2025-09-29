@@ -15,8 +15,11 @@ import { PanelType, PanelTypeConfig } from "./classes/panel/panel_type.js";
 import { Theme } from "./classes/theme.js";
 
 import {
+    contextMenu,
     deletePanelButton,
+    deletePanelSection,
     editModeButton,
+    hoverItems,
     innerMenu,
     panelMenu,
     removeContextMenu,
@@ -65,7 +68,7 @@ const spawnablePanelTypes: [string, PanelType][] =
     Object.entries(PanelType).slice(2);
 
 const loader: HTMLElement = document.querySelector(".loader") as HTMLElement;
-
+let contextMenuOffset: number;
 const dashboard: Dashboard = document.querySelector(
     "smorgas-board",
 ) as Dashboard;
@@ -393,21 +396,41 @@ document.addEventListener("keydown", async (e) => {
 dashboard.addEventListener("contextmenu", spawnContextMenu);
 
 editModeButton?.addEventListener("click", (_e: MouseEvent) => {
-    dashboard.toggleEditMode();
     if (!innerMenu) return;
-    // const y: number = math.clamp(
-    //     e.pageY - 0.5 * innerMenu.offsetHeight,
-    //     0,
-    //     window.innerHeight - innerMenu.offsetHeight - 10,
-    // );
+    dashboard.toggleEditMode();
+    if (dashboard.isEditing()) {
+        contextMenuOffset = 180;
+        if (deletePanelSection.classList.contains("visible"))
+            contextMenuOffset += 20;
 
-    // contextMenu.style.top = y + "px";
+        const destination = Math.min(
+            window.innerHeight - contextMenuOffset,
+            get.normalisedCssPropertyValue(contextMenu, "--y"),
+        );
 
-    removeContextMenu();
+        contextMenu.style.setProperty("--y", destination + "px");
+        contextMenu.classList.add("lerping");
+        contextMenu.style.setProperty("--y-vector", destination + "px");
+        utils.removeClassAfterTransition(contextMenu, "lerping");
+    }
 });
 
 deletePanelButton?.addEventListener("click", () => {
     dashboard.deletePanel(current.panel);
+});
+
+hoverItems.forEach((item) => {
+    item.addEventListener("mouseenter", () => {
+        item.classList.add("active");
+    });
+
+    item.addEventListener("mouseleave", () => {
+        item.classList.remove("active");
+    });
+
+    item.addEventListener("touchend", (e) => {
+        if (e.target == item) item.classList.toggle("active");
+    });
 });
 
 // ~ Panel Data Functionality

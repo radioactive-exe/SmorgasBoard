@@ -1,12 +1,15 @@
 .context-menu {
     position: fixed;
     z-index: 6;
+    width: 22rem;
+    visibility: hidden;
+    transform: translate(var(--x), var(--y));
 
     & .menu {
         display: flex;
         flex-direction: column;
         align-items: center;
-        width: 22rem;
+        width: 100%;
         height: max-content;
         margin: 0.5rem;
         border-radius: var(--small-border-radius);
@@ -57,10 +60,13 @@
 
             & .icon {
                 background-color: var(--text-col);
+                pointer-events: none;
             }
 
             & .item-text {
+                overflow: hidden;
                 white-space: nowrap;
+                pointer-events: none;
                 user-select: none;
             }
 
@@ -71,7 +77,7 @@
                 width: 0;
             }
 
-            &.hover-item:hover {
+            &.hover-item.active {
                 & .menu-caret {
                     transform: rotate(0deg);
                 }
@@ -158,7 +164,12 @@
         }
     }
 
-    &:not(.visible) {
-        visibility: hidden;
+    &.lerping {
+        transform: translate(var(--x), var(--y-vector));
+        transition: all var(--med-transition-time) var(--bezier-function);
+    }
+
+    &.visible {
+        visibility: visible;
     }
 }
