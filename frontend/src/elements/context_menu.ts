@@ -1,6 +1,10 @@
 import { contextMenuLoseFocusHandler, current } from "../app.js";
 import { Panel } from "../classes/panel/panel.js";
+import * as get from "../functions/accessors.js";
 import * as math from "../functions/math.js";
+import * as utils from "../functions/util.js";
+
+let contextMenuOffset: number;
 
 const contextMenu = document.querySelector(".context-menu") as HTMLElement;
 const innerMenu: HTMLElement | null =
@@ -45,6 +49,7 @@ function spawnContextMenu(e: PointerEvent): void {
         if (e.target instanceof Panel) current.panel = e.target;
         else current.panel = e.target.closest("panel-element") as Panel;
         deletePanelSection?.classList.add("visible");
+        keepContextMenuOnScreen();
     } else deletePanelSection?.classList.remove("visible");
 
     try {
@@ -135,6 +140,24 @@ function removeContextMenu(): void {
     }, 1000);
 }
 
+function keepContextMenuOnScreen(): void {
+    contextMenuOffset = 180;
+    if (deletePanelSection.classList.contains("visible")) {
+        console.log("gaa");
+        contextMenuOffset += 36;
+    }
+    const destination = Math.min(
+        window.innerHeight - contextMenuOffset,
+        get.normalisedCssPropertyValue(contextMenu, "--y"),
+    );
+    console.log(destination);
+
+    contextMenu.style.setProperty("--y", destination + "px");
+    contextMenu.style.setProperty("--y-vector", destination + "px");
+    contextMenu.classList.add("lerping");
+    utils.removeClassAfterTransition(contextMenu, "lerping");
+}
+
 export {
     contextMenu,
     deletePanelButton,
@@ -143,6 +166,7 @@ export {
     hoverItems,
     innerMenu,
     keepContextMenu,
+    keepContextMenuOnScreen,
     panelMenu,
     removeContextMenu,
     spawnContextMenu,

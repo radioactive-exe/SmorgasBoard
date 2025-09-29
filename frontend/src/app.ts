@@ -15,12 +15,11 @@ import { PanelType, PanelTypeConfig } from "./classes/panel/panel_type.js";
 import { Theme } from "./classes/theme.js";
 
 import {
-    contextMenu,
     deletePanelButton,
-    deletePanelSection,
     editModeButton,
     hoverItems,
     innerMenu,
+    keepContextMenuOnScreen,
     panelMenu,
     removeContextMenu,
     spawnContextMenu,
@@ -68,7 +67,6 @@ const spawnablePanelTypes: [string, PanelType][] =
     Object.entries(PanelType).slice(2);
 
 const loader: HTMLElement = document.querySelector(".loader") as HTMLElement;
-let contextMenuOffset: number;
 const dashboard: Dashboard = document.querySelector(
     "smorgas-board",
 ) as Dashboard;
@@ -399,19 +397,7 @@ editModeButton?.addEventListener("click", (_e: MouseEvent) => {
     if (!innerMenu) return;
     dashboard.toggleEditMode();
     if (dashboard.isEditing()) {
-        contextMenuOffset = 180;
-        if (deletePanelSection.classList.contains("visible"))
-            contextMenuOffset += 20;
-
-        const destination = Math.min(
-            window.innerHeight - contextMenuOffset,
-            get.normalisedCssPropertyValue(contextMenu, "--y"),
-        );
-
-        contextMenu.style.setProperty("--y", destination + "px");
-        contextMenu.classList.add("lerping");
-        contextMenu.style.setProperty("--y-vector", destination + "px");
-        utils.removeClassAfterTransition(contextMenu, "lerping");
+        keepContextMenuOnScreen();
     }
 });
 
