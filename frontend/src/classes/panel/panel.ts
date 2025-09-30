@@ -207,9 +207,7 @@ class Panel extends HTMLElement {
                     ).value = val;
                 }
 
-                this.dispatchEvent(
-                    new CustomEvent("updatepanel", { bubbles: true }),
-                );
+                this.triggerSave();
             });
 
             resolve();
@@ -446,6 +444,16 @@ class Panel extends HTMLElement {
 
     public beginBehaviour(): void {
         this.type.execute(this);
+    }
+
+    public triggerSave(): void {
+        this.dispatchEvent(new CustomEvent("updatepanel", { bubbles: true }));
+        const saveIcon: HTMLElement | null =
+            document.querySelector(".save-icon");
+        saveIcon?.classList.add("visible");
+        setTimeout(() => {
+            saveIcon?.classList.remove("visible");
+        }, 500);
     }
 
     public static defaultPanel(): Panel {
