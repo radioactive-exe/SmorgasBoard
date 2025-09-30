@@ -8,15 +8,22 @@ function execute(panel: Panel): void {
 
     panel.style.setProperty(
         "--size-coeff",
-        (((panel.getConfig()?.showSeconds as ConfigEntry.Boolean).value) ? 0.6 : 1).toString(),
+        getSizeCoefficient(panel.getConfig()).toString(),
     );
 
     panel.addEventListener("configchange", (e) => {
         const customEventParsed: CustomEvent<ConfigChangeEventDetail> =
             e as CustomEvent<ConfigChangeEventDetail>;
         const panelConfig: Config | undefined = panel.getConfig();
-        if (panelConfig && customEventParsed.detail.setting == "showSeconds") {
-            panel.style.setProperty("--size-coeff", (customEventParsed.detail.value as boolean ? 0.6 : 1).toString());
+        if (
+            panelConfig
+            && (customEventParsed.detail.setting == "showSeconds"
+                || customEventParsed.detail.setting == "use24HrTime")
+        ) {
+            panel.style.setProperty(
+                "--size-coeff",
+                getSizeCoefficient(panel.getConfig()).toString(),
+            );
         }
     });
 
@@ -24,12 +31,14 @@ function execute(panel: Panel): void {
 }
 
 function formatTime(time: Date, options: Config): string {
-    return time.toLocaleTimeString("en-gb", {
-        hour12: !(options?.use24HrTime as ConfigEntry.Boolean).value,
-        timeStyle: (options?.showSeconds as ConfigEntry.Boolean).value
-            ? "medium"
-            : "short",
-    }).toUpperCase();
+    return time
+        .toLocaleTimeString("en-gb", {
+            hour12: !(options?.use24HrTime as ConfigEntry.Boolean).value,
+            timeStyle: (options?.showSeconds as ConfigEntry.Boolean).value
+                ? "medium"
+                : "short",
+        })
+        .toUpperCase();
     // const hours: number = time.getHours();
     // const minutes: number = time.getMinutes();
     // const seconds: number = time.getSeconds();
@@ -70,7 +79,21 @@ function updateTimeAndDate(
         timeText.textContent = formatTime(now, panel.getConfig() as Config);
     setTimeout(() => {
         updateTimeAndDate(panel, dateText, timeText);
-    }, 1000);
+    }, 100);
+}
+
+function getSizeCoefficient(config: Config | undefined): number {
+    if (
+        (config?.showSeconds as ConfigEntry.Boolean).value
+        && !(config?.use24HrTime as ConfigEntry.Boolean).value
+    )
+        return 0.35;
+    else if (
+        (config?.showSeconds as ConfigEntry.Boolean).value
+        || !(config?.use24HrTime as ConfigEntry.Boolean).value
+    )
+        return 0.5;
+    else return 1;
 }
 
 export { execute };

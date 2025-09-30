@@ -1,14 +1,3 @@
-@import url("./app.css");
-
-@media (hover: hover) {
-    smorgas-board panel-element {
-        &:hover::part(panel-body) {
-            filter: drop-shadow(var(--shadow-offset-x) var(--shadow-offset-y) 0.2rem var(--shadow-col));
-            transform: scale(1.02) perspective(200rem) rotateX(var(--rotate-x, 0)) rotateY(var(--rotate-y, 0));
-        }
-    }
-}
-
 smorgas-board panel-element {
     position: fixed;
     top: var(--y);
@@ -313,5 +302,14 @@ smorgas-board panel-element.final-preview {
 
     &.visible {
         opacity: 1;
+    }
+}
+
+@media (hover: hover) {
+    smorgas-board panel-element:not(.configuring) {
+        &:hover::part(panel-body) {
+            filter: drop-shadow(var(--shadow-offset-x) var(--shadow-offset-y) 0.2rem var(--shadow-col));
+            transform: scale(1.02) perspective(200rem) rotateX(var(--rotate-x, 0)) rotateY(var(--rotate-y, 0));
+        }
     }
 }

@@ -66,7 +66,7 @@ panel-element[data-panel-type="CLOCK"] {
             & span {
                 display: block;
                 width: 100%;
-                font-size: calc(clamp(calc(var(--med-font) * 0.7), var(--med-font), 50cqw * var(--size-coeff, 1)));
+                font-size: calc(clamp(calc(var(--med-font) * 0.6), var(--med-font), 50cqw * var(--size-coeff, 1)));
             }
         }
     }
