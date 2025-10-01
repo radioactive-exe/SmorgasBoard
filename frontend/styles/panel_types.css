@@ -25,6 +25,10 @@ panel-element[data-panel-type="NOTEPAD"] {
     & textarea::placeholder {
         color: lch(from var(--text-col) calc(l*0.8) c h);
     }
+
+    &:is(.in-edit-mode panel-element[data-panel-type="NOTEPAD"]) textarea {
+        opacity: 0.8;
+    }
 }
 
 panel-element[data-panel-type="CLOCK"] {
@@ -69,5 +73,52 @@ panel-element[data-panel-type="CLOCK"] {
                 font-size: calc(clamp(calc(var(--med-font) * 0.6), var(--med-font), 50cqw * var(--size-coeff, 1)));
             }
         }
+    }
+}
+
+panel-element[data-panel-type="PHOTO"] {
+    .drop-area {
+        display: flex;
+        flex-flow: column nowrap;
+        gap: 1rem;
+        justify-content: center;
+        align-items: center;
+        width: 80%;
+        height: 80%;
+        border: 0.8rem dashed var(--input-secondary);
+        border-radius: var(--small-border-radius);
+        text-align: center;
+        filter: drop-shadow(0 0 0 var(--input-secondary));
+        transition: var(--quick-transition-time) ease;
+
+        & .image-drop-icon {
+            width: 8rem;
+            height: 8rem;
+            background: var(--input-secondary);
+        }
+
+        & .drop-area-text {
+            user-select: none;
+
+            &.drop-area-info {
+                font-style: italic;
+                font-size: var(--small-font);
+            }
+
+            &.drop-area-subinfo {
+                font-size: var(--sub-font);
+            }
+        }
+
+        &.active {
+            border-radius: calc(var(--small-border-radius) * 3);
+            filter: drop-shadow(0 0 1rem var(--input-secondary));
+        }
+    }
+
+    .panel-image {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
     }
 }

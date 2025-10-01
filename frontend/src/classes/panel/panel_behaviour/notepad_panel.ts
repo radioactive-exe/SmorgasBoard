@@ -1,8 +1,7 @@
 import type { Panel } from "../panel.js";
 
-let saveAfterEditTimeout: NodeJS.Timeout;
-
 function execute(panel: Panel): void {
+    let saveAfterEditTimeout: NodeJS.Timeout;
     autosaveLoop(panel);
     const textArea = panel.getKeyElements().get("text_area");
     if (!textArea) return;

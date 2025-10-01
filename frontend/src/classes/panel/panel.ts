@@ -52,6 +52,7 @@ interface PanelFetchResponse {
 }
 
 interface PanelContent {
+    src?: string;
     body?: string;
 }
 
@@ -350,6 +351,15 @@ class Panel extends HTMLElement {
                             ) as HTMLTextAreaElement
                         )?.value ?? "",
                 };
+            case PanelType.PHOTO:
+                return {
+                    src:
+                        (
+                            this.keyElements.get(
+                                "panel_image",
+                            ) as HTMLImageElement
+                        )?.src ?? "",
+                };
         }
         return {};
     }
@@ -364,6 +374,11 @@ class Panel extends HTMLElement {
                 else throw new Error("Missing key element: text_area");
                 break;
             case PanelType.PHOTO:
+                if (this.keyElements.get("panel_image"))
+                    (
+                        this.keyElements.get("panel_image") as HTMLImageElement
+                    ).src = content.src as string;
+                else throw new Error("Missing key element: panel_image");
                 break;
         }
     }
@@ -474,6 +489,18 @@ class Panel extends HTMLElement {
                     "time_text",
                     this.querySelector(".time-text")
                         ?? document.createElement("span"),
+                );
+                break;
+            case PanelType.PHOTO:
+                this.keyElements.set(
+                    "drop_area",
+                    this.querySelector(".drop-area")
+                        ?? document.createElement("div"),
+                );
+                this.keyElements.set(
+                    "panel_image",
+                    this.querySelector(".panel-image")
+                        ?? document.createElement("img"),
                 );
                 break;
         }

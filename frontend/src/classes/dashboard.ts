@@ -189,10 +189,11 @@ class Dashboard extends HTMLElement {
         this.populateCells();
         this.organiseElements();
 
-        localStorage.setItem("dimensions", JSON.stringify(size));
         try {
             if (user) {
                 patchIntoSmorgasBase("dimensions", size);
+            } else {
+                localStorage.setItem("dimensions", JSON.stringify(size));
             }
         } catch {
             console.error("Failed to store Dimensions in database.");
@@ -358,7 +359,6 @@ class Dashboard extends HTMLElement {
                 if (user) {
                     loadedIds = (await getFromSmorgasBase("free_ids"))[0]
                         .free_ids as number[];
-                    localStorage.setItem("free-ids", JSON.stringify(loadedIds));
                 } else {
                     loadedIds = JSON.parse(
                         localStorage.getItem("free-ids") as string,
@@ -393,7 +393,6 @@ class Dashboard extends HTMLElement {
                     loadedPanelInstances = (
                         await getFromSmorgasBase("panels")
                     )[0].panels as PanelInstance[];
-                    localStorage.removeItem("panels");
                 } else {
                     loadedPanelInstances = JSON.parse(
                         localStorage.getItem("panels") as string,
@@ -419,11 +418,6 @@ class Dashboard extends HTMLElement {
                 return;
             }
             let numOfPanels = 0;
-
-            localStorage.setItem(
-                "panels",
-                JSON.stringify(loadedPanelInstances),
-            );
 
             loadedPanelInstances.map((i: PanelInstance) => {
                 const panelToSpawn: Panel = new Panel(
@@ -462,17 +456,16 @@ class Dashboard extends HTMLElement {
             },
         );
 
-        localStorage.setItem("panels", JSON.stringify(panelStorage));
-        localStorage.setItem("free-ids", JSON.stringify([...this.freeIds]));
-        if (user) this.saveStoredPanelsToCloud();
+        if (user) this.saveStoredPanelsToCloud(panelStorage);
+        else {
+            localStorage.setItem("panels", JSON.stringify(panelStorage));
+            localStorage.setItem("free-ids", JSON.stringify([...this.freeIds]));
+        }
     }
 
-    private saveStoredPanelsToCloud(): void {
+    private saveStoredPanelsToCloud(panelStorage: PanelInstance[]): void {
         try {
-            patchIntoSmorgasBase(
-                "panels",
-                JSON.parse(localStorage.getItem("panels") as string),
-            );
+            patchIntoSmorgasBase("panels", panelStorage);
             patchIntoSmorgasBase("free_ids", [...this.freeIds]);
         } catch {
             console.error("Invalid panels sent. Check storage");
@@ -514,9 +507,9 @@ class Dashboard extends HTMLElement {
             themeFileLink = document.createElement("link");
             document.head.appendChild(themeFileLink);
         }
-        localStorage.setItem("last-theme", theme.getId().toString());
         try {
             if (user) patchIntoSmorgasBase("theme", theme.getId());
+            else localStorage.setItem("last-theme", theme.getId().toString());
         } catch {
             console.error("Failed to store Theme in Database");
         }

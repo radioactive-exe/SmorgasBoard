@@ -54,7 +54,7 @@ class PanelType {
         PanelTypeData.LOCAL,
         PanelTypeTemplate.PHOTO,
         PanelTypeConfig.NONE,
-        PanelTypeBehaviour.NONE,
+        PanelTypeBehaviour.PHOTO,
     );
     static readonly CLOCK = new PanelType(
         PanelTypeId.CLOCK,

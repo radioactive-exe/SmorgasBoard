@@ -214,19 +214,20 @@ smorgas-board {
 ::-webkit-scrollbar {
     max-width: 1rem;
     border-radius: inherit;
-    background: var(--scrollbar-bg);
     cursor: grab;
 }
 
 ::-webkit-scrollbar-thumb {
+    z-index: 5;
     max-width: 1rem;
     border-radius: inherit;
     background: var(--scrollbar-thumb-col);
-    cursor: grab;
+    transition: all var(--med-transition-time) ease;
 }
 
-::-webkit-scrollbar-thumb:active {
-    cursor: grabbing;
+::-webkit-scrollbar-thumb:hover {
+    background: hsl(from var(--scrollbar-thumb-col) h s calc(l*1.2));
+    cursor: grab;
 }
 
 ::-webkit-scrollbar-corner {
@@ -321,45 +322,6 @@ input:-webkit-autofill:active {
             --delay: 0.7s;
             grid-area: 6 / 7 / 9 / 9;
         }
-    }
-}
-
-.drop-area {
-    display: flex;
-    flex-flow: column nowrap;
-    gap: 1rem;
-    justify-content: center;
-    align-items: center;
-    width: 80%;
-    height: 80%;
-    border: 0.8rem dashed var(--input-secondary);
-    border-radius: var(--small-border-radius);
-    text-align: center;
-    filter: drop-shadow(0 0 0 var(--input-secondary));
-    transition: var(--quick-transition-time) ease;
-
-    & .image-drop-icon {
-        width: 8rem;
-        height: 8rem;
-        background: var(--input-secondary);
-    }
-
-    & .drop-area-text {
-        user-select: none;
-
-        &.drop-area-info {
-            font-style: italic;
-            font-size: var(--small-font);
-        }
-
-        &.drop-area-subinfo {
-            font-size: var(--sub-font);
-        }
-    }
-
-    &.active {
-        border-radius: calc(var(--small-border-radius) * 3);
-        filter: drop-shadow(0 0 1rem var(--input-secondary));
     }
 }
 

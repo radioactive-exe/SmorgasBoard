@@ -1,26 +1,21 @@
 <body>
     <template id="photo-panel-template">
-        <div part="panel-body" class="panel-body">
-            <div part="panel-content" class="panel-content">
-                <img src="https://picsum.photos/100/100.jpg" alt="">
-                <slot></slot>
+        <div slot="panel-type-template">
+            <div class="drop-area">
+                <div class="icon image-drop-icon"></div>
+                <p>
+                    <span class="drop-area-info drop-area-text"
+                        >Drop an image!</span
+                    >
+                </p>
+                <p>
+                    <span class="drop-area-subinfo drop-area-text"
+                        >Supported formats: <code>.png</code>,
+                        <code>.jpg/.jpeg</code>, <code>.bmp</code></span
+                    >
+                </p>
             </div>
-            <div class="handles">
-                <div part="handle drag-handle" class="handle drag-handle">
-                    <object
-                        part="handle-icon"
-                        data="assets/graphics/arrows-alt.svg"
-                        type="image/svg+xml"
-                        ></object>
-                </div>
-                <div part="handle resize-handle" class="handle resize-handle">
-                    <object
-                    part="handle-icon"
-                    data="assets/graphics/arrow-up-right-and-arrow-down-left-from-center.svg"
-                    type="image/svg+xml"
-                    ></object>
-                </div>
-            </div>
+            <img src="" alt="" class="panel-image" />
         </div>
     </template>
 </body>
