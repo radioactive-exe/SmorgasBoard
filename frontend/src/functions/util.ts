@@ -9,11 +9,13 @@ let previewDeletionTimeout: NodeJS.Timeout,
     elementDeletionTimeout: NodeJS.Timeout;
 
 /**
- * @description Checks if an inputted Area collides with a particular HTMLElement.
- * @param {Area} area - The area input we are checking for collision.
- * @param {HTMLElement} el - The HTML Element we are checking for collision with @param area.
- * @returns {boolean} - True if @param area and @param el collide. False otherwise.
- * @example areaCollisionWithElement(new Area({x: 3, y: 1}, {width: 2, height: 2}), someConstDivElement) -> true if the defined Area at the coordinates (3, 1) and with a size of (2, 2) overlaps our arbitrary "someConstantDivElement".
+ * Checks if an inputted Area collides with a particular HTMLElement.
+ * @param area - The area input we are checking for collision.
+ * @param el - The HTML Element we are checking for collision with the area.
+ * @returns True if area and element collide. False otherwise.
+ * @example
+ * areaCollisionWithElement(new Area(\{x: 3, y: 1\}, \{width: 2, height: 2\}), someConstDivElement)
+ * // * Returns `true` if `someConstDivElement` overlaps with the Area at coordinates (3, 1), and with an equal height and width of 2 cells/units.
  */
 function areaCollisionWithElement(area: Area, el: HTMLElement): boolean {
     return !(

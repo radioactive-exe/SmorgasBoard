@@ -1,11 +1,15 @@
 import type { Config, ConfigChangeEventDetail } from "../../config/config.js";
 import type * as ConfigEntry from "../../config/config_entry.js";
 import type { Panel } from "../panel.js";
+import { PanelType } from "../panel_type.js";
 
 function execute(panel: Panel): void {
-    const dateText: HTMLSpanElement | null = panel.querySelector(".date-text");
-    const timeText: HTMLSpanElement | null = panel.querySelector(".time-text");
-
+    if (
+        panel.getType() != PanelType.CLOCK
+        || panel.getKeyElements().get("date_text") == undefined
+        || panel.getKeyElements().get("time_text") == undefined
+    )
+        return;
     panel.style.setProperty(
         "--size-coeff",
         getSizeCoefficient(panel.getConfig()).toString(),
@@ -27,7 +31,11 @@ function execute(panel: Panel): void {
         }
     });
 
-    updateTimeAndDate(panel, dateText, timeText);
+    updateTimeAndDate(
+        panel,
+        panel.getKeyElements().get("date_text") as HTMLElement,
+        panel.getKeyElements().get("time_text") as HTMLElement,
+    );
 }
 
 function formatTime(time: Date, options: Config): string {

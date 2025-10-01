@@ -125,6 +125,10 @@ body {
     &.config-icon {
         --icon-svg: url("../public/assets/graphics/settings.svg");
     }
+
+    &.save-icon {
+        --icon-svg: url("../public/assets/graphics/floppy-disk-pen.svg");
+    }
 }
 
 .glassy {

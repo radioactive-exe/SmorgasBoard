@@ -1,3 +1,4 @@
+import { current } from "../app.js";
 import type { Coordinate, Offset, Size } from "../classes/area.js";
 import { Area } from "../classes/area.js";
 import { Dashboard } from "../classes/dashboard.js";
@@ -136,13 +137,23 @@ function snapElementToGrid(
         },
     );
 
+    const potentialRatio = math.getAspectRatio({
+        width: potentialArea.getWidth(),
+        height: potentialArea.getHeight(),
+    });
+
     if (
         !utils.collidesWithAnyPanel(potentialArea)
-        && (panel.getType().getAspectRatios().length == 0
-            || panel.getType().getAspectRatios().includes({
-                width: potentialArea.getWidth(),
-                height: potentialArea.getHeight(),
-            }))
+        && (current.panel.getType().getAspectRatios().length == 0
+            || current.panel
+                .getType()
+                .getAspectRatios()
+                .some((ratio) => {
+                    return (
+                        ratio.width == potentialRatio.width
+                        && ratio.height == potentialRatio.width
+                    );
+                }))
     ) {
         if (shouldAnimate) panel.classList.add("snapping");
         panel.setArea(potentialArea);

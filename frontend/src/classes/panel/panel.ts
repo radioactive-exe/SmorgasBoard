@@ -61,19 +61,21 @@ interface PanelContent {
  * {@label Panel}.
  */
 class Panel extends HTMLElement {
+    private keyElements: Map<string, HTMLElement>;
+
     /**
      * Creates an instance of a Panel.
      * @param area
      * @param type
      * @param dashboardId
      * @param config
-     * @param [body]
+     * @param body
      */
     public constructor(
-        protected area: Area,
-        protected type: PanelType,
-        protected dashboardId: number,
-        protected config: Config | undefined,
+        private area: Area,
+        private type: PanelType,
+        private dashboardId: number,
+        private config: Config | undefined,
         body?: object,
     ) {
         super();
@@ -83,10 +85,11 @@ class Panel extends HTMLElement {
         this.dashboardId = dashboardId;
         this.dataset.panelId = dashboardId.toString();
         this.dataset.panelType = type.toString();
-        if (type != PanelType.PREVIEW) this.init(config, body);
+        this.init(config, body);
     }
 
     private init(existentConfig?: Config, body?: object): void {
+        if (this.type == PanelType.PREVIEW) return;
         this.initBase()
             .then(() => {
                 this.addHoverListeners();
@@ -94,6 +97,7 @@ class Panel extends HTMLElement {
             })
             .then(() => this.initTemplate())
             .then(() => this.initConfig(existentConfig))
+            .then(() => this.bindKeyElements())
             .then(() => {
                 this.dispatchEvent(new CustomEvent("finished-loading"));
                 if (body) this.setContent(body);
@@ -339,18 +343,25 @@ class Panel extends HTMLElement {
         switch (this.type) {
             case PanelType.NOTEPAD:
                 return {
-                    body: this.querySelector("textarea")?.value ?? "",
+                    body:
+                        (
+                            this.keyElements.get(
+                                "text_area",
+                            ) as HTMLTextAreaElement
+                        )?.value ?? "",
                 };
         }
         return {};
     }
 
     public setContent(content: PanelContent): void {
-        let focus;
         switch (this.type) {
             case PanelType.NOTEPAD:
-                focus = this.querySelector<HTMLTextAreaElement>("textarea");
-                if (focus) focus.value = content.body as string;
+                if (this.keyElements.get("text_area"))
+                    (
+                        this.keyElements.get("text_area") as HTMLTextAreaElement
+                    ).value = content.body as string;
+                else throw new Error("Missing key element: text_area");
                 break;
             case PanelType.PHOTO:
                 break;
@@ -442,17 +453,47 @@ class Panel extends HTMLElement {
         snapElementToGrid(preview, this);
     }
 
+    private bindKeyElements(): void {
+        this.keyElements = new Map<string, HTMLElement>();
+        switch (this.type) {
+            case PanelType.NOTEPAD:
+                this.keyElements.set(
+                    "text_area",
+                    this.querySelector("textarea")
+                        ?? document.createElement("textarea"),
+                );
+                break;
+            case PanelType.CLOCK:
+                this.keyElements.set(
+                    "date_text",
+                    this.querySelector(".date-text")
+                        ?? document.createElement("span"),
+                );
+
+                this.keyElements.set(
+                    "time_text",
+                    this.querySelector(".time-text")
+                        ?? document.createElement("span"),
+                );
+                break;
+        }
+    }
+
+    public getKeyElements(): Map<string, HTMLElement> {
+        return this.keyElements;
+    }
+
     public beginBehaviour(): void {
         this.type.execute(this);
     }
 
     public triggerSave(): void {
         this.dispatchEvent(new CustomEvent("updatepanel", { bubbles: true }));
-        const saveIcon: HTMLElement | null =
-            document.querySelector(".save-icon");
-        saveIcon?.classList.add("visible");
+        const saveIcon: HTMLElement | null | undefined =
+            this.shadowRoot?.querySelector(".save-icon");
+        saveIcon?.part.add("visible");
         setTimeout(() => {
-            saveIcon?.classList.remove("visible");
+            saveIcon?.part.remove("visible");
         }, 500);
     }
 

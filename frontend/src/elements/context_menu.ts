@@ -143,14 +143,12 @@ function removeContextMenu(): void {
 function keepContextMenuOnScreen(): void {
     contextMenuOffset = 180;
     if (deletePanelSection.classList.contains("visible")) {
-        console.log("gaa");
         contextMenuOffset += 36;
     }
     const destination = Math.min(
         window.innerHeight - contextMenuOffset,
         get.normalisedCssPropertyValue(contextMenu, "--y"),
     );
-    console.log(destination);
 
     contextMenu.style.setProperty("--y", destination + "px");
     contextMenu.style.setProperty("--y-vector", destination + "px");

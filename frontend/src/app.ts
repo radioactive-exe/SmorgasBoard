@@ -388,6 +388,15 @@ document.addEventListener("keydown", async (e) => {
             dashboard.toggleEditMode();
             break;
         case "ArrowLeft":
+            const testMap: Map<string, HTMLElement> = new Map<
+                string,
+                HTMLElement
+            >();
+            testMap.set(
+                "test",
+                document.querySelector(".asdasd") as HTMLElement,
+            );
+            console.log(testMap);
     }
 });
 

@@ -1,13 +1,8 @@
-import { Panel } from "../panel.js";
+import type { Panel } from "../panel.js";
 
-class PhotoPanel extends Panel {
-
-    execute = function (): void {
-        return;
-    }
-
+function execute(panel: Panel): void {
+    console.log(panel);
+    return;
 }
 
-export {
-    PhotoPanel
-}
+export { execute };
