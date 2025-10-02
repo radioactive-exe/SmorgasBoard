@@ -511,6 +511,11 @@ class Panel extends HTMLElement {
                     this.querySelector(".panel-image")
                         ?? document.createElement("img"),
                 );
+                this.keyElements.set(
+                    "upload_input",
+                    this.querySelector('.image-upload-input input[type="file"]')
+                        ?? document.createElement("input"),
+                );
                 break;
         }
     }

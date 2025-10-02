@@ -12,11 +12,15 @@ function execute(panel: Panel): void {
     const dropArea: HTMLElement | undefined = panel
         .getKeyElements()
         .get("drop_area");
+    const fileInput: HTMLInputElement | undefined = panel
+        .getKeyElements()
+        .get("upload_input") as HTMLInputElement | undefined;
     const img: HTMLImageElement | undefined = panel
         .getKeyElements()
         .get("panel_image") as HTMLImageElement | undefined;
 
-    if (!dropArea || !img || panel.getType() != PanelType.PHOTO) return;
+    if (!dropArea || !fileInput || !img || panel.getType() != PanelType.PHOTO)
+        return;
 
     img.style.setProperty("object-fit", getImageFit(panel));
 
@@ -38,11 +42,16 @@ function execute(panel: Panel): void {
         });
     });
 
-    if (user)
-        dropArea?.addEventListener("drop", (e) => {
-            const file: File | undefined = e.dataTransfer?.files[0];
-            if (file) processFile(file, panel, img);
-        });
+    dropArea?.addEventListener("drop", (e) => {
+        const file: File | undefined = e.dataTransfer?.files[0];
+        if (file) processFile(file, panel, img);
+    });
+
+    fileInput.addEventListener("change", (e) => {
+        if (!e.target) return;
+        const files: FileList | null = (e.target as HTMLInputElement).files;
+        if (files && files[0]) processFile(files[0], panel, img);
+    });
 
     panel.addEventListener("configchange", (e) => {
         console.log(e);
