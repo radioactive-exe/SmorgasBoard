@@ -6,6 +6,7 @@
 @import url("./alert.css");
 @import url("./panel.css");
 @import url("./panel_types.css");
+@import url("./nav.css");
 
 :root {
 
@@ -63,6 +64,7 @@ body {
 .icon {
     width: 2rem;
     height: 2rem;
+    background: currentcolor;
     pointer-events: none;
     user-select: none;
     transition: transform var(--med-transition-time) ease, opacity var(--med-transition-time) ease, filter var(--med-transition-time) ease;
@@ -128,6 +130,10 @@ body {
 
     &.save-icon {
         --icon-svg: url("../public/assets/graphics/floppy-disk-pen.svg");
+    }
+
+    &.upload-icon {
+        --icon-svg: url("../public/assets/graphics/file-upload.svg");
     }
 }
 
@@ -205,7 +211,6 @@ smorgas-board {
         }
     }
 }
-
 
 ::-webkit-scrollbar {
     max-width: 1rem;
@@ -418,171 +423,21 @@ input:-webkit-autofill:active {
     }
 }
 
+input[type="file"] {
+    display: none;
+}
 
-#nav {
-    position: fixed;
-    right: 1.5rem;
-    bottom: 1.5rem;
-    z-index: 4;
+.image-upload-input {
+    display: inline-block;
+    padding: 1rem;
+    border-radius: var(--small-border-radius);
+    background: var(--input-bg);
+    color: var(--input-accent);
+    filter: drop-shadow(inset 0 0 0.5rem 0 var(--shadow-col));
+    cursor: pointer;
 
-    & .nav-entry {
-        position: relative;
-        transition: all var(--med-transition-time) var(--bezier-function);
-
-        &:not(.main-nav) {
-            position: absolute;
-
-            &:has(~ .main-nav .active) {
-                transform: translateY(calc(var(--pos) * -7rem));
-
-                &:nth-of-type(1) {
-                    --pos: 2;
-                }
-
-                &:nth-of-type(2) {
-                    --pos: 1;
-                }
-            }
-        }
-
-        & .icon {
-            position: absolute;
-            background: var(--input-secondary);
-            transition: all var(--med-transition-time) var(--bezier-function);
-
-            &.menu-icon {
-                width: 2rem;
-                height: 0.3rem;
-
-                &::before,
-                &::after {
-                    content: '';
-                    position: inherit;
-                    inset: 0;
-                    display: inherit;
-                    border-radius: var(--tiny-border-radius);
-                    background: inherit;
-                    transition: inherit;
-                }
-
-                &::before {
-                    transform: translateY(-0.8rem);
-                }
-
-                &::after {
-                    transform: translateY(0.8rem);
-                }
-            }
-        }
-
-        & .button {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            width: var(--square-handle-full-side);
-            height: var(--square-handle-full-side);
-            border-radius: 50%;
-            background: var(--input-bg);
-            box-shadow: inset 0.2rem 0.2rem 0.3rem 0 hsl(from var(--panel-bg) h s calc(l * 2) / 0.4),
-                inset -0.2rem -0.2rem 0.3rem 0 hsl(from var(--panel-bg) h s calc(l * 0.4) / 0.4),
-                0.4rem 0.4rem 0.2rem 0 var(--shadow-col);
-            cursor: pointer;
-            transition: inherit;
-
-            & .cloud-exclam-icon {
-                opacity: 0;
-                transform: scale(0.7) translate(0) rotate(0deg);
-            }
-
-            &.active {
-                box-shadow:
-                    inset 0.2rem 0.2rem 0.3rem 0 hsl(from var(--panel-bg) h s calc(l * 0.4) / 0.4),
-                    inset -0.2rem -0.2rem 0.3rem 0 hsl(from var(--panel-bg) h s calc(l * 2) / 0.4);
-
-                & .icon {
-                    background: var(--input-accent);
-                    filter: brightness(1.5);
-                }
-
-                & .personal-icon {
-                    transform: translate(-0.5rem, 0.2rem) rotate(-10deg);
-                }
-
-                & .cloud-exclam-icon {
-                    opacity: 1;
-                    transform: scale(0.8) translate(1rem, -1rem) rotate(15deg);
-                }
-
-                & .menu-icon {
-                    transform: rotate(135deg);
-
-                    &::before {
-                        opacity: 0;
-                    }
-
-                    &::after {
-                        transform: rotate(-270deg);
-                    }
-                }
-            }
-        }
-    }
-
-
-    & .personal-nav {
-        & .personal-nav-menu {
-            position: absolute;
-            right: calc(var(--square-handle-full-side) / 2);
-            bottom: calc(var(--square-handle-full-side) / 2);
-            display: flex;
-            flex-flow: column;
-            align-items: end;
-            overflow: hidden;
-            max-width: 1rem;
-            max-height: 1rem;
-            border: 0.5rem solid var(--input-secondary);
-            border-radius: var(--small-border-radius);
-            background: var(--panel-bg);
-            transition: all var(--med-transition-time) var(--bezier-function), max-height var(--med-transition-time) var(--bezier-function) calc(0.8 * var(--med-transition-time)), box-shadow calc(1.5 * var(--med-transition-time)) var(--bezier-function) calc(0.8 * var(--med-transition-time));
-            border-end-end-radius: calc(var(--square-handle-full-side) / 2);
-
-            & .auth-options {
-                display: inherit;
-                flex-flow: inherit;
-                align-items: inherit;
-                overflow: hidden;
-                padding: var(--input-padding);
-                padding-bottom: calc(var(--square-handle-full-side) + var(--input-padding));
-                transition: inherit;
-
-                & .auth-options-section-title {
-                    margin-bottom: 1rem;
-                    text-align: end;
-                }
-
-                & .auth-options-section {
-                    display: inherit;
-                    flex-flow: inherit;
-                    align-items: inherit;
-
-                    &.logged-in-options {
-                        display: none;
-                    }
-                }
-            }
-
-            &:has(~ .button.active) {
-                max-width: 15rem;
-                max-height: 20rem;
-                box-shadow: 0.4rem 0.4rem 0.2rem 0 var(--shadow-col);
-                transition: all var(--med-transition-time) var(--bezier-function), max-width var(--med-transition-time) var(--bezier-function) calc(0.8 * var(--med-transition-time));
-
-                & .auth-options {
-                    opacity: 1;
-                }
-            }
-
-        }
+    &:hover .upload-icon {
+        transform: scale(1.1) skew(-5deg);
     }
 }
 

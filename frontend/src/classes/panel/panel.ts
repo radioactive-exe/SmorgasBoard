@@ -380,11 +380,13 @@ class Panel extends HTMLElement {
                 ) as HTMLImageElement;
                 if (img) {
                     img.dataset.path = content.path as string;
-                    const { data } = await supabase.storage
-                        .from("dashboard_media")
-                        .createSignedUrl(content.path ?? "", 60);
-                    img.src = data?.signedUrl ?? "";
-                    if (img.src != "") img.classList.add("filled");
+                    if (content.path) {
+                        const { data } = await supabase.storage
+                            .from("dashboard_media")
+                            .createSignedUrl(content.path ?? "", 60);
+                        img.src = data?.signedUrl ?? "";
+                        img.classList.add("filled");
+                    }
                 } else throw new Error("Missing key element: panel_image");
                 break;
         }

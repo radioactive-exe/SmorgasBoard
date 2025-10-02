@@ -47,7 +47,6 @@ panel-element[data-panel-type="CLOCK"] {
         flex-flow: column nowrap;
         justify-content: center;
         align-items: center;
-        overflow: hidden;
         border-radius: var(--panel-border-radius);
         text-align: center;
         resize: horizontal;
@@ -87,6 +86,7 @@ panel-element[data-panel-type="PHOTO"] {
         align-items: center;
         width: 100%;
         height: 100%;
+        padding: var(--panel-content-padding);
         border: 0.8rem dashed var(--input-secondary);
         border-radius: var(--small-border-radius);
         text-align: center;

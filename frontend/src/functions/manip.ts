@@ -151,7 +151,7 @@ function snapElementToGrid(
                 .some((ratio) => {
                     return (
                         ratio.width == potentialRatio.width
-                        && ratio.height == potentialRatio.width
+                        && ratio.height == potentialRatio.height
                     );
                 }))
     ) {
