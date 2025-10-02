@@ -69,7 +69,7 @@ panel-element[data-panel-type="CLOCK"] {
             & span {
                 display: block;
                 width: 100%;
-                font-size: calc(clamp(calc(var(--med-font) * 0.6), var(--med-font), 50cqw * var(--size-coeff, 1)));
+                font-size: clamp(calc(var(--med-font) * 0.6), var(--med-font), 50cqw * var(--size-coeff, 1));
             }
         }
     }
@@ -91,27 +91,8 @@ panel-element[data-panel-type="PHOTO"] {
         border-radius: var(--small-border-radius);
         text-align: center;
         filter: drop-shadow(0 0 0 var(--input-secondary));
+        resize: horizontal;
         transition: var(--quick-transition-time) ease;
-
-        & .image-drop-icon {
-            width: 8rem;
-            height: 8rem;
-            background: var(--input-secondary);
-        }
-
-        & .drop-area-text {
-            user-select: none;
-
-            &.drop-area-info {
-                font-style: italic;
-                font-size: var(--small-font);
-            }
-
-            &.drop-area-subinfo {
-                font-size: var(--sub-font);
-                text-align: left;
-            }
-        }
 
         & input[type="file"] {
             display: none;
@@ -119,7 +100,7 @@ panel-element[data-panel-type="PHOTO"] {
 
         & .image-upload-input {
             display: inline-block;
-            padding: 1rem;
+            padding: 0.5rem;
             border-radius: var(--small-border-radius);
             background: var(--input-bg);
             color: var(--input-accent);
@@ -128,6 +109,30 @@ panel-element[data-panel-type="PHOTO"] {
 
             &:hover .upload-icon {
                 transform: scale(1.1);
+            }
+
+            & .image-drop-icon {
+                width: 8rem;
+                height: 8rem;
+                background: var(--input-secondary);
+            }
+
+            &:hover .image-drop-icon {
+                transform: scale(1.1);
+            }
+        }
+
+        & .drop-area-text {
+            user-select: none;
+
+            &.drop-area-info {
+                font-style: italic;
+                font-size: clamp(calc(var(--small-font) * 0.7), var(--small-font), 10cqw);
+            }
+
+            &.drop-area-subinfo {
+                font-size: clamp(calc(var(--sub-font) * 0.7), var(--sub-font), 10cqw);
+                text-align: left;
             }
         }
 
