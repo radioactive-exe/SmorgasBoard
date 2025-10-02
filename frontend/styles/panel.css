@@ -45,11 +45,10 @@ smorgas-board panel-element {
 
     &::part(panel-content) {
         position: absolute;
-        inset: 0;
+        inset: var(--panel-content-padding);
         display: flex;
         justify-content: center;
         align-items: center;
-        padding: var(--panel-content-padding);
         border-radius: var(--panel-border-radius);
         transition: all var(--panel-transition-time) ease;
         container-type: inline-size;
@@ -121,6 +120,7 @@ smorgas-board panel-element {
         padding: 0;
         border-radius: var(--panel-border-radius);
         cursor: pointer;
+        pointer-events: all;
         user-select: none;
         transition: var(--panel-transition-time) ease;
         transform-origin: center;
@@ -138,6 +138,7 @@ smorgas-board panel-element {
     &::part(delete-button) {
         bottom: 0.5rem;
         left: 0.5rem;
+        background: var(--input-bg);
     }
 
     &::part(delete-button-icon) {
@@ -186,7 +187,8 @@ smorgas-board panel-element {
 
 smorgas-board panel-element.being-manipulated {
     z-index: 3;
-    pointer-events: none;
+
+    /* pointer-events: none; */
 
     &::before {
         opacity: 1;

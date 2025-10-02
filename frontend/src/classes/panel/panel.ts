@@ -15,6 +15,7 @@ import {
     holdHandler,
     hoverHandler,
     preview,
+    supabase,
 } from "../../app.js";
 
 import * as get from "../../functions/accessors.js";
@@ -52,7 +53,7 @@ interface PanelFetchResponse {
 }
 
 interface PanelContent {
-    src?: string;
+    path?: string;
     body?: string;
 }
 
@@ -340,7 +341,7 @@ class Panel extends HTMLElement {
         this.type = type;
     }
 
-    public getContent(): object {
+    public getContent(): PanelContent {
         switch (this.type) {
             case PanelType.NOTEPAD:
                 return {
@@ -353,18 +354,18 @@ class Panel extends HTMLElement {
                 };
             case PanelType.PHOTO:
                 return {
-                    src:
+                    path:
                         (
                             this.keyElements.get(
                                 "panel_image",
                             ) as HTMLImageElement
-                        )?.src ?? "",
+                        )?.dataset.path ?? "",
                 };
         }
         return {};
     }
 
-    public setContent(content: PanelContent): void {
+    public async setContent(content: PanelContent): Promise<void> {
         switch (this.type) {
             case PanelType.NOTEPAD:
                 if (this.keyElements.get("text_area"))
@@ -374,11 +375,17 @@ class Panel extends HTMLElement {
                 else throw new Error("Missing key element: text_area");
                 break;
             case PanelType.PHOTO:
-                if (this.keyElements.get("panel_image"))
-                    (
-                        this.keyElements.get("panel_image") as HTMLImageElement
-                    ).src = content.src as string;
-                else throw new Error("Missing key element: panel_image");
+                const img = this.keyElements.get(
+                    "panel_image",
+                ) as HTMLImageElement;
+                if (img) {
+                    img.dataset.path = content.path as string;
+                    const { data } = await supabase.storage
+                        .from("dashboard_media")
+                        .createSignedUrl(content.path ?? "", 60);
+                    img.src = data?.signedUrl ?? "";
+                    if (img.src != "") img.classList.add("filled");
+                } else throw new Error("Missing key element: panel_image");
                 break;
         }
     }

@@ -294,7 +294,8 @@ class Dashboard extends HTMLElement {
         });
         this.append(panel);
         this.panels.push(panel);
-        if (updateStored) this.updateStoredPanels();
+        if (updateStored)
+            panel.addEventListener("finishedloading", this.updateStoredPanels);
     }
 
     public deletePanel(panel: Panel): void {

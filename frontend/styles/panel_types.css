@@ -26,9 +26,9 @@ panel-element[data-panel-type="NOTEPAD"] {
         color: lch(from var(--text-col) calc(l*0.8) c h);
     }
 
-    &:is(.in-edit-mode panel-element[data-panel-type="NOTEPAD"]) textarea {
+    /* &:is(.in-edit-mode panel-element[data-panel-type="NOTEPAD"]) textarea {
         opacity: 0.8;
-    }
+    } */
 }
 
 panel-element[data-panel-type="CLOCK"] {
@@ -77,14 +77,16 @@ panel-element[data-panel-type="CLOCK"] {
 }
 
 panel-element[data-panel-type="PHOTO"] {
-    .drop-area {
+    & .drop-area {
+        position: absolute;
+        inset: 0;
         display: flex;
         flex-flow: column nowrap;
         gap: 1rem;
         justify-content: center;
         align-items: center;
-        width: 80%;
-        height: 80%;
+        width: 100%;
+        height: 100%;
         border: 0.8rem dashed var(--input-secondary);
         border-radius: var(--small-border-radius);
         text-align: center;
@@ -114,11 +116,23 @@ panel-element[data-panel-type="PHOTO"] {
             border-radius: calc(var(--small-border-radius) * 3);
             filter: drop-shadow(0 0 1rem var(--input-secondary));
         }
+
+        &:has(~ .panel-image.filled) {
+            opacity: 0;
+        }
     }
 
-    .panel-image {
+    & .panel-image {
         position: absolute;
         inset: 0;
+        object-fit: contain;
+        width: 100%;
+        height: 100%;
+        border-radius: calc(0.7 * var(--panel-border-radius));
         pointer-events: none;
+
+        &:not(.filled) {
+            opacity: 0;
+        }
     }
 }

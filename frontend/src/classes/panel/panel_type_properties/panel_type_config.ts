@@ -60,6 +60,14 @@ class PanelTypeConfig {
                 }),
         }),
     );
+    public static readonly PHOTO: PanelTypeConfig = new PanelTypeConfig(
+        zod.strictObject({
+            fillFrame: zod.custom<ConfigEntry.Boolean>().default({
+                label: "Fill Panel Frame with Image",
+                value: false,
+            }),
+        }),
+    );
 
     private constructor(private config: zod.ZodObject) {}
 
