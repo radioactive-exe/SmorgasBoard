@@ -109,6 +109,7 @@ panel-element[data-panel-type="PHOTO"] {
 
             &.drop-area-subinfo {
                 font-size: var(--sub-font);
+                text-align: left;
             }
         }
 
@@ -128,6 +129,13 @@ panel-element[data-panel-type="PHOTO"] {
             &:hover .upload-icon {
                 transform: scale(1.1);
             }
+        }
+
+        & .info-and-input {
+            display: flex;
+            flex-flow: row nowrap;
+            gap: 1rem;
+            align-items: center;
         }
 
         &.active {
