@@ -357,6 +357,10 @@ function init(): void {
 
 // ~ Listener Initialisation
 
+setInterval(() => {
+    dashboard.save();
+}, 600_000);
+
 window.addEventListener("resize", () => {
     dashboard.organiseElements();
     if (current.panel.classList.contains("configuring"))
