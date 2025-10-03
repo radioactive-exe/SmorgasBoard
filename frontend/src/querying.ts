@@ -1,4 +1,4 @@
-import { user } from "./app";
+import { setLocalChange, user } from "./app";
 import type { Size } from "./classes/area";
 import type { PanelInstance } from "./classes/panel/panel";
 
@@ -39,8 +39,12 @@ async function getFromSmorgasBase(
  * @example
  */
 async function patchIntoSmorgasBase(
-    target: "theme" | "free_ids" | "panels" | "username" | "dimensions",
-    value: number | number[] | PanelInstance[] | string | Size,
+    target: "theme" | "free_ids,panels" | "username" | "dimensions",
+    value:
+        | number
+        | { free_ids: number[]; panels: PanelInstance[] }
+        | string
+        | Size,
 ): Promise<DashboardDataFetch[]> {
     const parsedBody: {
         theme?: number;
@@ -55,11 +59,13 @@ async function patchIntoSmorgasBase(
             case "theme":
                 parsedBody["theme"] = value as number;
                 break;
-            case "free_ids":
-                parsedBody["free_ids"] = value as number[];
-                break;
-            case "panels":
-                parsedBody["panels"] = value as PanelInstance[];
+            case "free_ids,panels":
+                parsedBody["free_ids"] = (
+                    value as { free_ids: number[]; panels: PanelInstance[] }
+                ).free_ids as number[];
+                parsedBody["panels"] = (
+                    value as { free_ids: number[]; panels: PanelInstance[] }
+                ).panels as PanelInstance[];
                 break;
             case "username":
                 parsedBody["username"] = value as string;
@@ -70,6 +76,7 @@ async function patchIntoSmorgasBase(
     } catch (error) {
         console.error(error, "Passed value does not match target field.");
     }
+    setLocalChange(true);
 
     const fetched = await fetch(
         import.meta.env.VITE_BACKEND_URL + "smorgasbase/patch?target=" + target,

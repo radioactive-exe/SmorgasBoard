@@ -160,7 +160,11 @@ class Dashboard extends HTMLElement {
         };
     }
 
-    public setDimensions(size: Size, truncate = false): void {
+    public setDimensions(
+        size: Size,
+        truncate = false,
+        updateStored = true,
+    ): void {
         if (!truncate && !utils.wouldFit(size, this.panels)) {
             spawnAlert(
                 "You have panels that would not fit in this size. Please delete or move them away from the bottom and right sides, or delete them, to be able to set the Dashboard to these dimensions.",
@@ -190,9 +194,9 @@ class Dashboard extends HTMLElement {
         this.organiseElements();
 
         try {
-            if (user) {
+            if (user && updateStored) {
                 patchIntoSmorgasBase("dimensions", size);
-            } else {
+            } else if (!user && updateStored) {
                 localStorage.setItem("dimensions", JSON.stringify(size));
             }
         } catch {
@@ -295,7 +299,9 @@ class Dashboard extends HTMLElement {
         this.append(panel);
         this.panels.push(panel);
         if (updateStored)
-            panel.addEventListener("finishedloading", this.updateStoredPanels);
+            panel.addEventListener("finished-loading", () => {
+                this.updateStoredPanels();
+            });
     }
 
     public deletePanel(panel: Panel): void {
@@ -340,13 +346,15 @@ class Dashboard extends HTMLElement {
                     );
                 }
 
-                if (!loadedDimensions)
-                    loadedDimensions = Dashboard.getMaxDimensions();
+                // If there is any parsing issue, forces the assertion of a correct format. If incorrect, an error is thrown and the max size is taken. I don't know why this happens on signup, but I have put more than 3 months into this project and I need to submit it to continue my courses.
+                loadedDimensions = {
+                    width: loadedDimensions.width,
+                    height: loadedDimensions.height,
+                };
             } catch {
                 loadedDimensions = Dashboard.getMaxDimensions();
             }
-
-            this.setDimensions(loadedDimensions);
+            this.setDimensions(loadedDimensions, false, false);
             resolve();
         });
     }
@@ -457,6 +465,8 @@ class Dashboard extends HTMLElement {
             },
         );
 
+        console.log("saving");
+
         if (user) this.saveStoredPanelsToCloud(panelStorage);
         else {
             localStorage.setItem("panels", JSON.stringify(panelStorage));
@@ -466,8 +476,11 @@ class Dashboard extends HTMLElement {
 
     private saveStoredPanelsToCloud(panelStorage: PanelInstance[]): void {
         try {
-            patchIntoSmorgasBase("panels", panelStorage);
-            patchIntoSmorgasBase("free_ids", [...this.freeIds]);
+            console.log("saving cloud");
+            patchIntoSmorgasBase("free_ids,panels", {
+                free_ids: [...this.freeIds],
+                panels: panelStorage,
+            });
         } catch {
             console.error("Invalid panels sent. Check storage");
         }
@@ -491,7 +504,10 @@ class Dashboard extends HTMLElement {
                 storedThemeId = 0;
             }
 
-            this.setCurrentTheme(Object.entries(Theme)[storedThemeId][1]);
+            this.setCurrentTheme(
+                Object.entries(Theme)[storedThemeId][1],
+                false,
+            );
             resolve();
         });
     }
@@ -500,7 +516,7 @@ class Dashboard extends HTMLElement {
         return this.currentTheme;
     }
 
-    public setCurrentTheme(theme: Theme): void {
+    public setCurrentTheme(theme: Theme, updateStored = true): void {
         this.currentTheme = theme;
         let themeFileLink: HTMLElement | null =
             document.querySelector("#app-theme");
@@ -509,8 +525,10 @@ class Dashboard extends HTMLElement {
             document.head.appendChild(themeFileLink);
         }
         try {
-            if (user) patchIntoSmorgasBase("theme", theme.getId());
-            else localStorage.setItem("last-theme", theme.getId().toString());
+            if (user && updateStored)
+                patchIntoSmorgasBase("theme", theme.getId());
+            else if (updateStored)
+                localStorage.setItem("last-theme", theme.getId().toString());
         } catch {
             console.error("Failed to store Theme in Database");
         }

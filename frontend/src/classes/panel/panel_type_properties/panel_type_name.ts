@@ -1,6 +1,5 @@
 /**
  * @description An @enum of User-friendly names for each panel type, which are the names used in the UI, etc.
- * @enum {number}
  */
 enum PanelTypeName {
     PREVIEW = "Preview Panel. You shouldn't be seeing this.",
@@ -10,6 +9,4 @@ enum PanelTypeName {
     CLOCK = "Clock Panel",
 }
 
-export {
-    PanelTypeName
-}
+export { PanelTypeName };

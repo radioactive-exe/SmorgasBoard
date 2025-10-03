@@ -63,6 +63,11 @@ function setFirstTime(val: boolean): void {
     firstTime = val;
 }
 
+let wasLocalChange = false;
+function setLocalChange(val: boolean): void {
+    wasLocalChange = val;
+}
+
 const spawnablePanelTypes: [string, PanelType][] =
     Object.entries(PanelType).slice(2);
 
@@ -388,15 +393,7 @@ document.addEventListener("keydown", async (e) => {
             dashboard.toggleEditMode();
             break;
         case "ArrowLeft":
-            const testMap: Map<string, HTMLElement> = new Map<
-                string,
-                HTMLElement
-            >();
-            testMap.set(
-                "test",
-                document.querySelector(".asdasd") as HTMLElement,
-            );
-            console.log(testMap);
+            console.log(supabase.realtime.getChannels());
     }
 });
 
@@ -454,8 +451,10 @@ spawnablePanelTypes.forEach((panelType: [string, PanelType]) => {
 
 //#endregion
 
+let _smorgasbaseChangesListener;
+
 supabase.auth.onAuthStateChange(
-    (e: AuthChangeEvent, session: Session | null) => {
+    async (e: AuthChangeEvent, session: Session | null) => {
         if (e == "SIGNED_IN" && session && session.user) {
             user = {
                 id: session.user.id,
@@ -477,6 +476,26 @@ supabase.auth.onAuthStateChange(
 
             personalNavButton?.classList.remove("active");
             form?.classList.remove("visible");
+
+            _smorgasbaseChangesListener = supabase
+                .channel(`changes_user_${user.id}`, {
+                    config: { private: true },
+                })
+                .on("broadcast", { event: "INSERT" }, (payload) =>
+                    console.log(payload),
+                )
+                .on("broadcast", { event: "UPDATE" }, (_payload) => {
+                    if (!wasLocalChange) {
+                        dashboard.clearLoadedPanels();
+                        dashboard.load().then(() => {
+                            init();
+                            finishLoading(loader);
+                        });
+                    } else {
+                        wasLocalChange = false;
+                    }
+                })
+                .subscribe();
 
             if (!firstTime) {
                 dashboard.load().then(() => {
@@ -518,6 +537,7 @@ export {
     preview,
     setDocumentHandlers,
     setFirstTime,
+    setLocalChange,
     spawnablePanelTypes,
     supabase,
     user,

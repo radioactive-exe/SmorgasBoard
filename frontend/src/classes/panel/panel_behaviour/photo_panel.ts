@@ -6,7 +6,7 @@ import { MAX_FILE_SIZE, VALID_FILE_TYPES } from "../../constants.js";
 import type { Panel } from "../panel.js";
 import { PanelType, PanelTypeConfig } from "../panel_type.js";
 
-// TODO: Add mobile file input for when drag and drop doesn't work.
+// [x]: Add mobile file input for when drag and drop doesn't work.
 
 function execute(panel: Panel): void {
     const dropArea: HTMLElement | undefined = panel
