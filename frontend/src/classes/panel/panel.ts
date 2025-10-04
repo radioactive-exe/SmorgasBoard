@@ -408,8 +408,8 @@ class Panel extends HTMLElement {
                         y: e.pageY,
                     } as Coordinate,
                     panelPos: {
-                        x: this.offsetLeft,
-                        y: this.offsetTop,
+                        x: get.normalisedCssPropertyValue(this, "--x"),
+                        y: get.normalisedCssPropertyValue(this, "--y"),
                     } as Coordinate,
                 };
 

@@ -465,8 +465,6 @@ class Dashboard extends HTMLElement {
             },
         );
 
-        console.log("saving");
-
         if (user) this.saveStoredPanelsToCloud(panelStorage);
         else {
             localStorage.setItem("panels", JSON.stringify(panelStorage));
@@ -476,7 +474,6 @@ class Dashboard extends HTMLElement {
 
     private saveStoredPanelsToCloud(panelStorage: PanelInstance[]): void {
         try {
-            console.log("saving cloud");
             patchIntoSmorgasBase("free_ids,panels", {
                 free_ids: [...this.freeIds],
                 panels: panelStorage,

@@ -116,12 +116,12 @@ function snapElementToGrid(
     potentialWidth = math.clamp(
         get.normalisedCssPropertyValue(source, "--width"),
         panel.getType().getMinWidth() * Dashboard.getFractionalWidth(),
-        window.innerWidth - source.offsetLeft,
+        window.innerWidth - potentialX,
     );
     potentialHeight = math.clamp(
         get.normalisedCssPropertyValue(source, "--height"),
         panel.getType().getMinHeight() * Dashboard.getFractionalHeight(),
-        window.innerHeight - source.offsetTop,
+        window.innerHeight - potentialY,
     );
 
     const potentialArea: Area = new Area(

@@ -43,8 +43,6 @@ databaseRouter.patch(
             userId = "";
         }
 
-        console.log(req.body);
-
         const fetched = await fetch(
             "https://bvrmyobereaeybqpatjg.supabase.co/rest/v1/dashboard_data?id=eq." +
                 userId,

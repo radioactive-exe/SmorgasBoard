@@ -54,7 +54,6 @@ function execute(panel: Panel): void {
     });
 
     panel.addEventListener("configchange", (e) => {
-        console.log(e);
         const customEventParsed: CustomEvent<ConfigChangeEventDetail> =
             e as CustomEvent<ConfigChangeEventDetail>;
         const panelConfig: Config | undefined = panel.getConfig();

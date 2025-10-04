@@ -1,0 +1,31 @@
+<body>
+    <template id="todo-panel-template">
+        <div slot="panel-type-template" class="todo-container">
+            <div class="todo-list-title-bar">
+                <div class="icon checklist-icon"></div>
+                <h2 class="todo-list-title">To-Do List</h2>
+            </div>
+            <div class="todo-list-add-bar">
+                <div class="selector string-selector add-todo-task-selector">
+                    <label
+                        class="string-selector-label"
+                        id="add-todo-task-label"
+                    >
+                        <input
+                            type="text"
+                            class="add-todo-task-input string-selector-input"
+                            required
+                        />
+                        <span class="string-selector-label-text">Add Task</span>
+                    </label>
+                </div>
+                <div class="button icon-button add-todo-task-button">
+                    <div class="icon add-icon"></div>
+                </div>
+            </div>
+            <div class="todo-list-item-container">
+                <ul class="todo-list-items"></ul>
+            </div>
+        </div>
+    </template>
+</body>

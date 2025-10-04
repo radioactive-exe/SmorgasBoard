@@ -17,25 +17,37 @@
     </head>
     <body style="background: var(--dashboard-bg)">
         <div class="panel">
-            <div class="drop-area">
-                <div class="icon image-drop-icon"></div>
-                <p>
-                    <span class="drop-area-info drop-area-text"
-                        >Drop an image!</span
+            <div class="todo-container">
+                <div class="todo-list-title-bar">
+                    <div class="icon checklist-icon"></div>
+                    <h2 class="todo-list-title">To-Do List</h2>
+                </div>
+                <div class="todo-list-add-bar">
+                    <div
+                        class="selector string-selector add-todo-task-selector"
                     >
-                </p>
-                <p>
-                    <span class="drop-area-subinfo drop-area-text"
-                        >Supported formats: <code>.png</code>,
-                        <code>.jpg/.jpeg</code>, <code>.bmp</code></span
-                    >
-                </p>
-                <label class="image-upload-input">
-                    <div class="icon upload-icon"></div>
-                    <input type="file" name="" id="" />
-                </label>
+                        <label
+                            class="string-selector-label"
+                            id="add-todo-task-label"
+                        >
+                            <input
+                                type="text"
+                                class="add-todo-task-input string-selector-input"
+                                required
+                            />
+                            <span class="string-selector-label-text"
+                                >Add Task</span
+                            >
+                        </label>
+                    </div>
+                    <div class="button icon-button add-todo-task-button">
+                        <div class="icon add-icon"></div>
+                    </div>
+                </div>
+                <div class="todo-list-item-container">
+                    <ul class="todo-list-items"></ul>
+                </div>
             </div>
-            <img src="" alt="" class="panel-image" />
         </div>
         <!-- <div class="matrix"></div>
 
