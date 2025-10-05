@@ -259,7 +259,7 @@ panel-element[data-panel-type="TODO"] {
                 transition: all var(--med-transition-time) ease;
 
                 & .checkbox-label {
-                    width: 95%;
+                    width: 100%;
                 }
 
                 & .todo-list-entry-text {
