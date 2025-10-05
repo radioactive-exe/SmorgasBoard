@@ -1,4 +1,3 @@
-
 /**
  * @description An @enum of the template URLs for each panel type.
  * @enum
@@ -10,8 +9,7 @@ enum PanelTypeTemplate {
     NOTEPAD = "definitions/panels/notepad",
     PHOTO = "definitions/panels/photo",
     CLOCK = "definitions/panels/clock",
+    TODO = "definitions/panels/todo",
 }
 
-export {
-    PanelTypeTemplate
-}
+export { PanelTypeTemplate };

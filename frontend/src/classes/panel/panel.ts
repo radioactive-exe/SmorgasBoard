@@ -34,6 +34,7 @@ import { getDefaultConfig } from "../config/config.js";
 import type * as ConfigEntry from "../config/config_entry.js";
 import { configMenu } from "../config/config_menu_builder.js";
 
+import { addEntry } from "./panel_behaviour/todo_panel.js";
 import { PanelType, PanelTypeConfig, PanelTypeTemplate } from "./panel_type.js";
 
 /**
@@ -361,11 +362,25 @@ class Panel extends HTMLElement {
                             ) as HTMLImageElement
                         )?.dataset.path ?? "",
                 };
+            case PanelType.TODO:
+                const todoList = this.keyElements.get("todo_list");
+                if (!todoList) return {};
+                return {
+                    body: JSON.stringify(
+                        [...todoList?.children].map((entry) => {
+                            return {
+                                task: entry.textContent,
+                                checked: entry.classList.contains("checked"),
+                            };
+                        }),
+                    ),
+                };
         }
         return {};
     }
 
     public async setContent(content: PanelContent): Promise<void> {
+        if (!content.body && !content.path) return;
         switch (this.type) {
             case PanelType.NOTEPAD:
                 if (this.keyElements.get("text_area"))
@@ -388,6 +403,26 @@ class Panel extends HTMLElement {
                         img.classList.add("filled");
                     }
                 } else throw new Error("Missing key element: panel_image");
+                break;
+            case PanelType.TODO:
+                const todoList = this.keyElements.get(
+                    "todo_list",
+                ) as HTMLUListElement;
+                if (content.body) {
+                    const parsedContent = JSON.parse(content.body as string);
+
+                    (
+                        parsedContent as { task: string; checked: boolean }[]
+                    ).forEach((entry) => {
+                        addEntry(
+                            this,
+                            todoList,
+                            entry.task,
+                            entry.checked,
+                            false,
+                        );
+                    });
+                } else throw new Error("Missing key element: todo_list");
                 break;
         }
     }
@@ -515,6 +550,23 @@ class Panel extends HTMLElement {
                     "upload_input",
                     this.querySelector('.image-upload-input input[type="file"]')
                         ?? document.createElement("input"),
+                );
+                break;
+            case PanelType.TODO:
+                this.keyElements.set(
+                    "add_task_button",
+                    this.querySelector(".add-todo-task-button")
+                        ?? document.createElement("div"),
+                );
+                this.keyElements.set(
+                    "add_task_input",
+                    this.querySelector(".add-todo-task-input")
+                        ?? document.createElement("div"),
+                );
+                this.keyElements.set(
+                    "todo_list",
+                    this.querySelector(".todo-list")
+                        ?? document.createElement("ul"),
                 );
                 break;
         }

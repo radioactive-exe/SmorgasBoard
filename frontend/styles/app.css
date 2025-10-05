@@ -461,15 +461,16 @@ body:has(.panel) {
 }
 
 .todo-container {
+    overflow: auto;
     width: 100%;
     height: 100%;
-    padding: var(--panel-content-padding);
     border-radius: var(--small-border-radius);
     background: var(--panel-bg);
 
     & .todo-list-title-bar,
     & .todo-list-add-bar {
-        position: relative;
+        position: sticky;
+        top: 0;
         display: flex;
         flex-flow: row nowrap;
         gap: 2rem;
@@ -518,38 +519,37 @@ body:has(.panel) {
         }
     }
 
-    & .todo-list-item-container {
-        padding: var(--panel-content-padding);
+    & .todo-list {
+        overflow: auto;
+        height: 100%;
+        list-style-type: none;
+        padding: 0.5rem var(--panel-content-padding);
 
-        & .todo-list-items {
-            list-style-type: none;
+        & .todo-list-entry {
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            text-wrap: wrap;
+            cursor: pointer;
+            user-select: none;
 
-            & .todo-list-entry {
-                display: flex;
-                justify-content: flex-start;
-                align-items: center;
-                text-wrap: wrap;
-                cursor: pointer;
-                user-select: none;
+            &.checked {
+                text-decoration: line-through;
+                opacity: 0.5;
+            }
 
-                &.checked {
-                    text-decoration: line-through;
-                    opacity: 0.5;
-                }
+            & .x-icon {
+                width: 2rem;
+                min-width: 2rem;
+                height: 2rem;
+                min-height: 2rem;
+                margin-left: auto;
+                pointer-events: all;
+                transition: all var(--med-transition-time) ease;
 
-                & .x-icon {
-                    width: 2rem;
-                    min-width: 2rem;
-                    height: 2rem;
-                    min-height: 2rem;
-                    margin-left: auto;
-                    pointer-events: all;
-                    transition: all var(--med-transition-time) ease;
-
-                    &:hover {
-                        background: var(--alert-error-bg);
-                        transform: scale(1.1);
-                    }
+                &:hover {
+                    background: var(--alert-error-bg);
+                    transform: scale(1.1);
                 }
             }
         }

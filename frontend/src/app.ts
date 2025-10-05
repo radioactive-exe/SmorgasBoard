@@ -496,7 +496,9 @@ supabase.auth.onAuthStateChange(
                             finishLoading(loader);
                         });
                     } else {
-                        wasLocalChange = false;
+                        setTimeout(() => {
+                            wasLocalChange = false;
+                        }, 2000);
                     }
                 })
                 .subscribe();

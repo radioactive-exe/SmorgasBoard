@@ -106,7 +106,7 @@ function builtStringEntryInput(entry: ConfigEntry.String): HTMLElement {
                 required
                 value="${entry.value}"
             />
-            <p><span class="string-selector-label-text">${entry.placeholder}</span></p>
+            <span class="string-selector-label-text">${entry.placeholder}</span>
         </label>
     `;
 

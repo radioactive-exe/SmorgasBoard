@@ -68,6 +68,15 @@ class PanelTypeConfig {
             }),
         }),
     );
+    public static readonly TODO: PanelTypeConfig = new PanelTypeConfig(
+        zod.strictObject({
+            listTitle: zod.custom<ConfigEntry.String>().default({
+                label: "List Title",
+                value: "To-Do List",
+                placeholder: "Title",
+            }),
+        }),
+    );
 
     private constructor(private config: zod.ZodObject) {}
 

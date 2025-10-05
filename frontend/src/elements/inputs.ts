@@ -130,17 +130,22 @@ function addStringSelectorListeners(selector: HTMLElement): void {
     const textInput: HTMLInputElement = selector.querySelector(
         ".string-selector-input",
     ) as HTMLInputElement;
+    let emitSignalTimeout: NodeJS.Timeout;
     textInput.addEventListener("input", () => {
-        selector.dispatchEvent(
-            new CustomEvent<ConfigChangeEventDetail>("configchange", {
-                bubbles: true,
-                composed: true,
-                detail: {
-                    setting: selector.dataset.configProperty as string,
-                    value: textInput.value,
-                },
-            }),
-        );
+        clearTimeout(emitSignalTimeout);
+
+        emitSignalTimeout = setTimeout(() => {
+            selector.dispatchEvent(
+                new CustomEvent<ConfigChangeEventDetail>("configchange", {
+                    bubbles: true,
+                    composed: true,
+                    detail: {
+                        setting: selector.dataset.configProperty as string,
+                        value: textInput.value,
+                    },
+                }),
+            );
+        }, 3000);
     });
 }
 

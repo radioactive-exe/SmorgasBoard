@@ -66,6 +66,15 @@ class PanelType {
         PanelTypeBehaviour.CLOCK,
         { width: 2, height: 1 },
     );
+    static readonly TODO = new PanelType(
+        PanelTypeId.TODO,
+        PanelTypeName.TODO,
+        PanelTypeData.LOCAL,
+        PanelTypeTemplate.TODO,
+        PanelTypeConfig.TODO,
+        PanelTypeBehaviour.TODO,
+        { width: 2, height: 2 },
+    );
 
     /**
      * @description Creates an instance of PanelType.
@@ -169,6 +178,8 @@ class PanelType {
                 return PanelType.PHOTO;
             case 3:
                 return PanelType.CLOCK;
+            case 4:
+                return PanelType.TODO;
         }
 
         return PanelType.PREVIEW;

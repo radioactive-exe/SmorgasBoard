@@ -7,6 +7,7 @@ enum PanelTypeName {
     NOTEPAD = "Notepad Panel",
     PHOTO = "Photo Panel",
     CLOCK = "Clock Panel",
+    TODO = "To-Do/Checklist Panel",
 }
 
 export { PanelTypeName };
