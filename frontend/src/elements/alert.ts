@@ -36,7 +36,7 @@ function spawnAlert(
                 </div>
             </div>`;
 
-    document.body.appendChild(alert);
+    modalLayer.appendChild(alert);
 
     const dismissButton = alert.querySelector(".close-alert-button");
 

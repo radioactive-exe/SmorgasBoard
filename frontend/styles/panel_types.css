@@ -128,6 +128,7 @@ panel-element[data-panel-type="PHOTO"] {
 
         & .drop-area-text {
             user-select: none;
+            will-change: transform;
 
             &.drop-area-info {
                 font-style: italic;
@@ -169,5 +170,166 @@ panel-element[data-panel-type="PHOTO"] {
         &:not(.filled) {
             opacity: 0;
         }
+    }
+}
+
+panel-element[data-panel-type="TODO"] {
+    & .todo-container {
+        position: relative;
+        display: flex;
+        flex-flow: column nowrap;
+        justify-content: stretch;
+        width: 100%;
+        height: 100%;
+        border-radius: var(--small-border-radius);
+        background: var(--panel-bg);
+
+        & .todo-list-title-bar,
+        & .todo-list-add-bar {
+            top: 0;
+            display: flex;
+            flex-flow: row nowrap;
+            gap: 2rem;
+            align-items: center;
+            will-change: transform;
+
+            &.todo-list-add-bar {
+                & .add-todo-task-button {
+                    position: absolute;
+                    right: 0;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    width: var(--input-height);
+                    height: var(--input-height);
+                    border-radius: var(--small-border-radius);
+                    background: var(--input-secondary);
+                    box-shadow: inset 0.1rem 0.1rem 0.2rem 0 hsl(from var(--input-secondary) h s calc(l*1.5)), inset -0.1rem -0.1rem 0.2rem 0 hsl(from var(--input-secondary) h s calc(l*0.4)), 0.2rem 0.2rem 0.2rem 0 var(--shadow-col);
+                    cursor: pointer;
+
+                    & .add-icon {
+                        background: var(--input-bg);
+                        transition: inherit;
+                    }
+
+                    &:hover {
+                        background: var(--input-bg);
+                        box-shadow: inset 0.2rem 0.2rem 0.2rem 0 hsl(from var(--input-secondary) h s calc(l*1.5)), inset -0.2rem -0.2rem 0.2rem 0 hsl(from var(--input-secondary) h s calc(l*0.4)), 0.3rem 0.3rem 0.2rem 0 var(--shadow-col);
+
+                        & .add-icon {
+                            background: var(--input-accent);
+                            transform: rotate(90deg);
+                        }
+                    }
+                }
+
+                & .string-selector,
+                & .string-selector-input {
+                    width: 100%;
+                    will-change: transform;
+
+                    &.string-selector-input {
+                        padding-right: calc(var(--input-height) + var(--input-padding));
+                    }
+
+                    & .string-selector-label-text {
+                        top: calc(50% - 0.6 * var(--small-font));
+                    }
+                }
+
+            }
+        }
+
+        & .todo-list {
+            overflow-y: auto;
+            width: 100%;
+            list-style-type: none;
+
+            & .todo-list-entry {
+                position: relative;
+                display: flex;
+                gap: 2rem;
+                justify-content: flex-start;
+                align-items: center;
+                overflow: hidden;
+                width: 100%;
+                padding: 0 var(--panel-content-padding);
+                border-top: 0.2rem solid var(--cell-bg);
+                user-select: none;
+                transition: all var(--med-transition-time) ease;
+
+                & .checkbox-label {
+                    width: 95%;
+                }
+
+                & .todo-list-entry-text {
+                    position: relative;
+                    max-width: 90%;
+                    font-size: var(--small-font);
+                    overflow-wrap: break-word;
+                    hyphens: auto;
+                    transition: inherit;
+                    transform: rotateZ(0deg);
+                    backface-visibility: hidden;
+
+                    &::before {
+                        content: '';
+                        position: absolute;
+                        top: 50%;
+                        display: block;
+                        width: 0;
+                        height: 0.2rem;
+                        background: currentcolor;
+                        transition: inherit;
+                    }
+                }
+
+                & .x-icon {
+                    position: absolute;
+                    right: calc(var(--panel-content-padding) - 1rem);
+                    width: 0;
+                    min-width: 0;
+                    height: 0;
+                    min-height: 0;
+                    margin: 0;
+                    margin-left: auto;
+                    cursor: pointer;
+                    pointer-events: all;
+                    transition: all var(--med-transition-time) ease;
+
+                    &:hover {
+                        background: var(--alert-error-bg);
+                        transform: scale(1.1);
+                    }
+
+                }
+
+                &:first-of-type {
+                    border-top: none;
+                }
+
+                &:is(.in-edit-mode .todo-list-entry) {
+                    padding-right: calc(var(--panel-content-padding) + 1.5rem);
+
+                    & .x-icon {
+                        width: 2rem;
+                        min-width: 2rem;
+                        height: 2rem;
+                        min-height: 2rem;
+                    }
+                }
+
+                & .checkbox-input:checked {
+                    & ~ .todo-list-entry-text {
+                        color: var(--cell-bg);
+
+                        &::before {
+                            width: 100%;
+                        }
+                    }
+                }
+            }
+        }
+
     }
 }

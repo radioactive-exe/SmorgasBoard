@@ -168,7 +168,6 @@ class Dashboard extends HTMLElement {
         if (!truncate && !utils.wouldFit(size, this.panels)) {
             spawnAlert(
                 "You have panels that would not fit in this size. Please delete or move them away from the bottom and right sides, or delete them, to be able to set the Dashboard to these dimensions.",
-                AlertLevel.WARNING,
             );
             return;
         } else if (truncate) {
@@ -271,7 +270,6 @@ class Dashboard extends HTMLElement {
         if (!slotFound) {
             spawnAlert(
                 `No space for a ${panelType.getName()} found. Either move panels around, or delete some!`,
-                AlertLevel.WARNING,
             );
             return;
         }

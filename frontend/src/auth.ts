@@ -99,6 +99,7 @@ async function register(
 }
 
 async function login(email: string, password: string): Promise<void> {
+    setFirstTime(false);
     statusMessage = {};
     const loginResult: AuthResponse = await supabase.auth.signInWithPassword({
         email,
@@ -130,7 +131,6 @@ async function login(email: string, password: string): Promise<void> {
         statusMessage = {
             success: `Welcome back, ${user?.username ?? "Placeholder_User"}!`,
         };
-        setFirstTime(false);
     }
     spawnAlert(
         statusMessage.error ?? statusMessage.success ?? "",
@@ -240,6 +240,22 @@ closeFormButton?.addEventListener("click", () => {
 
 form?.addEventListener("submit", (e) => {
     e.preventDefault();
+});
+
+[emailInput, usernameInput, passwordInput].forEach((input) => {
+    input.addEventListener("keydown", (e) => {
+        if (e.key == "Enter") {
+            e.preventDefault();
+            e.stopPropagation();
+            if (form?.classList.contains("new-user")) {
+                register(
+                    usernameInput.value,
+                    emailInput.value,
+                    passwordInput?.value,
+                );
+            } else login(emailInput.value, passwordInput.value);
+        }
+    });
 });
 
 export { form, login, logout, register, statusMessage };

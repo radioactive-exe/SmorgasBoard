@@ -370,7 +370,12 @@ class Panel extends HTMLElement {
                         [...todoList?.children].map((entry) => {
                             return {
                                 task: entry.textContent,
-                                checked: entry.classList.contains("checked"),
+                                checked:
+                                    (
+                                        entry.querySelector(
+                                            ".checkbox-input",
+                                        ) as HTMLInputElement
+                                    )?.checked ?? false,
                             };
                         }),
                     ),
@@ -567,6 +572,11 @@ class Panel extends HTMLElement {
                     "todo_list",
                     this.querySelector(".todo-list")
                         ?? document.createElement("ul"),
+                );
+                this.keyElements.set(
+                    "todo_title",
+                    this.querySelector(".todo-list-title")
+                        ?? document.createElement("h2"),
                 );
                 break;
         }

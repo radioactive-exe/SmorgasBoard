@@ -31,11 +31,14 @@ smorgas-board panel-element {
         border-radius: var(--panel-border-radius);
         background: var(--panel-bg);
         transition: all var(--panel-transition-time) ease;
+        transform: scale(1) rotateZ(0deg);
         transform-style: preserve-3d;
+        will-change: transform;
     }
 
     &:hover::part(panel-body) {
-        transform: scale(1.02);
+        transform: scale(1.02) rotateZ(0deg);
+        will-change: transform;
     }
 
     &::part(panel-body in-motion) {

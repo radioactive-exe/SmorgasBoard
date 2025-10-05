@@ -95,15 +95,15 @@ function processFile(file: File, panel: Panel, img: HTMLImageElement): void {
     } else if (!user) {
         spawnAlert(
             "If you want to use Photo panels, consider logging in/signing up! Local storage has limited space, but the database can hold a lot more!",
-            AlertLevel.WARNING,
+            AlertLevel.INFO,
         );
     } else if (file.size > MAX_FILE_SIZE) {
         spawnAlert(
             "File too big! You can only upload files up to 10MB in size.",
-            AlertLevel.WARNING,
+            AlertLevel.INFO,
         );
     } else if (!VALID_FILE_TYPES.includes(file.name.split(".")[1])) {
-        spawnAlert("Invalid File Type!", AlertLevel.WARNING);
+        spawnAlert("Invalid File Type!", AlertLevel.INFO);
     }
 }
 

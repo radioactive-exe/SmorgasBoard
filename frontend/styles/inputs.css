@@ -396,6 +396,86 @@
             }
         }
     }
+
+    &.checkbox-selector {
+        position: relative;
+        width: 100%;
+
+        & .checkbox-label {
+            position: relative;
+            display: inline-flex;
+            flex-flow: row nowrap;
+            gap: 1rem;
+            align-items: center;
+            height: 100%;
+            overflow-wrap: break-word;
+            cursor: pointer;
+            transition: all var(--quick-transition-time) ease;
+            isolation: isolate;
+
+            & .checkbox-input {
+                display: none;
+            }
+
+            & .checkbox-tick {
+                position: relative;
+                inset: 0;
+                display: block;
+                width: 2rem;
+                height: 2rem;
+                border: 0.2rem solid transparent;
+                border-radius: var(--tiny-border-radius);
+                background: var(--input-secondary);
+                transition: inherit;
+
+                &::before {
+                    content: '';
+                    position: absolute;
+                    inset: 0;
+                    z-index: -1;
+                    display: block;
+                    border-radius: inherit;
+                    background: var(--input-accent);
+                    opacity: 0;
+                }
+
+                & .checkbox-tick-svg {
+                    fill: none;
+                    stroke: var(--input-bg);
+                    transition: all var(--quick-transition-time) ease, stroke-dashoffset var(--med-transition-time) ease;
+                    stroke-dasharray: 131;
+                    stroke-dashoffset: -130;
+                    stroke-linejoin: round;
+                    stroke-linecap: round;
+                    stroke-width: 0.4rem;
+                }
+            }
+
+            &:hover .checkbox-tick {
+                border-color: var(--input-secondary);
+                background: var(--input-bg);
+                transform: scale(1.1);
+            }
+
+            & .checkbox-input:checked {
+                & ~ .checkbox-tick {
+                    background: var(--input-accent);
+
+                    & .checkbox-tick-svg {
+                        stroke-dashoffset: 0;
+                    }
+
+                    &::before {
+                        animation: pulse-check var(--med-transition-time) ease forwards;
+                    }
+                }
+
+                &:hover ~ .checkbox-tick {
+                    border-color: var(--input-accent);
+                }
+            }
+        }
+    }
 }
 
 ::-webkit-scrollbar {
