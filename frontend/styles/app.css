@@ -151,6 +151,14 @@ body {
     &.x-icon {
         --icon-svg: url("../public/assets/graphics/circle-x.svg");
     }
+
+    &.weather-icon {
+        --icon-svg: url("../public/assets/graphics/clouds-sun.svg");
+    }
+
+    &.search-icon {
+        --icon-svg: url("../public/assets/graphics/search-location.svg");
+    }
 }
 
 .icon-button {
@@ -230,33 +238,6 @@ smorgas-board {
             pointer-events: none;
         }
     }
-}
-
-::-webkit-scrollbar {
-    max-width: 1rem;
-    border-radius: var(--small-border-radius);
-    cursor: grab;
-}
-
-::-webkit-scrollbar-thumb {
-    z-index: 5;
-    max-width: 1rem;
-    border-radius: var(--small-border-radius);
-    background: var(--scrollbar-thumb-col);
-    transition: all var(--med-transition-time) ease;
-}
-
-::-webkit-scrollbar-thumb:hover {
-    background: hsl(from var(--scrollbar-thumb-col) h s calc(l*1.2));
-    cursor: grab;
-}
-
-::-webkit-scrollbar-corner {
-    background: transparent;
-}
-
-::-webkit-resizer {
-    display: none;
 }
 
 /* input:-webkit-autofill,

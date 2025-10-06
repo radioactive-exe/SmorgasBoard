@@ -355,11 +355,9 @@ function init(): void {
     updateDimensionsMatrix();
 }
 
-// ~ Listener Initialisation
+// TODO: WHEN I COME BACK FROM CAIRO, DO THE 1. WEATHER PANEL (temp.html/js), THEN ONE MORE THEME, THEN DOCUMENTATION, THEN BLABBERING!
 
-setInterval(() => {
-    dashboard.save();
-}, 600_000);
+// ~ Listener Initialisation
 
 window.addEventListener("resize", () => {
     dashboard.organiseElements();

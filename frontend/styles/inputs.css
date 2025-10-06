@@ -480,15 +480,22 @@
 
 ::-webkit-scrollbar {
     max-width: 1rem;
-    border-radius: inherit;
+    border-radius: var(--small-border-radius);
     background: var(--scrollbar-bg);
     cursor: grab;
 }
 
 ::-webkit-scrollbar-thumb {
+    z-index: 2;
     max-width: 1rem;
-    border-radius: inherit;
+    border-radius: var(--small-border-radius);
     background: var(--scrollbar-thumb-col);
+    cursor: grab;
+    transition: all var(--med-transition-time) ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: hsl(from var(--scrollbar-thumb-col) h s calc(l*1.2));
     cursor: grab;
 }
 
@@ -498,6 +505,10 @@
 
 ::-webkit-scrollbar-corner {
     background: transparent;
+}
+
+::-webkit-resizer {
+    display: none;
 }
 
 .button-container {

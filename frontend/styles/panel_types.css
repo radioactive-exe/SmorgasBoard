@@ -264,7 +264,7 @@ panel-element[data-panel-type="TODO"] {
 
                 & .todo-list-entry-text {
                     position: relative;
-                    max-width: 90%;
+                    max-width: calc(100% - 3rem);
                     font-size: var(--small-font);
                     overflow-wrap: break-word;
                     hyphens: auto;
