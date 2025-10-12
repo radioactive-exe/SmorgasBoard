@@ -15,7 +15,7 @@ smorgas-board panel-element {
     &::before {
         content: '';
         position: absolute;
-        inset: var(--panel-body-inset);
+        inset: 50%;
         border-radius: var(--panel-border-radius);
         opacity: 0;
         pointer-events: none;
@@ -194,6 +194,7 @@ smorgas-board panel-element.being-manipulated {
     /* pointer-events: none; */
 
     &::before {
+        inset: var(--panel-body-inset);
         opacity: 1;
     }
 

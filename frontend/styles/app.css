@@ -162,6 +162,7 @@ body {
 }
 
 .icon-button {
+    cursor: pointer;
     transition: all var(--quick-transition-time) var(--bezier-function);
 }
 
@@ -447,6 +448,8 @@ body:has(.panel) {
 .panel {
     width: 40%;
     height: 30rem;
+    padding: var(--panel-content-padding) 1rem;
+    background: red;
 }
 
 .context-menu:has(#dimensions-item:hover) ~ #modal-layer {
@@ -456,6 +459,23 @@ body:has(.panel) {
     & #off-screen-down,
     & #off-screen-right {
         animation-play-state: running;
+    }
+}
+
+.weather-title-bar {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-around;
+    align-items: center;
+
+    & .weather-icon {
+        padding: 1rem;
+    }
+
+    & .search-button {
+        padding: 1rem;
+        border-radius: 50%;
+        background: var(--input-bg);
     }
 }
 
