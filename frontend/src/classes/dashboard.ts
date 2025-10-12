@@ -191,12 +191,18 @@ class Dashboard extends HTMLElement {
         );
         this.populateCells();
         this.organiseElements();
+        if (updateStored) this.saveDimensions();
+    }
 
+    public saveDimensions(): void {
         try {
-            if (user && updateStored) {
-                patchIntoSmorgasBase("dimensions", size);
-            } else if (!user && updateStored) {
-                localStorage.setItem("dimensions", JSON.stringify(size));
+            if (user) {
+                patchIntoSmorgasBase("dimensions", this.dimensions);
+            } else {
+                localStorage.setItem(
+                    "dimensions",
+                    JSON.stringify(this.dimensions),
+                );
             }
         } catch {
             console.error("Failed to store Dimensions in database.");
@@ -519,15 +525,23 @@ class Dashboard extends HTMLElement {
             themeFileLink = document.createElement("link");
             document.head.appendChild(themeFileLink);
         }
+
+        if (updateStored) this.saveTheme();
+
+        themeFileLink.setAttribute("href", theme.getUrl());
+    }
+
+    public saveTheme(): void {
         try {
-            if (user && updateStored)
-                patchIntoSmorgasBase("theme", theme.getId());
-            else if (updateStored)
-                localStorage.setItem("last-theme", theme.getId().toString());
+            if (user) patchIntoSmorgasBase("theme", this.currentTheme.getId());
+            else
+                localStorage.setItem(
+                    "last-theme",
+                    this.currentTheme.getId().toString(),
+                );
         } catch {
             console.error("Failed to store Theme in Database");
         }
-        themeFileLink.setAttribute("href", theme.getUrl());
     }
 
     public clear(): void {

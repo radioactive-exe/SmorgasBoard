@@ -511,7 +511,8 @@ supabase.auth.onAuthStateChange(
                     finishLoading(loader);
                 });
             } else {
-                dashboard.setCurrentTheme(dashboard.getCurrentTheme());
+                dashboard.saveTheme();
+                dashboard.saveDimensions();
                 dashboard.save();
             }
         } else if (e == "SIGNED_OUT") {
