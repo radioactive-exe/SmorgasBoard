@@ -359,6 +359,10 @@ function init(): void {
 
 // ~ Listener Initialisation
 
+document.addEventListener("click", (e) => {
+    console.log(e.target);
+});
+
 window.addEventListener("resize", () => {
     dashboard.organiseElements();
     if (current.panel.classList.contains("configuring"))

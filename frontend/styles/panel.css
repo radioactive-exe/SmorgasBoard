@@ -5,8 +5,6 @@ smorgas-board panel-element {
     overflow: visible;
     width: var(--width);
     height: var(--height);
-    transform: perspective(1000rem);
-    transform-style: preserve-3d;
 
     /* clip-path: circle(0 at 50% 50%);
         left: 0;
@@ -38,7 +36,6 @@ smorgas-board panel-element {
 
     &:hover::part(panel-body) {
         transform: scale(1.02) rotateZ(0deg);
-        will-change: transform;
     }
 
     &::part(panel-body in-motion) {
@@ -56,9 +53,6 @@ smorgas-board panel-element {
         transition: all var(--panel-transition-time) ease;
         container-type: inline-size;
         transform-style: preserve-3d;
-
-        /* overflow: hidden; */
-        /* transform: perspective(200rem) translateZ(5rem); */
     }
 
     &::part(handle) {
@@ -272,7 +266,7 @@ smorgas-board panel-element.configuring {
     &::part(panel-body) {
         width: 80vw;
         height: 80vh;
-        transform: translate(var(--x-vector), var(--y-vector));
+        transform: translate3d(var(--x-vector), var(--y-vector));
     }
 
     &::part(config-button) {
