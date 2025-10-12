@@ -67,6 +67,8 @@ class Dashboard extends HTMLElement {
 
     private cells: HTMLElement[];
 
+    private saveTimeout: NodeJS.Timeout;
+
     /**
      * Creates a new Dashboard.
      * @remarks
@@ -304,7 +306,7 @@ class Dashboard extends HTMLElement {
         this.panels.push(panel);
         if (updateStored)
             panel.addEventListener("finished-loading", () => {
-                this.updateStoredPanels();
+                this.triggerDelayedSave();
             });
     }
 
@@ -315,7 +317,7 @@ class Dashboard extends HTMLElement {
         this.removeChild(panel);
         if (this.panels.length == 0) this.freeIds.clear();
         deletePanelSection.classList.remove("visible");
-        this.updateStoredPanels();
+        this.triggerDelayedSave();
     }
 
     public organiseElements(): void {
@@ -332,8 +334,12 @@ class Dashboard extends HTMLElement {
             .then(() => finishLoading(loader));
     }
 
-    public save(): void {
-        this.updateStoredPanels();
+    public triggerDelayedSave(): void {
+        if (this.saveTimeout) clearTimeout(this.saveTimeout);
+        this.saveTimeout = setTimeout(() => {
+            console.log("Yee");
+            this.updateStoredPanels();
+        }, 1000);
     }
 
     public loadStoredDimensions(): Promise<void> {
@@ -453,7 +459,7 @@ class Dashboard extends HTMLElement {
         });
     }
 
-    private updateStoredPanels(): void {
+    public updateStoredPanels(): void {
         const panelStorage: PanelInstance[] = this.panels.map(
             (i): PanelInstance => {
                 return {

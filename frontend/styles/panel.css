@@ -266,7 +266,7 @@ smorgas-board panel-element.configuring {
     &::part(panel-body) {
         width: 80vw;
         height: 80vh;
-        transform: translate3d(var(--x-vector), var(--y-vector));
+        transform: translate(var(--x-vector), var(--y-vector));
     }
 
     &::part(config-button) {

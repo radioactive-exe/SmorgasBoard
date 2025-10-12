@@ -65,6 +65,7 @@ interface PanelContent {
  */
 class Panel extends HTMLElement {
     private keyElements: Map<string, HTMLElement>;
+    private saveTimeout: NodeJS.Timeout;
 
     /**
      * Creates an instance of a Panel.
@@ -214,7 +215,7 @@ class Panel extends HTMLElement {
                     ).value = val;
                 }
 
-                this.triggerSave();
+                this.triggerDelayedSave();
             });
 
             resolve();
@@ -598,6 +599,13 @@ class Panel extends HTMLElement {
         setTimeout(() => {
             saveIcon?.part.remove("visible");
         }, 500);
+    }
+
+    public triggerDelayedSave(): void {
+        if (this.saveTimeout) clearTimeout(this.saveTimeout);
+        this.saveTimeout = setTimeout(() => {
+            this.triggerSave();
+        }, 1000);
     }
 
     public static defaultPanel(): Panel {

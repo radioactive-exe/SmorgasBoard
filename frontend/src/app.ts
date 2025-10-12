@@ -191,7 +191,7 @@ function releaseHandler(): void {
     preview.classList.remove("visible");
     current.panel.classList.remove(current.flag, "being-manipulated");
 
-    dashboard.save();
+    dashboard.triggerDelayedSave();
 
     document.removeEventListener("pointerup", holdHandler.release);
     document.removeEventListener("pointermove", holdHandler.drag);
@@ -359,10 +359,6 @@ function init(): void {
 
 // ~ Listener Initialisation
 
-document.addEventListener("click", (e) => {
-    console.log(e.target);
-});
-
 window.addEventListener("resize", () => {
     dashboard.organiseElements();
     if (current.panel.classList.contains("configuring"))
@@ -491,6 +487,7 @@ supabase.auth.onAuthStateChange(
                     console.log(payload),
                 )
                 .on("broadcast", { event: "UPDATE" }, (_payload) => {
+                    console.log(_payload);
                     if (!wasLocalChange) {
                         dashboard.clearLoadedPanels();
                         dashboard.load().then(() => {
@@ -513,7 +510,7 @@ supabase.auth.onAuthStateChange(
             } else {
                 dashboard.saveTheme();
                 dashboard.saveDimensions();
-                dashboard.save();
+                dashboard.updateStoredPanels();
             }
         } else if (e == "SIGNED_OUT") {
             user = null;
