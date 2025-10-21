@@ -104,7 +104,7 @@ smorgas-board panel-element {
         align-items: end;
         overflow: hidden;
         border-radius: inherit;
-        font-size: var(--small-font);
+        font-size: var(--font-s);
         pointer-events: none;
     }
 

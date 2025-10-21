@@ -12,7 +12,7 @@ panel-element[data-panel-type="NOTEPAD"] {
         background: var(--textarea-bg);
         color: var(--text-col);
         outline: none;
-        font-size: var(--small-font);
+        font-size: var(--font-s);
         font-family: inherit;
         resize: none;
         transition: var(--med-transition-time);
@@ -56,7 +56,7 @@ panel-element[data-panel-type="CLOCK"] {
             & span {
                 display: block;
                 width: 100%;
-                font-size: clamp(calc(var(--small-font) * 0.8), var(--small-font), 8cqw);
+                font-size: clamp(calc(var(--font-s) * 0.8), var(--font-s), 8cqw);
             }
         }
 
@@ -69,7 +69,7 @@ panel-element[data-panel-type="CLOCK"] {
             & span {
                 display: block;
                 width: 100%;
-                font-size: clamp(calc(var(--med-font) * 0.6), var(--med-font), 50cqw * var(--size-coeff, 1));
+                font-size: clamp(calc(var(--font-m) * 0.6), var(--font-m), 50cqw * var(--size-coeff, 1));
             }
         }
     }
@@ -97,7 +97,7 @@ panel-element[data-panel-type="PHOTO"] {
             display: none;
         }
 
-        & .image-upload-input {
+        & .image-upload {
             display: inline-block;
             width: 8rem;
             min-width: 2rem;
@@ -132,11 +132,11 @@ panel-element[data-panel-type="PHOTO"] {
 
             &.drop-area-info {
                 font-style: italic;
-                font-size: clamp(calc(var(--small-font) * 0.7), var(--small-font), 10cqw);
+                font-size: clamp(calc(var(--font-s) * 0.7), var(--font-s), 10cqw);
             }
 
             &.drop-area-subinfo {
-                font-size: clamp(calc(var(--sub-font) * 0.7), var(--sub-font), 10cqw);
+                font-size: clamp(calc(var(--font-xs) * 0.7), var(--font-xs), 10cqw);
                 text-align: left;
             }
         }
@@ -233,7 +233,7 @@ panel-element[data-panel-type="TODO"] {
                     }
 
                     & .string-selector-label-text {
-                        top: calc(50% - 0.6 * var(--small-font));
+                        top: calc(50% - 0.6 * var(--font-s));
                     }
                 }
 
@@ -265,7 +265,7 @@ panel-element[data-panel-type="TODO"] {
                 & .todo-list-entry-text {
                     position: relative;
                     max-width: calc(100% - 3rem);
-                    font-size: var(--small-font);
+                    font-size: var(--font-s);
                     overflow-wrap: break-word;
                     hyphens: auto;
                     transition: inherit;
@@ -301,7 +301,6 @@ panel-element[data-panel-type="TODO"] {
                         background: var(--alert-error-bg);
                         transform: scale(1.1);
                     }
-
                 }
 
                 &:first-of-type {

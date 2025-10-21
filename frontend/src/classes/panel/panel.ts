@@ -64,7 +64,7 @@ interface PanelContent {
  * {@label Panel}.
  */
 class Panel extends HTMLElement {
-    private keyElements: Map<string, HTMLElement>;
+    private keyElements: Map<string, HTMLElement | null>;
     private saveTimeout: NodeJS.Timeout;
 
     /**
@@ -519,72 +519,115 @@ class Panel extends HTMLElement {
     }
 
     private bindKeyElements(): void {
-        this.keyElements = new Map<string, HTMLElement>();
         switch (this.type) {
             case PanelType.NOTEPAD:
-                this.keyElements.set(
-                    "text_area",
-                    this.querySelector("textarea")
-                        ?? document.createElement("textarea"),
-                );
+                this.keyElements = new Map<string, HTMLElement | null>([
+                    ["text_area", this.querySelector("textarea")],
+                ]);
                 break;
             case PanelType.CLOCK:
-                this.keyElements.set(
-                    "date_text",
-                    this.querySelector(".date-text")
-                        ?? document.createElement("span"),
-                );
-
-                this.keyElements.set(
-                    "time_text",
-                    this.querySelector(".time-text")
-                        ?? document.createElement("span"),
-                );
+                this.keyElements = new Map<string, HTMLElement | null>([
+                    ["date_text", this.querySelector(".date-text")],
+                    ["time_text", this.querySelector(".time-text")],
+                ]);
                 break;
             case PanelType.PHOTO:
-                this.keyElements.set(
-                    "drop_area",
-                    this.querySelector(".drop-area")
-                        ?? document.createElement("div"),
-                );
-                this.keyElements.set(
-                    "panel_image",
-                    this.querySelector(".panel-image")
-                        ?? document.createElement("img"),
-                );
-                this.keyElements.set(
-                    "upload_input",
-                    this.querySelector('.image-upload-input input[type="file"]')
-                        ?? document.createElement("input"),
-                );
+                this.keyElements = new Map<string, HTMLElement | null>([
+                    ["drop_area", this.querySelector(".drop-area")],
+                    ["panel_image", this.querySelector(".panel-image")],
+                    ["upload_input", this.querySelector(".image-upload-input")],
+                ]);
                 break;
             case PanelType.TODO:
-                this.keyElements.set(
-                    "add_task_button",
-                    this.querySelector(".add-todo-task-button")
-                        ?? document.createElement("div"),
-                );
-                this.keyElements.set(
-                    "add_task_input",
-                    this.querySelector(".add-todo-task-input")
-                        ?? document.createElement("div"),
-                );
-                this.keyElements.set(
-                    "todo_list",
-                    this.querySelector(".todo-list")
-                        ?? document.createElement("ul"),
-                );
-                this.keyElements.set(
-                    "todo_title",
-                    this.querySelector(".todo-list-title")
-                        ?? document.createElement("h2"),
-                );
+                this.keyElements = new Map<string, HTMLElement | null>([
+                    [
+                        "add_task_button",
+                        this.querySelector(".add-todo-task-button"),
+                    ],
+                    [
+                        "add_task_input",
+                        this.querySelector(".add-todo-task-input"),
+                    ],
+                    ["todo_list", this.querySelector(".todo-list")],
+                    ["todo_title", this.querySelector(".todo-list-title")],
+                ]);
+                break;
+            case PanelType.WEATHER:
+                this.keyElements = new Map<string, HTMLElement | null>([
+                    [
+                        "search_input",
+                        this.querySelector(".location-search-input"),
+                    ],
+                    [
+                        "search_results",
+                        this.querySelector(".location-search-results"),
+                    ],
+                    [
+                        "search_button",
+                        this.querySelector(".location-search-button"),
+                    ],
+                    [
+                        "search_selector",
+                        this.querySelector(".location-search-selector"),
+                    ],
+                    ["location_list", this.querySelector(".location-list")],
+                    [
+                        "focused_location",
+                        this.querySelector(".focused-location"),
+                    ],
+                    ["preview_header", this.querySelector(".preview-header")],
+                    [
+                        "save_location_button",
+                        this.querySelector(".save-location-button"),
+                    ],
+                    [
+                        "close_focus_button",
+                        this.querySelector(".close-focus-button"),
+                    ],
+                    [
+                        "saved_location_list",
+                        this.querySelector(".saved-location-list"),
+                    ],
+                    ["focused_city", this.querySelector(".location-city")],
+                    [
+                        "focused_region_and_country",
+                        this.querySelector(".location-region-country"),
+                    ],
+                    ["focused_time", this.querySelector(".location-time")],
+                    ["focused_temp", this.querySelector(".temperature")],
+
+                    [
+                        "focused_condition",
+                        this.querySelector(".condition-name"),
+                    ],
+                    [
+                        "focused_condition_icon",
+                        this.querySelector(".condition-icon"),
+                    ],
+                    [
+                        "focused_feels_like",
+                        this.querySelector(".feels-like-temp"),
+                    ],
+                    [
+                        "focused_forecast_list",
+                        this.querySelector(".forecast-entries"),
+                    ],
+                    ["focused_min_temp", this.querySelector(".min-temp")],
+                    ["focused_max_temp", this.querySelector(".max-temp")],
+                    ["focused_astro", this.querySelector(".astrology-section")],
+                    ["focused_sunrise", this.querySelector(".sunrise-time")],
+                    ["focused_sunset", this.querySelector(".sunset-time")],
+                ]);
                 break;
         }
     }
 
-    public getKeyElements(): Map<string, HTMLElement> {
+    public getKeyElements(): Map<string, HTMLElement | null> {
         return this.keyElements;
+    }
+
+    public getKeyElement(element: string): HTMLElement | null | undefined {
+        return this.keyElements.get(element);
     }
 
     public beginBehaviour(): void {

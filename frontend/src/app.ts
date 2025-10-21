@@ -35,7 +35,6 @@ import {
 } from "./functions/manip.js";
 
 import * as utils from "./functions/util.js";
-import type { Database } from "./types/database.types.js";
 
 //#region Constant Declarations
 
@@ -46,7 +45,7 @@ if (!supabaseUrl || !supabaseKey) {
     throw new Error("Supabase environment variables not properly configured!");
 }
 
-const supabase: SupabaseClient = createClient<Database>(
+const supabase: SupabaseClient = createClient(
     supabaseUrl,
     supabaseKey,
 );

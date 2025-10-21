@@ -15,7 +15,7 @@
         border-radius: var(--small-border-radius);
         background: rgb(from var(--panel-bg) r g b / var(--panel-manip-opacity));
         list-style: none;
-        font-size: var(--small-font);
+        font-size: var(--font-s);
         filter: drop-shadow(0 0 0.5rem var(--shadow-col));
         transition: width var(--quick-transition-time) ease var(--med-transition-time),
             background var(--med-transition-time) ease;

@@ -17,43 +17,140 @@
     </head>
     <body style="background: var(--dashboard-bg)">
         <div class="panel">
-            <div class="weather-title-bar">
-                <div class="icon weather-icon"></div>
-                <h2 class="weather-title">Weather</h2>
-                <div part="icon-button" class="icon-button search-button">
-                    <div class="icon search-icon"></div>
+            <div class="weather-container">
+                <div class="weather-bar weather-title-bar">
+                    <div class="icon weather-icon"></div>
+                    <h2 class="weather-title">Weather</h2>
+                </div>
+                <div class="weather-bar weather-search-bar selector-bar">
+                    <div
+                        class="selector string-selector location-search-selector selector-bar-selector"
+                    >
+                        <label
+                            class="string-selector-label selector-bar-label"
+                            id="location-search-label"
+                        >
+                            <input
+                                type="text"
+                                class="location-search-input selector-bar-input string-selector-input"
+                                required
+                            />
+                            <span
+                                class="selector-bar-label-text string-selector-label-text"
+                                >Find a City</span
+                            >
+                        </label>
+                    </div>
+                    <div
+                        class="button icon-button selector-bar-button location-search-button"
+                    >
+                        <div class="icon search-icon selector-bar-icon"></div>
+                    </div>
+                    <ul class="search-results location-search-results"></ul>
+                </div>
+                <ul class="weather-section saved-location-list"></ul>
+                <div class="weather-section focused-location">
+                    <div class="location-container">
+                        <div class="preview-header visible">
+                            <p>
+                                You are previewing this city. Press + to add it
+                                to your list!
+                            </p>
+                            <div
+                                class="button icon-button save-location-button"
+                            >
+                                <div
+                                    class="icon add-icon selector-bar-icon"
+                                ></div>
+                            </div>
+                        </div>
+                        <div class="info-header">
+                            <div class="location-info">
+                                <h2 class="location-city location-title">
+                                    City
+                                </h2>
+                                <h3
+                                    class="location-region-country location-subtitle"
+                                >
+                                    Region, Country
+                                </h3>
+                            </div>
+                            <div class="spacer vertical-spacer"></div>
+                            <div class="weather-overview">
+                                <h2 class="temperature">100&degF</h2>
+                                <div class="weather-info-section condition">
+                                    <h4 class="condition-name">Sunny</h4>
+                                    <img
+                                        width="30"
+                                        height="30"
+                                        class="condition-icon"
+                                        src="//cdn.weatherapi.com/weather/64x64/day/176.png"
+                                        alt=""
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="spacer"></div>
+                        <div class="weather-info">
+                            <div
+                                class="weather-info-section local-time-section"
+                            >
+                                <p class="info-section-title">Local Time</p>
+                                <div class="spacer vertical-spacer"></div>
+                                <p class="location-time">July 12th, 8 PM</p>
+                            </div>
+                            <div
+                                class="weather-info-section feels-like-section"
+                            >
+                                <p class="info-section-title">Feels like</p>
+                                <div class="spacer vertical-spacer"></div>
+                                <p class="feels-like-temp">25&degC</p>
+                            </div>
+                            <div class="weather-info-section min-temp-section">
+                                <p class="info-section-title">Min. Temp</p>
+                                <div class="spacer vertical-spacer"></div>
+                                <p class="min-temp">255&degC</p>
+                            </div>
+                            <div class="weather-info-section max-temp-section">
+                                <p class="info-section-title">Max. Temp</p>
+                                <div class="spacer vertical-spacer"></div>
+                                <p class="max-temp">255&degC</p>
+                            </div>
+                            <div class="weather-info-section forecast-section">
+                                <p class="info-section-title top-title">
+                                    Hourly Forecast
+                                </p>
+                                <div class="spacer"></div>
+                                <ul class="forecast-entries"></ul>
+                            </div>
+                            <div class="weather-info-section astrology-section">
+                                <div class="sunrise astrology-time-entry">
+                                    <p
+                                        class="astrology-time-title info-section-title"
+                                    >
+                                        Sunrise
+                                    </p>
+                                    <div class="icon sunrise-icon"></div>
+                                    <p class="sunrise-time">05:59 AM</p>
+                                </div>
+                                <div class="sunset astrology-time-entry">
+                                    <p
+                                        class="astrology-time-title info-section-title"
+                                    >
+                                        Sunset
+                                    </p>
+                                    <div class="icon sunset-icon"></div>
+                                    <p class="sunset-time">05:59 PM</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="button icon-button close-focus-button">
+                        <div class="icon x-icon selector-bar-icon"></div>
+                    </div>
                 </div>
             </div>
         </div>
-        <!-- <div class="matrix"></div>
-
-        <div class="personal-nav">
-            <div class="personal-nav-menu">
-                <div class="auth-options">
-                    <div class="anon-options auth-options-section">
-                        <h2 id="anon-title">
-                            Want to use your dashboard anywhere?
-                        </h2>
-                        <p><span class="clickable">Sign Up</span></p>
-                        <p><span class="clickable">Log In</span></p>
-                    </div>
-                    <div
-                        class="logged-in-options auth-options-section"
-                        style="display: none"
-                    >
-                        <h2 id="logged-in-title">
-                            Hello, <span class="username">{username}</span>!
-                        </h2>
-                        <p><span class="clickable">Log Out</span></p>
-                    </div>
-                </div>
-            </div>
-            <div class="button glassy">
-                <div class="icon personal-icon"></div>
-                <div class="icon question-icon"></div>
-            </div>
-        </div> -->
-
         <script type="module" src="./temp.js"></script>
         <script type="importmap">
             {

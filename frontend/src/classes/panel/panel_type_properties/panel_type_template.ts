@@ -10,6 +10,7 @@ enum PanelTypeTemplate {
     PHOTO = "definitions/panels/photo",
     CLOCK = "definitions/panels/clock",
     TODO = "definitions/panels/todo",
+    WEATHER = "definitions/panels/weather",
 }
 
 export { PanelTypeTemplate };

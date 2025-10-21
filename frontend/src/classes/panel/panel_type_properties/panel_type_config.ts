@@ -77,6 +77,18 @@ class PanelTypeConfig {
             }),
         }),
     );
+    public static readonly WEATHER: PanelTypeConfig = new PanelTypeConfig(
+        zod.strictObject({
+            use24HrTime: zod.custom<ConfigEntry.Boolean>().default({
+                label: "Use 24-hour Time",
+                value: true,
+            }),
+            useCelsius: zod.custom<ConfigEntry.Boolean>().default({
+                label: "Show Temperatures in Celsius",
+                value: true,
+            }),
+        }),
+    );
 
     private constructor(private config: zod.ZodObject) {}
 

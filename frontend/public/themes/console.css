@@ -16,6 +16,5 @@
     --input-bg: rgb(60 60 60);
     --input-secondary: hsl(from var(--input-bg) h s calc(l*2.2));
     --input-accent: lime;
-    font-weight: bold;
     font-family: "Google Sans Code", monospace;
 }

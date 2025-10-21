@@ -6,8 +6,8 @@ import { PanelType } from "../panel_type.js";
 function execute(panel: Panel): void {
     if (
         panel.getType() != PanelType.CLOCK
-        || panel.getKeyElements().get("date_text") == undefined
-        || panel.getKeyElements().get("time_text") == undefined
+        || !panel.getKeyElement("date_text")
+        || !panel.getKeyElement("time_text")
     )
         return;
     panel.style.setProperty(
@@ -33,8 +33,8 @@ function execute(panel: Panel): void {
 
     updateTimeAndDate(
         panel,
-        panel.getKeyElements().get("date_text") as HTMLElement,
-        panel.getKeyElements().get("time_text") as HTMLElement,
+        panel.getKeyElement("date_text") as HTMLElement,
+        panel.getKeyElement("time_text") as HTMLElement,
     );
 }
 

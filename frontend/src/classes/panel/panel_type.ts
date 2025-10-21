@@ -75,6 +75,15 @@ class PanelType {
         PanelTypeBehaviour.TODO,
         { width: 3, height: 2 },
     );
+    static readonly WEATHER = new PanelType(
+        PanelTypeId.WEATHER,
+        PanelTypeName.WEATHER,
+        PanelTypeData.EXTERNAL,
+        PanelTypeTemplate.WEATHER,
+        PanelTypeConfig.WEATHER,
+        PanelTypeBehaviour.WEATHER,
+        { width: 3, height: 2 },
+    );
 
     /**
      * @description Creates an instance of PanelType.
@@ -180,6 +189,8 @@ class PanelType {
                 return PanelType.CLOCK;
             case 4:
                 return PanelType.TODO;
+            case 5:
+                return PanelType.WEATHER;
         }
 
         return PanelType.PREVIEW;

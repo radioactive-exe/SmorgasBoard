@@ -9,6 +9,7 @@ enum PanelTypeId {
     PHOTO = 2,
     CLOCK = 3,
     TODO = 4,
+    WEATHER = 5,
 }
 
 export { PanelTypeId };
