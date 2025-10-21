@@ -9,18 +9,19 @@ let triggerSaveTimeout: ReturnType<typeof setTimeout> = setTimeout(() => {
 }, 0);
 
 function execute(panel: Panel): void {
-    const addTaskButton: HTMLElement | undefined = panel
-        .getKeyElements()
-        .get("add_task_button");
-    const addTaskInput: HTMLInputElement | undefined = panel
-        .getKeyElements()
-        .get("add_task_input") as HTMLInputElement | undefined;
-    const todoList: HTMLUListElement | undefined = panel
-        .getKeyElements()
-        .get("todo_list") as HTMLUListElement | undefined;
-    const title: HTMLUListElement | undefined = panel
-        .getKeyElements()
-        .get("todo_title") as HTMLUListElement | undefined;
+    const addTaskButton: HTMLElement | null | undefined =
+        panel.getKeyElement("add_task_button");
+    const addTaskInput: HTMLInputElement | null | undefined =
+        panel.getKeyElement("add_task_input") as
+            | HTMLInputElement
+            | null
+            | undefined;
+    const todoList: HTMLUListElement | null | undefined = panel.getKeyElement(
+        "todo_list",
+    ) as HTMLUListElement | null | undefined;
+    const title: HTMLUListElement | null | undefined = panel.getKeyElement(
+        "todo_title",
+    ) as HTMLUListElement | null | undefined;
 
     if (
         !addTaskButton

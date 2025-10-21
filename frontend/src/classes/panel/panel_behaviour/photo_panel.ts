@@ -6,18 +6,15 @@ import { MAX_FILE_SIZE, VALID_FILE_TYPES } from "../../constants.js";
 import type { Panel } from "../panel.js";
 import { PanelType, PanelTypeConfig } from "../panel_type.js";
 
-// [x]: Add mobile file input for when drag and drop doesn't work.
-
 function execute(panel: Panel): void {
-    const dropArea: HTMLElement | undefined = panel
-        .getKeyElements()
-        .get("drop_area");
-    const fileInput: HTMLInputElement | undefined = panel
-        .getKeyElements()
-        .get("upload_input") as HTMLInputElement | undefined;
-    const img: HTMLImageElement | undefined = panel
-        .getKeyElements()
-        .get("panel_image") as HTMLImageElement | undefined;
+    const dropArea: HTMLElement | null | undefined =
+        panel.getKeyElement("drop_area");
+    const fileInput: HTMLInputElement | null | undefined = panel.getKeyElement(
+        "upload_input",
+    ) as HTMLInputElement | null | undefined;
+    const img: HTMLImageElement | null | undefined = panel.getKeyElement(
+        "panel_image",
+    ) as HTMLImageElement | null | undefined;
 
     if (!dropArea || !fileInput || !img || panel.getType() != PanelType.PHOTO)
         return;

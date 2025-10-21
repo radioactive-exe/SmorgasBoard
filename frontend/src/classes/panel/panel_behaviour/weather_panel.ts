@@ -141,8 +141,8 @@ function execute(panel: Panel): void {
     });
 
     mainElements.searchButton.addEventListener("click", () => {
-        mainElements.searchInput.classList.toggle("visible");
-        if (!mainElements.searchInput.classList.contains("visible"))
+        mainElements.searchSelector.classList.toggle("visible");
+        if (!mainElements.searchSelector.classList.contains("visible"))
             clearSearch(mainElements);
     });
 
@@ -415,7 +415,8 @@ function saveFocusedLocation(
 
     const deleteIcon = document.createElement("div");
     deleteIcon.classList.add("icon", "x-icon", "remove-location-icon");
-    deleteIcon.addEventListener("click", () => {
+    deleteIcon.addEventListener("click", (e) => {
+        e.stopImmediatePropagation();
         newEntry.remove();
     });
 
