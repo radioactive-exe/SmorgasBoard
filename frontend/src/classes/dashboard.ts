@@ -28,6 +28,7 @@ import { getDefaultConfig } from "./config/config.js";
 import type { PanelInstance } from "./panel/panel.js";
 import { Panel } from "./panel/panel.js";
 import { PanelType } from "./panel/panel_type.js";
+import { PanelTypeId } from "./panel/panel_type_properties/panel_type_id.js";
 import { Theme } from "./theme.js";
 
 /**
@@ -440,7 +441,9 @@ class Dashboard extends HTMLElement {
             loadedPanelInstances.map((i: PanelInstance) => {
                 const panelToSpawn: Panel = new Panel(
                     new Area(i.area.pos, i.area.size),
-                    PanelType.getTypeFromId(i.panel_type_id),
+                    PanelType[
+                        PanelTypeId[i.panel_type_id] as keyof typeof PanelType
+                    ] as PanelType,
                     i.panel_id,
                     i.config,
                     i.content,

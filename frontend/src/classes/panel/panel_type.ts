@@ -168,33 +168,6 @@ class PanelType {
     public execute(panel: Panel): void {
         if (this.typeBehaviour) this.typeBehaviour(panel);
     }
-
-    /**
-     * @description Returns the panel from @alias (PanelDataTypes) that has @param id as a @member {typeId}
-     *
-     * @static
-     * @param id
-     * @returns{PanelType}
-     * @memberof PanelType
-     */
-    public static getTypeFromId(id: number): PanelType {
-        switch (id) {
-            case 0:
-                return PanelType.DEFAULT;
-            case 1:
-                return PanelType.NOTEPAD;
-            case 2:
-                return PanelType.PHOTO;
-            case 3:
-                return PanelType.CLOCK;
-            case 4:
-                return PanelType.TODO;
-            case 5:
-                return PanelType.WEATHER;
-        }
-
-        return PanelType.PREVIEW;
-    }
 }
 
 export { PanelType, PanelTypeConfig, PanelTypeTemplate };

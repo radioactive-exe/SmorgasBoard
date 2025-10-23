@@ -35,6 +35,7 @@ import {
 } from "./functions/manip.js";
 
 import * as utils from "./functions/util.js";
+import { PanelTypeId } from "./classes/panel/panel_type_properties/panel_type_id.js";
 
 //#region Constant Declarations
 
@@ -400,7 +401,7 @@ document.addEventListener("keydown", async (e) => {
             dashboard.toggleEditMode();
             break;
         case "ArrowLeft":
-            console.log(supabase.realtime.getChannels());
+            console.log(PanelType[PanelTypeId[1] as keyof typeof PanelType]);
     }
 });
 
