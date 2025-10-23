@@ -27,6 +27,8 @@ import {
     snapElementToTarget,
 } from "../../functions/manip.js";
 
+import type { EarthCoordinates, TodoTask } from "../../types/main.types.js";
+import type * as WeatherAPI from "../../types/weather_api.types.js";
 import type { AreaInstance, Coordinate, Size } from "../area.js";
 import { Area } from "../area.js";
 import type { Config, ConfigChangeEventDetail } from "../config/config.js";
@@ -35,6 +37,7 @@ import type * as ConfigEntry from "../config/config_entry.js";
 import { configMenu } from "../config/config_menu_builder.js";
 
 import { addEntry } from "./panel_behaviour/todo_panel.js";
+import { saveLocation } from "./panel_behaviour/weather_panel.js";
 import { PanelType, PanelTypeConfig, PanelTypeTemplate } from "./panel_type.js";
 
 /**
@@ -55,7 +58,7 @@ interface PanelFetchResponse {
 
 interface PanelContent {
     path?: string;
-    body?: string;
+    body?: string | TodoTask[] | EarthCoordinates[];
 }
 
 /**
@@ -367,19 +370,34 @@ class Panel extends HTMLElement {
                 const todoList = this.keyElements.get("todo_list");
                 if (!todoList) return {};
                 return {
-                    body: JSON.stringify(
-                        [...todoList?.children].map((entry) => {
-                            return {
-                                task: entry.textContent,
-                                checked:
-                                    (
-                                        entry.querySelector(
-                                            ".checkbox-input",
-                                        ) as HTMLInputElement
-                                    )?.checked ?? false,
-                            };
-                        }),
-                    ),
+                    body: [
+                        ...(todoList?.children as HTMLCollectionOf<HTMLElement>),
+                    ].map((entry: HTMLElement) => {
+                        return {
+                            task: entry.textContent,
+                            checked:
+                                (
+                                    entry.querySelector(
+                                        ".checkbox-input",
+                                    ) as HTMLInputElement
+                                )?.checked ?? false,
+                        };
+                    }),
+                };
+            case PanelType.WEATHER:
+                const savedLocations = this.keyElements.get(
+                    "saved_location_list",
+                );
+                if (!savedLocations) return {};
+                return {
+                    body: [
+                        ...(savedLocations?.children as HTMLCollectionOf<HTMLElement>),
+                    ].map((entry) => {
+                        return {
+                            lat: parseFloat(entry.dataset.lat ?? "0"),
+                            lon: parseFloat(entry.dataset.lon ?? "0"),
+                        };
+                    }),
                 };
         }
         return {};
@@ -400,7 +418,7 @@ class Panel extends HTMLElement {
                     "panel_image",
                 ) as HTMLImageElement;
                 if (img) {
-                    img.dataset.path = content.path as string;
+                    img.dataset.path = content.path;
                     if (content.path) {
                         const { data } = await supabase.storage
                             .from("dashboard_media")
@@ -411,15 +429,15 @@ class Panel extends HTMLElement {
                 } else throw new Error("Missing key element: panel_image");
                 break;
             case PanelType.TODO:
-                const todoList = this.keyElements.get(
-                    "todo_list",
-                ) as HTMLUListElement;
-                if (content.body) {
-                    const parsedContent = JSON.parse(content.body as string);
+                const todoList = this.keyElements.get("todo_list") as
+                    | HTMLUListElement
+                    | undefined
+                    | null;
+                if (todoList) {
+                    const parsedContent = content.body;
 
-                    (
-                        parsedContent as { task: string; checked: boolean }[]
-                    ).forEach((entry) => {
+                    if (!parsedContent) return;
+                    (parsedContent as TodoTask[]).forEach((entry) => {
                         addEntry(
                             this,
                             todoList,
@@ -430,6 +448,38 @@ class Panel extends HTMLElement {
                     });
                 } else throw new Error("Missing key element: todo_list");
                 break;
+            case PanelType.WEATHER:
+                const savedLocations = this.keyElements.get(
+                    "saved_location_list",
+                ) as HTMLUListElement | null;
+                const parsedContent = content.body;
+                if (!savedLocations || !parsedContent) return;
+                (parsedContent as EarthCoordinates[]).forEach(
+                    async (location) => {
+                        const weatherResponse = await fetch(
+                            `http://api.weatherapi.com/v1/forecast.json?key=${import.meta.env.VITE_WEATHER_API_KEY}&q=${location.lat},${location.lon}&days=3&aqi=no&alerts=no`,
+                        );
+                        const data: WeatherAPI.LocationForecast =
+                            await weatherResponse.json();
+                        const useCelsius = (
+                            this.config?.useCelsius as ConfigEntry.Boolean
+                        ).value;
+                        const temperatureSymbol = useCelsius ? "C" : "F";
+
+                        saveLocation(
+                            savedLocations,
+                            this,
+                            data.location.name,
+                            location.lat,
+                            location.lon,
+                            data.current.condition.text,
+                            `${Math.round(useCelsius ? data.current.temp_c : data.current.temp_f)}&deg${temperatureSymbol}`,
+                            `${Math.round(useCelsius ? data.forecast.forecastday[0].day.mintemp_c : data.forecast.forecastday[0].day.mintemp_f)}&deg${temperatureSymbol}`,
+                            `${Math.round(useCelsius ? data.forecast.forecastday[0].day.maxtemp_c : data.forecast.forecastday[0].day.maxtemp_f)}&deg${temperatureSymbol}`,
+                            false,
+                        );
+                    },
+                );
         }
     }
 
@@ -649,10 +699,6 @@ class Panel extends HTMLElement {
         this.saveTimeout = setTimeout(() => {
             this.triggerSave();
         }, 1000);
-    }
-
-    public static defaultPanel(): Panel {
-        return new Panel(Area.INIT, PanelType.DEFAULT, 0, PanelTypeConfig.NONE);
     }
 }
 

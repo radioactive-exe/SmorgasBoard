@@ -1,6 +1,10 @@
+import * as get from "../../../functions/accessors.js";
 import type * as WeatherAPI from "../../../types/weather_api.types.js";
-import type { Panel } from "../panel.js";
+import type { Config, ConfigChangeEventDetail } from "../../config/config.js";
+import type * as ConfigEntry from "../../config/config_entry.js";
+import { Panel } from "../panel.js";
 import type {} from "../../constants.js";
+import { PanelType } from "../panel_type.js";
 
 const weatherApiKey = import.meta.env.VITE_WEATHER_API_KEY;
 
@@ -35,6 +39,8 @@ function execute(panel: Panel): void {
     if (
         Object.values(panel.getKeyElements()).includes(null)
         || Object.values(panel.getKeyElements()).includes(undefined)
+        || panel.getType() != PanelType.WEATHER
+        || !panel.getConfig()
     )
         return;
 
@@ -112,8 +118,6 @@ function execute(panel: Panel): void {
                         0,
                         0,
                         false,
-                        mainElements,
-                        focusedLocationInfoElements,
                     );
                 } else {
                     locations.forEach((location: WeatherAPI.Location) => {
@@ -122,6 +126,7 @@ function execute(panel: Panel): void {
                             location.lat,
                             location.lon,
                             true,
+                            panel,
                             mainElements,
                             focusedLocationInfoElements,
                         );
@@ -133,8 +138,6 @@ function execute(panel: Panel): void {
                     0,
                     0,
                     false,
-                    mainElements,
-                    focusedLocationInfoElements,
                 );
             }
         }, 500);
@@ -143,13 +146,14 @@ function execute(panel: Panel): void {
     mainElements.searchButton.addEventListener("click", () => {
         mainElements.searchSelector.classList.toggle("visible");
         if (!mainElements.searchSelector.classList.contains("visible"))
-            clearSearch(mainElements);
+            clearSearch(panel);
     });
 
     mainElements.saveLocationButton?.addEventListener("click", () => {
-        saveFocusedLocation(mainElements, focusedLocationInfoElements);
+        saveFocusedLocation(panel, mainElements, focusedLocationInfoElements);
     });
-    return;
+
+    panel.addEventListener("configchange", handleConfigChange);
 }
 
 function addEntryToSearchResults(
@@ -157,45 +161,104 @@ function addEntryToSearchResults(
     lat: number,
     lon: number,
     withListeners = true,
-    mainElements: MainWeatherPanelElements,
-    focusedLocationInfoElements: FocusedLocationInfoElements,
+    panel?: Panel,
+    mainElements?: MainWeatherPanelElements,
+    focusedLocationInfoElements?: FocusedLocationInfoElements,
 ): void {
+    if (
+        withListeners
+        && (!mainElements || !focusedLocationInfoElements || !panel)
+    )
+        throw new Error(
+            "Must pass the panel and its key elements when adding listeners to the search result entry!",
+        );
     const newEntry = document.createElement("li");
     newEntry.classList.add("location-search-result");
     newEntry.innerHTML = content;
     newEntry.dataset.lat = lat.toString();
     newEntry.dataset.lon = lon.toString();
-    if (withListeners) {
+    if (withListeners && mainElements && focusedLocationInfoElements && panel) {
         newEntry.addEventListener("click", () => {
-            focusOnLocation(
-                lat,
-                lon,
-                true,
-                mainElements,
-                focusedLocationInfoElements,
-            );
+            focusOnLocation(lat, lon, true, panel);
         });
     }
-    mainElements.searchResults.appendChild(newEntry);
+    mainElements?.searchResults.appendChild(newEntry);
 }
 
-function clearSearch(mainElements: MainWeatherPanelElements): void {
-    mainElements.searchResults.replaceChildren();
-    mainElements.searchInput.value = "";
+function clearSearch(panel: Panel): void {
+    panel.getKeyElement("search_results")?.replaceChildren();
+    if (panel.getKeyElement("search_input"))
+        (panel.getKeyElement("search_input") as HTMLInputElement).value = "";
 }
 
 async function focusOnLocation(
     lat: number,
     lon: number,
     previewing: boolean,
-    mainElements: MainWeatherPanelElements,
-    focusedLocationInfoElements: FocusedLocationInfoElements,
+    panel: Panel,
 ): Promise<void> {
+    const mainElements = {
+        searchInput: panel.getKeyElement("search_input") as HTMLInputElement,
+        searchResults: panel.getKeyElement(
+            "search_results",
+        ) as HTMLUListElement,
+        searchSelector: panel.getKeyElement(
+            "search_selector",
+        ) as HTMLDivElement,
+        searchButton: panel.getKeyElement("search_button") as HTMLDivElement,
+        previewHeader: panel.getKeyElement("preview_header") as HTMLDivElement,
+        focusedLocation: panel.getKeyElement(
+            "focused_location",
+        ) as HTMLDivElement,
+        savedLocationList: panel.getKeyElement(
+            "saved_location_list",
+        ) as HTMLUListElement,
+        saveLocationButton: panel.getKeyElement(
+            "save_location_button",
+        ) as HTMLDivElement,
+    };
+    const focusedLocationInfoElements = {
+        city: panel.getKeyElement("focused_city") as HTMLHeadingElement,
+        regionAndCountry: panel.getKeyElement(
+            "focused_region_and_country",
+        ) as HTMLHeadingElement,
+        time: panel.getKeyElement("focused_time") as HTMLParagraphElement,
+        temp: panel.getKeyElement("focused_temp") as HTMLHeadingElement,
+        cond: panel.getKeyElement("focused_condition") as HTMLHeadingElement,
+        condIcon: panel.getKeyElement(
+            "focused_condition_icon",
+        ) as HTMLImageElement,
+        feelsLike: panel.getKeyElement(
+            "focused_feels_like",
+        ) as HTMLParagraphElement,
+        forecast: panel.getKeyElement(
+            "focused_forecast_list",
+        ) as HTMLUListElement,
+        minTemp: panel.getKeyElement(
+            "focused_min_temp",
+        ) as HTMLParagraphElement,
+        maxTemp: panel.getKeyElement(
+            "focused_max_temp",
+        ) as HTMLParagraphElement,
+        astro: panel.getKeyElement("focused_astro") as HTMLDivElement,
+        sunrise: panel.getKeyElement("focused_sunrise") as HTMLParagraphElement,
+        sunset: panel.getKeyElement("focused_sunset") as HTMLParagraphElement,
+    };
+
+    let useCelsius = true,
+        use24HrTime = true;
+
+    if (panel.getConfig()) {
+        useCelsius = (panel.getConfig()?.useCelsius as ConfigEntry.Boolean)
+            .value;
+        use24HrTime = (panel.getConfig()?.use24HrTime as ConfigEntry.Boolean)
+            .value;
+    }
+
     const weatherResponse = await fetch(
         `http://api.weatherapi.com/v1/forecast.json?key=${weatherApiKey}&q=${lat},${lon}&days=3&aqi=no&alerts=no`,
     );
     const data = await weatherResponse.json();
-    console.log(data);
 
     const now = new Date();
     const currentTimeEpoch = now.getTime();
@@ -210,6 +273,7 @@ async function focusOnLocation(
         {
             timeStyle: "short",
             timeZone: data.location.tz_id,
+            hour12: !use24HrTime,
         },
     )}, ${now.toLocaleDateString("en-US", {
         dateStyle: "short",
@@ -222,11 +286,13 @@ async function focusOnLocation(
     if (previewing) mainElements.previewHeader.classList.add("visible");
     else mainElements.previewHeader.classList.remove("visible");
 
-    setConditionAndTemperature(data, focusedLocationInfoElements);
+    setConditionAndTemperature(data, useCelsius, focusedLocationInfoElements);
     setForecastData(
         data,
         currentTimeEpoch,
         data.location.tz_id,
+        useCelsius,
+        use24HrTime,
         focusedLocationInfoElements,
     );
     setAstrologyData(
@@ -236,7 +302,7 @@ async function focusOnLocation(
         focusedLocationInfoElements,
     );
 
-    clearSearch(mainElements);
+    clearSearch(panel);
     mainElements.focusedLocation.classList.add("visible");
 }
 
@@ -266,23 +332,39 @@ function setForecastData(
     data: WeatherAPI.LocationForecast,
     currentTimeEpoch: number,
     timezone: string,
+    useCelsius: boolean,
+    use24HrTime: boolean,
     focusedLocationInfoElements: FocusedLocationInfoElements,
 ): void {
     focusedLocationInfoElements.forecast.innerHTML = "";
 
     data.forecast.forecastday[0].hour.forEach((hour) => {
         if (hour.time_epoch * 1000 > currentTimeEpoch)
-            addForecastEntry(hour, timezone, focusedLocationInfoElements);
+            addForecastEntry(
+                hour,
+                timezone,
+                useCelsius,
+                use24HrTime,
+                focusedLocationInfoElements,
+            );
     });
     data.forecast.forecastday[1].hour.forEach((hour) => {
         if (hour.time_epoch * 1000 <= currentTimeEpoch + 86400000)
-            addForecastEntry(hour, timezone, focusedLocationInfoElements);
+            addForecastEntry(
+                hour,
+                timezone,
+                useCelsius,
+                use24HrTime,
+                focusedLocationInfoElements,
+            );
     });
 }
 
 function addForecastEntry(
     hour: WeatherAPI.Hour,
     timezone: string,
+    useCelsius: boolean,
+    use24HrTime: boolean,
     focusedLocationInfoElements: FocusedLocationInfoElements,
 ): void {
     const hourlyDate = new Date(hour.time_epoch * 1000);
@@ -293,6 +375,7 @@ function addForecastEntry(
                     {
                         timeStyle: "short",
                         timeZone: timezone,
+                        hour12: !use24HrTime,
                     },
                 )}</p>
                 <img
@@ -302,7 +385,7 @@ function addForecastEntry(
                     alt=""
                     class="forecast-icon"
                 />
-                <p class="forecast-temp">${Math.round(hour.temp_c)}&degC</p>
+                <p class="forecast-temp">${Math.round(useCelsius ? hour.temp_c : hour.temp_f)}&deg${useCelsius ? "C" : "F"}</p>
             </li>`;
 }
 
@@ -373,43 +456,76 @@ function setAstrologyData(
 
 function setConditionAndTemperature(
     data: WeatherAPI.LocationForecast,
+    useCelsius: boolean,
     focusedLocationInfoElements: FocusedLocationInfoElements,
 ): void {
+    const temperatureSymbol = useCelsius ? "C" : "F";
+
     focusedLocationInfoElements.temp.innerHTML = `${Math.round(
-        data.current.temp_c,
-    )}&degC`;
+        useCelsius ? data.current.temp_c : data.current.temp_f,
+    )}&deg${temperatureSymbol}`;
     focusedLocationInfoElements.cond.textContent = data.current.condition.text;
     focusedLocationInfoElements.condIcon.src = data.current.condition.icon;
 
-    focusedLocationInfoElements.feelsLike.innerHTML = `${Math.round(data.current.feelslike_c)}&degC`;
+    focusedLocationInfoElements.feelsLike.innerHTML = `${Math.round(useCelsius ? data.current.feelslike_c : data.current.feelslike_f)}&deg${temperatureSymbol}`;
     focusedLocationInfoElements.minTemp.innerHTML = `${Math.round(
-        data.forecast.forecastday[0].day.mintemp_c,
-    )}&degC`;
+        useCelsius
+            ? data.forecast.forecastday[0].day.mintemp_c
+            : data.forecast.forecastday[0].day.mintemp_f,
+    )}&deg${temperatureSymbol}`;
     focusedLocationInfoElements.maxTemp.innerHTML = `${Math.round(
-        data.forecast.forecastday[0].day.maxtemp_c,
-    )}&degC`;
+        useCelsius
+            ? data.forecast.forecastday[0].day.maxtemp_c
+            : data.forecast.forecastday[0].day.maxtemp_f,
+    )}&deg${temperatureSymbol}`;
 }
 
 function saveFocusedLocation(
+    panel: Panel,
     mainElements: MainWeatherPanelElements,
     focusedLocationInfoElements: FocusedLocationInfoElements,
 ): void {
     mainElements.previewHeader.classList.remove("visible");
+    saveLocation(
+        mainElements.savedLocationList,
+        panel,
+        focusedLocationInfoElements.city.textContent,
+        parseFloat(mainElements.focusedLocation.dataset.lat ?? "0"),
+        parseFloat(mainElements.focusedLocation.dataset.lon ?? "0"),
+        focusedLocationInfoElements.cond.textContent,
+        focusedLocationInfoElements.temp.textContent,
+        focusedLocationInfoElements.minTemp.textContent,
+        focusedLocationInfoElements.maxTemp.textContent,
+    );
+}
+
+function saveLocation(
+    savedLocationList: HTMLUListElement,
+    panel: Panel,
+    city: string,
+    lat: number,
+    lon: number,
+    condition: string,
+    temp: string,
+    minTemp: string,
+    maxTemp: string,
+    updateStored = true,
+): void {
     const newEntry = document.createElement("li");
     newEntry.classList.add("saved-location");
-    newEntry.dataset.lat = mainElements.focusedLocation.dataset.lat;
-    newEntry.dataset.lon = mainElements.focusedLocation.dataset.lon;
+    newEntry.dataset.lat = lat.toString();
+    newEntry.dataset.lon = lon.toString();
 
     newEntry.innerHTML = `
-            <h2 class="location-title">${focusedLocationInfoElements.city.textContent}</h2>
+            <h2 class="location-title">${city}</h2>
             <div class="location-weather">
                 <div class="location-current">
-                    <h4 class="location-condition">${focusedLocationInfoElements.cond.textContent}</h4>
-                    <h3 class="location-temp">${focusedLocationInfoElements.temp.textContent}</h3>
+                    <h4 class="location-condition">${condition}</h4>
+                    <h3 class="location-temp">${temp}</h3>
                 </div>
                 <div class="location-max-min">
-                    <p class="location-min">L: ${focusedLocationInfoElements.minTemp.textContent}</p>
-                    <p class="location-max">H: ${focusedLocationInfoElements.maxTemp.textContent}</p>
+                    <p class="location-min">L: ${minTemp}</p>
+                    <p class="location-max">H: ${maxTemp}</p>
                 </div>
             </div>`;
 
@@ -418,6 +534,7 @@ function saveFocusedLocation(
     deleteIcon.addEventListener("click", (e) => {
         e.stopImmediatePropagation();
         newEntry.remove();
+        panel.triggerDelayedSave();
     });
 
     newEntry.appendChild(deleteIcon);
@@ -428,12 +545,89 @@ function saveFocusedLocation(
             parseFloat(newEntry.dataset.lat),
             parseFloat(newEntry.dataset.lon),
             false,
-            mainElements,
-            focusedLocationInfoElements,
+            panel,
         );
     });
 
-    mainElements.savedLocationList.appendChild(newEntry);
+    if (updateStored) panel.triggerDelayedSave();
+
+    savedLocationList.appendChild(newEntry);
 }
 
-export { execute };
+function toCelsius(tempF: number): number {
+    return (tempF - 32) / 1.8;
+}
+
+function toFahrenheit(tempC: number): number {
+    return tempC * 1.8 + 32;
+}
+
+function handleConfigChange(e: Event): void {
+    if (!(e.currentTarget instanceof Panel)) return;
+    const panel: Panel = e.currentTarget;
+    const customEventParsed: CustomEvent<ConfigChangeEventDetail> =
+        e as CustomEvent<ConfigChangeEventDetail>;
+    const panelConfig: Config | undefined = panel.getConfig();
+    panel.getKeyElement("focused_location")?.classList.remove("visible");
+    if (panelConfig && customEventParsed.detail.setting == "useCelsius") {
+        [
+            ...(panel.getKeyElement("saved_location_list")
+                ?.children as HTMLCollectionOf<HTMLElement>),
+        ].forEach((location) => {
+            const temp = location.querySelector(
+                ".location-temp",
+            ) as HTMLElement | null;
+            const min = location.querySelector(
+                ".location-min",
+            ) as HTMLElement | null;
+            const max = location.querySelector(
+                ".location-max",
+            ) as HTMLElement | null;
+            if (!temp || !min || !max)
+                throw new Error(
+                    "Saved location list entry does not contain key elements. Should not happen!",
+                );
+            if (
+                customEventParsed.detail.value
+                && temp.innerHTML.endsWith("F")
+                && min.innerHTML.endsWith("F")
+                && max.innerHTML.endsWith("F")
+            ) {
+                temp.innerHTML = `${Math.round(
+                    toCelsius(get.numericalValue(temp.textContent)),
+                )}&degC`;
+                min.innerHTML = `L: ${Math.round(
+                    toCelsius(
+                        get.numericalValue(min.textContent.split(" ")[1]),
+                    ),
+                )}&degC`;
+                max.innerHTML = `H: ${Math.round(
+                    toCelsius(
+                        get.numericalValue(max.textContent.split(" ")[1]),
+                    ),
+                )}&degC`;
+            } else if (
+                !customEventParsed.detail.value
+                && temp.innerHTML.endsWith("C")
+                && min.innerHTML.endsWith("C")
+                && max.innerHTML.endsWith("C")
+            ) {
+                temp.innerHTML = `${Math.round(
+                    toFahrenheit(get.numericalValue(temp.textContent)),
+                )}&degF`;
+                min.innerHTML = `L: ${Math.round(
+                    toFahrenheit(
+                        get.numericalValue(min.textContent.split(" ")[1]),
+                    ),
+                )}&degF`;
+                max.innerHTML = `H: ${Math.round(
+                    toFahrenheit(
+                        get.numericalValue(max.textContent.split(" ")[1]),
+                    ),
+                )}&degF`;
+            }
+        });
+    }
+}
+
+export { execute, saveLocation };

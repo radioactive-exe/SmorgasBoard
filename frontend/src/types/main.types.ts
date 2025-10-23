@@ -3,4 +3,9 @@ interface EarthCoordinates {
     lon: number;
 }
 
-export { EarthCoordinates };
+interface TodoTask {
+    task: string;
+    checked: boolean;
+}
+
+export { EarthCoordinates, TodoTask };

@@ -9,28 +9,25 @@ let triggerSaveTimeout: ReturnType<typeof setTimeout> = setTimeout(() => {
 }, 0);
 
 function execute(panel: Panel): void {
-    const addTaskButton: HTMLElement | null | undefined =
-        panel.getKeyElement("add_task_button");
-    const addTaskInput: HTMLInputElement | null | undefined =
-        panel.getKeyElement("add_task_input") as
-            | HTMLInputElement
-            | null
-            | undefined;
-    const todoList: HTMLUListElement | null | undefined = panel.getKeyElement(
-        "todo_list",
-    ) as HTMLUListElement | null | undefined;
-    const title: HTMLUListElement | null | undefined = panel.getKeyElement(
-        "todo_title",
-    ) as HTMLUListElement | null | undefined;
-
     if (
-        !addTaskButton
-        || !addTaskInput
-        || !todoList
-        || !title
+        Object.values(panel.getKeyElements()).includes(null)
+        || Object.values(panel.getKeyElements()).includes(undefined)
         || panel.getType() != PanelType.TODO
     )
         return;
+
+    const addTaskButton: HTMLElement = panel.getKeyElement(
+        "add_task_button",
+    ) as HTMLElement;
+    const addTaskInput: HTMLInputElement = panel.getKeyElement(
+        "add_task_input",
+    ) as HTMLInputElement;
+    const todoList: HTMLUListElement = panel.getKeyElement(
+        "todo_list",
+    ) as HTMLUListElement;
+    const title: HTMLUListElement = panel.getKeyElement(
+        "todo_title",
+    ) as HTMLUListElement;
 
     const loadedTitle = (panel.getConfig()?.listTitle as ConfigEntry.String)
         .value;

@@ -252,6 +252,10 @@ smorgas-board {
             pointer-events: none;
         }
     }
+
+    &:has(smorgas-board panel-element.snapping:not(.final-preview)) panel-element {
+        user-select: none !important;
+    }
 }
 
 /* input:-webkit-autofill,
@@ -514,6 +518,7 @@ body:has(.panel) {
         .context-nav {
             opacity: 0;
             pointer-events: none;
+            backdrop-filter: none;
         }
 
         .nav-entry .button:hover {

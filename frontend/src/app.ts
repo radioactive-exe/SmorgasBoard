@@ -45,10 +45,7 @@ if (!supabaseUrl || !supabaseKey) {
     throw new Error("Supabase environment variables not properly configured!");
 }
 
-const supabase: SupabaseClient = createClient(
-    supabaseUrl,
-    supabaseKey,
-);
+const supabase: SupabaseClient = createClient(supabaseUrl, supabaseKey);
 
 let user: {
     id: string;
@@ -90,9 +87,11 @@ const commonHandler = {
     pointerdown: function (panel: Panel): void {
         clearTimeout(utils.previewDeletionTimeout);
         current.panel = panel;
+        current.originalArea = new Area(panel.getPosition(), panel.getSize());
         panel.classList.add(current.flag, "being-manipulated");
         panel.initPreview();
         setDocumentHandlers();
+        window.getSelection()?.empty();
     },
 
     drag: function (panel: Panel, e: PointerEvent): void {
@@ -112,6 +111,7 @@ preview.classList.add("final-preview");
 const current = {
     flag: "" as string,
     panel: preview,
+    originalArea: Area.INIT as Area,
 };
 
 const modalLayer: HTMLElement =
@@ -184,13 +184,19 @@ overlayDismissButtons?.forEach((button) => {
 //#endregion
 
 function releaseHandler(): void {
+    const areaChanged =
+        current.originalArea.getX() != preview.getArea().getX()
+        || current.originalArea.getY() != preview.getArea().getY()
+        || current.originalArea.getWidth() != preview.getArea().getWidth()
+        || current.originalArea.getHeight() != preview.getArea().getHeight();
+
     snapElementToTarget(current.panel, preview);
 
     snapElementToTarget(preview, preview);
     preview.classList.remove("visible");
     current.panel.classList.remove(current.flag, "being-manipulated");
 
-    dashboard.triggerDelayedSave();
+    if (areaChanged) dashboard.triggerDelayedSave();
 
     document.removeEventListener("pointerup", holdHandler.release);
     document.removeEventListener("pointermove", holdHandler.drag);
@@ -482,9 +488,9 @@ supabase.auth.onAuthStateChange(
                 .channel(`changes_user_${user.id}`, {
                     config: { private: true },
                 })
-                .on("broadcast", { event: "INSERT" }, (payload) =>
-                    console.log(payload),
-                )
+                // .on("broadcast", { event: "INSERT" }, (payload) =>
+                //     console.log(payload),
+                // )
                 .on("broadcast", { event: "UPDATE" }, (_payload) => {
                     console.log(_payload);
                     if (!wasLocalChange) {

@@ -54,4 +54,5 @@ export {
     elementAspectRatio,
     normalisedCssPropertyValue,
     normalisedValue,
+    numericalValue,
 };

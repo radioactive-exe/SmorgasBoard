@@ -335,11 +335,10 @@ class Dashboard extends HTMLElement {
     }
 
     public triggerDelayedSave(): void {
-        if (this.saveTimeout) clearTimeout(this.saveTimeout);
+        clearTimeout(this.saveTimeout);
         this.saveTimeout = setTimeout(() => {
-            console.log("Yee");
             this.updateStoredPanels();
-        }, 1000);
+        }, 3000);
     }
 
     public loadStoredDimensions(): Promise<void> {

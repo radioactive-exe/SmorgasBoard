@@ -368,6 +368,7 @@ panel-element[data-panel-type="WEATHER"] {
                     position: absolute;
                     right: 0;
                     transition: all var(--quick-transition-time) var(--bezier-function);
+                    will-change: transform;
 
                     & .string-selector-label,
                     & .location-search-input {
@@ -376,8 +377,9 @@ panel-element[data-panel-type="WEATHER"] {
                     }
 
                     & .string-selector-label-text {
+                        filter: drop-shadow(0 0 0.5rem var(--shadow-col));
                         transition: all var(--quick-transition-time) var(--bezier-function), border var(--med-transition-time) var(--jelly-function);
-                        clip-path: inset(0 0 -70% 0);
+                        clip-path: inset(-100% -100% -30% -100%);
                     }
                 }
 
@@ -389,19 +391,22 @@ panel-element[data-panel-type="WEATHER"] {
                     }
 
                     & .string-selector-label-text {
-                        clip-path: inset(0 100% -70% 0);
+                        clip-path: inset(0 100% -30% 0);
                     }
                 }
 
                 & .location-search-results {
                     position: absolute;
-                    top: calc(100% - var(--input-padding));
+                    bottom: calc(100% - var(--input-padding));
                     z-index: -1;
+                    overflow-y: auto;
                     width: 100%;
+                    max-height: calc(var(--height) - 7rem);
                     border-radius: var(--small-border-radius);
                     background: var(--input-bg);
                     list-style: none;
                     filter: drop-shadow(0 0.2rem 0.2rem var(--shadow-col));
+                    will-change: transform;
 
                     & .location-search-result {
                         padding: calc(var(--panel-content-padding) * 0.7) var(--panel-content-padding);
@@ -410,13 +415,13 @@ panel-element[data-panel-type="WEATHER"] {
                         transition: all var(--med-transition-time) ease;
 
                         &:first-of-type {
-                            padding-top: calc(var(--panel-content-padding) * 1.7);
                             border-top: none;
                             border-start-start-radius: inherit;
                             border-start-end-radius: inherit;
                         }
 
                         &:last-of-type {
+                            padding-bottom: calc(var(--panel-content-padding) * 1.7);
                             border-end-start-radius: inherit;
                             border-end-end-radius: inherit;
                         }
@@ -431,7 +436,7 @@ panel-element[data-panel-type="WEATHER"] {
 
         & .focused-location {
             position: absolute;
-            inset: -0.5rem;
+            inset: 0;
             width: calc(100% + 1rem);
             height: calc(100% + 1rem);
             background: var(--panel-bg);
@@ -466,7 +471,12 @@ panel-element[data-panel-type="WEATHER"] {
 
             & .close-focus-button {
                 position: absolute;
-                top: 0;
+                top: -0.5rem;
+                left: -1rem;
+                padding: 1rem;
+                border-radius: var(--small-border-radius);
+                background: var(--panel-bg);
+                transform: rotate(180deg);
             }
 
             &.visible {
@@ -495,7 +505,6 @@ panel-element[data-panel-type="WEATHER"] {
                 justify-content: space-between;
                 align-items: center;
                 max-width: 100%;
-                padding: 0.5rem;
 
                 & .location-info {
                     & .location-city {
@@ -520,7 +529,7 @@ panel-element[data-panel-type="WEATHER"] {
                     width: 100%;
 
                     & .temperature {
-                        font-size: var(--font-sm);
+                        font-size: calc(0.75 * var(--font-m));
                     }
 
                     & .condition {
@@ -530,6 +539,10 @@ panel-element[data-panel-type="WEATHER"] {
                     & .condition-icon {
                         object-fit: cover;
                     }
+                }
+
+                &:not(.preview-header.visible ~ .info-header) {
+                    margin-top: 1rem;
                 }
             }
 
@@ -589,6 +602,8 @@ panel-element[data-panel-type="WEATHER"] {
                     --astro-bg: var(--sun-col);
                     grid-row: span 2;
                     grid-column: span 2;
+                    gap: 5rem;
+                    justify-content: space-around;
                     padding: 2rem 1rem;
 
                     &::before {

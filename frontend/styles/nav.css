@@ -61,7 +61,7 @@
             width: var(--square-handle-full-side);
             height: var(--square-handle-full-side);
             border-radius: 50%;
-            background: var(--input-bg);
+            background: hsl(from var(--input-bg) h s l / 0.4);
             box-shadow: inset 0.2rem 0.2rem 0.3rem 0 hsl(from var(--panel-bg) h s calc(l * 2) / 0.4),
                 inset -0.2rem -0.2rem 0.3rem 0 hsl(from var(--panel-bg) h s calc(l * 0.4) / 0.4),
                 0.4rem 0.4rem 0.2rem 0 var(--shadow-col);
@@ -119,10 +119,10 @@
             overflow: hidden;
             max-width: 1rem;
             max-height: 1rem;
-            border: 0.5rem solid var(--input-secondary);
+            border: 0 solid var(--input-secondary);
             border-radius: var(--small-border-radius);
             background: var(--panel-bg);
-            transition: all var(--med-transition-time) var(--bezier-function), max-height var(--med-transition-time) var(--bezier-function) calc(0.8 * var(--med-transition-time)), box-shadow calc(1.5 * var(--med-transition-time)) var(--bezier-function) calc(0.8 * var(--med-transition-time));
+            transition: all var(--med-transition-time) var(--bezier-function), max-height var(--med-transition-time) var(--bezier-function) calc(0.8 * var(--med-transition-time)), box-shadow calc(1.5 * var(--med-transition-time)) var(--bezier-function) calc(0.8 * var(--med-transition-time)), border-width var(--med-transition-time) var(--bezier-function) calc(0.8 * var(--med-transition-time));
             border-end-end-radius: calc(var(--square-handle-full-side) / 2);
 
             & .auth-options {
@@ -153,6 +153,7 @@
             &:has(~ .button.active) {
                 max-width: 15rem;
                 max-height: 20rem;
+                border-width: 0.5rem;
                 box-shadow: 0.4rem 0.4rem 0.2rem 0 var(--shadow-col);
                 transition: all var(--med-transition-time) var(--bezier-function), max-width var(--med-transition-time) var(--bezier-function) calc(0.8 * var(--med-transition-time));
 

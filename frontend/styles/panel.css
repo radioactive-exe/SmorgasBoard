@@ -31,7 +31,7 @@ smorgas-board panel-element {
         transition: all var(--panel-transition-time) ease;
         transform: scale(1) rotateZ(0deg);
         transform-style: preserve-3d;
-        will-change: transform;
+        backface-visibility: hidden;
     }
 
     &:hover::part(panel-body) {
@@ -53,6 +53,7 @@ smorgas-board panel-element {
         transition: all var(--panel-transition-time) ease;
         container-type: inline-size;
         transform-style: preserve-3d;
+        backface-visibility: hidden;
     }
 
     &::part(handle) {
@@ -290,6 +291,7 @@ smorgas-board panel-element.configuring {
 
 smorgas-board panel-element.snapping:not(.final-preview) {
     z-index: 1;
+    pointer-events: none;
     transition: all var(--panel-transition-time) var(--bezier-function);
 }
 
@@ -324,7 +326,7 @@ smorgas-board panel-element.final-preview {
     smorgas-board panel-element:not(.configuring) {
         &:hover::part(panel-body) {
             filter: drop-shadow(var(--shadow-offset-x) var(--shadow-offset-y) 0.2rem var(--shadow-col));
-            transform: scale(1.02) perspective(200rem) rotateX(var(--rotate-x, 0)) rotateY(var(--rotate-y, 0));
+            transform: scale(1.02) perspective(200rem) rotateX(var(--rotate-x, 0)) rotateY(var(--rotate-y, 0)) rotateZ(0deg);
         }
     }
 }
