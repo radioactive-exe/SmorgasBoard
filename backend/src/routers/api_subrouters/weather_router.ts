@@ -9,7 +9,7 @@ weatherApiRouter.use(cors({ origin: true, credentials: true }));
 weatherApiRouter.get(
     "/search",
     async (req: express.Request, res: express.Response) => {
-        if (!req.params.q)
+        if (!req.query.q)
             res.status(400).send(
                 'Please provide a query parameter "q" to search'
             );
@@ -29,7 +29,7 @@ weatherApiRouter.get(
     (req: express.Request, res: express.Response) => {
         `http://api.weatherapi.com/v1/forecast.json?key=${weatherApiKey}&q=${
             req.params.lat
-        },${req.params.lon}&days=${req.params.days ?? 3}&aqi=no&alerts=no`;
+        },${req.params.lon}&days=${req.query.days ?? 3}&aqi=no&alerts=no`;
     }
 );
 
