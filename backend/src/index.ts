@@ -11,6 +11,7 @@ const supabase: SupabaseClient = createClient<Database>(
 
 const definitionsRouter: express.Router = require("./routers/definitions_router.js");
 const databaseRouter: express.Router = require("./routers/database_router.js");
+const apiRouter: express.Router = require("./routers/api_router.js");
 
 const app = express();
 const port = 3000;
@@ -37,7 +38,7 @@ app.use(express.json());
 
 app.use("/definitions/", definitionsRouter);
 app.use("/smorgasbase/", databaseRouter);
-// app.use("/api/", apiRouter);
+app.use("/api/", apiRouter);
 
 app.get("/", (req: express.Request, res: express.Response) => {
     res.sendFile(path.resolve(__dirname + "/../index.html"));
@@ -50,6 +51,4 @@ app.listen(port, () =>
 );
 
 module.exports = app;
-export {
-    supabase
-}
+export { supabase };
