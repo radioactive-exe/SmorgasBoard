@@ -83,6 +83,8 @@ class PanelType {
         PanelTypeConfig.WEATHER,
         PanelTypeBehaviour.WEATHER,
         { width: 3, height: 2 },
+        [],
+        "api/weather",
     );
 
     /**
@@ -163,6 +165,10 @@ class PanelType {
 
     public getAspectRatios(): Size[] {
         return this.typeAspectRatios;
+    }
+
+    public getDataSource(): string | undefined {
+        return this.typeDataSource;
     }
 
     public execute(panel: Panel): void {

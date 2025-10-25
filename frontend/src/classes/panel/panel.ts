@@ -28,6 +28,7 @@ import {
 } from "../../functions/manip.js";
 
 import type { EarthCoordinates, TodoTask } from "../../types/main.types.js";
+import type { PanelFetchResponse } from "../../types/response.types.js";
 import type * as WeatherAPI from "../../types/weather_api.types.js";
 import type { AreaInstance, Coordinate, Size } from "../area.js";
 import { Area } from "../area.js";
@@ -49,11 +50,6 @@ interface PanelInstance {
     area: AreaInstance;
     content: object;
     config: Config | undefined;
-}
-
-interface PanelFetchResponse {
-    panel_type: string;
-    panel_template: string;
 }
 
 interface PanelContent {
@@ -457,7 +453,7 @@ class Panel extends HTMLElement {
                 (parsedContent as EarthCoordinates[]).forEach(
                     async (location) => {
                         const weatherResponse = await fetch(
-                            `http://api.weatherapi.com/v1/forecast.json?key=${import.meta.env.VITE_WEATHER_API_KEY}&q=${location.lat},${location.lon}&days=3&aqi=no&alerts=no`,
+                            `${import.meta.env.VITE_BACKEND_URL}${this.type.getDataSource()}/${location.lat},${location.lon}&days=1`,
                         );
                         const data: WeatherAPI.LocationForecast =
                             await weatherResponse.json();

@@ -1,12 +1,11 @@
 import * as get from "../../../functions/accessors.js";
+import type { SmorgasbaseWeatherResponse } from "../../../types/response.types.js";
 import type * as WeatherAPI from "../../../types/weather_api.types.js";
 import type { Config, ConfigChangeEventDetail } from "../../config/config.js";
 import type * as ConfigEntry from "../../config/config_entry.js";
 import { Panel } from "../panel.js";
 import type {} from "../../constants.js";
 import { PanelType } from "../panel_type.js";
-
-const weatherApiKey = import.meta.env.VITE_WEATHER_API_KEY;
 
 interface MainWeatherPanelElements {
     searchInput: HTMLInputElement;
@@ -109,9 +108,11 @@ function execute(panel: Panel): void {
             mainElements.searchResults.classList.add("visible");
             try {
                 const weatherResponse = await fetch(
-                    `http://api.weatherapi.com/v1/search.json?key=${weatherApiKey}&q=${mainElements.searchInput.value}`,
+                    `${import.meta.env.VITE_BACKEND_URL}${panel.getType().getDataSource()}/search&q=${mainElements.searchInput.value}`,
                 );
-                const locations = await weatherResponse.json();
+                const locations = (
+                    (await weatherResponse.json()) as SmorgasbaseWeatherResponse
+                ).results;
                 if (locations.length == 0) {
                     addEntryToSearchResults(
                         "Sorry, no locations found. Try another query!",
@@ -256,7 +257,7 @@ async function focusOnLocation(
     }
 
     const weatherResponse = await fetch(
-        `http://api.weatherapi.com/v1/forecast.json?key=${weatherApiKey}&q=${lat},${lon}&days=3&aqi=no&alerts=no`,
+        `${import.meta.env.VITE_BACKEND_URL}${panel.getType().getDataSource()}/${lat},${lon}`,
     );
     const data = await weatherResponse.json();
 
