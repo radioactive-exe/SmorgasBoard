@@ -37,7 +37,7 @@ weatherApiRouter.get(
             },${req.params.lon}&days=${req.query.days ?? 3}&aqi=no&alerts=no`
         );
         const parsed = await data.json();
-        res.send()
+        res.send(parsed);
     }
 );
 
