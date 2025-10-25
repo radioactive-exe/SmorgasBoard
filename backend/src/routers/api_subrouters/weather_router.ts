@@ -26,10 +26,18 @@ weatherApiRouter.get(
 
 weatherApiRouter.get(
     "/forecast/:lat,:lon",
-    (req: express.Request, res: express.Response) => {
-        `http://api.weatherapi.com/v1/forecast.json?key=${weatherApiKey}&q=${
-            req.params.lat
-        },${req.params.lon}&days=${req.query.days ?? 3}&aqi=no&alerts=no`;
+    async (req: express.Request, res: express.Response) => {
+        if (!req.params.lat || !req.params.lon)
+            res.status(400).send(
+                "Please enter a latitude and longitude to get its forecast."
+            );
+        const data = await fetch(
+            `http://api.weatherapi.com/v1/forecast.json?key=${weatherApiKey}&q=${
+                req.params.lat
+            },${req.params.lon}&days=${req.query.days ?? 3}&aqi=no&alerts=no`
+        );
+        const parsed = await data.json();
+        res.send()
     }
 );
 

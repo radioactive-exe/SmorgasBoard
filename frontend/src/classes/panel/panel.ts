@@ -453,7 +453,7 @@ class Panel extends HTMLElement {
                 (parsedContent as EarthCoordinates[]).forEach(
                     async (location) => {
                         const weatherResponse = await fetch(
-                            `${import.meta.env.VITE_BACKEND_URL}${this.type.getDataSource()}/${location.lat},${location.lon}&days=1`,
+                            `${import.meta.env.VITE_BACKEND_URL}${this.type.getDataSource()}/forecast/${location.lat},${location.lon}&days=1`,
                         );
                         const data: WeatherAPI.LocationForecast =
                             await weatherResponse.json();

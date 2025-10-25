@@ -257,7 +257,7 @@ async function focusOnLocation(
     }
 
     const weatherResponse = await fetch(
-        `${import.meta.env.VITE_BACKEND_URL}${panel.getType().getDataSource()}/${lat},${lon}`,
+        `${import.meta.env.VITE_BACKEND_URL}${panel.getType().getDataSource()}/forecast/${lat},${lon}`,
     );
     const data = await weatherResponse.json();
 
