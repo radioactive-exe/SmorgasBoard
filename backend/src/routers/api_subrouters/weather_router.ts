@@ -14,7 +14,7 @@ weatherApiRouter.get(
                 'Please provide a query parameter "q" to search'
             );
         const data = await fetch(
-            `http://api.weatherapi.com/v1/search.json?key=${weatherApiKey}&q=${req.params.q}`
+            `http://api.weatherapi.com/v1/search.json?key=${weatherApiKey}&q=${req.query.q}`
         );
         const parsed = await data.json();
         res.status(200).send({

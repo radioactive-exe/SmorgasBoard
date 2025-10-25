@@ -108,7 +108,7 @@ function execute(panel: Panel): void {
             mainElements.searchResults.classList.add("visible");
             try {
                 const weatherResponse = await fetch(
-                    `${import.meta.env.VITE_BACKEND_URL}${panel.getType().getDataSource()}/search&q=${mainElements.searchInput.value}`,
+                    `${import.meta.env.VITE_BACKEND_URL}${panel.getType().getDataSource()}/search?q=${mainElements.searchInput.value}`,
                 );
                 const locations = (
                     (await weatherResponse.json()) as SmorgasbaseWeatherResponse
