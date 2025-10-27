@@ -155,6 +155,10 @@ function execute(panel: Panel): void {
     });
 
     panel.addEventListener("configchange", handleConfigChange);
+
+    setInterval(() => {
+        updateSavedLocations(mainElements.savedLocationList, panel);
+    }, 1_800_000);
 }
 
 function addEntryToSearchResults(
@@ -629,6 +633,43 @@ function handleConfigChange(e: Event): void {
             }
         });
     }
+}
+
+function updateSavedLocations(
+    savedLocationList: HTMLUListElement,
+    panel: Panel,
+): void {
+    [...(savedLocationList.children as HTMLCollectionOf<HTMLElement>)].forEach(
+        async (location) => {
+            if (!location.dataset.lat || !location.dataset.lon) return;
+
+            const weatherResponse = await fetch(
+                `${import.meta.env.VITE_BACKEND_URL}${panel.getType().getDataSource()}/forecast/${location.dataset.lat},${location.dataset.lon}&days=1`,
+            );
+            const data: WeatherAPI.LocationForecast =
+                await weatherResponse.json();
+            const useCelsius = (
+                panel.getConfig()?.useCelsius as ConfigEntry.Boolean
+            ).value;
+            const temperatureSymbol = useCelsius ? "C" : "F";
+
+            const conditionText = location.querySelector(".location-condition");
+            if (conditionText)
+                conditionText.textContent = data.current.condition.text;
+
+            const tempText = location.querySelector(".location-temp");
+            if (tempText)
+                tempText.innerHTML = `${useCelsius ? data.current.temp_c : data.current.temp_f}&deg${temperatureSymbol}`;
+
+            const minTempText = location.querySelector(".location-min");
+            if (minTempText)
+                minTempText.innerHTML = `${useCelsius ? data.forecast.forecastday[0].day.mintemp_c : data.forecast.forecastday[0].day.mintemp_f}&deg${temperatureSymbol}`;
+
+            const maxTempText = location.querySelector(".location-max");
+            if (maxTempText)
+                maxTempText.innerHTML = `${useCelsius ? data.forecast.forecastday[0].day.maxtemp_c : data.forecast.forecastday[0].day.maxtemp_f}&deg${temperatureSymbol}`;
+        },
+    );
 }
 
 export { execute, saveLocation };

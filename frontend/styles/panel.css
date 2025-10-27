@@ -51,6 +51,8 @@ smorgas-board panel-element {
         align-items: center;
         border-radius: var(--panel-border-radius);
         transition: all var(--panel-transition-time) ease;
+        transform: perspective(0.01rem) rotateZ(0) scale(1);
+        -webkit-font-smoothing: subpixel-antialiased;
         container-type: inline-size;
         transform-style: preserve-3d;
         backface-visibility: hidden;

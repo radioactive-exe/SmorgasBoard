@@ -480,6 +480,10 @@ body:has(.panel) {
 }
 
 .panel {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: 300px;
     height: 40%;
     padding: var(--panel-content-padding);
@@ -494,6 +498,41 @@ body:has(.panel) {
     & #off-screen-down,
     & #off-screen-right {
         animation-play-state: running;
+    }
+}
+
+
+.resize-handle-svg {
+    position: absolute;
+    right: -4rem;
+    bottom: -4rem;
+    width: 12rem;
+    height: 12rem;
+    fill: none;
+    stroke: rgb(255 0 0 / 0.348);
+    transition: all var(--med-transition-time) var(--bezier-function);
+
+    & .resize-handle {
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        transition: inherit;
+        stroke-width: 3rem;
+        stroke-dasharray: 6 1000 120;
+        stroke-dashoffset: -12;
+        stroke-linecap: round;
+        r: 2rem;
+        cx: 6rem;
+        cy: 6rem;
+
+        &:hover {
+            stroke-width: 4rem;
+            stroke-dasharray: 60 1000 120;
+            stroke-dashoffset: 0;
+            r: 4rem;
+            cx: 4.5rem;
+            cy: 4.5rem;
+        }
     }
 }
 
