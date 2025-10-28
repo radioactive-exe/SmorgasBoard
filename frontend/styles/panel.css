@@ -70,7 +70,6 @@ smorgas-board panel-element {
         user-select: none;
         transition: var(--quick-transition-time) ease;
         touch-action: none;
-        backdrop-filter: blur(0.2rem) url("#glass-distortion");
     }
 
     &::part(drag-handle):hover {
@@ -83,36 +82,44 @@ smorgas-board panel-element {
     }
 
     &::part(resize-handle-svg) {
-        right: -4rem;
-        bottom: -4rem;
-        width: 0;
-        height: 0;
+        position: absolute;
+        right: -3.5rem;
+        bottom: -3.5rem;
+        width: 12rem;
+        height: 12rem;
         fill: none;
-        stroke: rgb(255 0 0 / 0.348);
-        transition: all var(--med-transition-time) var(--bezier-function);
+        stroke: hsl(from var(--panel-handle-bg) h s l / 0.6);
+        transition: all var(--med-transition-time) var(--bezier-function) !important;
     }
 
     &::part(resize-handle) {
         position: absolute;
         right: 0;
         bottom: 0;
+        filter: drop-shadow(inset 0.1rem 0.1rem 0 red);
+        cursor: grab;
         transition: inherit;
-        stroke-width: 3rem;
-        stroke-dasharray: 6 1000 120;
-        stroke-dashoffset: -12;
+        stroke-width: 0;
+        stroke-dasharray: 1 1000 120;
+        stroke-dashoffset: -14;
         stroke-linecap: round;
         r: 2rem;
         cx: 6rem;
         cy: 6rem;
+        backdrop-filter: blur(0.2rem) url("#glass-distortion");
     }
 
     &::part(resize-handle):hover {
-        stroke-width: 4rem;
+        stroke-width: 3.5rem;
         stroke-dasharray: 60 1000 120;
         stroke-dashoffset: 0;
         r: 4rem;
         cx: 4.5rem;
         cy: 4.5rem;
+    }
+
+    &::part(resize-handle):active {
+        cursor: grabbing;
     }
 
     &::part(handle-icon) {
@@ -265,9 +272,13 @@ smorgas-board panel-element.being-manipulated {
         transition: all var(--panel-transition-time) ease, width 0s, height 0s;
 
         &::part(resize-handle) {
-            width: var(--square-handle-full-side);
-            height: var(--square-handle-full-side);
             opacity: var(--panel-manip-opacity);
+            stroke-width: 3rem;
+            stroke-dasharray: 60 1000 120;
+            stroke-dashoffset: 0;
+            r: 4rem;
+            cx: 4.5rem;
+            cy: 4.5rem;
         }
 
         &::part(drag-handle) {
