@@ -88,17 +88,16 @@ smorgas-board panel-element {
         width: 12rem;
         height: 12rem;
         fill: none;
-        stroke: hsl(from var(--panel-handle-bg) h s l / 0.6);
-        transition: all var(--med-transition-time) var(--bezier-function) !important;
     }
 
     &::part(resize-handle) {
         position: absolute;
         right: 0;
         bottom: 0;
-        filter: drop-shadow(inset 0.1rem 0.1rem 0 red);
         cursor: grab;
-        transition: inherit;
+        fill: none;
+        stroke: white;
+        transition: all var(--quick-transition-time) var(--bezier-function);
         stroke-width: 0;
         stroke-dasharray: 1 1000 120;
         stroke-dashoffset: -14;
@@ -106,7 +105,6 @@ smorgas-board panel-element {
         r: 2rem;
         cx: 6rem;
         cy: 6rem;
-        backdrop-filter: blur(0.2rem) url("#glass-distortion");
     }
 
     &::part(resize-handle):hover {
@@ -120,6 +118,34 @@ smorgas-board panel-element {
 
     &::part(resize-handle):active {
         cursor: grabbing;
+    }
+
+    .corner-arc {
+        &.rendered {
+            opacity: 0;
+        }
+    }
+
+    .corner:has(.corner-arc:hover) #corner .corner-arc {
+        stroke-width: 3.5rem;
+        stroke-dasharray: 60 1000 120;
+        stroke-dashoffset: 0;
+        r: 4rem;
+        cx: 4.5rem;
+        cy: 4.5rem;
+    }
+
+    &::part(resize-handle-clipped) {
+        position: absolute;
+        right: -3.5rem;
+        bottom: -3.5rem;
+        width: 12rem;
+        height: 12rem;
+        background: hsl(from var(--panel-handle-bg) h s l / 0.6);
+        mask-image: url("#corner");
+        mask-position: -10% -10%;
+        mask-size: cover;
+        backdrop-filter: blur(0.2rem) url("#glass-distortion");
     }
 
     &::part(handle-icon) {

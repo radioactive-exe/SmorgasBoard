@@ -505,62 +505,6 @@ body:has(.panel) {
     }
 }
 
-.corner {
-    position: absolute;
-    right: -3.5rem;
-    bottom: -3.5rem;
-    width: 12rem;
-    height: 12rem;
-}
-
-.corner-arc {
-    position: absolute;
-    right: 0;
-    bottom: 0;
-    cursor: grab;
-    fill: none;
-    stroke: white;
-    transition: all var(--quick-transition-time) var(--bezier-function);
-    stroke-width: 2rem;
-    stroke-dasharray: 1 1000 120;
-    stroke-dashoffset: -14;
-    stroke-linecap: round;
-    r: 2rem;
-    cx: 6rem;
-    cy: 6rem;
-
-    &.rendered {
-        opacity: 0;
-    }
-
-    &:active {
-        cursor: grabbing;
-    }
-}
-
-.corner:has(.corner-arc:hover) > .corner-arc,
-.corner:has(.corner-arc:hover) #corner .corner-arc {
-    stroke-width: 3.5rem;
-    stroke-dasharray: 60 1000 120;
-    stroke-dashoffset: 0;
-    r: 4rem;
-    cx: 4.5rem;
-    cy: 4.5rem;
-}
-
-.corner-clipped {
-    position: absolute;
-    right: -3.5rem;
-    bottom: -3.5rem;
-    width: 12rem;
-    height: 12rem;
-    background: hsl(from var(--panel-handle-bg) h s l / 0.6);
-    mask-image: url("#corner");
-    mask-position: -10% -10%;
-    mask-size: cover;
-    backdrop-filter: blur(0.2rem) url("#glass-distortion");
-}
-
 
 @keyframes pulse-check {
     50% {
