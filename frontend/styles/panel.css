@@ -32,6 +32,7 @@ smorgas-board panel-element {
         transform: scale(1) rotateZ(0deg);
         transform-style: preserve-3d;
         backface-visibility: hidden;
+        filter: url("#inset-shadow");
     }
 
     &:hover::part(panel-body) {
@@ -83,33 +84,29 @@ smorgas-board panel-element {
 
     &::part(resize-handle-svg) {
         position: absolute;
-        right: -3.5rem;
-        bottom: -3.5rem;
-        width: min-content;
-        height: min-content;
-        fill: none;
+        right: -2rem;
+        bottom: -2rem;
+        width: 8rem;
+        height: 8rem;
+        pointer-events: none;
     }
 
     &::part(resize-handle) {
-        position: absolute;
-        right: 0;
-        bottom: 0;
+        filter: url("#bottom-inset-shadow") url("#top-inset-shadow");
         cursor: grab;
+        pointer-events: visiblestroke;
         fill: none;
-        stroke: rgb(255 255 255);
-        transition: all var(--quick-transition-time) var(--bezier-function);
+        stroke: hsl(from var(--panel-handle-bg) h s l / 1);
+        transition: all var(--quick-transition-time) ease;
         stroke-width: 0;
         stroke-dasharray: 1 1000 120;
         stroke-dashoffset: -14;
         stroke-linecap: round;
         r: 2rem;
-        cx: 3rem;
-        cy: 3rem;
+        cx: 3.5rem;
+        cy: 3.5rem;
+        backdrop-filter: blur(0.2rem) url("#glass-distortion");
     }
-
-    /* &::part(resize-handle rendered) {
-        opacity: 0;
-    } */
 
     &::part(resize-handle):hover {
         stroke-width: 3.5rem;
@@ -120,31 +117,8 @@ smorgas-board panel-element {
         cy: 2rem;
     }
 
-    &::part(resize-handle):hover ~ ::part(resize-handle mask-circle) {
-        stroke-width: 3.5rem;
-        stroke-dasharray: 60 1000 120;
-        stroke-dashoffset: 0;
-        r: 4rem;
-        cx: 4.5rem;
-        cy: 4.5rem;
-    }
-
     &::part(resize-handle):active {
         cursor: grabbing;
-    }
-
-    &::part(resize-handle-masked) {
-        position: absolute;
-        right: -3.5rem;
-        bottom: -3.5rem;
-        width: 12rem;
-        height: 12rem;
-        background: hsl(from var(--panel-handle-bg) h s l / 1);
-        pointer-events: none;
-        mask-image: url("#corner");
-        mask-position: -10% -10%;
-        mask-size: cover;
-        backdrop-filter: blur(0.2rem) url("#glass-distortion");
     }
 
     &::part(handle-icon) {
@@ -250,7 +224,7 @@ smorgas-board panel-element:has(::part(resize-handle rendered):hover) {
 
 smorgas-board panel-element.being-manipulated {
     z-index: 3;
-    pointer-events: none;
+    cursor: grabbing;
 
     &::before {
         inset: var(--panel-body-inset);
@@ -261,6 +235,7 @@ smorgas-board panel-element.being-manipulated {
         background: rgb(from var(--panel-bg) r g b / var(--panel-manip-opacity));
         box-shadow: inset 0.2rem 0.2rem 0.5rem 0.1rem hsl(from var(--panel-bg) h s calc(l * 2) / 0.4), inset -0.2rem -0.2rem 0.5rem 0.1rem hsl(from var(--panel-bg) h s calc(l * 0.4) / 0.4);
         filter: drop-shadow(1.5rem 1.5rem 2rem var(--shadow-col));
+        pointer-events: none;
         backdrop-filter: blur(1px);
     }
 
@@ -300,16 +275,13 @@ smorgas-board panel-element.being-manipulated {
         transition: all var(--panel-transition-time) ease, width 0s, height 0s;
 
         &::part(resize-handle) {
-            stroke-width: 3rem;
+            opacity: var(--panel-manip-opacity);
+            stroke-width: 3.5rem;
             stroke-dasharray: 60 1000 120;
             stroke-dashoffset: 0;
             r: 4rem;
-            cx: 4.5rem;
-            cy: 4.5rem;
-        }
-
-        &::part(resize-handle-masked) {
-            opacity: var(--panel-manip-opacity);
+            cx: 2rem;
+            cy: 2rem;
         }
 
         &::part(drag-handle) {

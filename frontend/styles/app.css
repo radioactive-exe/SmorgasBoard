@@ -217,6 +217,7 @@ smorgas-board {
         background: var(--cell-bg);
         opacity: 0.1;
         transition: all var(--med-transition-time) ease;
+        filter: url("#inset-shadow");
     }
 
 

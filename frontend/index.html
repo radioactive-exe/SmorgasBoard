@@ -201,20 +201,19 @@
                     support your dashboard size. Cells are less than 100 pixels
                     tall/wide at this scale, so things are most likely unpretty.
                 </p>
-                <p class="warning-description">
-                    You can:
-                    <ol class="warning-solution-steps">
-                        <li class="solution-step">Resize this window.</li>
-                        <li class="solution-step">
-                            Dismiss this and deal with it by either shrinking or
-                            ignoring.
-                        </li>
-                        <li class="solution-step">
-                            Shrink the dashboard and trim off the panels that
-                            don't fit.
-                        </li>
-                    </ol>
-                </p>
+                <p class="warning-description">You can:</p>
+
+                <ol class="warning-solution-steps">
+                    <li class="solution-step">Resize this window.</li>
+                    <li class="solution-step">
+                        Dismiss this and deal with it by either shrinking or
+                        ignoring.
+                    </li>
+                    <li class="solution-step">
+                        Shrink the dashboard and trim off the panels that don't
+                        fit.
+                    </li>
+                </ol>
                 <div class="button-container">
                     <button class="dismiss-button" type="button">
                         Dismiss
@@ -248,6 +247,33 @@
                     xChannelSelector="R"
                     yChannelSelector="G"
                 />
+            </filter>
+            <filter id="inset-shadow">
+                <!-- Shadow offset -->
+                <feOffset dx="20" dy="20" />
+                <!-- Shadow blur -->
+                <feGaussianBlur stdDeviation="4" result="offset-blur" />
+                <!-- Invert drop shadow to make an inset shadow-->
+                <feComposite
+                    operator="out"
+                    in="SourceGraphic"
+                    in2="offset-blur"
+                    result="inverse"
+                />
+                <!-- Cut colour inside shadow -->
+                <feFlood
+                    flood-color="black"
+                    flood-opacity=".95"
+                    result="color"
+                />
+                <feComposite
+                    operator="in"
+                    in="color"
+                    in2="inverse"
+                    result="shadow"
+                />
+                <!-- Placing shadow over element -->
+                <feComposite operator="over" in="shadow" in2="SourceGraphic" />
             </filter>
         </svg>
         <script type="module" src="build/dist/app.js"></script>

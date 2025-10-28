@@ -52,29 +52,17 @@
                         type="image/svg+xml"
                     ></object>
                 </div>
-                <div class="resize-handle-container">
-                    <div
-                        class="corner-masked"
-                        part="resize-handle-masked"
-                    ></div>
-                    <svg
-                        class="corner handle resize-handle-svg"
-                        part="handle resize-handle-svg"
-                    >
-                        <defs>
-                            <mask id="corner">
-                                <circle
-                                    class="corner-arc"
-                                    part="resize-handle mask-circle"
-                                />
-                            </mask>
-                        </defs>
-                        <circle
-                            class="corner-arc rendered resize-handle"
-                            part="resize-handle rendered"
-                        />
-                    </svg>
-                </div>
+                <svg
+                    class="corner handle resize-handle-svg"
+                    part="handle resize-handle-svg"
+                    width="200"
+                    height="200"
+                >
+                    <circle
+                        class="corner-arc rendered resize-handle"
+                        part="resize-handle rendered"
+                    />
+                </svg>
             </div>
             <div part="icon save-icon" class="icon save-icon"></div>
         </div>
