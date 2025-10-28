@@ -122,7 +122,7 @@
             border: 0 solid var(--input-secondary);
             border-radius: var(--small-border-radius);
             background: var(--panel-bg);
-            transition: all var(--med-transition-time) var(--bezier-function), max-height var(--med-transition-time) var(--bezier-function) calc(0.8 * var(--med-transition-time)), box-shadow calc(1.5 * var(--med-transition-time)) var(--bezier-function) calc(0.8 * var(--med-transition-time)), border-width var(--med-transition-time) var(--bezier-function) calc(0.8 * var(--med-transition-time));
+            transition: all var(--med-transition-time) var(--bezier-function), max-height var(--med-transition-time) var(--bezier-function) calc(0.8 * var(--med-transition-time)), box-shadow calc(1.5 * var(--med-transition-time)) var(--bezier-function) calc(0.8 * var(--med-transition-time)), border-width var(--med-transition-time) var(--bezier-function) calc(0.8 * var(--med-transition-time)), padding var(--med-transition-time) var(--bezier-function) calc(0.8 * var(--med-transition-time));
             border-end-end-radius: calc(var(--square-handle-full-side) / 2);
 
             & .auth-options {
@@ -130,8 +130,7 @@
                 flex-flow: inherit;
                 align-items: inherit;
                 overflow: hidden;
-                padding: var(--input-padding);
-                padding-bottom: calc(var(--square-handle-full-side) + var(--input-padding));
+                padding: 0;
                 transition: inherit;
 
                 & .auth-options-section-title {
@@ -158,6 +157,8 @@
                 transition: all var(--med-transition-time) var(--bezier-function), max-width var(--med-transition-time) var(--bezier-function) calc(0.8 * var(--med-transition-time));
 
                 & .auth-options {
+                    padding: var(--input-padding);
+                    padding-bottom: calc(var(--square-handle-full-side) + var(--input-padding));
                     opacity: 1;
                 }
             }

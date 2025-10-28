@@ -96,7 +96,7 @@ smorgas-board panel-element {
         bottom: 0;
         cursor: grab;
         fill: none;
-        stroke: white;
+        stroke: rgb(255 60 60);
         transition: all var(--quick-transition-time) var(--bezier-function);
         stroke-width: 0;
         stroke-dasharray: 1 1000 120;
@@ -106,6 +106,10 @@ smorgas-board panel-element {
         cx: 6rem;
         cy: 6rem;
     }
+
+    /* &::part(resize-handle rendered) {
+        opacity: 0;
+    } */
 
     &::part(resize-handle):hover {
         stroke-width: 3.5rem;
@@ -120,13 +124,7 @@ smorgas-board panel-element {
         cursor: grabbing;
     }
 
-    .corner-arc {
-        &.rendered {
-            opacity: 0;
-        }
-    }
-
-    .corner:has(.corner-arc:hover) #corner .corner-arc {
+    &:has(::part(resize-handle):hover) #corner .corner-arc {
         stroke-width: 3.5rem;
         stroke-dasharray: 60 1000 120;
         stroke-dashoffset: 0;
