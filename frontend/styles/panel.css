@@ -120,6 +120,15 @@ smorgas-board panel-element {
         cy: 4.5rem;
     }
 
+    &::part(resize-handle):hover ~ * > *::part(resize-handle mask-circle) {
+        stroke-width: 3.5rem;
+        stroke-dasharray: 60 1000 120;
+        stroke-dashoffset: 0;
+        r: 4rem;
+        cx: 4.5rem;
+        cy: 4.5rem;
+    }
+
     &::part(resize-handle):active {
         cursor: grabbing;
     }
@@ -131,6 +140,7 @@ smorgas-board panel-element {
         width: 12rem;
         height: 12rem;
         background: hsl(from var(--panel-handle-bg) h s l / 1);
+        pointer-events: none;
         mask-image: url("#corner");
         mask-position: -10% -10%;
         mask-size: cover;
