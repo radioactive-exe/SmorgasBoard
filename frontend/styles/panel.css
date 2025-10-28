@@ -85,8 +85,8 @@ smorgas-board panel-element {
         position: absolute;
         right: -3.5rem;
         bottom: -3.5rem;
-        width: 12rem;
-        height: 12rem;
+        width: min-content;
+        height: min-content;
         fill: none;
     }
 
@@ -103,24 +103,24 @@ smorgas-board panel-element {
         stroke-dashoffset: -14;
         stroke-linecap: round;
         r: 2rem;
-        cx: 6rem;
-        cy: 6rem;
+        cx: 3rem;
+        cy: 3rem;
     }
 
-    &::part(resize-handle rendered) {
+    /* &::part(resize-handle rendered) {
         opacity: 0;
-    }
+    } */
 
     &::part(resize-handle):hover {
         stroke-width: 3.5rem;
         stroke-dasharray: 60 1000 120;
         stroke-dashoffset: 0;
         r: 4rem;
-        cx: 4.5rem;
-        cy: 4.5rem;
+        cx: 2rem;
+        cy: 2rem;
     }
 
-    &::part(resize-handle):hover ~ * > *::part(resize-handle mask-circle) {
+    &::part(resize-handle):hover ~ ::part(resize-handle mask-circle) {
         stroke-width: 3.5rem;
         stroke-dasharray: 60 1000 120;
         stroke-dashoffset: 0;
@@ -244,7 +244,7 @@ smorgas-board panel-element {
     }
 }
 
-smorgas-board panel-element:has(.resize-handle:hover) {
+smorgas-board panel-element:has(::part(resize-handle rendered):hover) {
     background: red;
 }
 
