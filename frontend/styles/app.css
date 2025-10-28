@@ -506,6 +506,23 @@ body:has(.panel) {
     }
 }
 
+.corner .corner-arc {
+    filter: url("#bottom-inset-shadow") url("#top-inset-shadow");
+    fill: blue;
+    stroke: red;
+    transition: all 0.2s ease;
+    r: 80px;
+    cx: 100px;
+    cy: 100px;
+    stroke-width: 40px;
+    stroke-dasharray: 20 10000 20;
+    stroke-linecap: round;
+
+    &:hover {
+        stroke-dasharray: 80 10000 20;
+    }
+}
+
 
 @keyframes pulse-check {
     50% {

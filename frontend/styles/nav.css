@@ -117,8 +117,8 @@
             flex-flow: column;
             align-items: end;
             overflow: hidden;
-            max-width: 1rem;
-            max-height: 1rem;
+            max-width: 0;
+            max-height: 0;
             border: 0 solid var(--input-secondary);
             border-radius: var(--small-border-radius);
             background: var(--panel-bg);

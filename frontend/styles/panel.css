@@ -7,7 +7,7 @@ smorgas-board panel-element {
     height: var(--height);
 
     /* clip-path: circle(0 at 50% 50%);
-        left: 0;
+    left: 0;
         top: 0; */
 
     &::before {
@@ -32,7 +32,7 @@ smorgas-board panel-element {
         transform: scale(1) rotateZ(0deg);
         transform-style: preserve-3d;
         backface-visibility: hidden;
-        filter: url("#inset-shadow");
+        filter: url("#top-inset-shadow");
     }
 
     &:hover::part(panel-body) {
@@ -92,7 +92,7 @@ smorgas-board panel-element {
     }
 
     &::part(resize-handle) {
-        filter: url("#bottom-inset-shadow") url("#top-inset-shadow");
+        filter: url("#glass-distortion");
         cursor: grab;
         pointer-events: visiblestroke;
         fill: none;
@@ -105,7 +105,6 @@ smorgas-board panel-element {
         r: 2rem;
         cx: 3.5rem;
         cy: 3.5rem;
-        backdrop-filter: blur(0.2rem) url("#glass-distortion");
     }
 
     &::part(resize-handle):hover {
