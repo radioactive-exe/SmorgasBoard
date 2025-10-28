@@ -96,7 +96,7 @@ smorgas-board panel-element {
         bottom: 0;
         cursor: grab;
         fill: none;
-        stroke: rgb(255 60 60);
+        stroke: rgb(255 255 255);
         transition: all var(--quick-transition-time) var(--bezier-function);
         stroke-width: 0;
         stroke-dasharray: 1 1000 120;
@@ -107,9 +107,9 @@ smorgas-board panel-element {
         cy: 6rem;
     }
 
-    /* &::part(resize-handle rendered) {
+    &::part(resize-handle rendered) {
         opacity: 0;
-    } */
+    }
 
     &::part(resize-handle):hover {
         stroke-width: 3.5rem;
@@ -124,22 +124,13 @@ smorgas-board panel-element {
         cursor: grabbing;
     }
 
-    &:has(::part(resize-handle):hover) #corner .corner-arc {
-        stroke-width: 3.5rem;
-        stroke-dasharray: 60 1000 120;
-        stroke-dashoffset: 0;
-        r: 4rem;
-        cx: 4.5rem;
-        cy: 4.5rem;
-    }
-
-    &::part(resize-handle-clipped) {
+    &::part(resize-handle-masked) {
         position: absolute;
         right: -3.5rem;
         bottom: -3.5rem;
         width: 12rem;
         height: 12rem;
-        background: hsl(from var(--panel-handle-bg) h s l / 0.6);
+        background: hsl(from var(--panel-handle-bg) h s l / 1);
         mask-image: url("#corner");
         mask-position: -10% -10%;
         mask-size: cover;
@@ -243,10 +234,13 @@ smorgas-board panel-element {
     }
 }
 
+smorgas-board panel-element:has(.resize-handle:hover) {
+    background: red;
+}
+
 smorgas-board panel-element.being-manipulated {
     z-index: 3;
-
-    /* pointer-events: none; */
+    pointer-events: none;
 
     &::before {
         inset: var(--panel-body-inset);
@@ -296,13 +290,16 @@ smorgas-board panel-element.being-manipulated {
         transition: all var(--panel-transition-time) ease, width 0s, height 0s;
 
         &::part(resize-handle) {
-            opacity: var(--panel-manip-opacity);
             stroke-width: 3rem;
             stroke-dasharray: 60 1000 120;
             stroke-dashoffset: 0;
             r: 4rem;
             cx: 4.5rem;
             cy: 4.5rem;
+        }
+
+        &::part(resize-handle-masked) {
+            opacity: var(--panel-manip-opacity);
         }
 
         &::part(drag-handle) {

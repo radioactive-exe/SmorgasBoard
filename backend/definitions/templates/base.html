@@ -53,10 +53,6 @@
                     ></object>
                 </div>
                 <div class="resize-handle-container">
-                    <div
-                        class="corner-clipped"
-                        part="resize-handle-clipped"
-                    ></div>
                     <svg
                         width="200"
                         height="200"
@@ -71,6 +67,10 @@
                                 />
                             </mask>
                         </defs>
+                        <div
+                            class="corner-masked"
+                            part="resize-handle-clipped"
+                        ></div>
                         <circle
                             class="corner-arc rendered resize-handle"
                             part="resize-handle rendered"
