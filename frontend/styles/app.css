@@ -506,22 +506,18 @@ body:has(.panel) {
     }
 }
 
-.corner .corner-arc {
-    filter: url("#bottom-inset-shadow") url("#top-inset-shadow");
-    fill: blue;
-    stroke: red;
-    transition: all 0.2s ease;
-    r: 80px;
-    cx: 100px;
-    cy: 100px;
-    stroke-width: 40px;
-    stroke-dasharray: 20 10000 20;
-    stroke-linecap: round;
+.resize-handle-container {
+    filter: url("#bottom-inset-shadow");
+}
 
-    &:hover {
-        stroke-dasharray: 80 10000 20;
+.corner {
+    transform: translate(6rem, 4rem);
+
+    & circle {
+        filter: blur(1rem);
     }
 }
+
 
 
 @keyframes pulse-check {

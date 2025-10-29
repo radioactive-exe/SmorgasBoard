@@ -84,19 +84,22 @@ smorgas-board panel-element {
 
     &::part(resize-handle-svg) {
         position: absolute;
-        right: -2rem;
-        bottom: -2rem;
+        right: 3.5rem;
+        bottom: 1.5rem;
         width: 8rem;
         height: 8rem;
         pointer-events: none;
     }
 
     &::part(resize-handle) {
+        position: absolute;
+        right: 0;
+        bottom: 0;
         filter: url("#glass-distortion");
         cursor: grab;
         pointer-events: visiblestroke;
         fill: none;
-        stroke: hsl(from var(--panel-handle-bg) h s l / 1);
+        stroke: hsl(from var(--panel-handle-bg) h s l / 0.6);
         transition: all var(--quick-transition-time) ease;
         stroke-width: 0;
         stroke-dasharray: 1 1000 120;
@@ -141,6 +144,10 @@ smorgas-board panel-element {
         border-radius: inherit;
         font-size: var(--font-s);
         pointer-events: none;
+    }
+
+    & .corner {
+        background: red;
     }
 
     &::part(icon-button) {
@@ -264,9 +271,7 @@ smorgas-board panel-element.being-manipulated {
         }
 
         &::part(resize-handle) {
-            width: 0;
-            height: 0;
-            padding: 0;
+            stroke-width: 0;
         }
     }
 
