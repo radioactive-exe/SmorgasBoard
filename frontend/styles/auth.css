@@ -77,7 +77,7 @@
             }
 
             & .exit-icon {
-                background: var(--text-col);
+                background: var(--text-primary);
             }
         }
     }

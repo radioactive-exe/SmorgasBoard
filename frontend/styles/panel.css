@@ -84,8 +84,8 @@ smorgas-board panel-element {
 
     &::part(resize-handle-svg) {
         position: absolute;
-        right: 3.5rem;
-        bottom: 1.5rem;
+        right: -2rem;
+        bottom: -2rem;
         width: 8rem;
         height: 8rem;
         pointer-events: none;
@@ -95,11 +95,10 @@ smorgas-board panel-element {
         position: absolute;
         right: 0;
         bottom: 0;
-        filter: url("#glass-distortion");
         cursor: grab;
         pointer-events: visiblestroke;
         fill: none;
-        stroke: hsl(from var(--panel-handle-bg) h s l / 0.6);
+        stroke: hsl(from var(--panel-handle-bg) h s l / 0.7);
         transition: all var(--quick-transition-time) ease;
         stroke-width: 0;
         stroke-dasharray: 1 1000 120;
@@ -370,7 +369,7 @@ smorgas-board panel-element.final-preview {
 }
 
 @media (hover: hover) {
-    smorgas-board panel-element:not(.configuring) {
+    smorgas-board panel-element:not(.configuring, .in-edit-mode panel-element) {
         &:hover::part(panel-body) {
             filter: drop-shadow(var(--shadow-offset-x) var(--shadow-offset-y) 0.2rem var(--shadow-col));
             transform: scale(1.02) perspective(200rem) rotateX(var(--rotate-x, 0)) rotateY(var(--rotate-y, 0)) rotateZ(0deg);

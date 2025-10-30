@@ -513,7 +513,7 @@ supabase.auth.onAuthStateChange(
                 });
             } else {
                 dashboard.saveTheme();
-                dashboard.saveDimensions();
+                dashboard.saveDimensionsAfterDelay();
                 dashboard.updateStoredPanels();
             }
         } else if (e == "SIGNED_OUT") {

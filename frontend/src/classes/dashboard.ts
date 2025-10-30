@@ -194,7 +194,14 @@ class Dashboard extends HTMLElement {
         );
         this.populateCells();
         this.organiseElements();
-        if (updateStored) this.saveDimensions();
+        if (updateStored) this.saveDimensionsAfterDelay();
+    }
+
+    public saveDimensionsAfterDelay(): void {
+        clearTimeout(this.saveTimeout);
+        this.saveTimeout = setTimeout(() => {
+            this.saveDimensions();
+        }, 1000);
     }
 
     public saveDimensions(): void {
@@ -534,9 +541,16 @@ class Dashboard extends HTMLElement {
             document.head.appendChild(themeFileLink);
         }
 
-        if (updateStored) this.saveTheme();
+        if (updateStored) this.saveThemeAfterDelay();
 
         themeFileLink.setAttribute("href", theme.getUrl());
+    }
+
+    public saveThemeAfterDelay(): void {
+        clearTimeout(this.saveTimeout);
+        this.saveTimeout = setTimeout(() => {
+            this.saveTheme();
+        }, 1000);
     }
 
     public saveTheme(): void {

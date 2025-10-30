@@ -10,7 +10,7 @@ panel-element[data-panel-type="NOTEPAD"] {
         border: none;
         border-radius: var(--small-border-radius);
         background: var(--textarea-bg);
-        color: var(--text-col);
+        color: var(--text-placeholder);
         outline: none;
         font-size: var(--font-s);
         font-family: inherit;
@@ -23,7 +23,7 @@ panel-element[data-panel-type="NOTEPAD"] {
     }
 
     & textarea::placeholder {
-        color: lch(from var(--text-col) calc(l*0.8) c h);
+        color: lch(from var(--text-primary) calc(l*0.8) c h);
     }
 
     /* &:is(.in-edit-mode panel-element[data-panel-type="NOTEPAD"]) textarea {
@@ -32,7 +32,7 @@ panel-element[data-panel-type="NOTEPAD"] {
 }
 
 panel-element[data-panel-type="CLOCK"] {
-    color: var(--text-col);
+    color: var(--text-primary);
 
     & time {
         display: block;
@@ -57,6 +57,7 @@ panel-element[data-panel-type="CLOCK"] {
             display: inherit;
             justify-content: inherit;
             align-items: inherit;
+            color: var(--text-secondary);
             white-space: nowrap;
 
             & span {
@@ -69,6 +70,7 @@ panel-element[data-panel-type="CLOCK"] {
         & .date span {
             display: block;
             width: 100%;
+            color: var(--text-accent);
             font-size: clamp(calc(var(--font-s) * 0.8), var(--font-s), 8cqw);
         }
     }
@@ -340,6 +342,7 @@ panel-element[data-panel-type="WEATHER"] {
         gap: 1rem;
         width: 100%;
         height: 100%;
+        isolation: isolate;
 
         & .weather-bar {
             display: flex;
@@ -355,6 +358,7 @@ panel-element[data-panel-type="WEATHER"] {
                 position: absolute;
                 right: 0;
                 bottom: 0;
+                z-index: 1;
                 width: 100%;
                 height: var(--input-height);
                 transition: all var(--quick-transition-time) var(--bezier-function);
@@ -437,6 +441,7 @@ panel-element[data-panel-type="WEATHER"] {
         & .focused-location {
             position: absolute;
             inset: 0;
+            z-index: 2;
             width: calc(100% + 1rem);
             height: calc(100% + 1rem);
             background: var(--panel-bg);
@@ -449,6 +454,7 @@ panel-element[data-panel-type="WEATHER"] {
                 justify-content: space-between;
                 align-items: center;
                 padding: 1rem;
+                border: 0.1rem solid var(--border-subtle);
                 border-radius: var(--small-border-radius);
                 background: var(--input-bg);
                 font-size: 1.2rem;
@@ -509,6 +515,7 @@ panel-element[data-panel-type="WEATHER"] {
                 & .location-info {
                     & .location-city {
                         margin-bottom: 0;
+                        color: var(--text-accent);
                         font-size: var(--font-sm);
                     }
 
@@ -542,7 +549,7 @@ panel-element[data-panel-type="WEATHER"] {
                 }
 
                 &:not(.preview-header.visible ~ .info-header) {
-                    margin-top: 1rem;
+                    margin-top: 1.5rem;
                 }
             }
 
@@ -555,8 +562,10 @@ panel-element[data-panel-type="WEATHER"] {
                 font-weight: normal;
 
                 & .info-section-title {
+                    color: var(--text-secondary);
                     font-weight: bold;
                     text-transform: uppercase;
+                    font-variation-settings: "wdth" 40;
 
                     &:not(.top-title) {
                         width: min-content;
@@ -653,6 +662,7 @@ panel-element[data-panel-type="WEATHER"] {
             list-style-type: none;
 
             & .saved-location {
+                position: relative;
                 display: flex;
                 flex-flow: row nowrap;
                 gap: 1rem;
@@ -665,6 +675,7 @@ panel-element[data-panel-type="WEATHER"] {
 
                 & .location-title {
                     margin-right: auto;
+                    color: var(--text-secondary);
                     font-size: var(--font-s);
                 }
 
@@ -680,6 +691,7 @@ panel-element[data-panel-type="WEATHER"] {
                     }
 
                     & .location-temp {
+                        color: var(--text-secondary);
                         font-size: var(--font-s);
                     }
 
@@ -714,7 +726,7 @@ panel-element[data-panel-type="WEATHER"] {
                 }
 
                 &:is(.in-edit-mode .saved-location) {
-                    padding-right: calc(var(--panel-content-padding) + 1.5rem);
+                    padding-right: calc(var(--panel-content-padding) + 2.5rem);
 
                     & .x-icon {
                         width: 2rem;

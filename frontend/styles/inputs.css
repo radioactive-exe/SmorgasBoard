@@ -11,7 +11,7 @@
 
 .selector {
     margin: var(--input-padding) 0;
-    color: var(--text-col);
+    color: var(--text-primary);
     transition: all var(--med-transition-time) ease;
     isolation: isolate;
 
@@ -342,7 +342,7 @@
                 padding: 0 var(--input-padding);
                 border: 0 solid transparent;
                 border-radius: var(--small-border-radius) var(--small-border-radius) 0 0;
-                color: hsl(from var(--text-col) h s l / 0.5);
+                color: hsl(from var(--text-primary) h s l / 0.5);
                 font-size: var(--font-s);
                 white-space: nowrap;
                 pointer-events: none;
@@ -359,7 +359,7 @@
                 border: 0 solid transparent;
                 border-radius: var(--small-border-radius);
                 background-color: var(--input-bg);
-                color: var(--text-col);
+                color: var(--text-primary);
                 box-shadow: inset 0 0.1rem 1.4rem 0 var(--shadow-col),
                     0 0 0 0 transparent, inset 0 0 0 0 transparent,
                     inset 0 0 0 0 transparent;
@@ -381,7 +381,7 @@
                     & ~ .string-selector-label-text {
                         padding: calc(0.25 * var(--input-padding)) var(--input-padding);
                         background-color: var(--input-bg);
-                        color: var(--text-col);
+                        color: var(--text-primary);
                         box-shadow: inset 0.2rem 0.2rem 0.2rem 0 hsl(from var(--input-bg) h s calc(l * 2) / 0.6),
                             0 0.5rem 0 0 var(--input-bg);
                         font-size: var(--font-xs);

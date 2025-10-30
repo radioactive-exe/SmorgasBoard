@@ -6,7 +6,6 @@
  * {@link https://github.com/radioactive-exe/SmorgasBoard | The GitHub Repository}
  */
 
-
 /** File Header Delimiter. */
 
 /**
@@ -28,6 +27,11 @@ class Theme {
         1,
         "Hacker-man Theme",
         "themes/console.css",
+    );
+    static readonly PALENIGHT = new Theme(
+        2,
+        "Palenight Theme",
+        "themes/palenight.css",
     );
 
     // TODO Implement Mode preference themes like Light and Dark Mode

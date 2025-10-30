@@ -59,7 +59,7 @@
             transition: inherit;
 
             & .icon {
-                background-color: var(--text-col);
+                background-color: var(--text-primary);
                 pointer-events: none;
             }
 

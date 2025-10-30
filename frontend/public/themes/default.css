@@ -5,7 +5,11 @@
     --cell-bg: rgb(255 255 255 / 0.305);
     --textarea-bg: hsl(from var(--panel-bg) h s calc(l * 0.95));
     --preview-bg: lch(from var(--panel-bg) calc(l*0.6) c h);
-    --text-col: rgb(130 255 236);
+    --text-primary: rgb(130 255 236);
+    --text-secondary: rgb(176 255 255);
+    --text-subtle: #92d0d3;
+    --text-placeholder: rgb(143 218 218);
+    --text-accent: rgb(62 223 123);
     --small-border-radius: 1rem;
     --tiny-border-radius: 0.5rem;
     --scrollbar-bg: hsl(from var(--panel-bg) h s calc(l * 0.7));
@@ -15,7 +19,8 @@
     --alert-info-bg: rgb(103 214 255);
     --input-bg: rgb(12 85 73);
     --input-secondary: hsl(from var(--input-bg) h s calc(l*2.2));
-    --input-accent: rgb(123 255 246);
-    font-family: 'Franklin Gothic Thin', 'Arial Narrow', Arial, sans-serif;
+    --input-accent: rgb(43 255 241);
+    font-family: "Libre Franklin",
+        sans-serif;
 
 }
