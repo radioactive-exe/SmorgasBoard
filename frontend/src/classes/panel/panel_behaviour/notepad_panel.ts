@@ -8,7 +8,7 @@ function execute(panel: Panel): void {
     textArea.addEventListener("input", () => {
         clearTimeout(saveAfterEditTimeout);
         saveAfterEditTimeout = setTimeout(() => {
-            panel.triggerDelayedSave();
+            panel.triggerSave();
         }, 5000);
     });
 

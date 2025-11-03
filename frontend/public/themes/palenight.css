@@ -11,12 +11,13 @@
     --text-subtle: #676E95;
     --text-placeholder: #AAB;
     --text-accent: #80CBC4;
+    --alert-text-col: #292D3E;
     --scrollbar-bg: hsl(from var(--panel-bg) h s calc(l * 0.7));
     --scrollbar-thumb-col: hsl(from var(--panel-bg) h s calc(l * 1.2));
     --alert-error-bg: #EF5350;
     --alert-warning-bg: #FFCA28;
     --alert-info-bg: #64B5F6;
-    --input-bg: #313850;
+    --input-bg: #292D3E;
     --input-secondary: hsl(from var(--input-bg) h s calc(l*2.2));
     --input-accent: #7e57c2;
     font-family: "Roboto Flex", sans-serif;

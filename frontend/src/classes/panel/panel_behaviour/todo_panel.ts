@@ -4,10 +4,6 @@ import type * as ConfigEntry from "../../config/config_entry.js";
 import type { Panel } from "../panel.js";
 import { PanelType } from "../panel_type.js";
 
-let triggerSaveTimeout: ReturnType<typeof setTimeout> = setTimeout(() => {
-    return;
-}, 0);
-
 function execute(panel: Panel): void {
     if (
         Object.values(panel.getKeyElements()).includes(null)
@@ -94,24 +90,17 @@ function addEntry(
                 </label>`;
 
     newEntry.addEventListener("click", () => {
-        triggerDelayedSave(panel);
+        panel.triggerSave();
     });
     deleteIcon.addEventListener("click", (e) => {
         e.stopPropagation();
         newEntry.remove();
-        triggerDelayedSave(panel);
+        panel.triggerSave();
     });
     newEntry.appendChild(checkboxSelector);
     newEntry.appendChild(deleteIcon);
     todoList.appendChild(newEntry);
-    if (updateStored) triggerDelayedSave(panel);
-}
-
-function triggerDelayedSave(panel: Panel): void {
-    clearTimeout(triggerSaveTimeout);
-    triggerSaveTimeout = setTimeout(() => {
-        panel.triggerSave();
-    }, 3000);
+    if (updateStored) panel.triggerSave();
 }
 
 export { addEntry, execute };

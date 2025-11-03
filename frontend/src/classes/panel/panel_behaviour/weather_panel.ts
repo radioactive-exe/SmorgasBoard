@@ -184,7 +184,7 @@ function addEntryToSearchResults(
     newEntry.dataset.lon = lon.toString();
     if (withListeners && mainElements && focusedLocationInfoElements && panel) {
         newEntry.addEventListener("click", () => {
-            focusOnLocation(lat, lon, true, panel);
+            focusOnLocation(lat, lon, panel);
         });
     }
     mainElements?.searchResults.appendChild(newEntry);
@@ -199,7 +199,6 @@ function clearSearch(panel: Panel): void {
 async function focusOnLocation(
     lat: number,
     lon: number,
-    previewing: boolean,
     panel: Panel,
 ): Promise<void> {
     const mainElements = {
@@ -288,7 +287,14 @@ async function focusOnLocation(
     mainElements.focusedLocation.dataset.lat = data.location.lat;
     mainElements.focusedLocation.dataset.lon = data.location.lon;
 
-    if (previewing) mainElements.previewHeader.classList.add("visible");
+    if (
+        !isAlreadySaved(
+            data.location.lat,
+            data.location.lon,
+            mainElements.savedLocationList,
+        )
+    )
+        mainElements.previewHeader.classList.add("visible");
     else mainElements.previewHeader.classList.remove("visible");
 
     setConditionAndTemperature(data, useCelsius, focusedLocationInfoElements);
@@ -529,8 +535,8 @@ function saveLocation(
                     <h3 class="location-temp">${temp}</h3>
                 </div>
                 <div class="location-max-min">
-                    <p class="location-min">L: ${minTemp}</p>
-                    <p class="location-max">H: ${maxTemp}</p>
+                    <p class="location-min"><span class="temp-label">L:</span> ${minTemp}</p>
+                    <p class="location-max"><span class="temp-label">H:</span> ${maxTemp}</p>
                 </div>
             </div>`;
 
@@ -539,7 +545,7 @@ function saveLocation(
     deleteIcon.addEventListener("click", (e) => {
         e.stopImmediatePropagation();
         newEntry.remove();
-        panel.triggerDelayedSave();
+        panel.triggerSave();
     });
 
     newEntry.appendChild(deleteIcon);
@@ -549,12 +555,11 @@ function saveLocation(
         focusOnLocation(
             parseFloat(newEntry.dataset.lat),
             parseFloat(newEntry.dataset.lon),
-            false,
             panel,
         );
     });
 
-    if (updateStored) panel.triggerDelayedSave();
+    if (updateStored) panel.triggerSave();
 
     savedLocationList.appendChild(newEntry);
 }
@@ -670,6 +675,28 @@ function updateSavedLocations(
                 maxTempText.innerHTML = `${useCelsius ? data.forecast.forecastday[0].day.maxtemp_c : data.forecast.forecastday[0].day.maxtemp_f}&deg${temperatureSymbol}`;
         },
     );
+}
+
+function isAlreadySaved(
+    lat: string,
+    lon: string,
+    savedLocationList: HTMLUListElement,
+): boolean {
+    let flag = false;
+
+    [...(savedLocationList.children as HTMLCollectionOf<HTMLElement>)].forEach(
+        (savedLocation) => {
+            console.log(savedLocation.dataset.lat, lat);
+            if (
+                savedLocation.dataset.lat == lat
+                && savedLocation.dataset.lon == lon
+            ) {
+                flag = true;
+            }
+        },
+    );
+
+    return flag;
 }
 
 export { execute, saveLocation };

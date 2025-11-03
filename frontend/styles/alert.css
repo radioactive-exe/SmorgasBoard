@@ -36,7 +36,8 @@
         }
 
         & .alert-message {
-            filter: drop-shadow(0 0 0.3rem var(--shadow-col));
+            color: var(--alert-text-col, var(--text-primary));
+            filter: drop-shadow(0 0 0.5rem var(--shadow-col));
         }
     }
 

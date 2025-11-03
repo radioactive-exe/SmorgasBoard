@@ -10,6 +10,13 @@ interface DashboardDataFetch {
     dimensions?: Size;
 }
 
+interface DashboardSaveData {
+    panels: PanelInstance[];
+    free_ids: number[];
+    dimensions: Size;
+    theme: number;
+}
+
 /**
  * @param targets
  * @example
@@ -39,12 +46,8 @@ async function getFromSmorgasBase(
  * @example
  */
 async function patchIntoSmorgasBase(
-    target: "theme" | "free_ids,panels" | "username" | "dimensions",
-    value:
-        | number
-        | { free_ids: number[]; panels: PanelInstance[] }
-        | string
-        | Size,
+    target: "username" | "dashboard",
+    value: DashboardSaveData | string,
 ): Promise<DashboardDataFetch[]> {
     const parsedBody: {
         theme?: number;
@@ -56,22 +59,19 @@ async function patchIntoSmorgasBase(
 
     try {
         switch (target) {
-            case "theme":
-                parsedBody["theme"] = value as number;
-                break;
-            case "free_ids,panels":
-                parsedBody["free_ids"] = (
-                    value as { free_ids: number[]; panels: PanelInstance[] }
-                ).free_ids as number[];
-                parsedBody["panels"] = (
-                    value as { free_ids: number[]; panels: PanelInstance[] }
-                ).panels as PanelInstance[];
+            case "dashboard":
+                parsedBody["theme"] = (value as DashboardSaveData)
+                    .theme as number;
+                parsedBody["free_ids"] = (value as DashboardSaveData)
+                    .free_ids as number[];
+                parsedBody["panels"] = (value as DashboardSaveData)
+                    .panels as PanelInstance[];
+                parsedBody["dimensions"] = (value as DashboardSaveData)
+                    .dimensions as Size;
                 break;
             case "username":
                 parsedBody["username"] = value as string;
                 break;
-            case "dimensions":
-                parsedBody["dimensions"] = value as Size;
         }
     } catch (error) {
         console.error(error, "Passed value does not match target field.");

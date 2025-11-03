@@ -11,6 +11,7 @@
 import {
     current,
     finishLoading,
+    init,
     loader,
     spawnablePanelTypes,
     user,
@@ -194,29 +195,7 @@ class Dashboard extends HTMLElement {
         );
         this.populateCells();
         this.organiseElements();
-        if (updateStored) this.saveDimensionsAfterDelay();
-    }
-
-    public saveDimensionsAfterDelay(): void {
-        clearTimeout(this.saveTimeout);
-        this.saveTimeout = setTimeout(() => {
-            this.saveDimensions();
-        }, 1000);
-    }
-
-    public saveDimensions(): void {
-        try {
-            if (user) {
-                patchIntoSmorgasBase("dimensions", this.dimensions);
-            } else {
-                localStorage.setItem(
-                    "dimensions",
-                    JSON.stringify(this.dimensions),
-                );
-            }
-        } catch {
-            console.error("Failed to store Dimensions in database.");
-        }
+        if (updateStored) this.triggerDelayedSave();
     }
 
     /**
@@ -307,8 +286,9 @@ class Dashboard extends HTMLElement {
     }
 
     private spawnPanel(panel: Panel, updateStored = true): void {
+        clearTimeout(this.saveTimeout);
         panel.addEventListener("updatepanel", () => {
-            this.updateStoredPanels();
+            this.triggerDelayedSave();
         });
         this.append(panel);
         this.panels.push(panel);
@@ -339,14 +319,15 @@ class Dashboard extends HTMLElement {
         return this.loadStoredTheme()
             .then(() => this.loadStoredPanels())
             .then(() => this.loadStoredDimensions())
+            .then(() => init())
             .then(() => finishLoading(loader));
     }
 
     public triggerDelayedSave(): void {
         clearTimeout(this.saveTimeout);
         this.saveTimeout = setTimeout(() => {
-            this.updateStoredPanels();
-        }, 3000);
+            this.save();
+        }, 2000);
     }
 
     public loadStoredDimensions(): Promise<void> {
@@ -468,7 +449,7 @@ class Dashboard extends HTMLElement {
         });
     }
 
-    public updateStoredPanels(): void {
+    public save(): void {
         const panelStorage: PanelInstance[] = this.panels.map(
             (i): PanelInstance => {
                 return {
@@ -484,18 +465,25 @@ class Dashboard extends HTMLElement {
             },
         );
 
-        if (user) this.saveStoredPanelsToCloud(panelStorage);
+        if (user) this.saveToCloud(panelStorage);
         else {
             localStorage.setItem("panels", JSON.stringify(panelStorage));
             localStorage.setItem("free-ids", JSON.stringify([...this.freeIds]));
+            localStorage.setItem("dimensions", JSON.stringify(this.dimensions));
+            localStorage.setItem(
+                "last-theme",
+                this.currentTheme.getId().toString(),
+            );
         }
     }
 
-    private saveStoredPanelsToCloud(panelStorage: PanelInstance[]): void {
+    private saveToCloud(panelStorage: PanelInstance[]): void {
         try {
-            patchIntoSmorgasBase("free_ids,panels", {
+            patchIntoSmorgasBase("dashboard", {
                 free_ids: [...this.freeIds],
                 panels: panelStorage,
+                dimensions: this.dimensions,
+                theme: this.currentTheme.getId(),
             });
         } catch {
             console.error("Invalid panels sent. Check storage");
@@ -541,29 +529,9 @@ class Dashboard extends HTMLElement {
             document.head.appendChild(themeFileLink);
         }
 
-        if (updateStored) this.saveThemeAfterDelay();
+        if (updateStored) this.triggerDelayedSave();
 
         themeFileLink.setAttribute("href", theme.getUrl());
-    }
-
-    public saveThemeAfterDelay(): void {
-        clearTimeout(this.saveTimeout);
-        this.saveTimeout = setTimeout(() => {
-            this.saveTheme();
-        }, 1000);
-    }
-
-    public saveTheme(): void {
-        try {
-            if (user) patchIntoSmorgasBase("theme", this.currentTheme.getId());
-            else
-                localStorage.setItem(
-                    "last-theme",
-                    this.currentTheme.getId().toString(),
-                );
-        } catch {
-            console.error("Failed to store Theme in Database");
-        }
     }
 
     public clear(): void {

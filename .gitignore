@@ -4,7 +4,7 @@ desktop.ini
 *.code-workspace
 dist/
 node_modules/
-.vscode*
+.vscode*/**/
 logs
 *.log
 npm-debug.log*

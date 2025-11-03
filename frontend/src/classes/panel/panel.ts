@@ -64,7 +64,6 @@ interface PanelContent {
  */
 class Panel extends HTMLElement {
     private keyElements: Map<string, HTMLElement | null>;
-    private saveTimeout: NodeJS.Timeout;
 
     /**
      * Creates an instance of a Panel.
@@ -214,7 +213,7 @@ class Panel extends HTMLElement {
                     ).value = val;
                 }
 
-                this.triggerDelayedSave();
+                this.triggerSave();
             });
 
             resolve();
@@ -684,17 +683,12 @@ class Panel extends HTMLElement {
         this.dispatchEvent(new CustomEvent("updatepanel", { bubbles: true }));
         const saveIcon: HTMLElement | null | undefined =
             this.shadowRoot?.querySelector(".save-icon");
-        saveIcon?.part.add("visible");
         setTimeout(() => {
-            saveIcon?.part.remove("visible");
-        }, 500);
-    }
-
-    public triggerDelayedSave(): void {
-        if (this.saveTimeout) clearTimeout(this.saveTimeout);
-        this.saveTimeout = setTimeout(() => {
-            this.triggerSave();
-        }, 1000);
+            saveIcon?.part.add("visible");
+            setTimeout(() => {
+                saveIcon?.part.remove("visible");
+            }, 500);
+        }, 2000);
     }
 }
 

@@ -10,6 +10,10 @@ smorgas-board panel-element {
     left: 0;
         top: 0; */
 
+    & .panel-title {
+        color: var(--text-accent);
+    }
+
     &::before {
         content: '';
         position: absolute;
@@ -32,7 +36,6 @@ smorgas-board panel-element {
         transform: scale(1) rotateZ(0deg);
         transform-style: preserve-3d;
         backface-visibility: hidden;
-        filter: url("#top-inset-shadow");
     }
 
     &:hover::part(panel-body) {
@@ -51,6 +54,7 @@ smorgas-board panel-element {
         justify-content: center;
         align-items: center;
         border-radius: var(--panel-border-radius);
+        user-select: none;
         transition: all var(--panel-transition-time) ease;
         transform: perspective(0.01rem) rotateZ(0) scale(1);
         -webkit-font-smoothing: subpixel-antialiased;
@@ -145,10 +149,6 @@ smorgas-board panel-element {
         pointer-events: none;
     }
 
-    & .corner {
-        background: red;
-    }
-
     &::part(icon-button) {
         position: absolute;
         z-index: 2;
@@ -221,10 +221,6 @@ smorgas-board panel-element {
     &:hover {
         z-index: 2;
     }
-}
-
-smorgas-board panel-element:has(::part(resize-handle rendered):hover) {
-    background: red;
 }
 
 smorgas-board panel-element.being-manipulated {

@@ -1,26 +1,22 @@
 :root {
-    --panel-bg: rgb(0 128 107);
-    --dashboard-bg: rgb(43 97 95);
+    --panel-bg: #00806b;
+    --dashboard-bg: #2b615f;
     --panel-handle-bg: hsl(from var(--panel-bg) h s calc(l * 1.6));
     --cell-bg: rgb(255 255 255 / 0.305);
     --textarea-bg: hsl(from var(--panel-bg) h s calc(l * 0.95));
     --preview-bg: lch(from var(--panel-bg) calc(l*0.6) c h);
-    --text-primary: rgb(130 255 236);
-    --text-secondary: rgb(176 255 255);
+    --text-primary: #b9fff4;
+    --text-secondary: #9ff;
     --text-subtle: #92d0d3;
-    --text-placeholder: rgb(143 218 218);
-    --text-accent: rgb(62 223 123);
-    --small-border-radius: 1rem;
-    --tiny-border-radius: 0.5rem;
+    --text-placeholder: #92c7c7;
+    --text-accent: #3edf7b;
     --scrollbar-bg: hsl(from var(--panel-bg) h s calc(l * 0.7));
     --scrollbar-thumb-col: hsl(from var(--panel-bg) h s calc(l * 1.2));
-    --alert-error-bg: rgb(255 74 74);
-    --alert-warning-bg: rgb(255 158 74);
-    --alert-info-bg: rgb(103 214 255);
-    --input-bg: rgb(12 85 73);
+    --alert-error-bg: #ff4a4a;
+    --alert-warning-bg: #ff9e4a;
+    --alert-info-bg: #67d6ff;
+    --input-bg: #0c5549;
     --input-secondary: hsl(from var(--input-bg) h s calc(l*2.2));
-    --input-accent: rgb(43 255 241);
-    font-family: "Libre Franklin",
-        sans-serif;
-
+    --input-accent: #2bfff1;
+    font-family: "Libre Franklin", sans-serif;
 }

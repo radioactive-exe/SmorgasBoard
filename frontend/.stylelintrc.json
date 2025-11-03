@@ -7,38 +7,29 @@
         "custom-property-empty-line-before": [
             "never",
             {
-                "except": [
-                    "after-comment"
-                ]
+                "except": ["after-comment"]
             }
         ],
-        "alpha-value-notation": [
-            "number"
-        ],
+        "alpha-value-notation": ["number"],
         "comment-empty-line-before": [
             "always",
             {
-                "ignore": [
-                    "after-comment"
-                ]
+                "ignore": ["after-comment"]
             }
         ],
         "rule-empty-line-before": [
             "always",
             {
-                "except": [
-                    "first-nested"
-                ]
+                "except": ["first-nested"]
             }
         ],
         "declaration-empty-line-before": [
             "never",
             {
-                "ignore": [
-                    "after-comment"
-                ]
+                "ignore": ["after-comment"]
             }
         ],
-        "property-no-unknown": true
+        "property-no-unknown": true,
+        "color-named": "never"
     }
 }

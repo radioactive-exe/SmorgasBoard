@@ -493,11 +493,7 @@ supabase.auth.onAuthStateChange(
                 .on("broadcast", { event: "UPDATE" }, (_payload) => {
                     console.log(_payload);
                     if (!wasLocalChange) {
-                        dashboard.clearLoadedPanels();
-                        dashboard.load().then(() => {
-                            init();
-                            finishLoading(loader);
-                        });
+                        dashboard.load();
                     } else {
                         setTimeout(() => {
                             wasLocalChange = false;
@@ -507,14 +503,16 @@ supabase.auth.onAuthStateChange(
                 .subscribe();
 
             if (!firstTime) {
-                dashboard.load().then(() => {
-                    init();
-                    finishLoading(loader);
-                });
+                dashboard.load();
             } else {
-                dashboard.saveTheme();
-                dashboard.saveDimensionsAfterDelay();
-                dashboard.updateStoredPanels();
+                dashboard.save();
+                await supabase.functions.invoke("hello-world", {
+                    body: {
+                        name: "Functions",
+                        email: user.email,
+                        username: user.username,
+                    },
+                });
             }
         } else if (e == "SIGNED_OUT") {
             user = null;
@@ -524,11 +522,7 @@ supabase.auth.onAuthStateChange(
             dashboard.load();
             personalNavButton?.classList.remove("active");
         } else if (e == "INITIAL_SESSION") {
-            if (!user)
-                dashboard.load().then(() => {
-                    init();
-                    finishLoading(loader);
-                });
+            if (!user) dashboard.load();
         }
         // console.log("!!", e);
     },
@@ -542,6 +536,7 @@ export {
     finishLoading,
     holdHandler,
     hoverHandler,
+    init,
     loader,
     modalLayer,
     preview,

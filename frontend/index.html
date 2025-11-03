@@ -17,6 +17,21 @@
             href="themes/default.css"
             vite-ignore
         />
+        <link
+            rel="icon"
+            type="image/png"
+            href="/assets/meta/favicon-96x96.png"
+            sizes="96x96"
+        />
+        <link rel="icon" type="image/svg+xml" href="/assets/meta/favicon.svg" />
+        <link rel="shortcut icon" href="/assets/meta/favicon.ico" />
+        <link
+            rel="apple-touch-icon"
+            sizes="180x180"
+            href="/assets/meta/apple-touch-icon.png"
+        />
+        <meta name="apple-mobile-web-app-title" content="Smorgas" />
+        <link rel="manifest" href="/assets/meta/site.webmanifest" />
     </head>
     <body>
         <smorgas-board id="dashboard"> </smorgas-board>
@@ -253,60 +268,6 @@
                     xChannelSelector="R"
                     yChannelSelector="G"
                 />
-            </filter>
-            <filter id="top-inset-shadow">
-                <!-- Shadow offset -->
-                <feOffset dx="10" dy="10" />
-                <!-- Shadow blur -->
-                <feGaussianBlur stdDeviation="4" result="offset-blur" />
-                <!-- Invert drop shadow to make an inset shadow-->
-                <feComposite
-                    operator="out"
-                    in="SourceGraphic"
-                    in2="offset-blur"
-                    result="inverse"
-                />
-                <!-- Cut colour inside shadow -->
-                <feFlood
-                    flood-color="#aaccee"
-                    flood-opacity=".95"
-                    result="color"
-                />
-                <feComposite
-                    operator="in"
-                    in="color"
-                    in2="inverse"
-                    result="shadow"
-                />
-                <!-- Placing shadow over element -->
-                <feComposite operator="over" in="shadow" in2="SourceGraphic" />
-            </filter>
-            <filter id="bottom-inset-shadow">
-                <!-- Shadow offset -->
-                <feOffset dx="-10" dy="-10" />
-                <!-- Shadow blur -->
-                <feGaussianBlur stdDeviation="4" result="offset-blur" />
-                <!-- Invert drop shadow to make an inset shadow-->
-                <feComposite
-                    operator="out"
-                    in="SourceGraphic"
-                    in2="offset-blur"
-                    result="inverse"
-                />
-                <!-- Cut colour inside shadow -->
-                <feFlood
-                    flood-color="#002233"
-                    flood-opacity=".95"
-                    result="color"
-                />
-                <feComposite
-                    operator="in"
-                    in="color"
-                    in2="inverse"
-                    result="shadow"
-                />
-                <!-- Placing shadow over element -->
-                <feComposite operator="over" in="shadow" in2="SourceGraphic" />
             </filter>
         </svg>
         <script type="module" src="build/dist/app.js"></script>

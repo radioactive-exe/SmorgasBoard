@@ -10,7 +10,7 @@ panel-element[data-panel-type="NOTEPAD"] {
         border: none;
         border-radius: var(--small-border-radius);
         background: var(--textarea-bg);
-        color: var(--text-placeholder);
+        color: var(--text-primary);
         outline: none;
         font-size: var(--font-s);
         font-family: inherit;
@@ -23,12 +23,8 @@ panel-element[data-panel-type="NOTEPAD"] {
     }
 
     & textarea::placeholder {
-        color: lch(from var(--text-primary) calc(l*0.8) c h);
+        color: var(--text-placeholder);
     }
-
-    /* &:is(.in-edit-mode panel-element[data-panel-type="NOTEPAD"]) textarea {
-        opacity: 0.8;
-    } */
 }
 
 panel-element[data-panel-type="CLOCK"] {
@@ -351,7 +347,20 @@ panel-element[data-panel-type="WEATHER"] {
             align-items: center;
 
             & .location-search-button:hover .search-icon {
-                transform: scale(1.2) rotate(-10deg);
+                transform: scale(1.2);
+            }
+
+            & .location-search-button:not(.location-search-button:hover, .location-search-selector.visible ~ .location-search-button) {
+                width: 2rem;
+                background: none;
+                box-shadow: none;
+
+                & .search-icon {
+                    width: 1.5rem;
+                    height: 1.5rem;
+                    margin-top: 100%;
+                    background: var(--input-accent);
+                }
             }
 
             &.weather-search-bar {
@@ -491,6 +500,7 @@ panel-element[data-panel-type="WEATHER"] {
 
             & .preview-header {
                 display: none;
+                justify-content: space-between;
                 align-items: center;
                 width: calc(100% - 3rem);
                 margin-bottom: 1rem;
@@ -513,10 +523,14 @@ panel-element[data-panel-type="WEATHER"] {
                 max-width: 100%;
 
                 & .location-info {
+                    max-width: 50%;
+
                     & .location-city {
                         margin-bottom: 0;
                         color: var(--text-accent);
                         font-size: var(--font-sm);
+                        overflow-wrap: break-word;
+                        hyphens: auto;
                     }
 
                     & .location-subtitle {
@@ -548,8 +562,9 @@ panel-element[data-panel-type="WEATHER"] {
                     }
                 }
 
+                &:not(.preview-header.visible ~ .info-header) > .location-info > .location-city,
                 &:not(.preview-header.visible ~ .info-header) {
-                    margin-top: 1.5rem;
+                    margin-top: 1.6rem;
                 }
             }
 
@@ -661,6 +676,10 @@ panel-element[data-panel-type="WEATHER"] {
             overflow-y: auto;
             list-style-type: none;
 
+            &::-webkit-scrollbar-track {
+                margin-bottom: 2rem;
+            }
+
             & .saved-location {
                 position: relative;
                 display: flex;
@@ -700,11 +719,15 @@ panel-element[data-panel-type="WEATHER"] {
                         gap: 1rem;
                         font-size: var(--font-xs);
                     }
+
+                    & .temp-label {
+                        color: var(--text-secondary);
+                    }
                 }
 
                 & .remove-location-icon {
                     position: absolute;
-                    right: calc(var(--panel-content-padding) - 1rem);
+                    right: calc(var(--panel-content-padding) - 0.5rem);
                     width: 0;
                     min-width: 0;
                     height: 0;
