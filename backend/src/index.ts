@@ -16,7 +16,7 @@ const apiRouter: express.Router = require("./routers/api_router.js");
 const app = express();
 const port = 3000;
 const allowedOrigins: string[] = [
-    "https://smorgasboard.irradiated.app/",
+    "https://smorgasboard.irradiated.app",
     "https://smorgasboard.vercel.app/",
     "https://smorgasboard.vercel.app",
     "http://127.0.0.1:3000",
