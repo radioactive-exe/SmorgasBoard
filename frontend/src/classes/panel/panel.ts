@@ -1,8 +1,10 @@
 /**
- * @file
  * A file containing the {@link Panel} class.
+ *
+ * @module
+ *
  * @author Radioactive.exe
- * {@link https://github.com/radioactive-exe | GitHub Profile}
+ *   {@link https://github.com/radioactive-exe | GitHub Profile}
  */
 
 /** File Header Delimiter. */
@@ -42,7 +44,8 @@ import { saveLocation } from "./panel_behaviour/weather_panel.js";
 import { PanelType, PanelTypeConfig, PanelTypeTemplate } from "./panel_type.js";
 
 /**
- * A type that defines the structure of a {@link Panel} in its stored format, either in localStorage or the cloud.
+ * A type that defines the structure of a {@link Panel} in its stored format,
+ * either in localStorage or the cloud.
  */
 interface PanelInstance {
     panel_id: number;
@@ -58,7 +61,8 @@ interface PanelContent {
 }
 
 /**
- * A custom HTMLElement, implements many methods for custom use with the program to make work more efficient.
+ * A custom HTMLElement, implements many methods for custom use with the program
+ * to make work more efficient.
  *
  * {@label Panel}.
  */
@@ -67,6 +71,7 @@ class Panel extends HTMLElement {
 
     /**
      * Creates an instance of a Panel.
+     *
      * @param area
      * @param type
      * @param dashboardId
@@ -129,9 +134,7 @@ class Panel extends HTMLElement {
         });
     }
 
-    /**
-     * Initiates the panel's body based on its template.
-     */
+    /** Initiates the panel's body based on its template. */
     private initTemplate(): Promise<void> {
         return new Promise(async (resolve) => {
             const response: PanelFetchResponse = await fetch(
@@ -226,6 +229,7 @@ class Panel extends HTMLElement {
 
     /**
      * Gets the Area of the current Panel, as an object of @type {Area}.
+     *
      * @returns
      */
     public getArea(): Area {
@@ -234,6 +238,7 @@ class Panel extends HTMLElement {
 
     /**
      * Sets the Panel's Area with a complete @type {Area} input.
+     *
      * @param other
      */
     public setArea(other: Area): void {
@@ -242,7 +247,10 @@ class Panel extends HTMLElement {
     }
 
     /**
-     * Updates the current Panel's Area with the values in the style, in case there is ever a disconnect between the two. This should never be the case, but it is a contingency. This is for queried Panels, in case they exist. Usually, they won't, but just in case.
+     * Updates the current Panel's Area with the values in the style, in case
+     * there is ever a disconnect between the two. This should never be the
+     * case, but it is a contingency. This is for queried Panels, in case they
+     * exist. Usually, they won't, but just in case.
      */
     public updateArea(): void {
         this.setArea(
@@ -263,6 +271,7 @@ class Panel extends HTMLElement {
 
     /**
      * Gets the Panel's (Area's) position, as an object of @type {Coordinate}.
+     *
      * @returns
      */
     public getPosition(): Coordinate {
@@ -271,6 +280,7 @@ class Panel extends HTMLElement {
 
     /**
      * Sets the Panel's position from an input set of numbers.
+     *
      * @param x - The x (horizontal) coordinate.
      * @param y - The y (vertical) coordinate.
      */
@@ -303,6 +313,7 @@ class Panel extends HTMLElement {
 
     /**
      * Gets the size of the Panel ('s Area) as an object of @type {Size}.
+     *
      * @returns
      */
     public getSize(): Size {
@@ -311,6 +322,7 @@ class Panel extends HTMLElement {
 
     /**
      * Sets the Panel's size from an input set of numbers.
+     *
      * @param width
      * @param height
      */
@@ -327,14 +339,16 @@ class Panel extends HTMLElement {
 
     /**
      * Returns the Panel's type, as an object of @type {PanelType}.
-     * @returns{PanelType}
+     *
+     * @returns {PanelType}
      */
     public getType(): PanelType {
         return this.type;
     }
 
     /**
-     *  Sets the Panel Type from a received input of @type {PanelType}.
+     * Sets the Panel Type from a received input of @type {PanelType}.
+     *
      * @param type
      */
     public setType(type: PanelType): void {

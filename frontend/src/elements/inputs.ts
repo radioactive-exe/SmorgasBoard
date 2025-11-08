@@ -81,8 +81,10 @@ function addToggleSelectorListeners(selector: HTMLElement): void {
     const checkbox: HTMLInputElement = selector.querySelector(
         "#toggle",
     ) as HTMLInputElement;
+    let emitSignalTimeout: NodeJS.Timeout;
     selector.addEventListener("pointerup", () => {
-        setTimeout(() => {
+        clearTimeout(emitSignalTimeout);
+        emitSignalTimeout = setTimeout(() => {
             selector.dispatchEvent(
                 new CustomEvent<ConfigChangeEventDetail>("configchange", {
                     bubbles: true,
@@ -93,7 +95,7 @@ function addToggleSelectorListeners(selector: HTMLElement): void {
                     },
                 }),
             );
-        }, 0);
+        }, 100);
     });
 }
 
@@ -106,6 +108,8 @@ function addRangeSelectorListeners(selector: HTMLElement): void {
         ".range-selector-text",
     ) as HTMLElement;
 
+    let emitSignalTimeout: NodeJS.Timeout;
+
     updateSliderStyle(slider);
     label.textContent = Math.round(parseFloat(slider.value)).toString();
 
@@ -113,16 +117,19 @@ function addRangeSelectorListeners(selector: HTMLElement): void {
         label.textContent = Math.round(parseFloat(slider.value)).toString();
         updateSliderStyle(slider);
 
-        selector.dispatchEvent(
-            new CustomEvent<ConfigChangeEventDetail>("configchange", {
-                bubbles: true,
-                composed: true,
-                detail: {
-                    setting: selector.dataset.configProperty as string,
-                    value: parseFloat(slider.value) as number,
-                },
-            }),
-        );
+        clearTimeout(emitSignalTimeout);
+        emitSignalTimeout = setTimeout(() => {
+            selector.dispatchEvent(
+                new CustomEvent<ConfigChangeEventDetail>("configchange", {
+                    bubbles: true,
+                    composed: true,
+                    detail: {
+                        setting: selector.dataset.configProperty as string,
+                        value: parseFloat(slider.value) as number,
+                    },
+                }),
+            );
+        }, 100);
     });
 }
 

@@ -1,5 +1,8 @@
 /**
- * @description Different Panel Types/Kinds (Notepad, Default (empty), Preview, etc.), the keys of the entries being the type of panel, and the values being their respective ID.
+ * Different Panel Types/Kinds (Notepad, Default (empty), Preview, etc.), the
+ * keys of the entries being the type of panel, and the values being their
+ * respective ID.
+ *
  * @enum {number}
  */
 enum PanelTypeId {

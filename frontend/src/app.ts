@@ -360,7 +360,7 @@ function init(): void {
     updateDimensionsMatrix();
 }
 
-// TODO: WHEN I COME BACK FROM CAIRO, DO THE 1. WEATHER PANEL (temp.html/js), THEN ONE MORE THEME, THEN DOCUMENTATION, THEN BLABBERING!
+// TODO: DOCUMENTATION
 
 // ~ Listener Initialisation
 
@@ -497,7 +497,7 @@ supabase.auth.onAuthStateChange(
                     } else {
                         setTimeout(() => {
                             wasLocalChange = false;
-                        }, 2000);
+                        }, 1000);
                     }
                 })
                 .subscribe();

@@ -14,7 +14,35 @@
     "author": "Radioactive-exe",
     "type": "commonjs",
     "findUnusedExports": {
-        "include": ["**/*/src/**/*"],
-        "exclude": ["**/*/node_modules/**/*"]
+        "include": [
+            "**/*/src/**/*"
+        ],
+        "exclude": [
+            "**/*/node_modules/**/*"
+        ]
+    },
+    "scripts": {
+        "gen_docs": "npx typedoc --logLevel Verbose"
+    },
+    "devDependencies": {
+        "@eslint/css": "^0.10.0",
+        "@eslint/js": "^9.39.1",
+        "@eslint/json": "^0.13.2",
+        "@microsoft/tsdoc-config": "^0.17.1",
+        "@types/node": "^24.10.0",
+        "@typescript-eslint/parser": "^8.46.3",
+        "eslint": "^9.39.1",
+        "eslint-plugin-import": "^2.32.0",
+        "eslint-plugin-jsdoc": "^54.7.0",
+        "eslint-plugin-tsdoc": "^0.4.0",
+        "prettier": "^3.6.2",
+        "prettier-eslint": "^16.4.2",
+        "prettier-plugin-jsdoc": "^1.5.0",
+        "prettier-plugin-organize-attributes": "^1.0.0",
+        "typedoc": "^0.28.14",
+        "typedoc-plugin-markdown": "^4.9.0",
+        "typedoc-plugin-zod": "^1.4.3",
+        "typescript-eslint": "^8.46.3",
+        "vite": "^7.2.2"
     }
 }

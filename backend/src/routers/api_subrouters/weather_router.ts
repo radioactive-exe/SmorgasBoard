@@ -1,4 +1,4 @@
-import { cors, express, fs } from "../../declarations";
+import { cors, express } from "../../declarations.js";
 
 const weatherApiKey = process.env.WEATHER_API_KEY;
 
@@ -11,17 +11,17 @@ weatherApiRouter.get(
     async (req: express.Request, res: express.Response) => {
         if (!req.query.q)
             res.status(400).send(
-                'Please provide a query parameter "q" to search'
+                'Please provide a query parameter "q" to search',
             );
         const data = await fetch(
-            `http://api.weatherapi.com/v1/search.json?key=${weatherApiKey}&q=${req.query.q}`
+            `http://api.weatherapi.com/v1/search.json?key=${weatherApiKey}&q=${req.query.q}`,
         );
         const parsed = await data.json();
         res.status(200).send({
             query: req.params.q,
             results: parsed,
         });
-    }
+    },
 );
 
 weatherApiRouter.get(
@@ -29,16 +29,16 @@ weatherApiRouter.get(
     async (req: express.Request, res: express.Response) => {
         if (!req.params.lat || !req.params.lon)
             res.status(400).send(
-                "Please enter a latitude and longitude to get its forecast."
+                "Please enter a latitude and longitude to get its forecast.",
             );
         const data = await fetch(
             `http://api.weatherapi.com/v1/forecast.json?key=${weatherApiKey}&q=${
                 req.params.lat
-            },${req.params.lon}&days=${req.query.days ?? 3}&aqi=no&alerts=no`
+            },${req.params.lon}&days=${req.query.days ?? 3}&aqi=no&alerts=no`,
         );
         const parsed = await data.json();
         res.send(parsed);
-    }
+    },
 );
 
-module.exports = weatherApiRouter;
+export default weatherApiRouter;

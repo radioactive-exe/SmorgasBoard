@@ -1,17 +1,28 @@
-import { cors, express, path, dotenv, createClient } from "./declarations.js";
+/**
+ * 
+ * 
+ * @module
+ * 
+ * @author Radioactive.exe
+ * {@link https://github.com/radioactive-exe | GitHub Profile}
+ */
+
+
+/** File Header Delimiter. */
+
+
 import type { SupabaseClient } from "./declarations.js";
-import { Database } from "./types/database.types.js";
+import { cors, createClient, dotenv, express, path } from "./declarations.js";
+import apiRouter from "./routers/api_router.js";
+import databaseRouter from "./routers/database_router.js";
+import definitionsRouter from "./routers/definitions_router.js";
 
 dotenv.config();
 
-const supabase: SupabaseClient = createClient<Database>(
+const supabase: SupabaseClient = createClient(
     process.env.SUPABASE_URL ?? "",
-    process.env.SUPABASE_KEY ?? ""
+    process.env.SUPABASE_KEY ?? "",
 );
-
-const definitionsRouter: express.Router = require("./routers/definitions_router.js");
-const databaseRouter: express.Router = require("./routers/database_router.js");
-const apiRouter: express.Router = require("./routers/api_router.js");
 
 const app = express();
 const port = 3000;
@@ -21,18 +32,12 @@ const allowedOrigins: string[] = [
     "https://smorgasboard.vercel.app",
     "http://127.0.0.1:3000",
     "http://127.0.0.1:3001",
-    "http://127.0.0.1:3002",
-    "http://127.0.0.1:3003",
-    "http://localhost:3000",
-    "http://localhost:3001",
-    "http://localhost:3002",
-    "http://localhost:3003",
 ];
 
 app.use(
     cors({
         origin: allowedOrigins,
-    })
+    }),
 );
 
 app.use(express.json());
@@ -41,14 +46,14 @@ app.use("/definitions/", definitionsRouter);
 app.use("/smorgasbase/", databaseRouter);
 app.use("/api/", apiRouter);
 
-app.get("/", (req: express.Request, res: express.Response) => {
+app.get("/", (_req: express.Request, res: express.Response) => {
     res.sendFile(path.resolve(__dirname + "/../index.html"));
 });
 
 app.listen(port, () =>
     console.log(
-        `SmorgasBoard listening on SmorgasPort ${port}! (Get it? Cuz... SmorgasB- eh whatever)`
-    )
+        `SmorgasBoard listening on SmorgasPort ${port}! (Get it? Cuz... SmorgasB- eh whatever)`,
+    ),
 );
 
 module.exports = app;

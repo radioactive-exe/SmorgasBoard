@@ -2,5 +2,15 @@
   "useTabs": false,
   "tabWidth": 4,
   "experimentalOperatorPosition": "start",
-  "semi": true
+  "semi": true,
+  "plugins": [
+    "prettier-plugin-organize-attributes",
+    "prettier-plugin-jsdoc"
+  ],
+  "jsdocTagsOrder": "{\"example\":43.1}",
+  "jsdocPreferCodeFences": true,
+  "jsdocSeparateTagGroups": true,
+  "tsdoc": true,
+  "jsdocSeparateReturnsFromParam": false,
+  "jsdocVerticalAlignment": true
 }

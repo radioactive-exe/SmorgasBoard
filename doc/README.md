@@ -1,0 +1,48 @@
+**Documentation**
+
+***
+
+# Documentation
+
+## Modules
+
+- [backend/src](backend/src/README.md)
+- [backend/src/routers/api\_router](backend/src/routers/api_router/README.md)
+- [backend/src/routers/api\_subrouters/weather\_router](backend/src/routers/api_subrouters/weather_router/README.md)
+- [backend/src/routers/database\_router](backend/src/routers/database_router/README.md)
+- [backend/src/routers/definitions\_router](backend/src/routers/definitions_router/README.md)
+- [backend/src/routers/definitions\_subrouters/templates\_router](backend/src/routers/definitions_subrouters/templates_router/README.md)
+- [backend/src/types/weather\_api.types](backend/src/types/weather_api.types/README.md)
+- [frontend/src/app](frontend/src/app/README.md)
+- [frontend/src/auth](frontend/src/auth/README.md)
+- [frontend/src/classes/area](frontend/src/classes/area/README.md)
+- [frontend/src/classes/config/config](frontend/src/classes/config/config/README.md)
+- [frontend/src/classes/config/config\_entry](frontend/src/classes/config/config_entry/README.md)
+- [frontend/src/classes/config/config\_menu\_builder](frontend/src/classes/config/config_menu_builder/README.md)
+- [frontend/src/classes/constants](frontend/src/classes/constants/README.md)
+- [frontend/src/classes/dashboard](frontend/src/classes/dashboard/README.md)
+- [frontend/src/classes/panel/panel](frontend/src/classes/panel/panel/README.md)
+- [frontend/src/classes/panel/panel\_behaviour/clock\_panel](frontend/src/classes/panel/panel_behaviour/clock_panel/README.md)
+- [frontend/src/classes/panel/panel\_behaviour/notepad\_panel](frontend/src/classes/panel/panel_behaviour/notepad_panel/README.md)
+- [frontend/src/classes/panel/panel\_behaviour/photo\_panel](frontend/src/classes/panel/panel_behaviour/photo_panel/README.md)
+- [frontend/src/classes/panel/panel\_behaviour/todo\_panel](frontend/src/classes/panel/panel_behaviour/todo_panel/README.md)
+- [frontend/src/classes/panel/panel\_behaviour/weather\_panel](frontend/src/classes/panel/panel_behaviour/weather_panel/README.md)
+- [frontend/src/classes/panel/panel\_type](frontend/src/classes/panel/panel_type/README.md)
+- [frontend/src/classes/panel/panel\_type\_properties/panel\_type\_behaviour](frontend/src/classes/panel/panel_type_properties/panel_type_behaviour/README.md)
+- [frontend/src/classes/panel/panel\_type\_properties/panel\_type\_config](frontend/src/classes/panel/panel_type_properties/panel_type_config/README.md)
+- [frontend/src/classes/panel/panel\_type\_properties/panel\_type\_data](frontend/src/classes/panel/panel_type_properties/panel_type_data/README.md)
+- [frontend/src/classes/panel/panel\_type\_properties/panel\_type\_id](frontend/src/classes/panel/panel_type_properties/panel_type_id/README.md)
+- [frontend/src/classes/panel/panel\_type\_properties/panel\_type\_name](frontend/src/classes/panel/panel_type_properties/panel_type_name/README.md)
+- [frontend/src/classes/panel/panel\_type\_properties/panel\_type\_template](frontend/src/classes/panel/panel_type_properties/panel_type_template/README.md)
+- [frontend/src/classes/theme](frontend/src/classes/theme/README.md)
+- [frontend/src/elements/alert](frontend/src/elements/alert/README.md)
+- [frontend/src/elements/context\_menu](frontend/src/elements/context_menu/README.md)
+- [frontend/src/elements/inputs](frontend/src/elements/inputs/README.md)
+- [frontend/src/functions/accessors](frontend/src/functions/accessors/README.md)
+- [frontend/src/functions/manip](frontend/src/functions/manip/README.md)
+- [frontend/src/functions/math](frontend/src/functions/math/README.md)
+- [frontend/src/functions/util](frontend/src/functions/util/README.md)
+- [frontend/src/querying](frontend/src/querying/README.md)
+- [frontend/src/types/main.types](frontend/src/types/main.types/README.md)
+- [frontend/src/types/response.types](frontend/src/types/response.types/README.md)
+- [frontend/src/types/weather\_api.types](frontend/src/types/weather_api.types/README.md)

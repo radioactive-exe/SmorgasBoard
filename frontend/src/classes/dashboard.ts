@@ -1,9 +1,11 @@
 /**
- * @file
  * The file containing the {@link Dashboard} Class.
+ *
+ * @module
+ *
  * @author Radioactive.exe
- * {@link https://github.com/radioactive-exe | GitHub Profile}
- * {@link https://github.com/radioactive-exe/SmorgasBoard | The GitHub Repository}
+ *   {@link https://github.com/radioactive-exe | GitHub Profile}
+ *   {@link https://github.com/radioactive-exe/SmorgasBoard | The GitHub Repository}
  */
 
 /** File Header Delimiter. */
@@ -34,36 +36,46 @@ import { Theme } from "./theme.js";
 
 /**
  * The Dashboard class.
+ *
  * @remarks
- * This class houses the main object for the application/website. This dashboard will be the only element initially in the DOM. It handles adding and removing panels, setting the theme, and editing the layout of its contents.
+ * This class houses the main object for the application/website. This dashboard
+ * will be the only element initially in the DOM. It handles adding and removing
+ * panels, setting the theme, and editing the layout of its contents.
+ *
  * @see
  * {@link HTMLElement}
  */
 class Dashboard extends HTMLElement {
     /**
      * The Panels stored in the dashboard/application.
+     *
      * @remarks
-     * All the panels in the application are stored and utilised through this array.
+     * All the panels in the application are stored and utilised through this
+     * array.
+     *
      * @see
      * {@link Panel}
      */
     private panels: Panel[];
-    /**
-     * The current Theme chosen for the Dashboard.
-     */
+    /** The current Theme chosen for the Dashboard. */
     private currentTheme: Theme;
     /**
      * The pool of Free ID numbers in the Dashboard.
+     *
      * @remarks
-     * Once panels are deleted, their ID number is thrown into this Set to be later reused by the new panels.
+     * Once panels are deleted, their ID number is thrown into this Set to be
+     * later reused by the new panels.
      */
     private freeIds: Set<number> = new Set<number>();
     /**
      * The dimensions in Units of the Dashboard.
+     *
      * @remarks
-     * This holds the number of Rows and Columns that the Dashboard is divided into, as an object of type {@link Size}
-     * [x] Implement the proper dimensions behaviour, and the ability to change the number of rows and columns when editing the Dashboard.
-     * [x] Implement dashboard dimension changes preview.
+     * This holds the number of Rows and Columns that the Dashboard is divided
+     * into, as an object of type {@link Size} [x] Implement the proper
+     * dimensions behaviour, and the ability to change the number of rows and
+     * columns when editing the Dashboard. [x] Implement dashboard dimension
+     * changes preview.
      */
     private dimensions: Size;
 
@@ -73,8 +85,10 @@ class Dashboard extends HTMLElement {
 
     /**
      * Creates a new Dashboard.
+     *
      * @remarks
-     * Once created, the dashboard is filled with cells to indicate the different slots and dimensions of the Dashboard.
+     * Once created, the dashboard is filled with cells to indicate the
+     * different slots and dimensions of the Dashboard.
      */
     public constructor() {
         super();
@@ -86,8 +100,10 @@ class Dashboard extends HTMLElement {
 
     /**
      * Fills the Dashboard with cells.
+     *
      * @remarks
-     * The Dashboard gets divided into a visual grid with cells for all the rows and columns.
+     * The Dashboard gets divided into a visual grid with cells for all the rows
+     * and columns.
      */
     private populateCells(): void {
         if (!this.shadowRoot) return;
@@ -111,6 +127,7 @@ class Dashboard extends HTMLElement {
 
     /**
      * Returns the set of Panels.
+     *
      * @returns The stored array of Panels in the application/dashboard.
      */
     public getPanels(): Panel[] {
@@ -127,6 +144,7 @@ class Dashboard extends HTMLElement {
 
     /**
      * Get the number of rows in the Dashboard.
+     *
      * @returns The number of rows the dashboard is divided into.
      */
     public static getRows(): number {
@@ -135,6 +153,7 @@ class Dashboard extends HTMLElement {
 
     /**
      * Get the number of columns in the Dashboard.
+     *
      * @returns The number of columns the dashboard is divided into.
      */
     public static getCols(): number {
@@ -143,7 +162,9 @@ class Dashboard extends HTMLElement {
 
     /**
      * Gets the width of one column/unit.
-     * @returns The width of the window divided by the number of columns to get the width of each column in the Dashboard.
+     *
+     * @returns The width of the window divided by the number of columns to get
+     *   the width of each column in the Dashboard.
      */
     public static getFractionalWidth(): number {
         return window.innerWidth / this.getCols();
@@ -151,7 +172,9 @@ class Dashboard extends HTMLElement {
 
     /**
      * Gets the height of one row/unit.
-     * @returns The height of the window divided by the number of rows to get the height of each row in the Dashboard.
+     *
+     * @returns The height of the window divided by the number of rows to get
+     *   the height of each row in the Dashboard.
      */
     public static getFractionalHeight(): number {
         return window.innerHeight / this.getRows();
@@ -200,7 +223,9 @@ class Dashboard extends HTMLElement {
 
     /**
      * Whether we are currently in Edit Mode.
-     * @returns A boolean representing whether or not we are currently editing the Dashboard panels.
+     *
+     * @returns A boolean representing whether or not we are currently editing
+     *   the Dashboard panels.
      */
     public isEditing(): boolean {
         return this.classList.contains("in-edit-mode");
@@ -208,6 +233,7 @@ class Dashboard extends HTMLElement {
 
     /**
      * Toggles Edit mode for the Dashboard.
+     *
      * @returns The current editing status after the toggle.
      */
     public toggleEditMode(): boolean {
@@ -226,14 +252,22 @@ class Dashboard extends HTMLElement {
 
     /**
      * Spawns a Panel of an inputted Type.
+     *
      * @remarks
-     * This deals with checking potential areas to find an available slot, assigning an ID to the panel, as well as obtaining the default Config for the PanelType.
-     * This method then calls the {@link spawnPanel} method with all the resulting information, or triggers an alert if the spawning circumstances were unsuccessful (in other words, if no space was found).
+     * This deals with checking potential areas to find an available slot,
+     * assigning an ID to the panel, as well as obtaining the default Config for
+     * the PanelType. This method then calls the {@link spawnPanel} method with
+     * all the resulting information, or triggers an alert if the spawning
+     * circumstances were unsuccessful (in other words, if no space was found).
+     *
      * @param panelType - The PanelType of the new Panel to spawn.
+     *
      * @example
+     *
      * ```ts
      * mainDashboard.spawnPanelOfType(PanelType.CLOCK);
      * ```
+     *
      * The above attempts to spawn a new Clock panel.
      */
     public spawnPanelOfType(panelType: PanelType): void {
@@ -292,10 +326,7 @@ class Dashboard extends HTMLElement {
         });
         this.append(panel);
         this.panels.push(panel);
-        if (updateStored)
-            panel.addEventListener("finished-loading", () => {
-                this.triggerDelayedSave();
-            });
+        if (updateStored) this.triggerDelayedSave();
     }
 
     public deletePanel(panel: Panel): void {

@@ -1,5 +1,6 @@
 /**
- * @description An @enum of the template URLs for each panel type.
+ * An @enum of the template URLs for each panel type.
+ *
  * @enum
  */
 enum PanelTypeTemplate {

@@ -1,8 +1,21 @@
-export import express = require("express");
-export import cors = require("cors");
-export import fs = require("fs");
-export import path = require("path");
-export import dotenv = require("dotenv");
-import { createClient } from "@supabase/supabase-js";
+/**
+ * This file contains the declarations used throughout the backend of
+ * Smorgasboard.
+ *
+ * @module
+ *
+ * @author Radioactive.exe
+ *   {@link https://github.com/radioactive-exe | GitHub Profile}
+ */
+
+/** File Header Delimiter. */
+
+import fs from "fs";
+import path from "path";
+
 import type { SupabaseClient } from "@supabase/supabase-js";
-export { createClient, SupabaseClient };
+import { createClient } from "@supabase/supabase-js";
+import cors from "cors";
+import dotenv from "dotenv";
+import express from "express";
+export { SupabaseClient, cors, createClient, dotenv, express, fs, path };

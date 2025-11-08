@@ -1,5 +1,6 @@
 /**
- * @description An @enum of User-friendly names for each panel type, which are the names used in the UI, etc.
+ * An enum of User-friendly names for each panel type, which are the names used
+ * in the UI, etc.
  */
 enum PanelTypeName {
     PREVIEW = "Preview Panel. You shouldn't be seeing this.",

@@ -1,5 +1,5 @@
 import * as get from "../../../functions/accessors.js";
-import type { SmorgasbaseWeatherResponse } from "../../../types/response.types.js";
+import type { SmorgasWeatherSearchResponse } from "../../../types/response.types.js";
 import type * as WeatherAPI from "../../../types/weather_api.types.js";
 import type { Config, ConfigChangeEventDetail } from "../../config/config.js";
 import type * as ConfigEntry from "../../config/config_entry.js";
@@ -111,7 +111,7 @@ function execute(panel: Panel): void {
                     `${import.meta.env.VITE_BACKEND_URL}${panel.getType().getDataSource()}/search?q=${mainElements.searchInput.value}`,
                 );
                 const locations = (
-                    (await weatherResponse.json()) as SmorgasbaseWeatherResponse
+                    (await weatherResponse.json()) as SmorgasWeatherSearchResponse
                 ).results;
                 if (locations.length == 0) {
                     addEntryToSearchResults(

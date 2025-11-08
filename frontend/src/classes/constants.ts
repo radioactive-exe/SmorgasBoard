@@ -1,8 +1,11 @@
 /**
- * @file
- * A file containing useful constants and literals to be used throughout the frontend of SmorgasBoard.
+ * A file containing useful constants and literals to be used throughout the
+ * frontend of SmorgasBoard.
+ *
+ * @module
+ *
  * @author Radioactive.exe
- * {@link https://github.com/radioactive-exe | GitHub Profile}
+ *   {@link https://github.com/radioactive-exe | GitHub Profile}
  */
 
 /** File Header Delimiter. */

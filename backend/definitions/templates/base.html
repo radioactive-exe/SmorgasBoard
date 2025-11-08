@@ -3,8 +3,8 @@
         <head>
             <link rel="stylesheet" href="styles/app.css" />
         </head>
-        <div part="panel-body" class="panel-body">
-            <div part="panel-content" class="panel-content">
+        <div class="panel-body" part="panel-body">
+            <div class="panel-content" part="panel-content">
                 <slot name="panel-type-template"></slot>
                 <div class="skeleton">
                     <div class="placeholder"></div>
@@ -19,32 +19,32 @@
                     <div class="placeholder"></div>
                 </div>
             </div>
-            <div part="config" class="config" hidden>
+            <div class="config" part="config" hidden>
                 <div
-                    part="config-button icon-button"
                     class="icon-button config-button"
+                    part="config-button icon-button"
                     hidden
                 >
                     <div
-                        part="config-button-icon button-icon config-icon"
                         class="icon config-icon config-button-icon button-icon"
+                        part="config-button-icon button-icon config-icon"
                     ></div>
                 </div>
-                <div part="config-menu" class="config-menu"></div>
+                <div class="config-menu" part="config-menu"></div>
             </div>
             <div
-                part="delete-button icon-button"
                 class="delete-button icon-button"
+                part="delete-button icon-button"
             >
                 <div
-                    part="delete-button-icon button-icon delete-icon"
                     class="icon delete-icon delete-button-icon button-icon"
+                    part="delete-button-icon button-icon delete-icon"
                 ></div>
             </div>
             <div class="handles">
                 <div
-                    part="handle drag-handle"
                     class="handle drag-handle glassy"
+                    part="handle drag-handle"
                 >
                     <object
                         part="handle-icon"
@@ -65,7 +65,7 @@
                 </svg>
             </div>
             <div class="save-icon-container" part="save-icon-container">
-                <div part="icon save-icon" class="icon save-icon"></div>
+                <div class="icon save-icon" part="icon save-icon"></div>
             </div>
         </div>
     </template>

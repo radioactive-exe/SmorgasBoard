@@ -1,6 +1,6 @@
 <body>
     <template id="todo-panel-template">
-        <div slot="panel-type-template" class="todo-container">
+        <div class="todo-container" slot="panel-type-template">
             <div class="todo-list-title-bar">
                 <div class="icon checklist-icon"></div>
                 <h2 class="todo-list-title panel-title">To-Do List</h2>
@@ -12,8 +12,8 @@
                         id="add-todo-task-label"
                     >
                         <input
-                            type="text"
                             class="add-todo-task-input string-selector-input"
+                            type="text"
                             required
                         />
                         <span class="string-selector-label-text">Add Task</span>

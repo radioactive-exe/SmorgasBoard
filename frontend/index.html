@@ -56,8 +56,8 @@
                         <span class="item-text">Add new Panel</span>
                         <div class="icon menu-caret"></div>
                         <ul
-                            id="panel-menu"
                             class="menu sub-menu glassy hover-menu"
+                            id="panel-menu"
                         ></ul>
                     </li>
                     <li class="item hover-item" id="theme-item">
@@ -65,8 +65,8 @@
                         <span class="item-text">Change Theme</span>
                         <div class="icon menu-caret"></div>
                         <ul
-                            id="theme-menu"
                             class="menu sub-menu glassy hover-menu"
+                            id="theme-menu"
                         ></ul>
                     </li>
                     <li class="item hover-item" id="dimensions-item">
@@ -74,8 +74,8 @@
                         <span class="item-text">Set Dashboard Size</span>
                         <div class="icon menu-caret"></div>
                         <ul
-                            id="dimensions-menu"
                             class="menu sub-menu hover-menu"
+                            id="dimensions-menu"
                         >
                             <li class="item glassy" id="matrix-item">
                                 <div class="matrix"></div>
@@ -93,7 +93,7 @@
             </ul>
         </div>
 
-        <div id="nav" class="nav">
+        <div class="nav" id="nav">
             <div class="context-nav nav-entry">
                 <div class="button glassy">
                     <div class="icon config-icon"></div>
@@ -142,8 +142,8 @@
         </div>
 
         <div id="modal-layer">
-            <form action="" class="selector string-selector" id="auth-form">
-                <button type="button" class="button" id="close-form-button">
+            <form class="selector string-selector" id="auth-form" action="">
+                <button class="button" id="close-form-button" type="button">
                     Maybe Later
                     <div class="icon exit-icon"></div>
                 </button>
@@ -153,19 +153,19 @@
                 </div>
                 <label class="string-selector-label" id="username-selector">
                     <input
+                        class="string-selector-input"
+                        id="username"
                         type="text"
                         name="username"
-                        id="username"
-                        class="string-selector-input"
                     />
                     <span class="string-selector-label-text">Username</span>
                 </label>
                 <label class="string-selector-label" id="email-selector">
                     <input
+                        class="string-selector-input"
+                        id="email"
                         type="email"
                         name=""
-                        id="email"
-                        class="string-selector-input"
                         placeholder=""
                         required
                     />
@@ -173,10 +173,10 @@
                 </label>
                 <label class="string-selector-label" id="password-selector">
                     <input
+                        class="string-selector-input"
+                        id="password"
                         type="password"
                         name=""
-                        id="password"
-                        class="string-selector-input"
                         placeholder=""
                         required
                     />
@@ -211,11 +211,11 @@
             </form>
 
             <div class="off-screen-arrows">
-                <div id="off-screen-right" class="icon arrow-icon"></div>
-                <div id="off-screen-down" class="icon arrow-icon"></div>
+                <div class="icon arrow-icon" id="off-screen-right"></div>
+                <div class="icon arrow-icon" id="off-screen-down"></div>
             </div>
 
-            <div id="size-warning-overlay" class="warning-overlay">
+            <div class="warning-overlay" id="size-warning-overlay">
                 <h1 class="warning-title">Too Small!</h1>
                 <p class="warning-description">
                     Seems like the screen is smaller than what can comfortably
