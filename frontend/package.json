@@ -16,7 +16,7 @@
     "type": "commonjs",
     "scripts": {
         "dev": "vite",
-        "build": "tsc -build ../tsconfig.json && vite build",
+        "build": "tsc -build && vite build",
         "watch": "tsc --watch && vite build --watch",
         "preview": "vite preview"
     },
