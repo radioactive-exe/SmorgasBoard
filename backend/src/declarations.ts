@@ -12,10 +12,11 @@
 
 import fs from "fs";
 import path from "path";
+import url from "url";
 
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { createClient } from "@supabase/supabase-js";
 import cors from "cors";
 import dotenv from "dotenv";
 import express from "express";
-export { SupabaseClient, cors, createClient, dotenv, express, fs, path };
+export { SupabaseClient, cors, createClient, dotenv, express, fs, path, url };

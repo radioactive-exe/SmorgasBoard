@@ -1,6 +1,9 @@
-import { cors, express, fs } from "../../declarations.js";
+import { cors, express, fs, path, url } from "../../declarations.js";
 
 const templatesRouter = express.Router();
+
+const __filename = url.fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 templatesRouter.use(cors({ origin: true, credentials: true }));
 

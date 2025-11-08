@@ -1,6 +1,4 @@
 /**
- *
- *
  * @module
  *
  * @author Radioactive.exe
@@ -10,7 +8,16 @@
 /** File Header Delimiter. */
 
 import type { SupabaseClient } from "./declarations.js";
-import { cors, createClient, dotenv, express, path } from "./declarations.js";
+
+import {
+    cors,
+    createClient,
+    dotenv,
+    express,
+    path,
+    url,
+} from "./declarations.js";
+
 import apiRouter from "./routers/api_router.js";
 import databaseRouter from "./routers/database_router.js";
 import definitionsRouter from "./routers/definitions_router.js";
@@ -31,6 +38,9 @@ const allowedOrigins: string[] = [
     "http://127.0.0.1:3000",
     "http://127.0.0.1:3001",
 ];
+
+const __filename = url.fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 app.use(
     cors({
