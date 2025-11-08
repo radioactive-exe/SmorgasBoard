@@ -13,7 +13,7 @@
     },
     "license": "ISC",
     "author": "Radioactive-exe",
-    "type": "commonjs",
+    "type": "module",
     "scripts": {
         "dev": "vite",
         "build": "tsc -build && vite build",
