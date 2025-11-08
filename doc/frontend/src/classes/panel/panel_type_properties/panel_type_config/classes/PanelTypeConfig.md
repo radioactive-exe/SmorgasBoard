@@ -6,7 +6,7 @@
 
 # Class: PanelTypeConfig
 
-Defined in: [frontend/src/classes/panel/panel\_type\_properties/panel\_type\_config.ts:6](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/frontend/src/classes/panel/panel_type_properties/panel_type_config.ts#L6)
+Defined in: [frontend/src/classes/panel/panel\_type\_properties/panel\_type\_config.ts:6](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/frontend/src/classes/panel/panel_type_properties/panel_type_config.ts#L6)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [frontend/src/classes/panel/panel\_type\_properties/panel\_type\_con
 
 > `readonly` `static` **CLOCK**: `PanelTypeConfig`
 
-Defined in: [frontend/src/classes/panel/panel\_type\_properties/panel\_type\_config.ts:8](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/frontend/src/classes/panel/panel_type_properties/panel_type_config.ts#L8)
+Defined in: [frontend/src/classes/panel/panel\_type\_properties/panel\_type\_config.ts:8](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/frontend/src/classes/panel/panel_type_properties/panel_type_config.ts#L8)
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: [frontend/src/classes/panel/panel\_type\_properties/panel\_type\_con
 
 > `readonly` `static` **NONE**: `undefined` = `undefined`
 
-Defined in: [frontend/src/classes/panel/panel\_type\_properties/panel\_type\_config.ts:7](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/frontend/src/classes/panel/panel_type_properties/panel_type_config.ts#L7)
+Defined in: [frontend/src/classes/panel/panel\_type\_properties/panel\_type\_config.ts:7](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/frontend/src/classes/panel/panel_type_properties/panel_type_config.ts#L7)
 
 ***
 
@@ -30,7 +30,7 @@ Defined in: [frontend/src/classes/panel/panel\_type\_properties/panel\_type\_con
 
 > `readonly` `static` **PHOTO**: `PanelTypeConfig`
 
-Defined in: [frontend/src/classes/panel/panel\_type\_properties/panel\_type\_config.ts:63](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/frontend/src/classes/panel/panel_type_properties/panel_type_config.ts#L63)
+Defined in: [frontend/src/classes/panel/panel\_type\_properties/panel\_type\_config.ts:63](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/frontend/src/classes/panel/panel_type_properties/panel_type_config.ts#L63)
 
 ***
 
@@ -38,7 +38,7 @@ Defined in: [frontend/src/classes/panel/panel\_type\_properties/panel\_type\_con
 
 > `readonly` `static` **TODO**: `PanelTypeConfig`
 
-Defined in: [frontend/src/classes/panel/panel\_type\_properties/panel\_type\_config.ts:71](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/frontend/src/classes/panel/panel_type_properties/panel_type_config.ts#L71)
+Defined in: [frontend/src/classes/panel/panel\_type\_properties/panel\_type\_config.ts:71](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/frontend/src/classes/panel/panel_type_properties/panel_type_config.ts#L71)
 
 ***
 
@@ -46,7 +46,7 @@ Defined in: [frontend/src/classes/panel/panel\_type\_properties/panel\_type\_con
 
 > `readonly` `static` **WEATHER**: `PanelTypeConfig`
 
-Defined in: [frontend/src/classes/panel/panel\_type\_properties/panel\_type\_config.ts:80](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/frontend/src/classes/panel/panel_type_properties/panel_type_config.ts#L80)
+Defined in: [frontend/src/classes/panel/panel\_type\_properties/panel\_type\_config.ts:80](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/frontend/src/classes/panel/panel_type_properties/panel_type_config.ts#L80)
 
 ## Methods
 
@@ -54,7 +54,7 @@ Defined in: [frontend/src/classes/panel/panel\_type\_properties/panel\_type\_con
 
 > **getConfig**(): `ZodObject`
 
-Defined in: [frontend/src/classes/panel/panel\_type\_properties/panel\_type\_config.ts:95](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/frontend/src/classes/panel/panel_type_properties/panel_type_config.ts#L95)
+Defined in: [frontend/src/classes/panel/panel\_type\_properties/panel\_type\_config.ts:95](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/frontend/src/classes/panel/panel_type_properties/panel_type_config.ts#L95)
 
 #### Returns
 

@@ -6,7 +6,7 @@
 
 # Interface: Current
 
-Defined in: [frontend/src/types/weather\_api.types.ts:53](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/frontend/src/types/weather_api.types.ts#L53)
+Defined in: [frontend/src/types/weather\_api.types.ts:53](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/frontend/src/types/weather_api.types.ts#L53)
 
 The shape of the Current weather information for a location.
 
@@ -23,7 +23,7 @@ simply the information at the current moment.
 
 > **cloud**: `0` \| `1`
 
-Defined in: [frontend/src/types/weather\_api.types.ts:69](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/frontend/src/types/weather_api.types.ts#L69)
+Defined in: [frontend/src/types/weather\_api.types.ts:69](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/frontend/src/types/weather_api.types.ts#L69)
 
 ***
 
@@ -31,7 +31,7 @@ Defined in: [frontend/src/types/weather\_api.types.ts:69](https://github.com/rad
 
 > **condition**: [`Condition`](Condition.md)
 
-Defined in: [frontend/src/types/weather\_api.types.ts:59](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/frontend/src/types/weather_api.types.ts#L59)
+Defined in: [frontend/src/types/weather\_api.types.ts:59](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/frontend/src/types/weather_api.types.ts#L59)
 
 ***
 
@@ -39,7 +39,7 @@ Defined in: [frontend/src/types/weather\_api.types.ts:59](https://github.com/rad
 
 > **dewpoint\_c**: `number`
 
-Defined in: [frontend/src/types/weather\_api.types.ts:76](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/frontend/src/types/weather_api.types.ts#L76)
+Defined in: [frontend/src/types/weather\_api.types.ts:76](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/frontend/src/types/weather_api.types.ts#L76)
 
 ***
 
@@ -47,7 +47,7 @@ Defined in: [frontend/src/types/weather\_api.types.ts:76](https://github.com/rad
 
 > **dewpoint\_f**: `number`
 
-Defined in: [frontend/src/types/weather\_api.types.ts:77](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/frontend/src/types/weather_api.types.ts#L77)
+Defined in: [frontend/src/types/weather\_api.types.ts:77](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/frontend/src/types/weather_api.types.ts#L77)
 
 ***
 
@@ -55,7 +55,7 @@ Defined in: [frontend/src/types/weather\_api.types.ts:77](https://github.com/rad
 
 > **diff\_rad**: `number`
 
-Defined in: [frontend/src/types/weather\_api.types.ts:84](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/frontend/src/types/weather_api.types.ts#L84)
+Defined in: [frontend/src/types/weather\_api.types.ts:84](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/frontend/src/types/weather_api.types.ts#L84)
 
 ***
 
@@ -63,7 +63,7 @@ Defined in: [frontend/src/types/weather\_api.types.ts:84](https://github.com/rad
 
 > **dni**: `number`
 
-Defined in: [frontend/src/types/weather\_api.types.ts:85](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/frontend/src/types/weather_api.types.ts#L85)
+Defined in: [frontend/src/types/weather\_api.types.ts:85](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/frontend/src/types/weather_api.types.ts#L85)
 
 ***
 
@@ -71,7 +71,7 @@ Defined in: [frontend/src/types/weather\_api.types.ts:85](https://github.com/rad
 
 > **feelslike\_c**: `number`
 
-Defined in: [frontend/src/types/weather\_api.types.ts:70](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/frontend/src/types/weather_api.types.ts#L70)
+Defined in: [frontend/src/types/weather\_api.types.ts:70](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/frontend/src/types/weather_api.types.ts#L70)
 
 ***
 
@@ -79,7 +79,7 @@ Defined in: [frontend/src/types/weather\_api.types.ts:70](https://github.com/rad
 
 > **feelslike\_f**: `number`
 
-Defined in: [frontend/src/types/weather\_api.types.ts:71](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/frontend/src/types/weather_api.types.ts#L71)
+Defined in: [frontend/src/types/weather\_api.types.ts:71](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/frontend/src/types/weather_api.types.ts#L71)
 
 ***
 
@@ -87,7 +87,7 @@ Defined in: [frontend/src/types/weather\_api.types.ts:71](https://github.com/rad
 
 > **gti**: `number`
 
-Defined in: [frontend/src/types/weather\_api.types.ts:86](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/frontend/src/types/weather_api.types.ts#L86)
+Defined in: [frontend/src/types/weather\_api.types.ts:86](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/frontend/src/types/weather_api.types.ts#L86)
 
 ***
 
@@ -95,7 +95,7 @@ Defined in: [frontend/src/types/weather\_api.types.ts:86](https://github.com/rad
 
 > **gust\_kph**: `number`
 
-Defined in: [frontend/src/types/weather\_api.types.ts:82](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/frontend/src/types/weather_api.types.ts#L82)
+Defined in: [frontend/src/types/weather\_api.types.ts:82](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/frontend/src/types/weather_api.types.ts#L82)
 
 ***
 
@@ -103,7 +103,7 @@ Defined in: [frontend/src/types/weather\_api.types.ts:82](https://github.com/rad
 
 > **gust\_mph**: `number`
 
-Defined in: [frontend/src/types/weather\_api.types.ts:81](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/frontend/src/types/weather_api.types.ts#L81)
+Defined in: [frontend/src/types/weather\_api.types.ts:81](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/frontend/src/types/weather_api.types.ts#L81)
 
 ***
 
@@ -111,7 +111,7 @@ Defined in: [frontend/src/types/weather\_api.types.ts:81](https://github.com/rad
 
 > **heatindex\_c**: `number`
 
-Defined in: [frontend/src/types/weather\_api.types.ts:74](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/frontend/src/types/weather_api.types.ts#L74)
+Defined in: [frontend/src/types/weather\_api.types.ts:74](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/frontend/src/types/weather_api.types.ts#L74)
 
 ***
 
@@ -119,7 +119,7 @@ Defined in: [frontend/src/types/weather\_api.types.ts:74](https://github.com/rad
 
 > **heatindex\_f**: `number`
 
-Defined in: [frontend/src/types/weather\_api.types.ts:75](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/frontend/src/types/weather_api.types.ts#L75)
+Defined in: [frontend/src/types/weather\_api.types.ts:75](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/frontend/src/types/weather_api.types.ts#L75)
 
 ***
 
@@ -127,7 +127,7 @@ Defined in: [frontend/src/types/weather\_api.types.ts:75](https://github.com/rad
 
 > **humidity**: `number`
 
-Defined in: [frontend/src/types/weather\_api.types.ts:68](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/frontend/src/types/weather_api.types.ts#L68)
+Defined in: [frontend/src/types/weather\_api.types.ts:68](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/frontend/src/types/weather_api.types.ts#L68)
 
 ***
 
@@ -135,7 +135,7 @@ Defined in: [frontend/src/types/weather\_api.types.ts:68](https://github.com/rad
 
 > **is\_day**: `0` \| `1`
 
-Defined in: [frontend/src/types/weather\_api.types.ts:58](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/frontend/src/types/weather_api.types.ts#L58)
+Defined in: [frontend/src/types/weather\_api.types.ts:58](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/frontend/src/types/weather_api.types.ts#L58)
 
 ***
 
@@ -143,7 +143,7 @@ Defined in: [frontend/src/types/weather\_api.types.ts:58](https://github.com/rad
 
 > **last\_updated**: `string`
 
-Defined in: [frontend/src/types/weather\_api.types.ts:55](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/frontend/src/types/weather_api.types.ts#L55)
+Defined in: [frontend/src/types/weather\_api.types.ts:55](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/frontend/src/types/weather_api.types.ts#L55)
 
 ***
 
@@ -151,7 +151,7 @@ Defined in: [frontend/src/types/weather\_api.types.ts:55](https://github.com/rad
 
 > **last\_updated\_epoch**: `number`
 
-Defined in: [frontend/src/types/weather\_api.types.ts:54](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/frontend/src/types/weather_api.types.ts#L54)
+Defined in: [frontend/src/types/weather\_api.types.ts:54](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/frontend/src/types/weather_api.types.ts#L54)
 
 ***
 
@@ -159,7 +159,7 @@ Defined in: [frontend/src/types/weather\_api.types.ts:54](https://github.com/rad
 
 > **precip\_in**: `number`
 
-Defined in: [frontend/src/types/weather\_api.types.ts:67](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/frontend/src/types/weather_api.types.ts#L67)
+Defined in: [frontend/src/types/weather\_api.types.ts:67](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/frontend/src/types/weather_api.types.ts#L67)
 
 ***
 
@@ -167,7 +167,7 @@ Defined in: [frontend/src/types/weather\_api.types.ts:67](https://github.com/rad
 
 > **precip\_mm**: `number`
 
-Defined in: [frontend/src/types/weather\_api.types.ts:66](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/frontend/src/types/weather_api.types.ts#L66)
+Defined in: [frontend/src/types/weather\_api.types.ts:66](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/frontend/src/types/weather_api.types.ts#L66)
 
 ***
 
@@ -175,7 +175,7 @@ Defined in: [frontend/src/types/weather\_api.types.ts:66](https://github.com/rad
 
 > **pressure\_in**: `number`
 
-Defined in: [frontend/src/types/weather\_api.types.ts:65](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/frontend/src/types/weather_api.types.ts#L65)
+Defined in: [frontend/src/types/weather\_api.types.ts:65](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/frontend/src/types/weather_api.types.ts#L65)
 
 ***
 
@@ -183,7 +183,7 @@ Defined in: [frontend/src/types/weather\_api.types.ts:65](https://github.com/rad
 
 > **pressure\_mb**: `number`
 
-Defined in: [frontend/src/types/weather\_api.types.ts:64](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/frontend/src/types/weather_api.types.ts#L64)
+Defined in: [frontend/src/types/weather\_api.types.ts:64](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/frontend/src/types/weather_api.types.ts#L64)
 
 ***
 
@@ -191,7 +191,7 @@ Defined in: [frontend/src/types/weather\_api.types.ts:64](https://github.com/rad
 
 > **short\_rad**: `number`
 
-Defined in: [frontend/src/types/weather\_api.types.ts:83](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/frontend/src/types/weather_api.types.ts#L83)
+Defined in: [frontend/src/types/weather\_api.types.ts:83](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/frontend/src/types/weather_api.types.ts#L83)
 
 ***
 
@@ -199,7 +199,7 @@ Defined in: [frontend/src/types/weather\_api.types.ts:83](https://github.com/rad
 
 > **temp\_c**: `number`
 
-Defined in: [frontend/src/types/weather\_api.types.ts:56](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/frontend/src/types/weather_api.types.ts#L56)
+Defined in: [frontend/src/types/weather\_api.types.ts:56](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/frontend/src/types/weather_api.types.ts#L56)
 
 ***
 
@@ -207,7 +207,7 @@ Defined in: [frontend/src/types/weather\_api.types.ts:56](https://github.com/rad
 
 > **temp\_f**: `number`
 
-Defined in: [frontend/src/types/weather\_api.types.ts:57](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/frontend/src/types/weather_api.types.ts#L57)
+Defined in: [frontend/src/types/weather\_api.types.ts:57](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/frontend/src/types/weather_api.types.ts#L57)
 
 ***
 
@@ -215,7 +215,7 @@ Defined in: [frontend/src/types/weather\_api.types.ts:57](https://github.com/rad
 
 > **uv**: `number`
 
-Defined in: [frontend/src/types/weather\_api.types.ts:80](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/frontend/src/types/weather_api.types.ts#L80)
+Defined in: [frontend/src/types/weather\_api.types.ts:80](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/frontend/src/types/weather_api.types.ts#L80)
 
 ***
 
@@ -223,7 +223,7 @@ Defined in: [frontend/src/types/weather\_api.types.ts:80](https://github.com/rad
 
 > **vis\_km**: `number`
 
-Defined in: [frontend/src/types/weather\_api.types.ts:78](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/frontend/src/types/weather_api.types.ts#L78)
+Defined in: [frontend/src/types/weather\_api.types.ts:78](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/frontend/src/types/weather_api.types.ts#L78)
 
 ***
 
@@ -231,7 +231,7 @@ Defined in: [frontend/src/types/weather\_api.types.ts:78](https://github.com/rad
 
 > **vis\_miles**: `number`
 
-Defined in: [frontend/src/types/weather\_api.types.ts:79](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/frontend/src/types/weather_api.types.ts#L79)
+Defined in: [frontend/src/types/weather\_api.types.ts:79](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/frontend/src/types/weather_api.types.ts#L79)
 
 ***
 
@@ -239,7 +239,7 @@ Defined in: [frontend/src/types/weather\_api.types.ts:79](https://github.com/rad
 
 > **wind\_degree**: `number`
 
-Defined in: [frontend/src/types/weather\_api.types.ts:62](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/frontend/src/types/weather_api.types.ts#L62)
+Defined in: [frontend/src/types/weather\_api.types.ts:62](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/frontend/src/types/weather_api.types.ts#L62)
 
 ***
 
@@ -247,7 +247,7 @@ Defined in: [frontend/src/types/weather\_api.types.ts:62](https://github.com/rad
 
 > **wind\_dir**: `string`
 
-Defined in: [frontend/src/types/weather\_api.types.ts:63](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/frontend/src/types/weather_api.types.ts#L63)
+Defined in: [frontend/src/types/weather\_api.types.ts:63](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/frontend/src/types/weather_api.types.ts#L63)
 
 ***
 
@@ -255,7 +255,7 @@ Defined in: [frontend/src/types/weather\_api.types.ts:63](https://github.com/rad
 
 > **wind\_kph**: `number`
 
-Defined in: [frontend/src/types/weather\_api.types.ts:61](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/frontend/src/types/weather_api.types.ts#L61)
+Defined in: [frontend/src/types/weather\_api.types.ts:61](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/frontend/src/types/weather_api.types.ts#L61)
 
 ***
 
@@ -263,7 +263,7 @@ Defined in: [frontend/src/types/weather\_api.types.ts:61](https://github.com/rad
 
 > **wind\_mph**: `number`
 
-Defined in: [frontend/src/types/weather\_api.types.ts:60](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/frontend/src/types/weather_api.types.ts#L60)
+Defined in: [frontend/src/types/weather\_api.types.ts:60](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/frontend/src/types/weather_api.types.ts#L60)
 
 ***
 
@@ -271,7 +271,7 @@ Defined in: [frontend/src/types/weather\_api.types.ts:60](https://github.com/rad
 
 > **windchill\_c**: `number`
 
-Defined in: [frontend/src/types/weather\_api.types.ts:72](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/frontend/src/types/weather_api.types.ts#L72)
+Defined in: [frontend/src/types/weather\_api.types.ts:72](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/frontend/src/types/weather_api.types.ts#L72)
 
 ***
 
@@ -279,4 +279,4 @@ Defined in: [frontend/src/types/weather\_api.types.ts:72](https://github.com/rad
 
 > **windchill\_f**: `number`
 
-Defined in: [frontend/src/types/weather\_api.types.ts:73](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/frontend/src/types/weather_api.types.ts#L73)
+Defined in: [frontend/src/types/weather\_api.types.ts:73](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/frontend/src/types/weather_api.types.ts#L73)

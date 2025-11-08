@@ -6,7 +6,7 @@
 
 # Interface: LocationCurrent
 
-Defined in: [frontend/src/types/weather\_api.types.ts:229](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/frontend/src/types/weather_api.types.ts#L229)
+Defined in: [frontend/src/types/weather\_api.types.ts:229](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/frontend/src/types/weather_api.types.ts#L229)
 
 The complete current response from the API.
 
@@ -27,7 +27,7 @@ and the current weather information for said location (in the form of a
 
 > **current**: [`Current`](Current.md)
 
-Defined in: [frontend/src/types/weather\_api.types.ts:231](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/frontend/src/types/weather_api.types.ts#L231)
+Defined in: [frontend/src/types/weather\_api.types.ts:231](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/frontend/src/types/weather_api.types.ts#L231)
 
 ***
 
@@ -35,4 +35,4 @@ Defined in: [frontend/src/types/weather\_api.types.ts:231](https://github.com/ra
 
 > **location**: [`Location`](Location.md)
 
-Defined in: [frontend/src/types/weather\_api.types.ts:230](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/frontend/src/types/weather_api.types.ts#L230)
+Defined in: [frontend/src/types/weather\_api.types.ts:230](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/frontend/src/types/weather_api.types.ts#L230)

@@ -8,7 +8,7 @@
 
 > **areaCollisionWithElement**(`area`, `el`): `boolean`
 
-Defined in: [frontend/src/functions/util.ts:44](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/frontend/src/functions/util.ts#L44)
+Defined in: [frontend/src/functions/util.ts:44](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/frontend/src/functions/util.ts#L44)
 
 Checks if an inputted Area collides with a particular HTMLElement.
 

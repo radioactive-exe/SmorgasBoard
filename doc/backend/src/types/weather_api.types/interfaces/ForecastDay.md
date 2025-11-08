@@ -6,7 +6,7 @@
 
 # Interface: ForecastDay
 
-Defined in: [backend/src/types/weather\_api.types.ts:129](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/backend/src/types/weather_api.types.ts#L129)
+Defined in: [backend/src/types/weather\_api.types.ts:129](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/backend/src/types/weather_api.types.ts#L129)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [backend/src/types/weather\_api.types.ts:129](https://github.com/rad
 
 > **astro**: [`Astro`](Astro.md)
 
-Defined in: [backend/src/types/weather\_api.types.ts:130](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/backend/src/types/weather_api.types.ts#L130)
+Defined in: [backend/src/types/weather\_api.types.ts:130](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/backend/src/types/weather_api.types.ts#L130)
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: [backend/src/types/weather\_api.types.ts:130](https://github.com/rad
 
 > **date**: `string`
 
-Defined in: [backend/src/types/weather\_api.types.ts:131](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/backend/src/types/weather_api.types.ts#L131)
+Defined in: [backend/src/types/weather\_api.types.ts:131](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/backend/src/types/weather_api.types.ts#L131)
 
 ***
 
@@ -30,7 +30,7 @@ Defined in: [backend/src/types/weather\_api.types.ts:131](https://github.com/rad
 
 > **date\_epoch**: `number`
 
-Defined in: [backend/src/types/weather\_api.types.ts:132](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/backend/src/types/weather_api.types.ts#L132)
+Defined in: [backend/src/types/weather\_api.types.ts:132](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/backend/src/types/weather_api.types.ts#L132)
 
 ***
 
@@ -38,7 +38,7 @@ Defined in: [backend/src/types/weather\_api.types.ts:132](https://github.com/rad
 
 > **day**: [`Day`](Day.md)
 
-Defined in: [backend/src/types/weather\_api.types.ts:133](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/backend/src/types/weather_api.types.ts#L133)
+Defined in: [backend/src/types/weather\_api.types.ts:133](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/backend/src/types/weather_api.types.ts#L133)
 
 ***
 
@@ -46,4 +46,4 @@ Defined in: [backend/src/types/weather\_api.types.ts:133](https://github.com/rad
 
 > **hour**: [`Hour`](Hour.md)[]
 
-Defined in: [backend/src/types/weather\_api.types.ts:134](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/backend/src/types/weather_api.types.ts#L134)
+Defined in: [backend/src/types/weather\_api.types.ts:134](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/backend/src/types/weather_api.types.ts#L134)

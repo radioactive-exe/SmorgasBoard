@@ -6,7 +6,7 @@
 
 # Interface: Size
 
-Defined in: [frontend/src/classes/area.ts:50](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/frontend/src/classes/area.ts#L50)
+Defined in: [frontend/src/classes/area.ts:50](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/frontend/src/classes/area.ts#L50)
 
 A Size object.
 
@@ -21,7 +21,7 @@ item they belong to.
 
 > **height**: `number`
 
-Defined in: [frontend/src/classes/area.ts:52](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/frontend/src/classes/area.ts#L52)
+Defined in: [frontend/src/classes/area.ts:52](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/frontend/src/classes/area.ts#L52)
 
 ***
 
@@ -29,7 +29,7 @@ Defined in: [frontend/src/classes/area.ts:52](https://github.com/radioactive-exe
 
 > `optional` **isAbsolute**: `boolean`
 
-Defined in: [frontend/src/classes/area.ts:66](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/frontend/src/classes/area.ts#L66)
+Defined in: [frontend/src/classes/area.ts:66](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/frontend/src/classes/area.ts#L66)
 
 Whether this Size is in absolute units (literal pixels) or fractional
 units (i.e. "cells" in the dashboard grid system).
@@ -50,4 +50,4 @@ parameter in the functions.
 
 > **width**: `number`
 
-Defined in: [frontend/src/classes/area.ts:51](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/frontend/src/classes/area.ts#L51)
+Defined in: [frontend/src/classes/area.ts:51](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/frontend/src/classes/area.ts#L51)

@@ -6,7 +6,7 @@
 
 # Interface: Forecast
 
-Defined in: [backend/src/types/weather\_api.types.ts:137](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/backend/src/types/weather_api.types.ts#L137)
+Defined in: [backend/src/types/weather\_api.types.ts:137](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/backend/src/types/weather_api.types.ts#L137)
 
 ## Properties
 
@@ -14,4 +14,4 @@ Defined in: [backend/src/types/weather\_api.types.ts:137](https://github.com/rad
 
 > **forecastday**: [`ForecastDay`](ForecastDay.md)[]
 
-Defined in: [backend/src/types/weather\_api.types.ts:138](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/backend/src/types/weather_api.types.ts#L138)
+Defined in: [backend/src/types/weather\_api.types.ts:138](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/backend/src/types/weather_api.types.ts#L138)

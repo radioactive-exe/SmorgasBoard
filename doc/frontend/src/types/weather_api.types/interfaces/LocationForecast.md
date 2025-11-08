@@ -6,7 +6,7 @@
 
 # Interface: LocationForecast
 
-Defined in: [frontend/src/types/weather\_api.types.ts:245](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/frontend/src/types/weather_api.types.ts#L245)
+Defined in: [frontend/src/types/weather\_api.types.ts:245](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/frontend/src/types/weather_api.types.ts#L245)
 
 The complete Forecast response from the API.
 
@@ -29,7 +29,7 @@ both for the day and the hours in the days requested.
 
 > **current**: [`Current`](Current.md)
 
-Defined in: [frontend/src/types/weather\_api.types.ts:231](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/frontend/src/types/weather_api.types.ts#L231)
+Defined in: [frontend/src/types/weather\_api.types.ts:231](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/frontend/src/types/weather_api.types.ts#L231)
 
 #### Inherited from
 
@@ -41,7 +41,7 @@ Defined in: [frontend/src/types/weather\_api.types.ts:231](https://github.com/ra
 
 > **forecast**: [`Forecast`](Forecast.md)
 
-Defined in: [frontend/src/types/weather\_api.types.ts:246](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/frontend/src/types/weather_api.types.ts#L246)
+Defined in: [frontend/src/types/weather\_api.types.ts:246](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/frontend/src/types/weather_api.types.ts#L246)
 
 ***
 
@@ -49,7 +49,7 @@ Defined in: [frontend/src/types/weather\_api.types.ts:246](https://github.com/ra
 
 > **location**: [`Location`](Location.md)
 
-Defined in: [frontend/src/types/weather\_api.types.ts:230](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/frontend/src/types/weather_api.types.ts#L230)
+Defined in: [frontend/src/types/weather\_api.types.ts:230](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/frontend/src/types/weather_api.types.ts#L230)
 
 #### Inherited from
 

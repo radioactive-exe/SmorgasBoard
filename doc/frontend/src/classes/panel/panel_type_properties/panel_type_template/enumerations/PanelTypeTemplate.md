@@ -6,7 +6,7 @@
 
 # Enumeration: PanelTypeTemplate
 
-Defined in: [frontend/src/classes/panel/panel\_type\_properties/panel\_type\_template.ts:6](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/frontend/src/classes/panel/panel_type_properties/panel_type_template.ts#L6)
+Defined in: [frontend/src/classes/panel/panel\_type\_properties/panel\_type\_template.ts:6](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/frontend/src/classes/panel/panel_type_properties/panel_type_template.ts#L6)
 
 An  of the template URLs for each panel type.
 
@@ -16,7 +16,7 @@ An  of the template URLs for each panel type.
 
 > **BASE**: `"definitions/panels/base"`
 
-Defined in: [frontend/src/classes/panel/panel\_type\_properties/panel\_type\_template.ts:7](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/frontend/src/classes/panel/panel_type_properties/panel_type_template.ts#L7)
+Defined in: [frontend/src/classes/panel/panel\_type\_properties/panel\_type\_template.ts:7](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/frontend/src/classes/panel/panel_type_properties/panel_type_template.ts#L7)
 
 ***
 
@@ -24,7 +24,7 @@ Defined in: [frontend/src/classes/panel/panel\_type\_properties/panel\_type\_tem
 
 > **CLOCK**: `"definitions/panels/clock"`
 
-Defined in: [frontend/src/classes/panel/panel\_type\_properties/panel\_type\_template.ts:12](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/frontend/src/classes/panel/panel_type_properties/panel_type_template.ts#L12)
+Defined in: [frontend/src/classes/panel/panel\_type\_properties/panel\_type\_template.ts:12](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/frontend/src/classes/panel/panel_type_properties/panel_type_template.ts#L12)
 
 ***
 
@@ -32,7 +32,7 @@ Defined in: [frontend/src/classes/panel/panel\_type\_properties/panel\_type\_tem
 
 > **DEFAULT**: `"definitions/panels/default"`
 
-Defined in: [frontend/src/classes/panel/panel\_type\_properties/panel\_type\_template.ts:9](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/frontend/src/classes/panel/panel_type_properties/panel_type_template.ts#L9)
+Defined in: [frontend/src/classes/panel/panel\_type\_properties/panel\_type\_template.ts:9](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/frontend/src/classes/panel/panel_type_properties/panel_type_template.ts#L9)
 
 ***
 
@@ -40,7 +40,7 @@ Defined in: [frontend/src/classes/panel/panel\_type\_properties/panel\_type\_tem
 
 > **NOTEPAD**: `"definitions/panels/notepad"`
 
-Defined in: [frontend/src/classes/panel/panel\_type\_properties/panel\_type\_template.ts:10](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/frontend/src/classes/panel/panel_type_properties/panel_type_template.ts#L10)
+Defined in: [frontend/src/classes/panel/panel\_type\_properties/panel\_type\_template.ts:10](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/frontend/src/classes/panel/panel_type_properties/panel_type_template.ts#L10)
 
 ***
 
@@ -48,7 +48,7 @@ Defined in: [frontend/src/classes/panel/panel\_type\_properties/panel\_type\_tem
 
 > **PHOTO**: `"definitions/panels/photo"`
 
-Defined in: [frontend/src/classes/panel/panel\_type\_properties/panel\_type\_template.ts:11](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/frontend/src/classes/panel/panel_type_properties/panel_type_template.ts#L11)
+Defined in: [frontend/src/classes/panel/panel\_type\_properties/panel\_type\_template.ts:11](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/frontend/src/classes/panel/panel_type_properties/panel_type_template.ts#L11)
 
 ***
 
@@ -56,7 +56,7 @@ Defined in: [frontend/src/classes/panel/panel\_type\_properties/panel\_type\_tem
 
 > **PREVIEW**: `"definitions/panels/preview"`
 
-Defined in: [frontend/src/classes/panel/panel\_type\_properties/panel\_type\_template.ts:8](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/frontend/src/classes/panel/panel_type_properties/panel_type_template.ts#L8)
+Defined in: [frontend/src/classes/panel/panel\_type\_properties/panel\_type\_template.ts:8](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/frontend/src/classes/panel/panel_type_properties/panel_type_template.ts#L8)
 
 ***
 
@@ -64,7 +64,7 @@ Defined in: [frontend/src/classes/panel/panel\_type\_properties/panel\_type\_tem
 
 > **TODO**: `"definitions/panels/todo"`
 
-Defined in: [frontend/src/classes/panel/panel\_type\_properties/panel\_type\_template.ts:13](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/frontend/src/classes/panel/panel_type_properties/panel_type_template.ts#L13)
+Defined in: [frontend/src/classes/panel/panel\_type\_properties/panel\_type\_template.ts:13](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/frontend/src/classes/panel/panel_type_properties/panel_type_template.ts#L13)
 
 ***
 
@@ -72,4 +72,4 @@ Defined in: [frontend/src/classes/panel/panel\_type\_properties/panel\_type\_tem
 
 > **WEATHER**: `"definitions/panels/weather"`
 
-Defined in: [frontend/src/classes/panel/panel\_type\_properties/panel\_type\_template.ts:14](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/frontend/src/classes/panel/panel_type_properties/panel_type_template.ts#L14)
+Defined in: [frontend/src/classes/panel/panel\_type\_properties/panel\_type\_template.ts:14](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/frontend/src/classes/panel/panel_type_properties/panel_type_template.ts#L14)

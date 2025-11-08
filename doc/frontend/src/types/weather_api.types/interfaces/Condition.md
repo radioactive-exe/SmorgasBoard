@@ -6,7 +6,7 @@
 
 # Interface: Condition
 
-Defined in: [frontend/src/types/weather\_api.types.ts:19](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/frontend/src/types/weather_api.types.ts#L19)
+Defined in: [frontend/src/types/weather\_api.types.ts:19](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/frontend/src/types/weather_api.types.ts#L19)
 
 The shape of the Condition object inside Weather API responses.
 
@@ -21,7 +21,7 @@ under the `condition` property.
 
 > **code**: `number`
 
-Defined in: [frontend/src/types/weather\_api.types.ts:22](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/frontend/src/types/weather_api.types.ts#L22)
+Defined in: [frontend/src/types/weather\_api.types.ts:22](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/frontend/src/types/weather_api.types.ts#L22)
 
 ***
 
@@ -29,7 +29,7 @@ Defined in: [frontend/src/types/weather\_api.types.ts:22](https://github.com/rad
 
 > **icon**: `string`
 
-Defined in: [frontend/src/types/weather\_api.types.ts:21](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/frontend/src/types/weather_api.types.ts#L21)
+Defined in: [frontend/src/types/weather\_api.types.ts:21](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/frontend/src/types/weather_api.types.ts#L21)
 
 ***
 
@@ -37,4 +37,4 @@ Defined in: [frontend/src/types/weather\_api.types.ts:21](https://github.com/rad
 
 > **text**: `string`
 
-Defined in: [frontend/src/types/weather\_api.types.ts:20](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/frontend/src/types/weather_api.types.ts#L20)
+Defined in: [frontend/src/types/weather\_api.types.ts:20](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/frontend/src/types/weather_api.types.ts#L20)

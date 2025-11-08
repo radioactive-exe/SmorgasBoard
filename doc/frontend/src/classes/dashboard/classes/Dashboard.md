@@ -6,7 +6,7 @@
 
 # Class: Dashboard
 
-Defined in: [frontend/src/classes/dashboard.ts:48](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/frontend/src/classes/dashboard.ts#L48)
+Defined in: [frontend/src/classes/dashboard.ts:48](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/frontend/src/classes/dashboard.ts#L48)
 
 The Dashboard class.
 
@@ -30,7 +30,7 @@ HTMLElement
 
 > **new Dashboard**(): `Dashboard`
 
-Defined in: [frontend/src/classes/dashboard.ts:93](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/frontend/src/classes/dashboard.ts#L93)
+Defined in: [frontend/src/classes/dashboard.ts:93](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/frontend/src/classes/dashboard.ts#L93)
 
 Creates a new Dashboard.
 
@@ -4021,7 +4021,7 @@ The **`checkVisibility()`** method of the Element interface checks whether the e
 
 > **clear**(): `void`
 
-Defined in: [frontend/src/classes/dashboard.ts:568](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/frontend/src/classes/dashboard.ts#L568)
+Defined in: [frontend/src/classes/dashboard.ts:568](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/frontend/src/classes/dashboard.ts#L568)
 
 #### Returns
 
@@ -4033,7 +4033,7 @@ Defined in: [frontend/src/classes/dashboard.ts:568](https://github.com/radioacti
 
 > **clearLoadedPanels**(): `void`
 
-Defined in: [frontend/src/classes/dashboard.ts:576](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/frontend/src/classes/dashboard.ts#L576)
+Defined in: [frontend/src/classes/dashboard.ts:576](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/frontend/src/classes/dashboard.ts#L576)
 
 #### Returns
 
@@ -4275,7 +4275,7 @@ The **`contains()`** method of the Node interface returns a boolean value indica
 
 > **deletePanel**(`panel`): `void`
 
-Defined in: [frontend/src/classes/dashboard.ts:332](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/frontend/src/classes/dashboard.ts#L332)
+Defined in: [frontend/src/classes/dashboard.ts:332](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/frontend/src/classes/dashboard.ts#L332)
 
 #### Parameters
 
@@ -4519,7 +4519,7 @@ The **`Element.getBoundingClientRect()`** method returns a position relative to 
 
 > **getCells**(): `HTMLElement`[]
 
-Defined in: [frontend/src/classes/dashboard.ts:137](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/frontend/src/classes/dashboard.ts#L137)
+Defined in: [frontend/src/classes/dashboard.ts:137](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/frontend/src/classes/dashboard.ts#L137)
 
 #### Returns
 
@@ -4551,7 +4551,7 @@ The **`getClientRects()`** method of the Element interface returns a collection 
 
 > **getCurrentTheme**(): [`Theme`](../../theme/classes/Theme.md)
 
-Defined in: [frontend/src/classes/dashboard.ts:550](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/frontend/src/classes/dashboard.ts#L550)
+Defined in: [frontend/src/classes/dashboard.ts:550](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/frontend/src/classes/dashboard.ts#L550)
 
 #### Returns
 
@@ -4563,7 +4563,7 @@ Defined in: [frontend/src/classes/dashboard.ts:550](https://github.com/radioacti
 
 > **getDimensions**(): [`Size`](../../area/interfaces/Size.md)
 
-Defined in: [frontend/src/classes/dashboard.ts:141](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/frontend/src/classes/dashboard.ts#L141)
+Defined in: [frontend/src/classes/dashboard.ts:141](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/frontend/src/classes/dashboard.ts#L141)
 
 #### Returns
 
@@ -4865,7 +4865,7 @@ The **`getHTML()`** method of the Element interface is used to serialize an elem
 
 > **getPanels**(): [`Panel`](../../panel/panel/classes/Panel.md)[]
 
-Defined in: [frontend/src/classes/dashboard.ts:133](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/frontend/src/classes/dashboard.ts#L133)
+Defined in: [frontend/src/classes/dashboard.ts:133](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/frontend/src/classes/dashboard.ts#L133)
 
 Returns the set of Panels.
 
@@ -5201,7 +5201,7 @@ The **`isDefaultNamespace()`** method of the Node interface accepts a namespace 
 
 > **isEditing**(): `boolean`
 
-Defined in: [frontend/src/classes/dashboard.ts:230](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/frontend/src/classes/dashboard.ts#L230)
+Defined in: [frontend/src/classes/dashboard.ts:230](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/frontend/src/classes/dashboard.ts#L230)
 
 Whether we are currently in Edit Mode.
 
@@ -5270,7 +5270,7 @@ The **`isSameNode()`** method of the Node interface is a legacy alias the for th
 
 > **load**(): `Promise`\<`void`\>
 
-Defined in: [frontend/src/classes/dashboard.ts:348](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/frontend/src/classes/dashboard.ts#L348)
+Defined in: [frontend/src/classes/dashboard.ts:348](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/frontend/src/classes/dashboard.ts#L348)
 
 #### Returns
 
@@ -5282,7 +5282,7 @@ Defined in: [frontend/src/classes/dashboard.ts:348](https://github.com/radioacti
 
 > **loadStoredDimensions**(): `Promise`\<`void`\>
 
-Defined in: [frontend/src/classes/dashboard.ts:364](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/frontend/src/classes/dashboard.ts#L364)
+Defined in: [frontend/src/classes/dashboard.ts:364](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/frontend/src/classes/dashboard.ts#L364)
 
 #### Returns
 
@@ -5294,7 +5294,7 @@ Defined in: [frontend/src/classes/dashboard.ts:364](https://github.com/radioacti
 
 > **loadStoredTheme**(): `Promise`\<`void`\>
 
-Defined in: [frontend/src/classes/dashboard.ts:524](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/frontend/src/classes/dashboard.ts#L524)
+Defined in: [frontend/src/classes/dashboard.ts:524](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/frontend/src/classes/dashboard.ts#L524)
 
 #### Returns
 
@@ -5404,7 +5404,7 @@ The **`normalize()`** method of the Node interface puts the specified node and a
 
 > **organiseElements**(): `void`
 
-Defined in: [frontend/src/classes/dashboard.ts:342](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/frontend/src/classes/dashboard.ts#L342)
+Defined in: [frontend/src/classes/dashboard.ts:342](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/frontend/src/classes/dashboard.ts#L342)
 
 #### Returns
 
@@ -6094,7 +6094,7 @@ The **`requestPointerLock()`** method of the Element interface lets you asynchro
 
 > **save**(): `void`
 
-Defined in: [frontend/src/classes/dashboard.ts:483](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/frontend/src/classes/dashboard.ts#L483)
+Defined in: [frontend/src/classes/dashboard.ts:483](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/frontend/src/classes/dashboard.ts#L483)
 
 #### Returns
 
@@ -6404,7 +6404,7 @@ Defined in: node\_modules/typescript/lib/lib.dom.d.ts:11064
 
 > **setCurrentTheme**(`theme`, `updateStored`): `void`
 
-Defined in: [frontend/src/classes/dashboard.ts:554](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/frontend/src/classes/dashboard.ts#L554)
+Defined in: [frontend/src/classes/dashboard.ts:554](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/frontend/src/classes/dashboard.ts#L554)
 
 #### Parameters
 
@@ -6426,7 +6426,7 @@ Defined in: [frontend/src/classes/dashboard.ts:554](https://github.com/radioacti
 
 > **setDimensions**(`size`, `truncate`, `updateStored`): `void`
 
-Defined in: [frontend/src/classes/dashboard.ts:190](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/frontend/src/classes/dashboard.ts#L190)
+Defined in: [frontend/src/classes/dashboard.ts:190](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/frontend/src/classes/dashboard.ts#L190)
 
 #### Parameters
 
@@ -6524,7 +6524,7 @@ The **`showPopover()`** method of the HTMLElement interface shows a Popover_API 
 
 > **spawnPanelOfType**(`panelType`): `void`
 
-Defined in: [frontend/src/classes/dashboard.ts:273](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/frontend/src/classes/dashboard.ts#L273)
+Defined in: [frontend/src/classes/dashboard.ts:273](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/frontend/src/classes/dashboard.ts#L273)
 
 Spawns a Panel of an inputted Type.
 
@@ -6592,7 +6592,7 @@ The **`toggleAttribute()`** method of the present and adding it if it is not pre
 
 > **toggleEditMode**(): `boolean`
 
-Defined in: [frontend/src/classes/dashboard.ts:239](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/frontend/src/classes/dashboard.ts#L239)
+Defined in: [frontend/src/classes/dashboard.ts:239](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/frontend/src/classes/dashboard.ts#L239)
 
 Toggles Edit mode for the Dashboard.
 
@@ -6634,7 +6634,7 @@ The **`togglePopover()`** method of the HTMLElement interface toggles a Popover_
 
 > **triggerDelayedSave**(): `void`
 
-Defined in: [frontend/src/classes/dashboard.ts:357](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/frontend/src/classes/dashboard.ts#L357)
+Defined in: [frontend/src/classes/dashboard.ts:357](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/frontend/src/classes/dashboard.ts#L357)
 
 #### Returns
 
@@ -6674,7 +6674,7 @@ This is a legacy alias of `matches`.
 
 > `static` **getCols**(): `number`
 
-Defined in: [frontend/src/classes/dashboard.ts:159](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/frontend/src/classes/dashboard.ts#L159)
+Defined in: [frontend/src/classes/dashboard.ts:159](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/frontend/src/classes/dashboard.ts#L159)
 
 Get the number of columns in the Dashboard.
 
@@ -6690,7 +6690,7 @@ The number of columns the dashboard is divided into.
 
 > `static` **getFractionalHeight**(): `number`
 
-Defined in: [frontend/src/classes/dashboard.ts:179](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/frontend/src/classes/dashboard.ts#L179)
+Defined in: [frontend/src/classes/dashboard.ts:179](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/frontend/src/classes/dashboard.ts#L179)
 
 Gets the height of one row/unit.
 
@@ -6707,7 +6707,7 @@ The height of the window divided by the number of rows to get
 
 > `static` **getFractionalWidth**(): `number`
 
-Defined in: [frontend/src/classes/dashboard.ts:169](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/frontend/src/classes/dashboard.ts#L169)
+Defined in: [frontend/src/classes/dashboard.ts:169](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/frontend/src/classes/dashboard.ts#L169)
 
 Gets the width of one column/unit.
 
@@ -6724,7 +6724,7 @@ The width of the window divided by the number of columns to get
 
 > `static` **getMaxDimensions**(): [`Size`](../../area/interfaces/Size.md)
 
-Defined in: [frontend/src/classes/dashboard.ts:183](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/frontend/src/classes/dashboard.ts#L183)
+Defined in: [frontend/src/classes/dashboard.ts:183](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/frontend/src/classes/dashboard.ts#L183)
 
 #### Returns
 
@@ -6736,7 +6736,7 @@ Defined in: [frontend/src/classes/dashboard.ts:183](https://github.com/radioacti
 
 > `static` **getRows**(): `number`
 
-Defined in: [frontend/src/classes/dashboard.ts:150](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/frontend/src/classes/dashboard.ts#L150)
+Defined in: [frontend/src/classes/dashboard.ts:150](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/frontend/src/classes/dashboard.ts#L150)
 
 Get the number of rows in the Dashboard.
 

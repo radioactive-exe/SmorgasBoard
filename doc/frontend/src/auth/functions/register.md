@@ -8,7 +8,7 @@
 
 > **register**(`username`, `email`, `password`): `Promise`\<`void`\>
 
-Defined in: [frontend/src/auth.ts:107](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/frontend/src/auth.ts#L107)
+Defined in: [frontend/src/auth.ts:107](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/frontend/src/auth.ts#L107)
 
 This method signs up the user with the inputted fields.
 

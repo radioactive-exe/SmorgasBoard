@@ -6,7 +6,7 @@
 
 # Class: Panel
 
-Defined in: [frontend/src/classes/panel/panel.ts:69](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/frontend/src/classes/panel/panel.ts#L69)
+Defined in: [frontend/src/classes/panel/panel.ts:69](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/frontend/src/classes/panel/panel.ts#L69)
 
 A custom HTMLElement, implements many methods for custom use with the program
 to make work more efficient.
@@ -23,7 +23,7 @@ to make work more efficient.
 
 > **new Panel**(`area`, `type`, `dashboardId`, `config`, `body?`): `Panel`
 
-Defined in: [frontend/src/classes/panel/panel.ts:81](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/frontend/src/classes/panel/panel.ts#L81)
+Defined in: [frontend/src/classes/panel/panel.ts:81](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/frontend/src/classes/panel/panel.ts#L81)
 
 Creates an instance of a Panel.
 
@@ -3731,7 +3731,7 @@ The **`textContent`** property of the Node interface represents the text content
 
 > **addButtonListeners**(): `void`
 
-Defined in: [frontend/src/classes/panel/panel.ts:499](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/frontend/src/classes/panel/panel.ts#L499)
+Defined in: [frontend/src/classes/panel/panel.ts:499](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/frontend/src/classes/panel/panel.ts#L499)
 
 #### Returns
 
@@ -3809,7 +3809,7 @@ Defined in: node\_modules/typescript/lib/lib.dom.d.ts:13840
 
 > **addHoverListeners**(): `void`
 
-Defined in: [frontend/src/classes/panel/panel.ts:555](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/frontend/src/classes/panel/panel.ts#L555)
+Defined in: [frontend/src/classes/panel/panel.ts:555](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/frontend/src/classes/panel/panel.ts#L555)
 
 #### Returns
 
@@ -4011,7 +4011,7 @@ Throws a "HierarchyRequestError" DOMException if the constraints of the node tre
 
 > **beginBehaviour**(): `void`
 
-Defined in: [frontend/src/classes/panel/panel.ts:692](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/frontend/src/classes/panel/panel.ts#L692)
+Defined in: [frontend/src/classes/panel/panel.ts:692](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/frontend/src/classes/panel/panel.ts#L692)
 
 #### Returns
 
@@ -4371,7 +4371,7 @@ Defined in: node\_modules/typescript/lib/lib.dom.d.ts:2923
 
 > **getArea**(): [`Area`](../../../area/classes/Area.md)
 
-Defined in: [frontend/src/classes/panel/panel.ts:235](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/frontend/src/classes/panel/panel.ts#L235)
+Defined in: [frontend/src/classes/panel/panel.ts:235](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/frontend/src/classes/panel/panel.ts#L235)
 
 Gets the Area of the current Panel, as an object of
 
@@ -4557,7 +4557,7 @@ The **`getClientRects()`** method of the Element interface returns a collection 
 
 > **getConfig**(): `Record`\<`string`, `unknown`\> \| `undefined`
 
-Defined in: [frontend/src/classes/panel/panel.ts:495](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/frontend/src/classes/panel/panel.ts#L495)
+Defined in: [frontend/src/classes/panel/panel.ts:495](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/frontend/src/classes/panel/panel.ts#L495)
 
 #### Returns
 
@@ -4569,7 +4569,7 @@ Defined in: [frontend/src/classes/panel/panel.ts:495](https://github.com/radioac
 
 > **getContent**(): `PanelContent`
 
-Defined in: [frontend/src/classes/panel/panel.ts:358](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/frontend/src/classes/panel/panel.ts#L358)
+Defined in: [frontend/src/classes/panel/panel.ts:358](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/frontend/src/classes/panel/panel.ts#L358)
 
 #### Returns
 
@@ -4871,7 +4871,7 @@ The **`getHTML()`** method of the Element interface is used to serialize an elem
 
 > **getId**(): `number`
 
-Defined in: [frontend/src/classes/panel/panel.ts:226](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/frontend/src/classes/panel/panel.ts#L226)
+Defined in: [frontend/src/classes/panel/panel.ts:226](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/frontend/src/classes/panel/panel.ts#L226)
 
 #### Returns
 
@@ -4883,7 +4883,7 @@ Defined in: [frontend/src/classes/panel/panel.ts:226](https://github.com/radioac
 
 > **getKeyElement**(`element`): `HTMLElement` \| `null` \| `undefined`
 
-Defined in: [frontend/src/classes/panel/panel.ts:688](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/frontend/src/classes/panel/panel.ts#L688)
+Defined in: [frontend/src/classes/panel/panel.ts:688](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/frontend/src/classes/panel/panel.ts#L688)
 
 #### Parameters
 
@@ -4901,7 +4901,7 @@ Defined in: [frontend/src/classes/panel/panel.ts:688](https://github.com/radioac
 
 > **getKeyElements**(): `Map`\<`string`, `HTMLElement` \| `null`\>
 
-Defined in: [frontend/src/classes/panel/panel.ts:684](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/frontend/src/classes/panel/panel.ts#L684)
+Defined in: [frontend/src/classes/panel/panel.ts:684](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/frontend/src/classes/panel/panel.ts#L684)
 
 #### Returns
 
@@ -4913,7 +4913,7 @@ Defined in: [frontend/src/classes/panel/panel.ts:684](https://github.com/radioac
 
 > **getPosition**(): [`Coordinate`](../../../area/interfaces/Coordinate.md)
 
-Defined in: [frontend/src/classes/panel/panel.ts:277](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/frontend/src/classes/panel/panel.ts#L277)
+Defined in: [frontend/src/classes/panel/panel.ts:277](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/frontend/src/classes/panel/panel.ts#L277)
 
 Gets the Panel's (Area's) position, as an object of
 
@@ -4953,7 +4953,7 @@ The **`getRootNode()`** method of the Node interface returns the context object'
 
 > **getSize**(): [`Size`](../../../area/interfaces/Size.md)
 
-Defined in: [frontend/src/classes/panel/panel.ts:319](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/frontend/src/classes/panel/panel.ts#L319)
+Defined in: [frontend/src/classes/panel/panel.ts:319](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/frontend/src/classes/panel/panel.ts#L319)
 
 Gets the size of the Panel ('s Area) as an object of
 
@@ -4967,7 +4967,7 @@ Gets the size of the Panel ('s Area) as an object of
 
 > **getType**(): [`PanelType`](../../panel_type/classes/PanelType.md)
 
-Defined in: [frontend/src/classes/panel/panel.ts:345](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/frontend/src/classes/panel/panel.ts#L345)
+Defined in: [frontend/src/classes/panel/panel.ts:345](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/frontend/src/classes/panel/panel.ts#L345)
 
 Returns the Panel's type, as an object of
 
@@ -5123,7 +5123,7 @@ The **`hidePopover()`** method of the HTMLElement interface hides a popover elem
 
 > **initPreview**(): `void`
 
-Defined in: [frontend/src/classes/panel/panel.ts:568](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/frontend/src/classes/panel/panel.ts#L568)
+Defined in: [frontend/src/classes/panel/panel.ts:568](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/frontend/src/classes/panel/panel.ts#L568)
 
 #### Returns
 
@@ -5417,7 +5417,7 @@ The **`matches()`** method of the Element interface tests whether the element wo
 
 > **moveToCentre**(): `void`
 
-Defined in: [frontend/src/classes/panel/panel.ts:298](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/frontend/src/classes/panel/panel.ts#L298)
+Defined in: [frontend/src/classes/panel/panel.ts:298](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/frontend/src/classes/panel/panel.ts#L298)
 
 #### Returns
 
@@ -5983,7 +5983,7 @@ Defined in: node\_modules/typescript/lib/lib.dom.d.ts:13842
 
 > **removeHoverListeners**(): `void`
 
-Defined in: [frontend/src/classes/panel/panel.ts:561](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/frontend/src/classes/panel/panel.ts#L561)
+Defined in: [frontend/src/classes/panel/panel.ts:561](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/frontend/src/classes/panel/panel.ts#L561)
 
 #### Returns
 
@@ -6321,7 +6321,7 @@ Defined in: node\_modules/typescript/lib/lib.dom.d.ts:11052
 
 > **setArea**(`other`): `void`
 
-Defined in: [frontend/src/classes/panel/panel.ts:244](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/frontend/src/classes/panel/panel.ts#L244)
+Defined in: [frontend/src/classes/panel/panel.ts:244](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/frontend/src/classes/panel/panel.ts#L244)
 
 Sets the Panel's Area with a complete
 
@@ -6457,7 +6457,7 @@ Defined in: node\_modules/typescript/lib/lib.dom.d.ts:11064
 
 > **setContent**(`content`): `Promise`\<`void`\>
 
-Defined in: [frontend/src/classes/panel/panel.ts:415](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/frontend/src/classes/panel/panel.ts#L415)
+Defined in: [frontend/src/classes/panel/panel.ts:415](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/frontend/src/classes/panel/panel.ts#L415)
 
 #### Parameters
 
@@ -6527,7 +6527,7 @@ The **`setPointerCapture()`** method of the _capture target_ of future pointer e
 
 > **setPosition**(`x`, `y`): `void`
 
-Defined in: [frontend/src/classes/panel/panel.ts:287](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/frontend/src/classes/panel/panel.ts#L287)
+Defined in: [frontend/src/classes/panel/panel.ts:287](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/frontend/src/classes/panel/panel.ts#L287)
 
 Sets the Panel's position from an input set of numbers.
 
@@ -6555,7 +6555,7 @@ The y (vertical) coordinate.
 
 > **setSize**(`width`, `height`): `void`
 
-Defined in: [frontend/src/classes/panel/panel.ts:329](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/frontend/src/classes/panel/panel.ts#L329)
+Defined in: [frontend/src/classes/panel/panel.ts:329](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/frontend/src/classes/panel/panel.ts#L329)
 
 Sets the Panel's size from an input set of numbers.
 
@@ -6579,7 +6579,7 @@ Sets the Panel's size from an input set of numbers.
 
 > **setType**(`type`): `void`
 
-Defined in: [frontend/src/classes/panel/panel.ts:354](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/frontend/src/classes/panel/panel.ts#L354)
+Defined in: [frontend/src/classes/panel/panel.ts:354](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/frontend/src/classes/panel/panel.ts#L354)
 
 Sets the Panel Type from a received input of
 
@@ -6675,7 +6675,7 @@ The **`togglePopover()`** method of the HTMLElement interface toggles a Popover_
 
 > **triggerSave**(): `void`
 
-Defined in: [frontend/src/classes/panel/panel.ts:696](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/frontend/src/classes/panel/panel.ts#L696)
+Defined in: [frontend/src/classes/panel/panel.ts:696](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/frontend/src/classes/panel/panel.ts#L696)
 
 #### Returns
 
@@ -6687,7 +6687,7 @@ Defined in: [frontend/src/classes/panel/panel.ts:696](https://github.com/radioac
 
 > **updateArea**(): `void`
 
-Defined in: [frontend/src/classes/panel/panel.ts:255](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/frontend/src/classes/panel/panel.ts#L255)
+Defined in: [frontend/src/classes/panel/panel.ts:255](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/frontend/src/classes/panel/panel.ts#L255)
 
 Updates the current Panel's Area with the values in the style, in case
 there is ever a disconnect between the two. This should never be the
@@ -6704,7 +6704,7 @@ exist. Usually, they won't, but just in case.
 
 > **updatePreview**(): `void`
 
-Defined in: [frontend/src/classes/panel/panel.ts:576](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/frontend/src/classes/panel/panel.ts#L576)
+Defined in: [frontend/src/classes/panel/panel.ts:576](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/frontend/src/classes/panel/panel.ts#L576)
 
 #### Returns
 

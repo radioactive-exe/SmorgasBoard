@@ -6,7 +6,7 @@
 
 # Interface: ConfigChangeEventDetail
 
-Defined in: [frontend/src/classes/config/config.ts:5](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/frontend/src/classes/config/config.ts#L5)
+Defined in: [frontend/src/classes/config/config.ts:5](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/frontend/src/classes/config/config.ts#L5)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [frontend/src/classes/config/config.ts:5](https://github.com/radioac
 
 > **setting**: `string`
 
-Defined in: [frontend/src/classes/config/config.ts:6](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/frontend/src/classes/config/config.ts#L6)
+Defined in: [frontend/src/classes/config/config.ts:6](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/frontend/src/classes/config/config.ts#L6)
 
 ***
 
@@ -22,4 +22,4 @@ Defined in: [frontend/src/classes/config/config.ts:6](https://github.com/radioac
 
 > **value**: `string` \| `number` \| `boolean`
 
-Defined in: [frontend/src/classes/config/config.ts:7](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/frontend/src/classes/config/config.ts#L7)
+Defined in: [frontend/src/classes/config/config.ts:7](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/frontend/src/classes/config/config.ts#L7)

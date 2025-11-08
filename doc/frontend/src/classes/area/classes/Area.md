@@ -6,7 +6,7 @@
 
 # Class: Area
 
-Defined in: [frontend/src/classes/area.ts:132](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/frontend/src/classes/area.ts#L132)
+Defined in: [frontend/src/classes/area.ts:132](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/frontend/src/classes/area.ts#L132)
 
 This is the Area class.
 
@@ -29,7 +29,7 @@ keeping the dashboard organised.
 
 > **new Area**(`coords`, `size`): `Area`
 
-Defined in: [frontend/src/classes/area.ts:175](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/frontend/src/classes/area.ts#L175)
+Defined in: [frontend/src/classes/area.ts:175](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/frontend/src/classes/area.ts#L175)
 
 Creates an instance of an Area.
 
@@ -76,7 +76,7 @@ dashboard/container) and with a default size of `{width: 1, height: 1}`.
 
 > `readonly` `static` **INIT**: `Area`
 
-Defined in: [frontend/src/classes/area.ts:141](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/frontend/src/classes/area.ts#L141)
+Defined in: [frontend/src/classes/area.ts:141](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/frontend/src/classes/area.ts#L141)
 
 A bare-bones default Area.
 
@@ -92,7 +92,7 @@ be changed right after.
 
 > **getAbsoluteHeight**(): `number`
 
-Defined in: [frontend/src/classes/area.ts:312](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/frontend/src/classes/area.ts#L312)
+Defined in: [frontend/src/classes/area.ts:312](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/frontend/src/classes/area.ts#L312)
 
 Gets the absolute height of the Area in pixels.
 
@@ -112,7 +112,7 @@ size [getHeight](#getheight)
 
 > **getAbsoluteWidth**(): `number`
 
-Defined in: [frontend/src/classes/area.ts:290](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/frontend/src/classes/area.ts#L290)
+Defined in: [frontend/src/classes/area.ts:290](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/frontend/src/classes/area.ts#L290)
 
 Gets the absolute width of the Area in pixels.
 
@@ -132,7 +132,7 @@ size [getWidth](#getwidth)
 
 > **getAbsoluteX**(): `number`
 
-Defined in: [frontend/src/classes/area.ts:201](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/frontend/src/classes/area.ts#L201)
+Defined in: [frontend/src/classes/area.ts:201](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/frontend/src/classes/area.ts#L201)
 
 Returns the X (horizontal) coordinate of the Area in pixels.
 
@@ -152,7 +152,7 @@ The X coordinate in pixels.
 
 > **getAbsoluteY**(): `number`
 
-Defined in: [frontend/src/classes/area.ts:223](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/frontend/src/classes/area.ts#L223)
+Defined in: [frontend/src/classes/area.ts:223](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/frontend/src/classes/area.ts#L223)
 
 Returns the Y (Vertical) coordinate of the Area in pixels.
 
@@ -172,7 +172,7 @@ The Y coordinate in pixels.
 
 > **getCoordinates**(): [`Coordinate`](../interfaces/Coordinate.md)
 
-Defined in: [frontend/src/classes/area.ts:236](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/frontend/src/classes/area.ts#L236)
+Defined in: [frontend/src/classes/area.ts:236](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/frontend/src/classes/area.ts#L236)
 
 Returns the position/coordinates of this Area.
 
@@ -193,7 +193,7 @@ expressed in fractional units (pos).
 
 > **getHeight**(): `number`
 
-Defined in: [frontend/src/classes/area.ts:301](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/frontend/src/classes/area.ts#L301)
+Defined in: [frontend/src/classes/area.ts:301](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/frontend/src/classes/area.ts#L301)
 
 Gets the fractional height of the Area.
 
@@ -213,7 +213,7 @@ size [getAbsoluteHeight](#getabsoluteheight)
 
 > **getSize**(): [`Size`](../interfaces/Size.md)
 
-Defined in: [frontend/src/classes/area.ts:322](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/frontend/src/classes/area.ts#L322)
+Defined in: [frontend/src/classes/area.ts:322](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/frontend/src/classes/area.ts#L322)
 
 Returns the fractional Size of the Area, as an object of type
 [Size](../interfaces/Size.md).
@@ -230,7 +230,7 @@ The Size (fractional/relative) of the Area.
 
 > **getWidth**(): `number`
 
-Defined in: [frontend/src/classes/area.ts:279](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/frontend/src/classes/area.ts#L279)
+Defined in: [frontend/src/classes/area.ts:279](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/frontend/src/classes/area.ts#L279)
 
 Gets the fractional width of the Area.
 
@@ -250,7 +250,7 @@ size [getAbsoluteWidth](#getabsolutewidth)
 
 > **getX**(): `number`
 
-Defined in: [frontend/src/classes/area.ts:190](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/frontend/src/classes/area.ts#L190)
+Defined in: [frontend/src/classes/area.ts:190](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/frontend/src/classes/area.ts#L190)
 
 Returns the X (horizontal) coordinate of the Area.
 
@@ -270,7 +270,7 @@ The X coordinate.
 
 > **getY**(): `number`
 
-Defined in: [frontend/src/classes/area.ts:212](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/frontend/src/classes/area.ts#L212)
+Defined in: [frontend/src/classes/area.ts:212](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/frontend/src/classes/area.ts#L212)
 
 Returns the Y (Vertical) coordinate of the Area.
 
@@ -290,7 +290,7 @@ The Y coordinate.
 
 > **setCoordinates**(`coords`): `void`
 
-Defined in: [frontend/src/classes/area.ts:261](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/frontend/src/classes/area.ts#L261)
+Defined in: [frontend/src/classes/area.ts:261](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/frontend/src/classes/area.ts#L261)
 
 Sets the Area's position from an input.
 
@@ -329,7 +329,7 @@ pixels vertically inside the dashboard/container.
 
 > **setSize**(`size`): `void`
 
-Defined in: [frontend/src/classes/area.ts:346](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/frontend/src/classes/area.ts#L346)
+Defined in: [frontend/src/classes/area.ts:346](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/frontend/src/classes/area.ts#L346)
 
 Sets the Area's current Size from an input.
 

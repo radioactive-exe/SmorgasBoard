@@ -8,7 +8,7 @@
 
 > **saveLocation**(`savedLocationList`, `panel`, `city`, `lat`, `lon`, `condition`, `temp`, `minTemp`, `maxTemp`, `updateStored`): `void`
 
-Defined in: [frontend/src/classes/panel/panel\_behaviour/weather\_panel.ts:513](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/frontend/src/classes/panel/panel_behaviour/weather_panel.ts#L513)
+Defined in: [frontend/src/classes/panel/panel\_behaviour/weather\_panel.ts:513](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/frontend/src/classes/panel/panel_behaviour/weather_panel.ts#L513)
 
 ## Parameters
 

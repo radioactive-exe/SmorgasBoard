@@ -6,7 +6,7 @@
 
 # Interface: SmorgasWeatherSearchResponse
 
-Defined in: [frontend/src/types/response.types.ts:37](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/frontend/src/types/response.types.ts#L37)
+Defined in: [frontend/src/types/response.types.ts:37](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/frontend/src/types/response.types.ts#L37)
 
 The shape of the packaged search response from the backend.
 
@@ -21,7 +21,7 @@ obtained from the direct call from the backend to the WeatherAPI.
 
 > **query**: `string`
 
-Defined in: [frontend/src/types/response.types.ts:38](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/frontend/src/types/response.types.ts#L38)
+Defined in: [frontend/src/types/response.types.ts:38](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/frontend/src/types/response.types.ts#L38)
 
 ***
 
@@ -29,4 +29,4 @@ Defined in: [frontend/src/types/response.types.ts:38](https://github.com/radioac
 
 > **results**: [`Location`](../../weather_api.types/interfaces/Location.md)[]
 
-Defined in: [frontend/src/types/response.types.ts:39](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/frontend/src/types/response.types.ts#L39)
+Defined in: [frontend/src/types/response.types.ts:39](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/frontend/src/types/response.types.ts#L39)

@@ -6,7 +6,7 @@
 
 # Interface: PanelFetchResponse
 
-Defined in: [frontend/src/types/response.types.ts:25](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/frontend/src/types/response.types.ts#L25)
+Defined in: [frontend/src/types/response.types.ts:25](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/frontend/src/types/response.types.ts#L25)
 
 The shape of the template responses from the backend.
 
@@ -21,7 +21,7 @@ HTML-to-string template itself.
 
 > **panel\_template**: `string`
 
-Defined in: [frontend/src/types/response.types.ts:27](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/frontend/src/types/response.types.ts#L27)
+Defined in: [frontend/src/types/response.types.ts:27](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/frontend/src/types/response.types.ts#L27)
 
 ***
 
@@ -29,4 +29,4 @@ Defined in: [frontend/src/types/response.types.ts:27](https://github.com/radioac
 
 > **panel\_type**: `string`
 
-Defined in: [frontend/src/types/response.types.ts:26](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/frontend/src/types/response.types.ts#L26)
+Defined in: [frontend/src/types/response.types.ts:26](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/frontend/src/types/response.types.ts#L26)

@@ -8,7 +8,7 @@
 
 > **login**(`email`, `password`): `Promise`\<`void`\>
 
-Defined in: [frontend/src/auth.ts:229](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/frontend/src/auth.ts#L229)
+Defined in: [frontend/src/auth.ts:229](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/frontend/src/auth.ts#L229)
 
 Attempts to log the user in using Supabase Auth API with the inputted
 credentials.

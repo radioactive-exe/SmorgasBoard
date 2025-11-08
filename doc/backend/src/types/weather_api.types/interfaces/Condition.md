@@ -6,7 +6,7 @@
 
 # Interface: Condition
 
-Defined in: [backend/src/types/weather\_api.types.ts:1](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/backend/src/types/weather_api.types.ts#L1)
+Defined in: [backend/src/types/weather\_api.types.ts:1](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/backend/src/types/weather_api.types.ts#L1)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [backend/src/types/weather\_api.types.ts:1](https://github.com/radio
 
 > **code**: `number`
 
-Defined in: [backend/src/types/weather\_api.types.ts:4](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/backend/src/types/weather_api.types.ts#L4)
+Defined in: [backend/src/types/weather\_api.types.ts:4](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/backend/src/types/weather_api.types.ts#L4)
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: [backend/src/types/weather\_api.types.ts:4](https://github.com/radio
 
 > **icon**: `string`
 
-Defined in: [backend/src/types/weather\_api.types.ts:3](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/backend/src/types/weather_api.types.ts#L3)
+Defined in: [backend/src/types/weather\_api.types.ts:3](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/backend/src/types/weather_api.types.ts#L3)
 
 ***
 
@@ -30,4 +30,4 @@ Defined in: [backend/src/types/weather\_api.types.ts:3](https://github.com/radio
 
 > **text**: `string`
 
-Defined in: [backend/src/types/weather\_api.types.ts:2](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/backend/src/types/weather_api.types.ts#L2)
+Defined in: [backend/src/types/weather\_api.types.ts:2](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/backend/src/types/weather_api.types.ts#L2)

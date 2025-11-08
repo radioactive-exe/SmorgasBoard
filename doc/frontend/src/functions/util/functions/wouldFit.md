@@ -8,7 +8,7 @@
 
 > **wouldFit**(`potentialSize`, `panels`): `boolean`
 
-Defined in: [frontend/src/functions/util.ts:113](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/frontend/src/functions/util.ts#L113)
+Defined in: [frontend/src/functions/util.ts:113](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/frontend/src/functions/util.ts#L113)
 
 Checks if the given panels would fit in the potential layout dimensions.
 

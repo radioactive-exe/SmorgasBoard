@@ -6,7 +6,7 @@
 
 # Class: Theme
 
-Defined in: [frontend/src/classes/theme.ts:20](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/frontend/src/classes/theme.ts#L20)
+Defined in: [frontend/src/classes/theme.ts:20](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/frontend/src/classes/theme.ts#L20)
 
 A class defining Themes to be used in SmorgasBoard.
 
@@ -21,7 +21,7 @@ setting different themes.
 
 > `readonly` `static` **CONSOLE**: `Theme`
 
-Defined in: [frontend/src/classes/theme.ts:31](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/frontend/src/classes/theme.ts#L31)
+Defined in: [frontend/src/classes/theme.ts:31](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/frontend/src/classes/theme.ts#L31)
 
 ***
 
@@ -29,7 +29,7 @@ Defined in: [frontend/src/classes/theme.ts:31](https://github.com/radioactive-ex
 
 > `readonly` `static` **DEFAULT**: `Theme`
 
-Defined in: [frontend/src/classes/theme.ts:26](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/frontend/src/classes/theme.ts#L26)
+Defined in: [frontend/src/classes/theme.ts:26](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/frontend/src/classes/theme.ts#L26)
 
 These are all the Defined Themes in the project/application. They can be
 accessed during runtime to switch themes and have any necessary info.
@@ -40,7 +40,7 @@ accessed during runtime to switch themes and have any necessary info.
 
 > `readonly` `static` **PALENIGHT**: `Theme`
 
-Defined in: [frontend/src/classes/theme.ts:36](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/frontend/src/classes/theme.ts#L36)
+Defined in: [frontend/src/classes/theme.ts:36](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/frontend/src/classes/theme.ts#L36)
 
 ## Methods
 
@@ -48,7 +48,7 @@ Defined in: [frontend/src/classes/theme.ts:36](https://github.com/radioactive-ex
 
 > **getId**(): `number`
 
-Defined in: [frontend/src/classes/theme.ts:84](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/frontend/src/classes/theme.ts#L84)
+Defined in: [frontend/src/classes/theme.ts:84](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/frontend/src/classes/theme.ts#L84)
 
 Returns the Theme ID.
 
@@ -68,7 +68,7 @@ The ID will be used to later set the Theme from a stored ID
 
 > **getUrl**(): `string`
 
-Defined in: [frontend/src/classes/theme.ts:110](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/frontend/src/classes/theme.ts#L110)
+Defined in: [frontend/src/classes/theme.ts:110](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/frontend/src/classes/theme.ts#L110)
 
 Returns ths URL of the Theme.
 
@@ -90,7 +90,7 @@ link's `src` attribute.
 
 > **toString**(): `string`
 
-Defined in: [frontend/src/classes/theme.ts:96](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/frontend/src/classes/theme.ts#L96)
+Defined in: [frontend/src/classes/theme.ts:96](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/frontend/src/classes/theme.ts#L96)
 
 Returns the name of the Theme.
 

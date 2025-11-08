@@ -6,7 +6,7 @@
 
 # Interface: Astro
 
-Defined in: [frontend/src/types/weather\_api.types.ts:96](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/frontend/src/types/weather_api.types.ts#L96)
+Defined in: [frontend/src/types/weather\_api.types.ts:96](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/frontend/src/types/weather_api.types.ts#L96)
 
 Astrology information in the Weather API response.
 
@@ -21,7 +21,7 @@ moon and its illumination.
 
 > **is\_moon\_up**: `0` \| `1`
 
-Defined in: [frontend/src/types/weather\_api.types.ts:97](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/frontend/src/types/weather_api.types.ts#L97)
+Defined in: [frontend/src/types/weather\_api.types.ts:97](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/frontend/src/types/weather_api.types.ts#L97)
 
 ***
 
@@ -29,7 +29,7 @@ Defined in: [frontend/src/types/weather\_api.types.ts:97](https://github.com/rad
 
 > **is\_sun\_up**: `0` \| `1`
 
-Defined in: [frontend/src/types/weather\_api.types.ts:98](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/frontend/src/types/weather_api.types.ts#L98)
+Defined in: [frontend/src/types/weather\_api.types.ts:98](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/frontend/src/types/weather_api.types.ts#L98)
 
 ***
 
@@ -37,7 +37,7 @@ Defined in: [frontend/src/types/weather\_api.types.ts:98](https://github.com/rad
 
 > **moon\_illumination**: `number`
 
-Defined in: [frontend/src/types/weather\_api.types.ts:99](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/frontend/src/types/weather_api.types.ts#L99)
+Defined in: [frontend/src/types/weather\_api.types.ts:99](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/frontend/src/types/weather_api.types.ts#L99)
 
 ***
 
@@ -45,7 +45,7 @@ Defined in: [frontend/src/types/weather\_api.types.ts:99](https://github.com/rad
 
 > **moon\_phase**: `string`
 
-Defined in: [frontend/src/types/weather\_api.types.ts:100](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/frontend/src/types/weather_api.types.ts#L100)
+Defined in: [frontend/src/types/weather\_api.types.ts:100](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/frontend/src/types/weather_api.types.ts#L100)
 
 ***
 
@@ -53,7 +53,7 @@ Defined in: [frontend/src/types/weather\_api.types.ts:100](https://github.com/ra
 
 > **moonrise**: `string`
 
-Defined in: [frontend/src/types/weather\_api.types.ts:101](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/frontend/src/types/weather_api.types.ts#L101)
+Defined in: [frontend/src/types/weather\_api.types.ts:101](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/frontend/src/types/weather_api.types.ts#L101)
 
 ***
 
@@ -61,7 +61,7 @@ Defined in: [frontend/src/types/weather\_api.types.ts:101](https://github.com/ra
 
 > **moonset**: `string`
 
-Defined in: [frontend/src/types/weather\_api.types.ts:102](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/frontend/src/types/weather_api.types.ts#L102)
+Defined in: [frontend/src/types/weather\_api.types.ts:102](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/frontend/src/types/weather_api.types.ts#L102)
 
 ***
 
@@ -69,7 +69,7 @@ Defined in: [frontend/src/types/weather\_api.types.ts:102](https://github.com/ra
 
 > **sunrise**: `string`
 
-Defined in: [frontend/src/types/weather\_api.types.ts:103](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/frontend/src/types/weather_api.types.ts#L103)
+Defined in: [frontend/src/types/weather\_api.types.ts:103](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/frontend/src/types/weather_api.types.ts#L103)
 
 ***
 
@@ -77,4 +77,4 @@ Defined in: [frontend/src/types/weather\_api.types.ts:103](https://github.com/ra
 
 > **sunset**: `string`
 
-Defined in: [frontend/src/types/weather\_api.types.ts:104](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/frontend/src/types/weather_api.types.ts#L104)
+Defined in: [frontend/src/types/weather\_api.types.ts:104](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/frontend/src/types/weather_api.types.ts#L104)

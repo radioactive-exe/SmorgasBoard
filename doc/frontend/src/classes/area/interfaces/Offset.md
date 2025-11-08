@@ -6,7 +6,7 @@
 
 # Interface: Offset
 
-Defined in: [frontend/src/classes/area.ts:77](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/frontend/src/classes/area.ts#L77)
+Defined in: [frontend/src/classes/area.ts:77](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/frontend/src/classes/area.ts#L77)
 
 A Rotation Offset object.
 
@@ -22,7 +22,7 @@ functions and eliminating code repetition easier.
 
 > **rotation**: `object`
 
-Defined in: [frontend/src/classes/area.ts:84](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/frontend/src/classes/area.ts#L84)
+Defined in: [frontend/src/classes/area.ts:84](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/frontend/src/classes/area.ts#L84)
 
 The rotation in degrees of the object.
 
@@ -44,7 +44,7 @@ This stores the rotation along 2 axes, the X-axis and the Y-axis.
 
 > **shadow**: `object`
 
-Defined in: [frontend/src/classes/area.ts:96](https://github.com/radioactive-exe/SmorgasBoard/blob/8822c9949d62eadf766003fbbb6c5642b98a9f87/frontend/src/classes/area.ts#L96)
+Defined in: [frontend/src/classes/area.ts:96](https://github.com/radioactive-exe/SmorgasBoard/blob/c5771cb1b8b31142e2e99a50ba1a0587fc429185/frontend/src/classes/area.ts#L96)
 
 The shadow offset.
 
