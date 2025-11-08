@@ -1,15 +1,13 @@
 /**
- * 
- * 
+ *
+ *
  * @module
- * 
+ *
  * @author Radioactive.exe
- * {@link https://github.com/radioactive-exe | GitHub Profile}
+ *   {@link https://github.com/radioactive-exe | GitHub Profile}
  */
 
-
 /** File Header Delimiter. */
-
 
 import type { SupabaseClient } from "./declarations.js";
 import { cors, createClient, dotenv, express, path } from "./declarations.js";
@@ -56,5 +54,5 @@ app.listen(port, () =>
     ),
 );
 
-module.exports = app;
+export default app;
 export { supabase };
