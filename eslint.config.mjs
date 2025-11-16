@@ -278,11 +278,16 @@ export default defineConfig([
                             ],
                         },
                         {
-                            // Supplementary descriptions
-                            tags: ["see", "example"],
+                            // Example
+                            tags: ["example"],
+                        },
+                        {
+                            // Closing/concluding references
+                            tags: ["see"],
                         },
                     ],
                     linesBetween: 1,
+                    tagExceptions: { example: 1 },
                 },
             ],
             "tsdoc/syntax": "warn",

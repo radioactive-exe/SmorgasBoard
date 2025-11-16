@@ -90,7 +90,7 @@ class PanelType {
      * Creates an instance of PanelType. NOTE: Similarly to themes, these should
      * not be created at runtime and will instead be set types with set data
      * types and names, unless otherwise is required. All the necessary types
-     * are declared at @alias (PanelTypes)
+     * are declared as static instances and members of this class.
      *
      * @param typeId
      * @param typeName
@@ -98,17 +98,17 @@ class PanelType {
      * @param typeTemplate     - The panel's template source from the backend.
      *   This is stored in an enum, {@link PanelTypeTemplate}, whose values are
      *   strings.
-     * @param typeConfig       - The panel type's config schema. Either an
-     *   object of {@link PanelTypeConfig}, which has an object of {@link Config},
-     *   or undefined if there is no config for this panel type.
+     * @param typeConfig       - The panel type's config schema. As an object of
+     *   type {@link PanelTypeConfig}, which is either a Config object, or
+     *   undefined if there is no config for this panel type.
      * @param typeBehaviour    - The panel type's behaviour function, if this
      *   Panel has any post-initialisation behaviour, such as a clock, etc.
      * @param typeMinSize      - The minimum size for this type of panel. If no
-     *   custom minimum size is declared, the default value {1, 1} is used
+     *   custom minimum size is declared, the default value {1, 1} is used.
      * @param typeAspectRatios - Any aspect ratios that this panel type has to
      *   have. If it can have any aspect ratio, this array is empty.
      * @param typeDataSource   - If the panel's data type is external, the
-     *   source/api is stored here
+     *   source/api is stored here.
      */
     private constructor(
         private readonly typeId: PanelTypeId,
@@ -123,7 +123,7 @@ class PanelType {
     ) {}
 
     /**
-     * Returns the Panel Type's internal name when used in @type {string}
+     * Returns the Panel Type's internal name when used in printed/string
      * contexts.
      *
      * @returns {string}
@@ -134,8 +134,6 @@ class PanelType {
 
     /**
      * Returns the ID number for this type of panel
-     *
-     * @memberof PanelType
      *
      * @returns {number}
      */
@@ -150,9 +148,7 @@ class PanelType {
     /**
      * Returns the name of the template for this PanelType
      *
-     * @memberof PanelType
-     *
-     * @returns {string}
+     * @returns
      */
     public getTemplate(): string {
         return this.typeTemplate;

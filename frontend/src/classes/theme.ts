@@ -5,7 +5,6 @@
  *
  * @author Radioactive.exe
  *   {@link https://github.com/radioactive-exe | GitHub Profile}
- *   {@link https://github.com/radioactive-exe/SmorgasBoard | The GitHub Repository}
  */
 
 /** File Header Delimiter. */
@@ -18,7 +17,7 @@
  * setting different themes.
  */
 class Theme {
-    /**
+    /*
      * These are all the Defined Themes in the project/application. They can be
      * accessed during runtime to switch themes and have any necessary info.
      */
@@ -77,7 +76,8 @@ class Theme {
      * Returns the Theme ID.
      *
      * @remarks
-     * The ID will be used to later set the Theme from a stored ID
+     * The ID is used when storing the current Theme, as well as setting the
+     * Theme from a stored ID
      *
      * @returns The Theme's internal ID.
      */

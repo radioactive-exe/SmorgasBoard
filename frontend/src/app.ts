@@ -1,3 +1,18 @@
+/**
+ * This is the main module for the Smorgasboard app.
+ *
+ * @remarks
+ * Almost all handlers, event listeners, and miscellaneous connections between
+ * different classes are housed here.
+ *
+ * @module
+ *
+ * @author Radioactive.exe
+ *   {@link https://github.com/radioactive-exe | GitHub Profile}
+ */
+
+/** File Header Delimiter. */
+
 import type {
     AuthChangeEvent,
     Session,
@@ -11,29 +26,21 @@ import type { Size } from "./classes/area.js";
 import { Area } from "./classes/area.js";
 import { Dashboard } from "./classes/dashboard.js";
 import { Panel } from "./classes/panel/panel.js";
-import { PanelType, PanelTypeConfig } from "./classes/panel/panel_type.js";
+import { PanelType } from "./classes/panel/panel_type.js";
 import { Theme } from "./classes/theme.js";
 
 import {
     deletePanelButton,
     editModeButton,
-    hoverItems,
+    fitContextMenuOnScreen,
+    hoverEntries,
     innerMenu,
-    keepContextMenuOnScreen,
     panelMenu,
-    removeContextMenu,
     spawnContextMenu,
     themeMenu,
 } from "./elements/context_menu.js";
 
-import * as get from "./functions/accessors.js";
-
-import {
-    rotateElementStyle,
-    rotatePanel,
-    snapElementToTarget,
-} from "./functions/manip.js";
-
+import { snapElementToTarget } from "./functions/manip.js";
 import * as utils from "./functions/util.js";
 
 //#region Constant Declarations
@@ -77,11 +84,6 @@ const holdHandler = {
     },
     release: releaseHandler,
 };
-const hoverHandler = {
-    enter: enterPanelHoverHandler,
-    move: movePanelHoverHandler,
-    exit: exitPanelHoverHandler,
-};
 
 const commonHandler = {
     pointerdown: function (panel: Panel): void {
@@ -100,12 +102,11 @@ const commonHandler = {
     },
 };
 
-const preview: Panel = new Panel(
-    Area.INIT,
-    PanelType.PREVIEW,
-    -1,
-    PanelTypeConfig.NONE,
-);
+/**
+ * The Preview panel, used whenever a panel is being moved around or resized,
+ * previewing where it could possibly snap to the grid to.
+ */
+const preview: Panel = new Panel(Area.INIT, PanelType.PREVIEW, -1);
 preview.classList.add("final-preview");
 
 const current = {
@@ -204,52 +205,6 @@ function releaseHandler(): void {
     utils.deleteAfterTransition(preview);
 }
 
-function enterPanelHoverHandler(e: MouseEvent): void {
-    if (dashboard.isEditing()) return;
-    const target: Panel = e.currentTarget as Panel;
-    const panel: Panel = target?.shadowRoot?.querySelector(
-        ".panel-body",
-    ) as Panel;
-
-    if (!panel?.classList.contains("moving")) {
-        target.classList.add("hovering");
-        setTimeout(
-            () => {
-                if (target.classList.contains("hovering")) {
-                    if (panel) panel.part.add("in-motion");
-                }
-            },
-            get.normalisedCssPropertyValue(panel, "transition-duration"),
-        );
-    }
-}
-
-function movePanelHoverHandler(e: MouseEvent): void {
-    if (dashboard.isEditing()) return;
-    e.stopPropagation();
-    if (
-        !(e.currentTarget as Panel)?.shadowRoot
-            ?.querySelector(".panel-body")
-            ?.classList.contains("moving")
-    ) {
-        rotatePanel(e);
-    }
-}
-
-function exitPanelHoverHandler(e: MouseEvent): void {
-    rotateElementStyle(e.target as HTMLElement, {
-        rotation: { x: 0, y: 0 },
-        shadow: { x: 0, y: 0 },
-    });
-
-    if (dashboard.isEditing()) return;
-    const panel = (e.currentTarget as Panel)?.shadowRoot?.querySelector(
-        ".panel-body",
-    );
-    panel?.part.remove("in-motion");
-    (e.currentTarget as Panel)?.classList.remove("hovering");
-}
-
 function setDocumentHandlers(): void {
     document.addEventListener("pointermove", holdHandler.drag);
     document.addEventListener("pointerup", holdHandler.release);
@@ -334,16 +289,6 @@ function updateDimensionsMatrix(): void {
     }
 }
 
-function contextMenuLoseFocusHandler(e: MouseEvent): void {
-    const target: HTMLElement = e.target as HTMLElement;
-    if (
-        target != innerMenu
-        && target.closest(".context-menu") == null
-        && target != contextNavButton
-    )
-        removeContextMenu();
-}
-
 function init(): void {
     if (
         Dashboard.getFractionalWidth() < 100
@@ -409,7 +354,7 @@ editModeButton?.addEventListener("click", (_e: MouseEvent) => {
     if (!innerMenu) return;
     dashboard.toggleEditMode();
     if (dashboard.isEditing()) {
-        keepContextMenuOnScreen();
+        fitContextMenuOnScreen();
     }
 });
 
@@ -417,7 +362,7 @@ deletePanelButton?.addEventListener("click", () => {
     dashboard.deletePanel(current.panel);
 });
 
-hoverItems.forEach((item) => {
+hoverEntries.forEach((item) => {
     item.addEventListener("mouseenter", () => {
         item.classList.add("active");
     });
@@ -508,7 +453,6 @@ supabase.auth.onAuthStateChange(
                 dashboard.save();
                 await supabase.functions.invoke("hello-world", {
                     body: {
-                        name: "Functions",
                         email: user.email,
                         username: user.username,
                     },
@@ -530,12 +474,11 @@ supabase.auth.onAuthStateChange(
 
 export {
     commonHandler,
-    contextMenuLoseFocusHandler,
+    contextNavButton,
     current,
     dashboard,
     finishLoading,
     holdHandler,
-    hoverHandler,
     init,
     loader,
     modalLayer,

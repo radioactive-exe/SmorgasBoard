@@ -7,7 +7,6 @@
  *
  * @author Radioactive.exe
  *   {@link https://github.com/radioactive-exe | GitHub Profile}
- *   {@link https://github.com/radioactive-exe/SmorgasBoard | The GitHub Repository}
  */
 
 /** File Header Delimiter. */
@@ -45,7 +44,7 @@ interface Coordinate {
  *
  * @remarks
  * This stores the width and height (horizontal and vertical dimensions) of the
- * item they belong to. {@label Size}
+ * item they belong to.
  */
 interface Size {
     width: number;
@@ -115,16 +114,18 @@ interface AreaInstance {
     size: Size;
 }
 
+// TODO: Fix Panel Link
+
 /**
  * This is the Area class.
  *
  * @remarks
- * This class holds all information for the Area (position and size) of a
- * {@link Panel} or other object, with relevant and helpful methods and members.
- * TODO: Fix Panel Link It includes setters and getters, as well as parsing for
- * both absolute and fractional units used for Sizes and Coordinates. This class
- * is used when checking for collision, snapping Panels, and holistically
- * keeping the dashboard organised. {@label Area}
+ * This class holds all information for the Area (position and size) of a Panel
+ * or other object, with relevant and helpful methods and members. It includes
+ * setters and getters, as well as parsing for both absolute and fractional
+ * units used for Sizes and Coordinates. This class is used when checking for
+ * collision, snapping Panels, and holistically keeping the dashboard
+ * organised.
  *
  * @see
  * {@link Size} {@link Coordinate} {@link AreaInstance}

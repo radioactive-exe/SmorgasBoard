@@ -165,8 +165,8 @@
     }
 
     &.lerping {
-        transform: translate(var(--x), var(--y-vector));
         transition: all var(--med-transition-time) var(--bezier-function);
+        transform: translate(var(--x), var(--y-vector));
     }
 
     &.visible {

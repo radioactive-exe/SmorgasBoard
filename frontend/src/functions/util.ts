@@ -102,9 +102,11 @@ function collidesWithAnyPanel(area: Area): boolean {
  * @returns               Whether or not all panels would still fit if we switch
  *   to the potential dimensions.
  *
- * @example If any of the dashboard panels would lie fully/partially outside a
- * potential size of 2x2, then `fullyContained` would be false. Otherwise, it
- * would be true
+ * @example
+ *
+ * If any of the dashboard panels would lie fully/partially outside a potential
+ * size of 2x2, then `fullyContained` would be false. Otherwise, it would be
+ * true
  *
  * ```ts
  * const fullyContained = wouldFit({width: 2, height: 2}, dashboard.getPanels());
@@ -132,9 +134,14 @@ function wouldFit(potentialSize: Size, panels: Panel[]): boolean {
  * @param el - The element we want to remove the class from.
  * @param cl - The class we want to remove.
  *
- * @example RemoveClassAfterTransition(alert, "visible"); // After the
- * transition duration, the class "visible" is removed from the `alert`
- * element.
+ * @example
+ *
+ * ```ts
+ * RemoveClassAfterTransition(alert, "visible");
+ * ```
+ *
+ * After the transition duration, the class "visible" is removed from the
+ * `alert` element.
  */
 function removeClassAfterTransition(el: HTMLElement, cl: string): void {
     setTimeout(
@@ -155,7 +162,11 @@ function removeClassAfterTransition(el: HTMLElement, cl: string): void {
  * @param el     - The child element to be removed.
  * @param parent - The parent from which the child is being removed.
  *
- * @example DeleteAfterTransition(spawnedAlert, modalLayer);
+ * @example
+ *
+ * ```ts
+ * deleteAfterTransition(spawnedAlert, modalLayer);
+ * ```
  */
 function deleteAfterTransition(
     el: HTMLElement,
@@ -205,6 +216,33 @@ function isValidOption(
     );
 }
 
+/**
+ * Gets the corresponding label for the option with the inputted value.
+ *
+ * @param   possibleOptions - The list of options we will check for the label.
+ * @param   targetValue     - The value whose label we are attempting to fetch
+ *   from the possible options.
+ *
+ * @returns                 The label, if found. If it is not found, the
+ *   function returns `null`.
+ *
+ * @example
+ *
+ * ```ts
+ * const options = [
+ *      {
+ *          optionLabel: "Option 1",
+ *          optionValue: "one"
+ *      }, {
+ *          optionLabel: "Option 2",
+ *      optionValue: "two"
+ *      }
+ * ];
+ *
+ * console.log(getOptionLabelFromList(options, "one")); // => Outputs "Option 1"
+ * console.log(getOptionLabelFromList(options, "three")); // => Outputs `null`
+ * ```
+ */
 function getOptionLabelFromList(
     possibleOptions: ListSelectionOption[],
     targetValue: string,

@@ -196,7 +196,7 @@
                 &::before,
                 &::after {
                     background: var(--input-accent);
-                    box-shadow: 0 0 0.3rem 0 var(--input-accent);
+                    box-shadow: 0 0 0.2rem 0 var(--input-accent);
                 }
 
                 &::before {

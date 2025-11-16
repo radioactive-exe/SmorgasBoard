@@ -15,7 +15,6 @@ import {
     current,
     dashboard,
     holdHandler,
-    hoverHandler,
     preview,
     supabase,
 } from "../../app.js";
@@ -23,6 +22,7 @@ import {
 import * as get from "../../functions/accessors.js";
 
 import {
+    hoverHandler,
     movePanelWithinScreen,
     resizePanel,
     snapElementToGrid,
@@ -40,7 +40,7 @@ import type * as ConfigEntry from "../config/config_entry.js";
 import { configMenu } from "../config/config_menu_builder.js";
 
 import { addEntry } from "./panel_behaviour/todo_panel.js";
-import { saveLocation } from "./panel_behaviour/weather_panel.js";
+import { savedLocationEntry } from "./panel_behaviour/weather_panel.js";
 import { PanelType, PanelTypeConfig, PanelTypeTemplate } from "./panel_type.js";
 
 /**
@@ -63,8 +63,6 @@ interface PanelContent {
 /**
  * A custom HTMLElement, implements many methods for custom use with the program
  * to make work more efficient.
- *
- * {@label Panel}.
  */
 class Panel extends HTMLElement {
     private keyElements: Map<string, HTMLElement | null>;
@@ -82,8 +80,8 @@ class Panel extends HTMLElement {
         private area: Area,
         private type: PanelType,
         private dashboardId: number,
-        private config: Config | undefined,
-        body?: object,
+        private config: Config | undefined = undefined,
+        body?: PanelContent,
     ) {
         super();
 
@@ -95,7 +93,7 @@ class Panel extends HTMLElement {
         this.init(config, body);
     }
 
-    private init(existentConfig?: Config, body?: object): void {
+    private init(existentConfig?: Config, body?: PanelContent): void {
         if (this.type == PanelType.PREVIEW) return;
         this.initBase()
             .then(() => {
@@ -228,7 +226,7 @@ class Panel extends HTMLElement {
     }
 
     /**
-     * Gets the Area of the current Panel, as an object of @type {Area}.
+     * Gets the Area of the current Panel, as an object of {@link Area}.
      *
      * @returns
      */
@@ -237,7 +235,7 @@ class Panel extends HTMLElement {
     }
 
     /**
-     * Sets the Panel's Area with a complete @type {Area} input.
+     * Sets the Panel's Area with a complete {@link Area} input.
      *
      * @param other
      */
@@ -270,7 +268,7 @@ class Panel extends HTMLElement {
     }
 
     /**
-     * Gets the Panel's (Area's) position, as an object of @type {Coordinate}.
+     * Gets the Panel's (Area's) position, as an object of {@link Coordinate}.
      *
      * @returns
      */
@@ -312,7 +310,7 @@ class Panel extends HTMLElement {
     }
 
     /**
-     * Gets the size of the Panel ('s Area) as an object of @type {Size}.
+     * Gets the size of the Panel ('s Area) as an object of {@link Size}.
      *
      * @returns
      */
@@ -338,7 +336,7 @@ class Panel extends HTMLElement {
     }
 
     /**
-     * Returns the Panel's type, as an object of @type {PanelType}.
+     * Returns the Panel's type, as an object of {@link PanelType}.
      *
      * @returns {PanelType}
      */
@@ -347,7 +345,7 @@ class Panel extends HTMLElement {
     }
 
     /**
-     * Sets the Panel Type from a received input of @type {PanelType}.
+     * Sets the Panel Type from a received input of {@link PanelType}.
      *
      * @param type
      */
@@ -475,17 +473,18 @@ class Panel extends HTMLElement {
                         ).value;
                         const temperatureSymbol = useCelsius ? "C" : "F";
 
-                        saveLocation(
-                            savedLocations,
-                            this,
-                            data.location.name,
-                            location.lat,
-                            location.lon,
-                            data.current.condition.text,
-                            `${Math.round(useCelsius ? data.current.temp_c : data.current.temp_f)}&deg${temperatureSymbol}`,
-                            `${Math.round(useCelsius ? data.forecast.forecastday[0].day.mintemp_c : data.forecast.forecastday[0].day.mintemp_f)}&deg${temperatureSymbol}`,
-                            `${Math.round(useCelsius ? data.forecast.forecastday[0].day.maxtemp_c : data.forecast.forecastday[0].day.maxtemp_f)}&deg${temperatureSymbol}`,
-                            false,
+                        savedLocations.appendChild(
+                            savedLocationEntry(
+                                this,
+                                data.location.name,
+                                location.lat,
+                                location.lon,
+                                data.current.condition.text,
+                                `${Math.round(useCelsius ? data.current.temp_c : data.current.temp_f)}&deg${temperatureSymbol}`,
+                                `${Math.round(useCelsius ? data.forecast.forecastday[0].day.mintemp_c : data.forecast.forecastday[0].day.mintemp_f)}&deg${temperatureSymbol}`,
+                                `${Math.round(useCelsius ? data.forecast.forecastday[0].day.maxtemp_c : data.forecast.forecastday[0].day.maxtemp_f)}&deg${temperatureSymbol}`,
+                                false,
+                            ),
                         );
                     },
                 );

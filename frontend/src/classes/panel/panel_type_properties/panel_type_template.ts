@@ -1,8 +1,4 @@
-/**
- * An @enum of the template URLs for each panel type.
- *
- * @enum
- */
+/** An enum of the template URLs for each panel type. */
 enum PanelTypeTemplate {
     BASE = "definitions/panels/base",
     PREVIEW = "definitions/panels/preview",

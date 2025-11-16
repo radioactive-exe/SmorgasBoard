@@ -22,7 +22,7 @@
         ]
     },
     "scripts": {
-        "gen_docs": "npx typedoc --logLevel Verbose"
+        "gen_docs": "npx typedoc --options ./typedoc.json"
     },
     "devDependencies": {
         "@eslint/css": "^0.10.0",
@@ -33,14 +33,16 @@
         "@typescript-eslint/parser": "^8.46.3",
         "eslint": "^9.39.1",
         "eslint-plugin-import": "^2.32.0",
-        "eslint-plugin-jsdoc": "^54.7.0",
+        "eslint-plugin-jsdoc": "^61.2.0",
         "eslint-plugin-tsdoc": "^0.4.0",
         "prettier": "^3.6.2",
         "prettier-eslint": "^16.4.2",
         "prettier-plugin-jsdoc": "^1.5.0",
         "prettier-plugin-organize-attributes": "^1.0.0",
         "typedoc": "^0.28.14",
+        "typedoc-github-wiki-theme": "^2.1.0",
         "typedoc-plugin-markdown": "^4.9.0",
+        "typedoc-plugin-missing-exports": "^4.1.2",
         "typedoc-plugin-zod": "^1.4.3",
         "typescript-eslint": "^8.46.3",
         "vite": "^7.2.2"

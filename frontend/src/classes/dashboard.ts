@@ -5,7 +5,6 @@
  *
  * @author Radioactive.exe
  *   {@link https://github.com/radioactive-exe | GitHub Profile}
- *   {@link https://github.com/radioactive-exe/SmorgasBoard | The GitHub Repository}
  */
 
 /** File Header Delimiter. */
@@ -41,9 +40,6 @@ import { Theme } from "./theme.js";
  * This class houses the main object for the application/website. This dashboard
  * will be the only element initially in the DOM. It handles adding and removing
  * panels, setting the theme, and editing the layout of its contents.
- *
- * @see
- * {@link HTMLElement}
  */
 class Dashboard extends HTMLElement {
     /**

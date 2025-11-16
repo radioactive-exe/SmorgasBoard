@@ -1,8 +1,36 @@
 {
     "entryPoints": ["./*/src/**/*.ts"],
     "out": "doc",
-    "plugin": ["typedoc-plugin-zod", "typedoc-plugin-markdown"],
+    "plugin": [
+        "typedoc-plugin-zod",
+        "typedoc-plugin-markdown",
+        "typedoc-plugin-missing-exports",
+        "typedoc-github-wiki-theme"
+    ],
     "excludeNotDocumented": true,
     "excludeNotDocumentedKinds": ["Variable"],
-    "exclude": ["./backend/src/declarations.ts"]
+    "exclude": ["./backend/src/declarations.ts"],
+    "tsconfig": "./tsconfig.json",
+    "excludeExternals": true,
+    "placeInternalsInOwningModule": true,
+    "includeDocCommentReferences": true,
+    "excludePrivate": false,
+    "excludePrivateClassFields": false,
+    "externalSymbolLinkMappings": {
+        "zod": {
+            "": "https://zod.dev/",
+            "ZodObject": "https://zod.dev/api#objects",
+            "output": "https://zod.dev/basics#inferring-types"
+        }
+    },
+    "emit": "both",
+    "name": "Smorgasboard",
+    "useCodeBlocks": true,
+    "indexFormat": "table",
+    "parametersFormat": "table",
+    "interfacePropertiesFormat": "table",
+    "classPropertiesFormat": "table",
+    "typeAliasPropertiesFormat": "table",
+    "enumMembersFormat": "table",
+    "formatWithPrettier": true
 }
