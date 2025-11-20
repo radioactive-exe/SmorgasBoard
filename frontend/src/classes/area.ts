@@ -1,6 +1,6 @@
 /**
- * The main class file for the {@link Area} type. Different interfaces, including
- * {@link Coordinate} and {@link Size}, that are utilised in the Area class are
+ * This file contains the {@link Area} class. Different interfaces, including
+ * {@link Coordinates} and {@link Size}, that are utilised in the Area class are
  * also defined here.
  *
  * @module
@@ -19,8 +19,10 @@ import { Dashboard } from "./dashboard.js";
  * @remarks
  * This object stores the X (horizontal) and Y (vertical) positions of the item
  * they belong to.
+ *
+ * @see {@link Size}
  */
-interface Coordinate {
+interface Coordinates {
     x: number;
     y: number;
     /**
@@ -45,6 +47,8 @@ interface Coordinate {
  * @remarks
  * This stores the width and height (horizontal and vertical dimensions) of the
  * item they belong to.
+ *
+ * @see {@link Coordinates}
  */
 interface Size {
     width: number;
@@ -104,13 +108,11 @@ interface Offset {
  * @remarks
  * This is used when we are instantiating an {@link Area} from an Object, or when
  * we need an Object-format version of an Area to `JSON.stringify()` for
- * storage
- *
- * - Either local or in the database. This instance, similar to the Area's parsed
- *   coordinates and sizes, uses fractional units.
+ * storage, either locally or in the database. This instance, similar to the
+ * Area's parsed coordinates and sizes, uses fractional units.
  */
 interface AreaInstance {
-    pos: Coordinate;
+    pos: Coordinates;
     size: Size;
 }
 
@@ -127,8 +129,9 @@ interface AreaInstance {
  * collision, snapping Panels, and holistically keeping the dashboard
  * organised.
  *
- * @see
- * {@link Size} {@link Coordinate} {@link AreaInstance}
+ * @see {@link Size}
+ * @see {@link Coordinates}
+ * @see {@link AreaInstance}
  */
 class Area {
     /**
@@ -145,7 +148,7 @@ class Area {
     );
 
     /** Position component of the Area. */
-    private pos: Coordinate;
+    private pos: Coordinates;
     /** Size component of the Area. */
     private size: Size;
 
@@ -154,15 +157,15 @@ class Area {
      *
      * @remarks
      * The constructor creates an Area from a pair of Coordinates and an
-     * optional Size input. If no size is passed, default size of {1, 1} is used
-     * instead.
+     * optional Size input. If no size is passed, default size of `{1, 1}` is
+     * used instead.
      *
      * @param coords - The input coordinates (absolute or fractional) to
      *   instantiate the Area with. These are passed to and dealt with inside
-     *   {@link setCoordinates} .
+     *   {@link setPosition | setCoordinates()} .
      * @param size   - The input size (absolute or fractional) to instantiate
-     *   the Area with. These are passed to and dealt with inside {@link setSize}
-     *   .
+     *   the Area with. These are passed to and dealt with inside
+     *   {@link setSize | setSize()} .
      *
      * @example
      *
@@ -174,10 +177,10 @@ class Area {
      * dashboard/container) and with a default size of `{width: 1, height: 1}`.
      */
     public constructor(
-        coords: Coordinate,
+        coords: Coordinates,
         size: Size = { width: 1, height: 1 },
     ) {
-        this.setCoordinates(coords);
+        this.setPosition(coords);
         this.setSize(size);
     }
 
@@ -186,7 +189,9 @@ class Area {
      *
      * @returns The X coordinate.
      *
-     * @see {@link getCoordinates} {@link pos}
+     * @see {@link getCoordinates | getCoordinates()}
+     * @see {@link getAbsoluteX | getAbsoluteX()}
+     * @see {@link pos}
      */
     public getX(): number {
         return this.pos.x;
@@ -197,7 +202,9 @@ class Area {
      *
      * @returns The X coordinate in pixels.
      *
-     * @see {@link getCoordinates} {@link pos}
+     * @see {@link getCoordinates | getCoordinates()}
+     * @see {@link getX | getX()}
+     * @see {@link pos}
      */
     public getAbsoluteX(): number {
         return this.pos.x * Dashboard.getFractionalWidth();
@@ -208,7 +215,9 @@ class Area {
      *
      * @returns The Y coordinate.
      *
-     * @see {@link getCoordinates} {@link pos}
+     * @see {@link getCoordinates}
+     * @see {@link getAbsoluteY | getAbsoluteY()}
+     * @see {@link pos}
      */
     public getY(): number {
         return this.pos.y;
@@ -219,7 +228,9 @@ class Area {
      *
      * @returns The Y coordinate in pixels.
      *
-     * @see {@link getCoordinates} {@link pos}
+     * @see {@link getCoordinates}
+     * @see {@link getY | getY()}
+     * @see {@link pos}
      */
     public getAbsoluteY(): number {
         return this.pos.y * Dashboard.getFractionalHeight();
@@ -229,12 +240,12 @@ class Area {
      * Returns the position/coordinates of this Area.
      *
      * @remarks
-     * The position is returned as as an object of type {@link Coordinate},
+     * The position is returned as as an object of type {@link Coordinates},
      * expressed in fractional units ({@link pos}).
      *
      * @returns - The Coordinates (relative/fractional) of the Area.
      */
-    public getCoordinates(): Coordinate {
+    public getCoordinates(): Coordinates {
         return this.pos;
     }
 
@@ -247,7 +258,7 @@ class Area {
      * stored as such. As such, the {@link pos} member will always store the
      * coordinates in units.
      *
-     * @param coords - The input coordinates to set the Area's {@link pos} to.
+     * @param coords - The input coordinates to set the Area's position to.
      *
      * @example
      *
@@ -257,10 +268,15 @@ class Area {
      *
      * Sets `areaOne`'s coordinates with literal pixel values 200 and 250. In
      * other words, `areaOne` will be positioned 200 pixels horizontally and 250
-     * pixels vertically inside the dashboard/container.
+     * pixels vertically inside the dashboard/container, and will thus be
+     * snapped/rounded to the nearest row and column in the dashboard.
+     *
+     * @see {@link setSize | setSize()}
+     * @see {@link Coordinates#isAbsolute}
      */
-    public setCoordinates(coords: Coordinate): void {
+    public setPosition(coords: Coordinates): void {
         if (coords.isAbsolute) {
+            // ? Rounds the width and height to the nearest dashboard fractional unit if they are absolute
             this.pos = {
                 x: Math.round(coords.x / Dashboard.getFractionalWidth()),
                 y: Math.round(coords.y / Dashboard.getFractionalHeight()),
@@ -275,7 +291,10 @@ class Area {
      *
      * @returns The fractional Width of the Area.
      *
-     * @see {@link size} {@link getAbsoluteWidth}
+     * @see {@link size}
+     * @see {@link getSize | getSize()}
+     * @see {@link getAbsoluteWidth | getAbsoluteWidth()}
+     * @see {@link getHeight | getHeight()}
      */
     public getWidth(): number {
         return this.size.width;
@@ -286,7 +305,10 @@ class Area {
      *
      * @returns The absolute Width (in pixels) of the Area.
      *
-     * @see {@link size} {@link getWidth}
+     * @see {@link size}
+     * @see {@link getSize | getSize()}
+     * @see {@link getWidth | getWidth()}
+     * @see {@link getAbsoluteHeight | getAbsoluteHeight()}
      */
     public getAbsoluteWidth(): number {
         return this.size.width * Dashboard.getFractionalWidth();
@@ -297,7 +319,10 @@ class Area {
      *
      * @returns The fractional Height of the Area.
      *
-     * @see {@link size} {@link getAbsoluteHeight}
+     * @see {@link size}
+     * @see {@link getSize | getSize()}
+     * @see {@link getAbsoluteHeight | getAbsoluteHeight()}
+     * @see {@link getWidth | getWidth()}
      */
     public getHeight(): number {
         return this.size.height;
@@ -308,7 +333,10 @@ class Area {
      *
      * @returns The absolute Height (in pixels) of the Area.
      *
-     * @see {@link size} {@link getHeight}
+     * @see {@link size}
+     * @see {@link getSize | getSize()}
+     * @see {@link getHeight | getHeight()}
+     * @see {@link getAbsoluteWidth | getAbsoluteWidth()}
      */
     public getAbsoluteHeight(): number {
         return this.size.height * Dashboard.getFractionalHeight();
@@ -319,6 +347,13 @@ class Area {
      * {@link Size}.
      *
      * @returns The Size (fractional/relative) of the Area.
+     *
+     * @see {@link size}
+     * @see {@link getHeight | getHeight()}
+     * @see {@link getAbsoluteHeight | getHeight()}
+     * @see {@link getWidth | getWidth()}
+     * @see {@link getAbsoluteWidth | getAbsoluteWidth()}
+     * @see {@link setSize | setSize()}
      */
     public getSize(): Size {
         return this.size;
@@ -343,9 +378,11 @@ class Area {
      * Sets `areaOne`'s size to be one unit wide and tall
      *
      * @see {@link Size#isAbsolute}
+     * @see {@link setPosition | setPosition()}
      */
     public setSize(size: Size): void {
         if (size.isAbsolute) {
+            // ? Rounds the width and height to the nearest dashboard fractional unit
             this.size = {
                 width: Math.round(size.width / Dashboard.getFractionalWidth()),
                 height: Math.round(
@@ -358,4 +395,4 @@ class Area {
     }
 }
 
-export { Area, AreaInstance, Coordinate, Offset, Size };
+export { Area, AreaInstance, Coordinates, Offset, Size };

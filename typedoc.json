@@ -4,8 +4,7 @@
     "plugin": [
         "typedoc-plugin-zod",
         "typedoc-plugin-markdown",
-        "typedoc-plugin-missing-exports",
-        "typedoc-github-wiki-theme"
+        "typedoc-plugin-missing-exports"
     ],
     "excludeNotDocumented": true,
     "excludeNotDocumentedKinds": ["Variable"],
@@ -21,6 +20,18 @@
             "": "https://zod.dev/",
             "ZodObject": "https://zod.dev/api#objects",
             "output": "https://zod.dev/basics#inferring-types"
+        },
+        "@supabase/realtime-js": {
+            "default": "https://supabase.com/docs/guides/realtime"
+        },
+        "@supabase/supabase-js": {
+            "default": "https://supabase.com/docs/reference/javascript/introduction"
+        },
+        "@supabase/auth-js": {
+            "AuthApiError": "https://supabase.com/docs/guides/auth/debugging/error-codes",
+            "AuthWeakPasswordError": "https://supabase.com/docs/guides/auth/debugging/error-codes#:~:text=the%20expected%20format.-,weak_password,-User%20is%20signing",
+            "Subscription": "https://supabase.com/docs/reference/javascript/subscribe",
+            "AuthChangeEvent": "https://supabase.com/docs/reference/javascript/auth-onauthstatechange"
         }
     },
     "emit": "both",

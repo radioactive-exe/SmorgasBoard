@@ -3,6 +3,10 @@
         "stylelint-config-standard",
         "stylelint-config-hudochenkov/order"
     ],
+    "plugins": [
+        "stylelint-plugin-use-baseline",
+        "stylelint-high-performance-animation"
+    ],
     "rules": {
         "custom-property-empty-line-before": [
             "never",
@@ -30,6 +34,8 @@
             }
         ],
         "property-no-unknown": true,
-        "color-named": "never"
+        "color-named": "never",
+        "plugin/use-baseline": [true, { "ignoreSelectors": ["nesting"] }],
+        "plugin/no-low-performance-animation-properties": true
     }
 }

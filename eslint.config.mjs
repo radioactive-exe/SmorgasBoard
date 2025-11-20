@@ -11,15 +11,25 @@ import tsdoc from "eslint-plugin-tsdoc";
 export default defineConfig([
     globalIgnores([
         "eslint.config.mjs",
-        "vite.config.js",
-        "vercel.json",
         "**/*config.js*",
+        ".vscode/**/*",
+        ".vscode*/**/*",
+        "**/package.json",
+        "**/package-lock.json",
+        "**/tsdoc.json",
+        "**/vercel.json",
+        "**/tsconfig.json",
+        "cspell.json",
+        "**/.stylelintrc.json",
+        "**/build/**/*",
+        "**/dist/**/*",
+        "**/typedoc.json",
+        "**/temp.js",
     ]),
     tseslint.configs.strict,
     tseslint.configs.stylistic,
     importPlugin.flatConfigs.recommended,
     importPlugin.flatConfigs.errors,
-    jsdoc.configs["flat/recommended-typescript"],
     {
         files: ["**/*.{js,mjs,cjs,ts,mts,cts}"],
         plugins: { tsdoc },
@@ -28,6 +38,7 @@ export default defineConfig([
             importPlugin.flatConfigs.typescript,
             importPlugin.flatConfigs.recommended,
             importPlugin.flatConfigs.errors,
+            jsdoc.configs["flat/recommended-typescript"],
         ],
         rules: {
             "@typescript-eslint/explicit-function-return-type": "error",
@@ -317,5 +328,28 @@ export default defineConfig([
             tolerant: false,
         },
         extends: ["css/recommended"],
+        rules: {
+            "jsdoc/check-access": "off",
+            "jsdoc/check-alignment": "off",
+            "jsdoc/check-property-names": "off",
+            "jsdoc/check-tag-names": "off",
+            "jsdoc/check-types": "off",
+            "jsdoc/check-values": "off",
+            "jsdoc/empty-tags": "off",
+            "jsdoc/escape-inline-tags": "off",
+            "jsdoc/multiline-blocks": "off",
+            "css/no-invalid-properties": [
+                "error",
+                {
+                    allowUnknownVariables: true,
+                },
+            ],
+            "css/use-baseline": [
+                "error",
+                {
+                    allowSelectors: ["nesting"],
+                },
+            ],
+        },
     },
 ]);

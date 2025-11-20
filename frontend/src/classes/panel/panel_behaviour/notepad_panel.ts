@@ -1,5 +1,5 @@
 /**
- * This file contains the behaviour functions for the Notepad Panel Type.
+ * This file contains the behaviour functions for the Notepad PanelType.
  *
  * @module
  *
@@ -14,7 +14,7 @@ import type { Panel } from "../panel.js";
 // eslint-disable-next-line jsdoc/require-example
 /**
  * The main function called upon behaviour execution after the Panel template,
- * base, and config setup, for the Notepad Panel Type.
+ * base, and config setup, for the Notepad PanelType.
  *
  * @remarks
  * Any necessary validations are done to check that the panel type, config, and

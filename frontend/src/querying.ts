@@ -21,6 +21,9 @@ import type { PanelInstance } from "./classes/panel/panel";
  * This interface holds the structure and types for columns in the
  * `dashboard_data` table in the Supabase Database, and is used for safely
  * typing fetched data.
+ *
+ * @see {@link https://supabase.com/docs | Supabase}
+ * @see {@link https://supabase.com/docs/guides/database/connecting-to-postgres#data-apis-and-client-libraries | Supabase#Database}
  */
 interface DashboardDataFetch {
     panels?: PanelInstance[];
@@ -36,6 +39,9 @@ interface DashboardDataFetch {
  * @remarks
  * This interface holds the structure of all pushes to the Supabase database,
  * describing the types in the POST request payloads.
+ *
+ * @see {@link https://supabase.com/docs | Supabase}
+ * @see {@link https://supabase.com/docs/guides/database/connecting-to-postgres#data-apis-and-client-libraries | Supabase#Database}
  */
 interface DashboardSaveData {
     panels: PanelInstance[];
@@ -75,6 +81,9 @@ interface DashboardSaveData {
  *      }
  * }
  * ```
+ *
+ * @see {@link https://supabase.com/docs | Supabase}
+ * @see {@link https://supabase.com/docs/guides/database/connecting-to-postgres#data-apis-and-client-libraries | Supabase#Database}
  */
 async function getFromSmorgasBase(
     ...targets: ("theme" | "free_ids" | "panels" | "username" | "dimensions")[]
@@ -128,6 +137,9 @@ async function getFromSmorgasBase(
  * ```ts
  *     const updatedRecord = await patchIntoSmorgasBase("dashboard");
  * ```
+ *
+ * @see {@link https://supabase.com/docs | Supabase}
+ * @see {@link https://supabase.com/docs/guides/database/connecting-to-postgres#data-apis-and-client-libraries | Supabase#Database}
  */
 async function patchIntoSmorgasBase(
     target: "username" | "dashboard",
@@ -154,7 +166,7 @@ async function patchIntoSmorgasBase(
     }
 
     /**
-     * Sets the variable in {@link "./app.ts"} to store that this was a local
+     * Sets the variable in the main App module to store that this was a local
      * change for handling in the realtime channel listener.
      */
     setLocalChange(true);

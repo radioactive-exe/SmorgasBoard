@@ -13,7 +13,7 @@
 /** File Header Delimiter. */
 
 import { current, dashboard, preview } from "../app.js";
-import type { Coordinate, Offset, Size } from "../classes/area.js";
+import type { Coordinates, Offset, Size } from "../classes/area.js";
 import { Area } from "../classes/area.js";
 import { Dashboard } from "../classes/dashboard.js";
 import type { Panel } from "../classes/panel/panel.js";
@@ -33,9 +33,9 @@ interface PanelMovementInitData {
      * The initial coordinates of the first click/tap that triggered the drag
      * movement event.
      */
-    eventCoords: Coordinate;
+    eventCoords: Coordinates;
     /** The initial position of the panel being moved. */
-    panelPos: Coordinate;
+    panelPos: Coordinates;
 }
 
 /**
@@ -50,7 +50,7 @@ interface PanelResizeInitData {
      * The initial coordinates of the first click/tap that triggered the drag
      * resize event.
      */
-    eventCoords: Coordinate;
+    eventCoords: Coordinates;
     /** The initial size of the panel being resized. */
     panelSize: Size;
 }
@@ -188,7 +188,7 @@ function rotatePanel(e: MouseEvent): void {
         current.panel.dispatchEvent(new Event("mouseenter"));
     }
 
-    const eventCoords: Coordinate = { x: e.clientX, y: e.clientY };
+    const eventCoords: Coordinates = { x: e.clientX, y: e.clientY };
 
     // ? If the panel is currently focused and centred on screen/enlarged, similar to
     // ? when it is being configured, but still in a state where rotation is wanted,

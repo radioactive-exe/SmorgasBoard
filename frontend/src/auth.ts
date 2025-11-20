@@ -14,7 +14,7 @@
 
 /** File Header Delimiter. */
 
-import type { AuthResponse } from "@supabase/supabase-js";
+import type { AuthApiError, AuthResponse } from "@supabase/supabase-js";
 import { AuthWeakPasswordError, isAuthApiError } from "@supabase/supabase-js";
 
 import { setFirstTime, supabase, user } from "./app.js";
@@ -103,6 +103,10 @@ let statusMessage: {
  * ```ts
  * register("pro_coder_33", "real_email@someplace.com", "ILoveMyDog123#");
  * ```
+ *
+ * @see {@link AuthApiError}
+ * @see {@link AuthWeakPasswordError}
+ * @see {@link https://supabase.com/docs/guides/auth | Supabase#Auth}
  */
 async function register(
     username: string,
@@ -110,8 +114,8 @@ async function register(
     password: string,
 ): Promise<void> {
     /**
-     * This updates the variable stored in {@link "./app.ts"} to track that this
-     * sign in was a first time register, and not a returning signin.
+     * This updates the variable stored in the main module to track that this
+     * was a first time register, and not a returning signin.
      */
     setFirstTime(true);
 
@@ -142,7 +146,11 @@ async function register(
     ) {
         // ? The error type is parsed, and the resulting error message is assigned to the `statusMessage` object, to be later utilised to spawn the relevant alert.
 
-        switch (registrationResult.error.code) {
+        const typedError = registrationResult.error as
+            | AuthApiError
+            | AuthWeakPasswordError;
+
+        switch (typedError.code) {
             case "user_already_exists":
                 statusMessage = {
                     error: "Email already registered! Try Logging in instead.",
@@ -155,9 +163,7 @@ async function register(
             case "weak_password":
                 statusMessage = {
                     error: "Weak Password! A password must:\n",
-                    requirements: (
-                        registrationResult.error as AuthWeakPasswordError
-                    ).reasons,
+                    requirements: (typedError as AuthWeakPasswordError).reasons,
                 };
                 break;
             case "over_request_rate_limit":
@@ -171,11 +177,9 @@ async function register(
                 };
                 break;
             case "validation_failed":
-                if (registrationResult.error.message.includes("email")) {
+                if (typedError.message.includes("email")) {
                     statusMessage = { error: "Invalid Email Address!" };
-                } else if (
-                    registrationResult.error.message.includes("password")
-                ) {
+                } else if (typedError.message.includes("password")) {
                     statusMessage = { error: "Please enter a password!" };
                 }
                 break;
@@ -225,6 +229,10 @@ async function register(
  * ```ts
  * login("real_email@someplace.com", "ILoveMyDog123#");
  * ```
+ *
+ * @see {@link https://supabase.com/docs | Supabase}
+ * @see {@link AuthApiError}
+ * @see {@link https://supabase.com/docs/guides/auth | Supabase#Auth}
  */
 async function login(email: string, password: string): Promise<void> {
     /**
@@ -292,6 +300,10 @@ async function login(email: string, password: string): Promise<void> {
  * ```ts
  *     console.log(parsedReason("length"));
  * ```
+ *
+ * @see {@link https://supabase.com/docs | Supabase}
+ * @see {@link https://supabase.com/docs/guides/auth | Supabase#Auth}
+ * @see {@link AuthApiError}
  */
 function parsedReason(reason: string): string {
     switch (reason) {
@@ -304,7 +316,12 @@ function parsedReason(reason: string): string {
     }
 }
 
-/** Signs the user out. */
+/**
+ * Signs the user out.
+ *
+ * @see {@link https://supabase.com/docs | Supabase}
+ * @see {@link https://supabase.com/docs/guides/auth | Supabase#Auth}
+ */
 function logout(): void {
     supabase.auth.signOut();
 }

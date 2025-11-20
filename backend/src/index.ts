@@ -1,4 +1,8 @@
 /**
+ * The main module that handles all calls to the backend. All main routes are
+ * here, along with the Supabase Client and Express app setup, and any other
+ * needed steps like the dotenv configuration.
+ *
  * @module
  *
  * @author Radioactive.exe
@@ -24,6 +28,11 @@ import definitionsRouter from "./routers/definitions_router.js";
 
 dotenv.config();
 
+/**
+ * The Supabase client created for use throughout the backend.
+ *
+ * @see {@link SupabaseClient}
+ */
 const supabase: SupabaseClient = createClient(
     process.env.SUPABASE_URL ?? "",
     process.env.SUPABASE_KEY ?? "",
@@ -31,18 +40,20 @@ const supabase: SupabaseClient = createClient(
 
 const app = express();
 const port = 3000;
+/** Ensures CORS only allows requests from these origins. */
 const allowedOrigins: string[] = [
     "https://smorgasboard.irradiated.app",
     "https://smorgasboard.vercel.app/",
     "https://smorgasboard.vercel.app",
-    "http://127.0.0.1:3000",
-    "http://127.0.0.1:3001",
+    process.env.ORIGIN_URL ?? "",
 ];
 
 const __filename = url.fileURLToPath(import.meta.url);
+/** The current directory as a file path. */
 const __dirname = path.dirname(__filename);
 
-app.use(
+/** Implements CORS to only allow the origins in {@link allowedOrigins}. */
+const _corsHandler = app.use(
     cors({
         origin: allowedOrigins,
     }),
@@ -50,17 +61,28 @@ app.use(
 
 app.use(express.json());
 
-app.use("/definitions/", definitionsRouter);
-app.use("/smorgasbase/", databaseRouter);
-app.use("/api/", apiRouter);
+/** Routes all calls to the Definitions route directly to that handler. */
+const _definitionsHandler = app.use("/definitions/", definitionsRouter);
+/** Routes all calls to the Database directly to that handler. */
+const _databaseHandler = app.use("/smorgasbase/", databaseRouter);
+/** Routes all calls to the external API route directly to that handler. */
+const _apiHandler = app.use("/api/", apiRouter);
 
-app.get("/", (_req: express.Request, res: express.Response) => {
-    res.sendFile(path.resolve(__dirname + "/../index.html"));
-});
+/**
+ * A simple (and incredibly primitive) page for when this backend is somehow
+ * accessed or the page is landed upon/requested.
+ */
+const _baseResponse = app.get(
+    "/",
+    (_req: express.Request, res: express.Response) => {
+        res.sendFile(path.resolve(__dirname + "/../index.html"));
+    },
+);
 
-app.listen(port, () =>
+/** Begins the listening for all requests! */
+const _listener = app.listen(port, () =>
     console.log(
-        `SmorgasBoard listening on SmorgasPort ${port}! (Get it? Cuz... SmorgasB- eh whatever)`,
+        `SmorgasBoard listening on SmorgasPort ${port}! (Get it? Cuz... SmorgasBoa- eh whatever)`,
     ),
 );
 

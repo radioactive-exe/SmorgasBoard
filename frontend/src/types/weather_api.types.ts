@@ -1,10 +1,13 @@
 /**
- * This file contains all the types for responses from the Weather API.
+ * This file contains all the types for responses from the Weather API, and
+ * thus, from the backend of Smorgasboard.
  *
  * @module
  *
  * @author Radioactive.exe
  *   {@link https://github.com/radioactive-exe | GitHub Profile}
+ *
+ * @see {@link https://www.weatherapi.com/docs/ | WeatherAPI}
  */
 
 /** File Header Delimiter. */

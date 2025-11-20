@@ -7,7 +7,7 @@
     align-items: center;
     background: var(--dashboard-bg);
     pointer-events: all;
-    transition: all var(--quick-transition-time) ease;
+    transition: clip-path var(--quick-transition-time) ease;
     clip-path: circle(100% at center);
 
     & .ball-container {

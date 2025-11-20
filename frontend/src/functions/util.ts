@@ -74,7 +74,11 @@ function areaCollisionWithElement(area: Area, el: HTMLElement): boolean {
 function collidesWithAnyPanel(area: Area): boolean {
     let flag = false;
 
+    // ? Go through all the panels on the dashboard
     dashboard.getPanels().forEach((i: Panel) => {
+        // ? If it collides with a panel that is not the panel that
+        // ? called/triggered the preview to show, then we have found
+        // ? a collision. We ignore the panel that triggered the preview.
         if (
             areaCollisionWithElement(area, i)
             && i.dataset.panelId != preview.dataset.callerId

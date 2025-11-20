@@ -56,7 +56,7 @@ const dimensionsMenu: HTMLElement = document.querySelector(
     "#dimensions-menu",
 ) as HTMLElement;
 
-/** ? The buttons and inputs of the context menu. */
+// ~ The buttons and inputs of the context menu.
 
 /** The button to toggle the dashboard's edit mode. */
 const editModeButton = document.querySelector(
@@ -99,6 +99,8 @@ const deletePanelButton = document.querySelector(
 const hoverEntries = contextMenu.querySelectorAll(
     ".hover-item",
 ) as NodeListOf<HTMLElement>;
+
+// ~ All context menu-related functions.
 
 /**
  * The timeout to automatically hide the context menu after a set amount of
@@ -344,6 +346,8 @@ function contextMenuLoseFocusHandler(e: PointerEvent): void {
     )
         removeContextMenu();
 }
+
+// ~ Listener adding and initial load execution
 
 export {
     contextMenu,

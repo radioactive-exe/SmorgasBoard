@@ -2,6 +2,10 @@
  * This file contains the declarations used throughout the backend of
  * Smorgasboard.
  *
+ * @remarks
+ * They are all declared and exported here to avoid re-declaring or re-importing
+ * variables.
+ *
  * @module
  *
  * @author Radioactive.exe

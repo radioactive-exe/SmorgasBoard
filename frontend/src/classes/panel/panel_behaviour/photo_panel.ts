@@ -1,5 +1,5 @@
 /**
- * This file contains the behaviour functions for the Photo Panel Type.
+ * This file contains the behaviour functions for the Photo PanelType.
  *
  * @module
  *
@@ -20,7 +20,7 @@ import { PanelType, PanelTypeConfig } from "../panel_type.js";
 // eslint-disable-next-line jsdoc/require-example
 /**
  * The main function called upon behaviour execution after the Panel template,
- * base, and config setup, for the Photo Panel Type.
+ * base, and config setup, for the Photo PanelType.
  *
  * @remarks
  * Any necessary validations are done to check that the panel type, config, and
@@ -33,6 +33,8 @@ import { PanelType, PanelTypeConfig } from "../panel_type.js";
  *   function.
  *
  * @see The function that {@link processFile | processes all inputted files} to be uploaded
+ * @see {@link https://supabase.com/docs | Supabase}
+ * @see {@link https://supabase.com/docs/guides/storage | Supabase#Storage}
  */
 function execute(panel: Panel): void {
     // * All the necessary elements
@@ -118,6 +120,8 @@ function execute(panel: Panel): void {
  * function (below).
  *
  * @see The Photo Panel {@link execute | execute()} function
+ * @see {@link https://supabase.com/docs | Supabase}
+ * @see {@link https://supabase.com/docs/guides/storage | Supabase#Storage}
  */
 function processFile(file: File, panel: Panel, img: HTMLImageElement): void {
     const reader = new FileReader();

@@ -49,4 +49,10 @@ const VALID_FILE_TYPES: string[] = ["jpg", "jpeg", "bmp", "png", "gif", "webp"];
 /** The Maximum accepted size when uploading a file in the Image upload input. */
 const MAX_FILE_SIZE = 10_485_760;
 
-export { MAX_FILE_SIZE, MONTHS, VALID_FILE_TYPES, WEEKDAYS };
+/**
+ * The number of milliseconds per 24 hours. Used for the Weather panel's
+ * astrology and time calculations.
+ */
+const FULL_DAY_IN_MS = 86_400_000;
+
+export { FULL_DAY_IN_MS, MAX_FILE_SIZE, MONTHS, VALID_FILE_TYPES, WEEKDAYS };

@@ -1,7 +1,18 @@
 /**
- * Different Panel Types/Kinds (Notepad, Default (empty), Preview, etc.), the
- * keys of the entries being the type of panel, and the values being their
- * respective ID.
+ * This file contains the numerical IDs for the different PanelTypes in
+ * Smorgasboard.
+ *
+ * @module
+ *
+ * @author Radioactive.exe
+ *   {@link https://github.com/radioactive-exe | GitHub Profile}
+ */
+
+/** File Header Delimiter. */
+
+/**
+ * The IDs of different PanelTypes, the keys of the entries being the type of
+ * panel, and the values being their respective ID.
  */
 enum PanelTypeId {
     PREVIEW = -1,

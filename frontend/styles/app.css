@@ -199,7 +199,9 @@ body {
 
 smorgas-board {
     position: fixed;
+    min-width: 100svw;
     min-width: 100vw;
+    min-height: 100svh;
     min-height: 100vh;
     transition: background var(--med-transition-time) ease;
 
@@ -478,26 +480,6 @@ input:-webkit-autofill:active {
             }
         }
     }
-}
-
-body:has(.panel) {
-    position: absolute;
-    inset: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.panel {
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 300px;
-    height: 40%;
-    padding: var(--panel-content-padding);
-    border-radius: var(--panel-border-radius);
-    background: var(--panel-bg);
 }
 
 .context-menu:has(#dimensions-item:hover) ~ #modal-layer {

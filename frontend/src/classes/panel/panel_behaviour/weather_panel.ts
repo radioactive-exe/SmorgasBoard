@@ -1,5 +1,6 @@
+/* eslint-disable jsdoc/require-example */
 /**
- * This file contains the behaviour functions for the Weather Panel Type.
+ * This file contains the behaviour functions for the Weather PanelType.
  *
  * @module
  *
@@ -9,13 +10,13 @@
 
 /** File Header Delimiter. */
 
+import { FULL_DAY_IN_MS } from "../../../constants.js";
 import * as get from "../../../functions/accessors.js";
 import type { SmorgasWeatherSearchResponse } from "../../../types/response.types.js";
 import type * as WeatherAPI from "../../../types/weather_api.types.js";
-import type { Config, ConfigChangeEventDetail } from "../../config/config.js";
+import type { ConfigChangeEventDetail } from "../../config/config.js";
 import type * as ConfigEntry from "../../config/config_entry.js";
 import { Panel } from "../panel.js";
-import type {} from "../../../constants.js";
 import { PanelType } from "../panel_type.js";
 
 /**
@@ -60,10 +61,9 @@ interface FocusedLocationInfoElements {
     sunset: HTMLParagraphElement;
 }
 
-// eslint-disable-next-line jsdoc/require-example
 /**
  * The main function called upon behaviour execution after the Panel template,
- * base, and config setup, for the Weather Panel Type.
+ * base, and config setup, for the Weather PanelType.
  *
  * @remarks
  * Any necessary validations are done to check that the panel type, config, and
@@ -249,7 +249,7 @@ function execute(panel: Panel): void {
     // ? Every 30 minutes (1,800,000 ms) update the weather shown in the overview/saved location list
     // ? on the main panel container (not focused)
     setInterval(() => {
-        updateSavedLocations(mainElements.savedLocationList, panel);
+        refreshSavedLocations(mainElements.savedLocationList, panel);
     }, 1_800_000);
 }
 
@@ -328,7 +328,6 @@ function searchResultEntry(
     return newEntry;
 }
 
-// eslint-disable-next-line jsdoc/require-example
 /**
  * Clears the search input contents and the search result list menu.
  *
@@ -360,6 +359,12 @@ function clearSearch(
  * The above gets all weather information for the location at latitude and
  * longitude 48.86 and 2.35 respectively (which is actually Paris), and thus
  * populates and switches to the focused view holding all the details.
+ *
+ * @see {@link savedLocationEntry | savedLocationEntry()}
+ * @see The functions that populate the information sections in the focused view:
+ * @see {@link setForecastData | setForecastData()}
+ * @see {@link setAstrologyData | setAstrologyData()}
+ * @see {@link setConditionAndTemperature | setConditionAndTemperature()}
  */
 async function focusOnLocation(
     lat: number,
@@ -430,7 +435,7 @@ async function focusOnLocation(
     const weatherResponse = await fetch(
         `${import.meta.env.VITE_BACKEND_URL}${panel.getType().getDataSource()}/forecast/${lat},${lon}`,
     );
-    const data = await weatherResponse.json();
+    const data: WeatherAPI.LocationForecast = await weatherResponse.json();
 
     // ? Get the current date and time in multiple formats, normalising to get
     // ? the epoch for the current date at the start of the day at midnight,
@@ -438,7 +443,7 @@ async function focusOnLocation(
     const now = new Date();
     const currentTimeEpoch = now.getTime();
     const currentDateEpoch =
-        Math.floor(now.getTime() / 86400000) * 86400000
+        Math.floor(now.getTime() / FULL_DAY_IN_MS) * FULL_DAY_IN_MS
         - getOffset(data.location.tz_id, now);
 
     // ? Populate the info header of the focused location window/container,
@@ -459,8 +464,8 @@ async function focusOnLocation(
     })}`;
 
     // ? Assign the latitude and longitude to a dataset attribute for global access when needed
-    mainElements.focusedLocation.dataset.lat = data.location.lat;
-    mainElements.focusedLocation.dataset.lon = data.location.lon;
+    mainElements.focusedLocation.dataset.lat = data.location.lat.toString();
+    mainElements.focusedLocation.dataset.lon = data.location.lon.toString();
 
     // ? Check if the location is currently already saved, and set the preview header visibility accordingly.
     // ? A separate function checks the saved location list to ensure that focusing on a location
@@ -468,8 +473,8 @@ async function focusOnLocation(
     // ? preventing the same location from being saved multiple times as separate entries.
     if (
         !isAlreadySaved(
-            data.location.lat,
-            data.location.lon,
+            data.location.lat.toString(),
+            data.location.lon.toString(),
             mainElements.savedLocationList,
         )
     )
@@ -484,14 +489,14 @@ async function focusOnLocation(
     setForecastData(
         data,
         currentTimeEpoch,
-        data.location.tz_id,
+        data.location.tz_id ?? "UTC",
         useCelsius,
         use24HrTime,
         focusedLocationInfoElements,
     );
     // ? (3) Astrology information for the day
     setAstrologyData(
-        data,
+        data.forecast.forecastday[0].astro,
         currentTimeEpoch,
         currentDateEpoch,
         focusedLocationInfoElements,
@@ -502,6 +507,26 @@ async function focusOnLocation(
     mainElements.focusedLocation.classList.add("visible");
 }
 
+/**
+ * Populates the forecast data info sections in the focused location view.
+ *
+ * @param data                        - The forecast data to populate the
+ *   sections with.
+ * @param currentTimeEpoch            - The current epoch time (in milliseconds)
+ *   of the location.
+ * @param timezone                    - The timezone (as a tz_id) of the
+ *   location.
+ * @param useCelsius                  - Whether or not to use Celsius as opposed
+ *   to Fahrenheit (set by the panel config).
+ * @param use24HrTime                 - Whether or not to use 24 hour time as
+ *   opposed to 12 hour time (set by the panel config).
+ * @param focusedLocationInfoElements - The object containing the information
+ *   elements for all focused view info sections.
+ *
+ * @see {@link addForecastEntry | addForecastEntry()} - The function to add each individual forecast entry.
+ * @see {@link setAstrologyData | setAstrologyData()} - The sister function to populate the astrology information.
+ * @see {@link setConditionAndTemperature | setConditionAndTemperature()} - The sister function to populate the condition and temperature information.
+ */
 function setForecastData(
     data: WeatherAPI.LocationForecast,
     currentTimeEpoch: number,
@@ -512,6 +537,8 @@ function setForecastData(
 ): void {
     focusedLocationInfoElements.forecast.innerHTML = "";
 
+    // ? Cycle through all the remaining hours of the current day after the current time,
+    // ? and add their entries.
     data.forecast.forecastday[0].hour.forEach((hour) => {
         if (hour.time_epoch * 1000 > currentTimeEpoch)
             addForecastEntry(
@@ -522,8 +549,12 @@ function setForecastData(
                 focusedLocationInfoElements,
             );
     });
+
+    // ? Cycle through every hour before the current one in the next day, and add their entries
+    // ? E.g., if it is 6pm at the moment, this part will add an entry from midnight the next day
+    // ? to 5pm on that day, finishing 24 hours after the current time.
     data.forecast.forecastday[1].hour.forEach((hour) => {
-        if (hour.time_epoch * 1000 <= currentTimeEpoch + 86400000)
+        if (hour.time_epoch * 1000 <= currentTimeEpoch + FULL_DAY_IN_MS)
             addForecastEntry(
                 hour,
                 timezone,
@@ -532,8 +563,41 @@ function setForecastData(
                 focusedLocationInfoElements,
             );
     });
+
+    // ? In total, there will be 24 entries in the forecast section.
+    // ? From the next coming hour until the last hour before the current time tomorrow.
 }
 
+/**
+ * Adds a forecast entry to the forecast information for the inputted hour.
+ *
+ * @param hour                        - The hour object containing all forecast
+ *   information for the hour.
+ * @param timezone                    - The timezone, in tz_id format, for the
+ *   location. This is used when translating the epoch time into a string, as
+ *   the time string inside the Hour object is always in 12 hour time. This step
+ *   allows both 24 and 12 hour time to be used.
+ * @param useCelsius                  - Whether or not to use Celsius, as
+ *   opposed to Fahrenheit. This is based on the config of the panel that calls
+ *   these functions.
+ * @param use24HrTime                 - Whether or not to use 24 hour time, as
+ *   opposed to 12 hour time. This is based on the config of the panel that
+ *   calls these functions.
+ * @param focusedLocationInfoElements - The object containing the information
+ *   elements for all focused view info sections.
+ *
+ * @example
+ *
+ * ```ts
+ * addForecastEntry(hour, "Asia/Manila", true, false, focusedLocationInfoElements);
+ * ```
+ *
+ * The above adds the hourly forecast data stored in `hour`, converted to the
+ * timezone in Manila, using Celsius and 12 hour time.
+ *
+ * @see {@link WeatherAPI.Hour}
+ * @see {@link setForecastData | setForecastData()} - The function that calls this one with all the necessary forecast information for each hour.
+ */
 function addForecastEntry(
     hour: WeatherAPI.Hour,
     timezone: string,
@@ -541,7 +605,15 @@ function addForecastEntry(
     use24HrTime: boolean,
     focusedLocationInfoElements: FocusedLocationInfoElements,
 ): void {
+    // ? Create a Date object from the provided epoch time in the Hour response object.
     const hourlyDate = new Date(hour.time_epoch * 1000);
+
+    // ? Populate the entry with:
+    // ? (1) The hourly Date object's time string, formatted and localised based on the
+    // ?     timezone and hour format inputted
+    // ? (2) The condition icon for the hour.
+    // ? (3) The temperature forecast for that hour, in either Celsius or Fahrenheit
+    // ?     based on the config.
     focusedLocationInfoElements.forecast.innerHTML += `
             <li class="forecast-entry">
                 <p class="forecast-time">${hourlyDate.toLocaleTimeString(
@@ -563,61 +635,97 @@ function addForecastEntry(
             </li>`;
 }
 
+/**
+ * Populates the astrology section in the focused location view.
+ *
+ * @remarks
+ * This function parses the sunrise and sunset times in order to provide a
+ * visual graphic that shows the current time on the daily loop.
+ *
+ * @param astro                       - The astrology information for the
+ *   location.
+ * @param currentTimeEpoch            - The current epoch time at the location,
+ *   expressed in milliseconds.
+ * @param currentDateEpoch            - The epoch in milliseconds for midnight
+ *   at the start of the current day at the timezone of the location.
+ * @param focusedLocationInfoElements - The object containing the information
+ *   elements for all focused view info sections.
+ *
+ * @see {@link setForecastData | setForecastData()} - The sister function to populate the hourly forecast information.
+ * @see {@link setConditionAndTemperature | setConditionAndTemperature()} - The sister function to populate the condition and temperature information.
+ */
 function setAstrologyData(
-    data: WeatherAPI.LocationForecast,
+    astro: WeatherAPI.Astro,
     currentTimeEpoch: number,
     currentDateEpoch: number,
     focusedLocationInfoElements: FocusedLocationInfoElements,
 ): void {
-    focusedLocationInfoElements.sunrise.innerHTML =
-        data.forecast.forecastday[0].astro.sunrise;
-    focusedLocationInfoElements.sunset.innerHTML =
-        data.forecast.forecastday[0].astro.sunset;
+    // ? Populate the sunrise and sunset titles with the times
+    focusedLocationInfoElements.sunrise.innerHTML = astro.sunrise;
+    focusedLocationInfoElements.sunset.innerHTML = astro.sunset;
 
+    // * The epoch time for the day's sunrise expressed in milliseconds
     const parsedSunrise =
-        currentDateEpoch
-        + getDailyMilliSecondsPassed(
-            data.forecast.forecastday[0].astro.sunrise,
-        );
+        currentDateEpoch + getDailyMilliSecondsPassed(astro.sunrise);
+    // * The epoch time for the day's sunset expressed in milliseconds
     const parsedSunset =
-        currentDateEpoch
-        + getDailyMilliSecondsPassed(data.forecast.forecastday[0].astro.sunset);
+        currentDateEpoch + getDailyMilliSecondsPassed(astro.sunset);
+    // * The epoch time for the next day's sunrise expressed in milliseconds
     const parsedTomorrowSunrise =
         currentDateEpoch
-        + 86400000
-        + getDailyMilliSecondsPassed(
-            data.forecast.forecastday[0].astro.sunrise,
-        );
+        + getDailyMilliSecondsPassed(astro.sunrise)
+        + FULL_DAY_IN_MS;
 
+    // * This variable will store the daily progress in degrees out of 360.
     let dailyProgress = 0;
+
+    // ? If the current time is after today's sunset
     if (currentTimeEpoch >= parsedSunset) {
+        // ? Then rotate it after the sunset entry on the right,
+        // ? and then find the daily progress since that sunset by finding the
+        // ? time since the sunset and dividing by the entire amount of time between
+        // ? today's sunset and tomorrow's sunrise, thus finding the nightly progress.
         dailyProgress =
             180
             * (1
                 + (currentTimeEpoch - parsedSunset)
                     / (parsedTomorrowSunrise - parsedSunset));
+
+        // ? If the current time is between today's sunrise and sunset (i.e. the sun is up)
     } else if (
         currentTimeEpoch >= parsedSunrise
         && currentTimeEpoch < parsedSunset
     ) {
+        // ? Divide the time since the sunrise by the total time the sun is up
+        // ? and multiply it by the whole 180 degrees.
         dailyProgress =
             180
             * ((currentTimeEpoch - parsedSunrise)
                 / (parsedSunset - parsedSunrise));
+
+        // ? If the current time is before today's sunrise
+        // ? (why are you looking at your dashboard at this time, btw?)
+        // ? then we rotate to the left, under the sunrise point on the left.
+        // ? We approximate yesterday's sunset and find the time since then,
+        // ? and divide it by the total time between today's sunrise and yesterday's
+        // ? approximated sunset to find how many degrees out of 180 we need to rotate left.
     } else if (currentTimeEpoch < parsedSunrise) {
         dailyProgress =
             -180
-            * ((currentTimeEpoch - parsedSunset - 86400000)
-                / (parsedSunrise - parsedSunset - 86400000));
+            * ((currentTimeEpoch - parsedSunset - FULL_DAY_IN_MS)
+                / (parsedSunrise - parsedSunset - FULL_DAY_IN_MS));
     }
 
+    // ? After all that lovely work, time to apply the rotation.
     focusedLocationInfoElements.astro.style.setProperty(
         "--day-progress",
         dailyProgress.toString() + "deg",
     );
 
+    // * Whether the sun is currently up
     const isDay = dailyProgress >= 0 && dailyProgress < 180;
 
+    // ? Change the icon and the colour to match whether the sun is up.
     focusedLocationInfoElements.astro.style.setProperty(
         "--astro-icon",
         `var(--${isDay ? "sun" : "moon"}-icon)`,
@@ -628,20 +736,45 @@ function setAstrologyData(
     );
 }
 
+/**
+ * Populates the current condition and temperature sections in the focused
+ * location view.
+ *
+ * @param data                        - The full forecast information. This is
+ *   needed to be passed as the function utilises both information from the
+ *   `current` property object and the `forecast` property object.
+ * @param useCelsius                  - Whether or not to use Celsius as opposed
+ *   to Fahrenheit. This is determined by the config of the panel calling these
+ *   functions.
+ * @param focusedLocationInfoElements - The object containing the information
+ *   elements for all focused view info sections.
+ *
+ * @see {@link setForecastData | setForecastData()} - The sister function to populate the hourly forecast information.
+ * @see {@link setAstrologyData | setAstrologyData()} - The sister function to populate the astrology information.
+ * @see {@link WeatherAPI.Condition | Condition}
+ */
 function setConditionAndTemperature(
     data: WeatherAPI.LocationForecast,
     useCelsius: boolean,
     focusedLocationInfoElements: FocusedLocationInfoElements,
 ): void {
+    // * The temperature symbol to use. Obtained once for reuse through the function
+    // * when pulling a temperature property that has both a `c` and `f` counterpart
     const temperatureSymbol = useCelsius ? "C" : "F";
 
+    // ? Populates the current temperature
     focusedLocationInfoElements.temp.innerHTML = `${Math.round(
         useCelsius ? data.current.temp_c : data.current.temp_f,
     )}&deg${temperatureSymbol}`;
+
+    // ? Populates the current condition description and icon
     focusedLocationInfoElements.cond.textContent = data.current.condition.text;
     focusedLocationInfoElements.condIcon.src = data.current.condition.icon;
 
+    // ? Populates the "feels like" section
     focusedLocationInfoElements.feelsLike.innerHTML = `${Math.round(useCelsius ? data.current.feelslike_c : data.current.feelslike_f)}&deg${temperatureSymbol}`;
+
+    // ? Populates the minimum and maximum temperature sections
     focusedLocationInfoElements.minTemp.innerHTML = `${Math.round(
         useCelsius
             ? data.forecast.forecastday[0].day.mintemp_c
@@ -654,6 +787,49 @@ function setConditionAndTemperature(
     )}&deg${temperatureSymbol}`;
 }
 
+/**
+ * Creates and returns a saved location entry to be added to the saved location
+ * list.
+ *
+ * @param   panel        - The panel calling these functions.
+ * @param   city         - The city/location name to be placed in the entry.
+ * @param   lat          - The location latitude.
+ * @param   lon          - The location longitude.
+ * @param   condition    - The description of the current condition at the
+ *   location.
+ * @param   temp         - The current temperature at the location.
+ * @param   minTemp      - The minimum temperature at the location for the day.
+ * @param   maxTemp      - The maximum temperature at the location for the day.
+ * @param   updateStored - Whether or not to trigger a save when the entry is
+ *   added. This defaults to `true`, as most entries will be new, but this
+ *   parameter will be set to false when populating saved entries on dashboard
+ *   load.
+ *
+ * @returns              The formulated LI element for the location to save.
+ *
+ * @example
+ *
+ * ```ts
+ * savedLocationList.appendChild(
+ *     savedLocationEntry(
+ *         panel,
+ *         "Atlantis",
+ *         "-10.5",
+ *         "-26.7",
+ *         "Drowned",
+ *         "-15&degC",
+ *         "-20&degC",
+ *         "-12&degC",
+ *         true,
+ *     ),
+ * );
+ * ```
+ *
+ * The above creates and adds a new entry to save the weather information for
+ * "Atlantis". The latitude and longitude are negative given its mythical
+ * nature, and the condition and temperature information is, well, an
+ * unfortunate state.
+ */
 function savedLocationEntry(
     panel: Panel,
     city: string,
@@ -665,11 +841,15 @@ function savedLocationEntry(
     maxTemp: string,
     updateStored = true,
 ): HTMLLIElement {
+    // ? Create the entry container
     const newEntry = document.createElement("li");
     newEntry.classList.add("saved-location");
+
+    // ? Add the latitude and longitude as a dataset attribute to the entry
     newEntry.dataset.lat = lat.toString();
     newEntry.dataset.lon = lon.toString();
 
+    // ? Populate all the information into the entry body
     newEntry.innerHTML = `
             <h2 class="location-title">${city}</h2>
             <div class="location-weather">
@@ -683,6 +863,7 @@ function savedLocationEntry(
                 </div>
             </div>`;
 
+    // ? Create and handle the use of the delete button to remove saved entries
     const deleteIcon = document.createElement("div");
     deleteIcon.classList.add("icon", "x-icon", "remove-location-icon");
     deleteIcon.addEventListener("click", (e) => {
@@ -690,9 +871,9 @@ function savedLocationEntry(
         newEntry.remove();
         panel.triggerSave();
     });
-
     newEntry.appendChild(deleteIcon);
 
+    // ? Handle clicking on the saved entry to focus on the entry location (thanks to the latitude and longitude)
     newEntry.addEventListener("click", () => {
         if (!newEntry.dataset.lat || !newEntry.dataset.lon) return;
         focusOnLocation(
@@ -702,23 +883,46 @@ function savedLocationEntry(
         );
     });
 
+    // ? Save if needed
     if (updateStored) panel.triggerSave();
 
+    // ? Return the formulated and completed entry
     return newEntry;
 }
 
+/**
+ * Handles any config changes the panel fires.
+ *
+ * @remarks
+ * This handles converting temperature units and adjusting the time format.
+ *
+ * @param e - The config change event that triggered this handler.
+ *
+ * @see {@link execute | execute()}
+ */
 function handleConfigChange(e: Event): void {
+    // ? Check if it was triggered by a panel, and then store and parse all event information
     if (!(e.currentTarget instanceof Panel)) return;
     const panel: Panel = e.currentTarget;
     const customEventParsed: CustomEvent<ConfigChangeEventDetail> =
         e as CustomEvent<ConfigChangeEventDetail>;
-    const panelConfig: Config | undefined = panel.getConfig();
+
+    // ? If we are focused on a location, close focus.
+    // ? This makes it easier to simply launch the focused view with correct units
+    // ? as opposed to converting everything. Maybe this is lazy, but,
+    // ? Forecast data? Astrology timings? Max and min? There is a very large amount of things to change.
     panel.getKeyElement("focused_location")?.classList.remove("visible");
-    if (panelConfig && customEventParsed.detail.setting == "useCelsius") {
+
+    // ? If the event change was a temperature unit change
+    // ? If it were a time format change, we have closed the focused view, and there
+    // ? is no time anywhere on the main panel view, so no action is needed
+    if (customEventParsed.detail.setting == "useCelsius") {
+        // ? Go through the saved entries
         [
             ...(panel.getKeyElement("saved_location_list")
                 ?.children as HTMLCollectionOf<HTMLElement>),
         ].forEach((location) => {
+            // * The temperature info spans/containers in the saved entry
             const temp = location.querySelector(
                 ".location-temp",
             ) as HTMLElement | null;
@@ -728,16 +932,20 @@ function handleConfigChange(e: Event): void {
             const max = location.querySelector(
                 ".location-max",
             ) as HTMLElement | null;
+
+            // ? If something is missing. This should never happen
             if (!temp || !min || !max)
                 throw new Error(
                     "Saved location list entry does not contain key elements. Should not happen!",
                 );
+            // ? If we want to use Celsius (value == true), and all entries currently have Fahrenheit
             if (
                 customEventParsed.detail.value
                 && temp.innerHTML.endsWith("F")
                 && min.innerHTML.endsWith("F")
                 && max.innerHTML.endsWith("F")
             ) {
+                // ? Convert from Celsius to Fahrenheit
                 temp.innerHTML = `${Math.round(
                     toCelsius(get.numericalValue(temp.textContent)),
                 )}&degC`;
@@ -751,12 +959,15 @@ function handleConfigChange(e: Event): void {
                         get.numericalValue(max.textContent.split(" ")[1]),
                     ),
                 )}&degC`;
+
+                // ? If we want to use Fahrenheit (value == false) and all entries currently have Celsius
             } else if (
                 !customEventParsed.detail.value
                 && temp.innerHTML.endsWith("C")
                 && min.innerHTML.endsWith("C")
                 && max.innerHTML.endsWith("C")
             ) {
+                // ? Convert from Fahrenheit to Celsius
                 temp.innerHTML = `${Math.round(
                     toFahrenheit(get.numericalValue(temp.textContent)),
                 )}&degF`;
@@ -775,23 +986,40 @@ function handleConfigChange(e: Event): void {
     }
 }
 
-function updateSavedLocations(
+/**
+ * This function refreshes all weather information for the saved locations in
+ * the saved list.
+ *
+ * @param savedLocationList - The UL that contains the saved location entries.
+ * @param panel             - The panel that is executing these behavioural
+ *   functions.
+ *
+ * @see {@link savedLocationEntry | savedLocationEntry()}
+ * @see {@link execute | execute()} , where this function is called on a loop every half hour
+ */
+function refreshSavedLocations(
     savedLocationList: HTMLUListElement,
     panel: Panel,
 ): void {
+    // ? Go through all saved entries
     [...(savedLocationList.children as HTMLCollectionOf<HTMLElement>)].forEach(
         async (location) => {
             if (!location.dataset.lat || !location.dataset.lon) return;
 
+            // ? Fetch the new forecast information for the location at the time of calling
             const weatherResponse = await fetch(
                 `${import.meta.env.VITE_BACKEND_URL}${panel.getType().getDataSource()}/forecast/${location.dataset.lat},${location.dataset.lon}&days=1`,
             );
             const data: WeatherAPI.LocationForecast =
                 await weatherResponse.json();
+
+            // * Whether or not to use Celsius, and the resulting unit symbol. Stored for reusability
             const useCelsius = (
                 panel.getConfig()?.useCelsius as ConfigEntry.Boolean
             ).value;
             const temperatureSymbol = useCelsius ? "C" : "F";
+
+            // ? Query and populate all relevant weather information containers in the saved location entry
 
             const conditionText = location.querySelector(".location-condition");
             if (conditionText)
@@ -814,6 +1042,26 @@ function updateSavedLocations(
 
 // ~ UTILITY FUNCTIONS
 
+/**
+ * Checks if the location with the specific coordinates (latitude and longitude)
+ * is already saved.
+ *
+ * @param   lat               - The location latitude.
+ * @param   lon               - The location longitude.
+ * @param   savedLocationList - The UL of all saved locations.
+ *
+ * @returns                   Whether this location is already present in the
+ *   saved locations.
+ *
+ * @example
+ *
+ * ```ts
+ * console.log(isAlreadySaved("52.36", "4.9", savedLocationList));
+ * ```
+ *
+ * The above outputs true if the location at these coordinates (in this case
+ * Amsterdam), is already saved.
+ */
 function isAlreadySaved(
     lat: string,
     lon: string,
@@ -821,9 +1069,9 @@ function isAlreadySaved(
 ): boolean {
     let flag = false;
 
+    // ? Goes through the saved entries and checks if there is an exact match with the coordinates
     [...(savedLocationList.children as HTMLCollectionOf<HTMLElement>)].forEach(
         (savedLocation) => {
-            console.log(savedLocation.dataset.lat, lat);
             if (
                 savedLocation.dataset.lat == lat
                 && savedLocation.dataset.lon == lon
@@ -836,10 +1084,40 @@ function isAlreadySaved(
     return flag;
 }
 
+/**
+ * Converts a temperature from Celsius to Fahrenheit.
+ *
+ * @param   tempF - The temperature, in Fahrenheit.
+ *
+ * @returns       - The converted temperature in Celsius.
+ *
+ * @example
+ *
+ * ```ts
+ * console.log(toCelsius(95)); // => Outputs 35
+ * ```
+ *
+ * @see {@link toFahrenheit | toFahrenheit()}
+ */
 function toCelsius(tempF: number): number {
     return (tempF - 32) / 1.8;
 }
 
+/**
+ * Converts a temperature from Fahrenheit to Celsius.
+ *
+ * @param   tempC - The temperature, in Celsius.
+ *
+ * @returns       - The converted temperature in Fahrenheit.
+ *
+ * @example
+ *
+ * ```ts
+ * console.log(toFahrenheit(32)); // => Outputs 89.6
+ * ```
+ *
+ * @see {@link toCelsius | toCelsius()}
+ */
 function toFahrenheit(tempC: number): number {
     return tempC * 1.8 + 32;
 }

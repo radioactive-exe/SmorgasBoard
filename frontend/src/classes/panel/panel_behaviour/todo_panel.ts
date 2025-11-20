@@ -1,5 +1,5 @@
 /**
- * This file contains the behaviour functions for the Todo List Panel Type.
+ * This file contains the behaviour functions for the Todo List PanelType.
  *
  * @module
  *
@@ -18,7 +18,7 @@ import { PanelType } from "../panel_type.js";
 // eslint-disable-next-line jsdoc/require-example
 /**
  * The main function called upon behaviour execution after the Panel template,
- * base, and config setup, for the Todo List Panel Type.
+ * base, and config setup, for the Todo List PanelType.
  *
  * @remarks
  * Any necessary validations are done to check that the panel type, config, and

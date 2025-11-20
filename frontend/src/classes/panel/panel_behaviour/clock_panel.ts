@@ -1,5 +1,5 @@
 /**
- * This file contains the behaviour functions for the Clock Panel Type.
+ * This file contains the behaviour functions for the Clock PanelType.
  *
  * @module
  *
@@ -22,7 +22,7 @@ import { PanelType, PanelTypeConfig } from "../panel_type.js";
 // eslint-disable-next-line jsdoc/require-example
 /**
  * The main function called upon behaviour execution after the Panel template,
- * base, and config setup, for the Clock Panel Type.
+ * base, and config setup, for the Clock PanelType.
  *
  * @remarks
  * Any necessary validations are done to check that the panel type, config, and

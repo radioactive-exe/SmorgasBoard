@@ -30,14 +30,17 @@
             transition: all var(--med-transition-time) var(--bezier-function);
 
             &.menu-icon {
+                z-index: 5;
                 width: 2rem;
                 height: 0.3rem;
+                transform: rotate(0deg);
 
                 &::before,
                 &::after {
                     content: '';
                     position: inherit;
                     inset: 0;
+                    z-index: 5;
                     display: inherit;
                     border-radius: var(--tiny-border-radius);
                     background: inherit;
@@ -45,6 +48,7 @@
                 }
 
                 &::before {
+                    opacity: 1;
                     transform: translateY(-0.8rem);
                 }
 
