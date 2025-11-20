@@ -42,6 +42,7 @@ const app = express();
 const port = 3000;
 /** Ensures CORS only allows requests from these origins. */
 const allowedOrigins: string[] = [
+    "https://smorgasboard.irradiated.app/",
     "https://smorgasboard.irradiated.app",
     "https://smorgasboard.vercel.app/",
     "https://smorgasboard.vercel.app",
