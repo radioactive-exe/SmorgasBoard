@@ -73,8 +73,9 @@
             &.hover-item .sub-menu {
                 position: absolute;
                 z-index: 2;
-                overflow: hidden;
+                overflow: hidden auto;
                 width: 0;
+                max-height: 10.5rem;
             }
 
             &.hover-item.active {

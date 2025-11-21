@@ -131,8 +131,6 @@ function execute(panel: Panel): void {
         sunset: panel.getKeyElement("focused_sunset") as HTMLParagraphElement,
     };
 
-    console.log(mainElements);
-
     // ? We check if any key elements were not properly set up/present in the populated
     // ? body of the panel.
     if (

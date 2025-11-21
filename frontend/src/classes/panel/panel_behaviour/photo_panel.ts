@@ -174,7 +174,9 @@ function processFile(file: File, panel: Panel, img: HTMLImageElement): void {
     // ? If the user is signed in, the file type is valid, and the file is smaller than the maximum size
     if (
         user
-        && VALID_FILE_TYPES.includes(file.name.split(".")[1])
+        && VALID_FILE_TYPES.includes(
+            file.name.split(".")[file.name.split(".").length - 1],
+        )
         && file.size <= MAX_FILE_SIZE
     ) {
         // ? Process and upload the file using the `reader.onload` above.
