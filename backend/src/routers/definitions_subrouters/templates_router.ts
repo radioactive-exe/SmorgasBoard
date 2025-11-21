@@ -46,13 +46,13 @@ const _templateHandler = templatesRouter.get(
         // ? In case all is well, read the contents of the file and send them to the frontend
         const templateHtml = fs.readFileSync(templateLocation);
 
-        res.json({
-            panel_type: req.params.panel,
-            panel_template: templateHtml.toString(),
-        }).setHeader(
+        res.setHeader(
             "Access-Control-Allow-Origin",
             "https://smorgasboard.irradiated.app",
-        );
+        ).json({
+            panel_type: req.params.panel,
+            panel_template: templateHtml.toString(),
+        });
     },
 );
 

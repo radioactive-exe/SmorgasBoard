@@ -520,7 +520,7 @@ input:-webkit-autofill:active {
             backdrop-filter: none;
         }
 
-        .personal-nav {
+        .nav-entry.personal-nav {
             opacity: 1;
         }
 
