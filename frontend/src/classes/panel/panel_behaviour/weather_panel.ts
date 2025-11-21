@@ -215,8 +215,6 @@ function execute(panel: Panel): void {
         }, 500);
     });
 
-    console.log(mainElements.searchButton, mainElements.searchSelector);
-
     // ? Handle showing and hiding the search bar using the search button
     mainElements.searchButton.addEventListener("click", () => {
         mainElements.searchSelector.classList.toggle("visible");
