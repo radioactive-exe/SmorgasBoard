@@ -366,7 +366,10 @@ function snapElementToGrid(
     ) {
         // ? Then we can snap the element (most often the preview) to this new potential area.
         // ? And animate, if needed.
-        if (shouldAnimate) snappingTarget.classList.add("snapping");
+        if (shouldAnimate) {
+            snappingTarget.classList.add("snapping");
+            utils.removeClassAfterTransition(snappingTarget, "snapping");
+        }
         snappingTarget.setArea(potentialArea);
     }
 }
