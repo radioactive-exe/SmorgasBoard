@@ -391,7 +391,7 @@ panel-element[data-panel-type="WEATHER"] {
 
                     & .string-selector-label-text {
                         filter: drop-shadow(0 0 0.5rem var(--shadow-col));
-                        transition: clip-path var(--quick-transition-time) var(--bezier-function), border var(--med-transition-time) var(--jelly-function);
+                        transition: all var(--quick-transition-time) var(--bezier-function), border var(--med-transition-time) var(--jelly-function);
                         clip-path: inset(-100% -100% -30% -100%);
                     }
                 }

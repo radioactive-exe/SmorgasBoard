@@ -1110,7 +1110,10 @@ class Panel extends HTMLElement {
                         this.querySelector(".location-search-selector"),
                     ],
                     // * (2) The Saved Location list
-                    ["location_list", this.querySelector(".location-list")],
+                    [
+                        "saved_location_list",
+                        this.querySelector(".saved-location-list"),
+                    ],
                     // * (3) The Focused location and its primary buttons and headers
                     [
                         "focused_location",
