@@ -11,13 +11,12 @@
 /** File Header Delimiter. */
 
 import { cors, express } from "../../declarations.js";
-import { allowedOrigins } from "../../index.js";
 
 const weatherApiKey = process.env.WEATHER_API_KEY;
 
 const weatherApiRouter = express.Router();
 
-weatherApiRouter.use(cors({ origin: allowedOrigins, credentials: true }));
+weatherApiRouter.use(cors({ origin: true, credentials: true }));
 
 /**
  * The Router that handles all search Get requests sent from the Smorgasboard

@@ -15,13 +15,12 @@
 /** File Header Delimiter. */
 
 import { cors, express } from "../declarations.js";
-import { allowedOrigins } from "../index.js";
 
 import weatherApiRouter from "./api_subrouters/weather_router.js";
 
 const apiRouter = express.Router();
 
-apiRouter.use(cors({ origin: allowedOrigins, credentials: true }));
+apiRouter.use(cors({ origin: true, credentials: true }));
 
 /** Routes all calls to the Weather API route directly to that handler. */
 const _weatherRouter = apiRouter.use("/weather/", weatherApiRouter);
