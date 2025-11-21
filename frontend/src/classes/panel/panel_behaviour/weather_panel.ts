@@ -136,10 +136,6 @@ function execute(panel: Panel): void {
     if (
         Object.values(panel.getKeyElements()).includes(null)
         || Object.values(panel.getKeyElements()).includes(undefined)
-        || Object.values(mainElements).includes(null)
-        || Object.values(mainElements).includes(undefined)
-        || Object.values(focusedLocationInfoElements).includes(null)
-        || Object.values(focusedLocationInfoElements).includes(undefined)
         || panel.getType() != PanelType.WEATHER
         || !panel.getConfig()
     )
@@ -218,6 +214,8 @@ function execute(panel: Panel): void {
             // ? Wait 500ms (or half a second) of no input change before executing the search behaviour
         }, 500);
     });
+
+    console.log(mainElements.searchButton, mainElements.searchSelector);
 
     // ? Handle showing and hiding the search bar using the search button
     mainElements.searchButton.addEventListener("click", () => {
