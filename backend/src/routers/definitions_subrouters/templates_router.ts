@@ -51,7 +51,10 @@ const _templateHandler = templatesRouter.get(
         res.json({
             panel_type: req.params.panel,
             panel_template: templateHtml.toString(),
-        });
+        }).setHeader(
+            "Access-Control-Allow-Origin",
+            "https://smorgasboard.irradiated.app",
+        );
     },
 );
 
