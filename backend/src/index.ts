@@ -88,4 +88,4 @@ const _listener = app.listen(port, () =>
 );
 
 export default app;
-export { supabase };
+export { allowedOrigins, supabase };

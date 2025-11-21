@@ -16,14 +16,13 @@
 /** File Header Delimiter. */
 
 import { cors, express } from "../declarations.js";
+import { allowedOrigins } from "../index.js";
 
 import templatesRouter from "./definitions_subrouters/templates_router.js";
 
 const definitionsRouter = express.Router();
 
-definitionsRouter.use(
-    cors({ origin: "https://smorgasboard.irradiated.app", credentials: true }),
-);
+definitionsRouter.use(cors({ origin: allowedOrigins, credentials: true }));
 
 /** Routed the calls for panel templates directly to that handler. */
 const _panelsHandler = definitionsRouter.use("/panels/", templatesRouter);
