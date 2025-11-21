@@ -10,8 +10,10 @@
 
         &:not(.main-nav) {
             position: absolute;
+            opacity: 0;
 
             &:has(~ .main-nav .active) {
+                opacity: 1;
                 transform: translateY(calc(var(--pos) * -7rem));
 
                 &:nth-of-type(1) {

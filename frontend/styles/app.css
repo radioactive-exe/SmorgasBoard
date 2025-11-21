@@ -199,10 +199,18 @@ body {
 
 smorgas-board {
     position: fixed;
+    width: 100svw;
+    width: 100vw;
     min-width: 100svw;
     min-width: 100vw;
+    max-width: 100svw;
+    max-width: 100vw;
+    height: 100svh;
+    height: 100vh;
     min-height: 100svh;
     min-height: 100vh;
+    max-height: 100svh;
+    max-height: 100vh;
     transition: background var(--med-transition-time) ease;
 
     &::part(cell-container) {
@@ -510,6 +518,10 @@ input:-webkit-autofill:active {
             opacity: 0;
             pointer-events: none;
             backdrop-filter: none;
+        }
+
+        .personal-nav {
+            opacity: 1;
         }
 
         .nav-entry .button:hover {

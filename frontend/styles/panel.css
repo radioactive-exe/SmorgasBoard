@@ -348,7 +348,7 @@ smorgas-board panel-element.final-preview {
     border-radius: 2rem;
     background: var(--preview-bg);
     opacity: 0;
-    transition: all var(--panel-transition-time) ease, left 0s, top 0s, width 0s, height 0s;
+    transition: opacity var(--panel-transition-time) ease, left 0s, top 0s, width 0s, height 0s;
 
     /* transform: translateX(var(--x)) translateY(var(--y)); */
 
