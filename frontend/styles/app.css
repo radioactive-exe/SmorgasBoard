@@ -504,8 +504,8 @@ input:-webkit-autofill:active {
     filter: url("#glass-distortion");
 }
 
-.panel-content {
-    filter: url("#bottom-inset-shadow") !important;
+#filter-container {
+    pointer-events: none;
 }
 
 @media (hover: hover) {
