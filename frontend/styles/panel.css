@@ -143,7 +143,7 @@ smorgas-board panel-element {
         display: flex;
         flex-flow: column nowrap;
         overflow: hidden auto;
-        padding: calc(var(--panel-content-padding) * 1.6);
+        padding: calc(var(--panel-content-padding) * 1.6) calc(var(--panel-content-padding) * 2);
         border-radius: inherit;
         background: hsl(from var(--panel-bg) h s calc(l * 0.9));
         font-size: var(--font-s);
@@ -154,6 +154,10 @@ smorgas-board panel-element {
 
     &::part(info-menu) {
         list-style: none;
+    }
+
+    &::part(info-title) {
+        margin-bottom: 2rem;
     }
 
     &::part(icon-button) {
