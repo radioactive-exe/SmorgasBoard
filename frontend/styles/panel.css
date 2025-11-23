@@ -142,11 +142,18 @@ smorgas-board panel-element {
         inset: 0;
         display: flex;
         flex-flow: column nowrap;
-        align-items: end;
-        overflow: hidden;
+        overflow: hidden auto;
+        padding: calc(var(--panel-content-padding) * 1.6);
         border-radius: inherit;
+        background: hsl(from var(--panel-bg) h s calc(l * 0.9));
         font-size: var(--font-s);
         pointer-events: none;
+        transition: all calc(2 * var(--panel-transition-time)) var(--bezier-function);
+        clip-path: circle(0% at center);
+    }
+
+    &:part(info-menu) {
+        list-style: none;
     }
 
     &::part(icon-button) {
@@ -185,15 +192,6 @@ smorgas-board panel-element {
 
     &::part(delete-button):hover {
         animation: shake 0.1s infinite alternate;
-    }
-
-    &::part(config-menu) {
-        inset: 0;
-        overflow: auto;
-        background: hsl(from var(--panel-bg) h s calc(l * 0.9));
-        pointer-events: none;
-        transition: all calc(2 * var(--panel-transition-time)) var(--bezier-function);
-        clip-path: circle(0% at center);
     }
 
     &::part(config-menu-line) {
@@ -323,7 +321,7 @@ smorgas-board panel-element.configuring {
         transform: rotate(90deg);
     }
 
-    &::part(config-menu) {
+    &::part(menu) {
         padding: var(--panel-content-padding);
         padding-top: calc(var(--panel-content-padding) * 2);
         pointer-events: all;

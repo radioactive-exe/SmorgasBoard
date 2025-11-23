@@ -334,10 +334,6 @@ class Panel extends HTMLElement {
             // * The config container and menu, to be populated below, if needed
             const configContainer: HTMLElement | null =
                 this.shadowRoot?.querySelector(".config") as HTMLElement | null;
-            const configTitle: HTMLElement | null =
-                configContainer?.querySelector(
-                    ".config-title",
-                ) as HTMLElement | null;
             const configMenuDiv: HTMLElement | null =
                 configContainer?.querySelector(
                     ".config-menu",
@@ -399,8 +395,7 @@ class Panel extends HTMLElement {
             // ? If the panel has an external URL specifically, add an entry linking to the source
             if (this.type.getDataRoute() && infoMenu) {
                 infoMenu.innerHTML += `<li>
-                        <p>Powered by: <a href="${this.type.getExternalDataUrl() ?? this.type.getDataRoute()}">
-                                        </a>
+                        <p>Powered by: <a href="${this.type.getExternalDataUrl() ?? this.type.getDataRoute()}">${this.type.getExternalDataUrl() ?? this.type.getDataRoute()}</a>
                         </p>
                     </li>`;
             }
