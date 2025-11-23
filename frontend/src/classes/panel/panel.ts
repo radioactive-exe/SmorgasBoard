@@ -386,9 +386,12 @@ class Panel extends HTMLElement {
             if (this.type.getAspectRatios().length != 0 && infoMenu) {
                 infoMenu.innerHTML += `<li>
                         <p>This panel type can have the following aspect ratios:<br/>
-                        ${this.type.getAspectRatios().map((ar) => {
-                            return `${ ar.width }:${ ar.height }, `;
-                        })}</p>
+                        ${this.type
+                            .getAspectRatios()
+                            .map((ar) => {
+                                return `${ar.width}:${ar.height}`;
+                            })
+                            .join(", ")}</p>
                     </li>`;
             }
 
