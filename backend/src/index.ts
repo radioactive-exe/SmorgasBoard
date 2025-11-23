@@ -46,6 +46,8 @@ const allowedOrigins: string[] = [
     "https://smorgasboard.irradiated.app",
     "https://smorgasboard.vercel.app/",
     "https://smorgasboard.vercel.app",
+    "http://127.0.0.1:3000",
+    "http://127.0.0.1:3000/",
     process.env.ORIGIN_URL ?? "",
 ];
 
