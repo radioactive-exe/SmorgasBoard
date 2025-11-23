@@ -51,7 +51,7 @@ const _templateHandler = templatesRouter.get(
         fs.readFile(templateLocation, (_err, data) => {
             res.setHeader(
                 "Access-Control-Allow-Origin",
-                "https://smorgasboard.irradiated.app",
+                process.env.ORIGIN_URL ?? "",
             ).json({
                 panel_type: req.params.panel,
                 panel_template: data.toString(),
