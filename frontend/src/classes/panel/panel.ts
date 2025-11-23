@@ -334,6 +334,10 @@ class Panel extends HTMLElement {
             // * The config container and menu, to be populated below, if needed
             const configContainer: HTMLElement | null =
                 this.shadowRoot?.querySelector(".config") as HTMLElement | null;
+            const configTitle: HTMLElement | null =
+                configContainer?.querySelector(
+                    ".config-title",
+                ) as HTMLElement | null;
             const configMenuDiv: HTMLElement | null =
                 configContainer?.querySelector(
                     ".config-menu",

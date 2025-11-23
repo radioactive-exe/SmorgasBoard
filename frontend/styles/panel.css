@@ -188,7 +188,6 @@ smorgas-board panel-element {
     }
 
     &::part(config-menu) {
-        position: absolute;
         inset: 0;
         overflow: auto;
         background: hsl(from var(--panel-bg) h s calc(l * 0.9));
