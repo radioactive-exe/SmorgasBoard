@@ -163,7 +163,7 @@ class Panel extends HTMLElement {
      * @see {@link addButtonListeners | addButtonListeners()}
      * @see {@link initTemplate | initTemplate()}
      * @see {@link bindKeyElements | bindKeyElements()}
-     * @see {@link initConfig | initConfig()}
+     * @see {@link initMenu | initConfig()}
      */
     private init(existentConfig?: Config, body?: PanelContent): void {
         // ? If this is the Preview panel, (which should only be created once)
@@ -187,7 +187,7 @@ class Panel extends HTMLElement {
             // ? (3) Initialise the template for the Panel's PanelType
             .then(() => this.initTemplate())
             // ? (4) Initialise the Config, passing an existing one if present
-            .then(() => this.initConfig(existentConfig))
+            .then(() => this.initMenu(existentConfig))
             // ? (5) Bind any key elements for the PanelType
             .then(() => this.bindKeyElements())
             // ? (6) Dispatch the event signaling that the Panel has finished loading,
@@ -210,7 +210,7 @@ class Panel extends HTMLElement {
      * @see {@link addButtonListeners | addButtonListeners()}
      * @see {@link initTemplate | initTemplate()}
      * @see {@link bindKeyElements | bindKeyElements()}
-     * @see {@link initConfig | initConfig()}
+     * @see {@link initMenu | initConfig()}
      */
     private initBase(): Promise<void> {
         return new Promise(async (resolve) => {
@@ -249,7 +249,7 @@ class Panel extends HTMLElement {
      * @see {@link addHoverListeners | addHoverListeners()}
      * @see {@link addButtonListeners | addButtonListeners()}
      * @see {@link bindKeyElements | bindKeyElements()}
-     * @see {@link initConfig | initConfig()}
+     * @see {@link initMenu | initConfig()}
      */
     private initTemplate(): Promise<void> {
         return new Promise(async (resolve) => {
@@ -279,8 +279,10 @@ class Panel extends HTMLElement {
     }
 
     /**
-     * Initiates the Panel's Config, with an optional existing Config, otherwise
-     * initialising with the Default Config for the PanelType.
+     * Initiates the Panel's Menu, with an optional existing Config, otherwise
+     * initialising with the Default Config for the PanelType. This menu will
+     * house the Config, as well as any additional information, if
+     * necessary/needed/relevant.
      *
      * @param   existentConfig - An optional existing Config to assign to the
      *   Panel. If this is not provided (always the case with new Panels), then
@@ -307,58 +309,102 @@ class Panel extends HTMLElement {
      * @see {@link addButtonListeners | addButtonListeners()}
      * @see {@link bindKeyElements | bindKeyElements()}
      */
-    private initConfig(existentConfig?: Config): Promise<void> {
+    private initMenu(existentConfig?: Config): Promise<void> {
         return new Promise((resolve): void => {
             // * The PanelType's Config schema
             const configSchema: zod.ZodObject | undefined =
                 this.type.getConfigSchema();
 
-            // ? If the PanelType has no Config, simply resolve and exit. Nothing to do here
-            if (configSchema == PanelTypeConfig.NONE) {
+            // ? If the PanelType has no Config and no necessary information,
+            // ? simply resolve and exit. Nothing to do here
+            if (
+                configSchema == PanelTypeConfig.NONE
+                && this.type.getAspectRatios().length == 0
+                && !this.type.getDataRoute()
+            ) {
                 resolve();
                 return;
             }
 
-            // * The Config container, Menu, and Button elements, queried to be
-            // * made visible as if the function reaches this point, then the PanelType
-            // * has a Config schema. Additionally, the Menu will be populated below
-            const configContainer: HTMLElement = this.shadowRoot?.querySelector(
-                ".config",
-            ) as HTMLElement;
-            const configMenuDiv: HTMLElement = configContainer?.querySelector(
-                ".config-menu",
-            ) as HTMLElement;
-            const configButton: HTMLElement = configContainer?.querySelector(
-                ".config-button",
+            // * The Main Menu button
+            const menuButton: HTMLElement = this.shadowRoot?.querySelector(
+                ".menu-button",
             ) as HTMLElement;
 
-            // ? Make all relevant elements visible
-            configContainer.removeAttribute("hidden");
-            configButton.removeAttribute("hidden");
+            // * The config container and menu, to be populated below, if needed
+            const configContainer: HTMLElement | null =
+                this.shadowRoot?.querySelector(".config") as HTMLElement | null;
+            const configMenuDiv: HTMLElement | null =
+                configContainer?.querySelector(
+                    ".config-menu",
+                ) as HTMLElement | null;
 
-            // ? If there is an existent Config being passed, ensure it satisfies
-            // ? the PanelType's schema, and assign it if all is well, or throw an error if not
-            if (existentConfig) {
-                try {
-                    this.config = configSchema.parse(existentConfig);
-                } catch (error) {
-                    console.error(
-                        error,
-                        "Invalid Panel Config provided. Please ensure the config is for the appropriate PanelType.",
-                    );
+            // * The info container and list, to be populated below, if needed
+            const infoContainer: HTMLElement | null =
+                this.shadowRoot?.querySelector(".info") as HTMLElement | null;
+            const infoMenu: HTMLElement | null = infoContainer?.querySelector(
+                ".info-menu",
+            ) as HTMLElement | null;
+
+            // ? Make the main menu button visible
+            menuButton.removeAttribute("hidden");
+
+            // ? Make all relevant elements visible, depending on situation
+
+            // ? If the panel has a config schema
+            if (configSchema != PanelTypeConfig.NONE) {
+                configContainer?.removeAttribute("hidden");
+
+                // ? If there is an existent Config being passed, ensure it satisfies
+                // ? the PanelType's schema, and assign it if all is well, or throw an error if not
+                if (existentConfig) {
+                    try {
+                        this.config = configSchema.parse(existentConfig);
+                    } catch (error) {
+                        console.error(
+                            error,
+                            "Invalid Panel Config provided. Please ensure the config is for the appropriate PanelType.",
+                        );
+                    }
+                } else {
+                    // ? Otherwise, assign the default Config for the PanelType
+                    this.config = getDefaultConfig(configSchema);
                 }
-            } else {
-                // ? Otherwise, assign the default Config for the PanelType
-                this.config = getDefaultConfig(configSchema);
+
+                // ? Build the Config Menu for the Config resulting at this point, and append it to the container
+                configMenuDiv?.appendChild(configMenu(this.config as Config));
             }
 
-            // ? Build the Config Menu for the Config resulting at this point, and append it to the container
-            configMenuDiv.appendChild(configMenu(this.config as Config));
+            // ? If the panel has aspect ratios or an external data source, show the info section
+            if (
+                this.type.getAspectRatios().length != 0
+                || this.type.getDataRoute()
+            )
+                infoContainer?.removeAttribute("hidden");
+
+            // ? If the panel has aspect ratios specifically, add an entry populated with the information
+            if (this.type.getAspectRatios().length != 0 && infoMenu) {
+                infoMenu.innerHTML += `<li>
+                        <p>This panel type can have the following aspect ratios:<br/>
+                        ${this.type.getAspectRatios().map((ar) => {
+                            return `${ar.width}:${ar.height}`;
+                        })}</p>
+                    </li>`;
+            }
+
+            // ? If the panel has an external URL specifically, add an entry linking to the source
+            if (this.type.getDataRoute() && infoMenu) {
+                infoMenu.innerHTML += `<li>
+                        <p>Powered by: <a href="${this.type.getExternalDataUrl() ?? this.type.getDataRoute()}">
+                                        </a>
+                        </p>
+                    </li>`;
+            }
 
             // ? Handle clicking the Config button to open and close the Configuration menu,
             // ? moving the Panel to the centre and setting it as the current one if the menu was opened
             // ? on this toggle
-            configButton.addEventListener("click", () => {
+            menuButton.addEventListener("click", () => {
                 this.classList.toggle("configuring");
                 if (this.classList.contains("configuring")) {
                     current.panel = this;
@@ -368,7 +414,7 @@ class Panel extends HTMLElement {
 
             // ? Handle a config change event, setting the new value to the changed setting,
             // ? and triggering a delayed save.
-            configMenuDiv.addEventListener("configchange", (e: Event) => {
+            configMenuDiv?.addEventListener("configchange", (e: Event) => {
                 const customEventParsed: CustomEvent<ConfigChangeEventDetail> =
                     e as CustomEvent<ConfigChangeEventDetail>;
                 if (this.config) {
@@ -394,7 +440,7 @@ class Panel extends HTMLElement {
      * @returns The Config object, if present, or `undefined` if the PanelType
      *   has no Config Schema (and thus no Config was initialised).
      *
-     * @see {@link initConfig | initConfig()}
+     * @see {@link initMenu | initConfig()}
      */
     public getConfig(): Config | undefined {
         return this.config;
@@ -831,7 +877,7 @@ class Panel extends HTMLElement {
                         async (location) => {
                             // ? Fetch and parse the Weather Forecast information for the corresponding location
                             const weatherResponse = await fetch(
-                                `${import.meta.env.VITE_BACKEND_URL}${this.type.getDataSource()}/forecast/${location.lat},${location.lon}&days=1`,
+                                `${import.meta.env.VITE_BACKEND_URL}${this.type.getDataRoute()}/forecast/${location.lat},${location.lon}&days=1`,
                             );
                             const data: WeatherAPI.LocationForecast =
                                 await weatherResponse.json();

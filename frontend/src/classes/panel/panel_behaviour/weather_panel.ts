@@ -168,7 +168,7 @@ function execute(panel: Panel): void {
             try {
                 // ? We then send the search request to the backend
                 const weatherResponse = await fetch(
-                    `${import.meta.env.VITE_BACKEND_URL}${panel.getType().getDataSource()}/search?q=${mainElements.searchInput.value}`,
+                    `${import.meta.env.VITE_BACKEND_URL}${panel.getType().getDataRoute()}/search?q=${mainElements.searchInput.value}`,
                 );
                 // ? And parse the results into a list of location search results
                 const locations: WeatherAPI.Location[] = (
@@ -429,7 +429,7 @@ async function focusOnLocation(
     // ? (1) The search result entry, if called from there
     // ? (2) The saved location entry, if called from there
     const weatherResponse = await fetch(
-        `${import.meta.env.VITE_BACKEND_URL}${panel.getType().getDataSource()}/forecast/${lat},${lon}`,
+        `${import.meta.env.VITE_BACKEND_URL}${panel.getType().getDataRoute()}/forecast/${lat},${lon}`,
     );
     const data: WeatherAPI.LocationForecast = await weatherResponse.json();
 
@@ -1004,7 +1004,7 @@ function refreshSavedLocations(
 
             // ? Fetch the new forecast information for the location at the time of calling
             const weatherResponse = await fetch(
-                `${import.meta.env.VITE_BACKEND_URL}${panel.getType().getDataSource()}/forecast/${location.dataset.lat},${location.dataset.lon}&days=1`,
+                `${import.meta.env.VITE_BACKEND_URL}${panel.getType().getDataRoute()}/forecast/${location.dataset.lat},${location.dataset.lon}&days=1`,
             );
             const data: WeatherAPI.LocationForecast =
                 await weatherResponse.json();

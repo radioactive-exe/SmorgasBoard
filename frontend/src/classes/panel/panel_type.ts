@@ -104,6 +104,7 @@ class PanelType {
         { width: 3, height: 2 },
         [],
         "api/weather",
+        "https://weatherapi.com/",
     );
 
     /**
@@ -115,26 +116,30 @@ class PanelType {
      * required. All the necessary types are declared as static instances and
      * members of this class.
      *
-     * @param typeId           - The numerical ID for this PanelType.
-     * @param typeName         - The user-friendly UI-facing name for the Panel
-     *   Type.
-     * @param typeData         - The type of data this PanelType uses/stores
+     * @param typeId              - The numerical ID for this PanelType.
+     * @param typeName            - The user-friendly UI-facing name for the
+     *   Panel Type.
+     * @param typeData            - The type of data this PanelType uses/stores
      *   (none, local, global, or external).
-     * @param typeTemplate     - The panel's template source from the backend.
-     *   This is stored in an enum, {@link PanelTypeTemplate}, whose values are
-     *   strings.
-     * @param typeConfig       - The panel type's config schema. As an object of
-     *   type {@link PanelTypeConfig}, which is either a Config object, or
+     * @param typeTemplate        - The panel's template source from the
+     *   backend. This is stored in an enum, {@link PanelTypeTemplate}, whose
+     *   values are strings.
+     * @param typeConfig          - The panel type's config schema. As an object
+     *   of type {@link PanelTypeConfig}, which is either a Config object, or
      *   undefined if there is no config for this panel type.
-     * @param typeBehaviour    - The panel type's behaviour function, if this
+     * @param typeBehaviour       - The panel type's behaviour function, if this
      *   Panel has any post-initialisation behaviour, such as a clock, etc.
-     * @param typeMinSize      - The minimum size for this type of panel. If no
-     *   custom minimum size is declared, the default value `{1, 1}` is used.
-     * @param typeAspectRatios - Any aspect ratios that this panel type has to
-     *   have. If it can have any aspect ratio, this array is empty, which is
+     * @param typeMinSize         - The minimum size for this type of panel. If
+     *   no custom minimum size is declared, the default value `{1, 1}` is
+     *   used.
+     * @param typeAspectRatios    - Any aspect ratios that this panel type has
+     *   to have. If it can have any aspect ratio, this array is empty, which is
      *   the default.
-     * @param typeDataSource   - If the panel's data type is external, the
+     * @param typeDataRoute       - If the panel's data type is external, the
      *   source/api route from the backend is stored here.
+     * @param typeExternalDataUrl - If the panel's data type is external, the
+     *   external URL is stored here, to be used in a link tag in the info menu
+     *   for the Panel.
      *
      * @example
      *
@@ -165,7 +170,8 @@ class PanelType {
         private readonly typeBehaviour: ((panel: Panel) => void) | null,
         private readonly typeMinSize: Size = { width: 1, height: 1 },
         private readonly typeAspectRatios: Size[] = [],
-        private readonly typeDataSource?: string,
+        private readonly typeDataRoute?: string,
+        private readonly typeExternalDataUrl?: string,
     ) {}
 
     /**
@@ -288,16 +294,30 @@ class PanelType {
 
     /**
      * Gets the route/URL, if available, of the source of data that the
-     * PanelType utilises, most often from the backend directly, unless stated
-     * otherwise.
+     * PanelType utilises, from the backend directly,.
      *
      * @returns The source of the PanelType's data, or undefined if it stores
      *   local data or none at all.
      *
      * @see {@link PanelTypeData}
+     * @see {@link getExternalDataUrl | getExternalDataUrl()}
      */
-    public getDataSource(): string | undefined {
-        return this.typeDataSource;
+    public getDataRoute(): string | undefined {
+        return this.typeDataRoute;
+    }
+
+    /**
+     * Gets the direct external URL for the API, used to link for crediting in
+     * the Panel's menu.
+     *
+     * @returns The direct URL to the external API, or undefined if it stores
+     *   local data or none at all.
+     *
+     * @see {@link PanelTypeData}
+     * @see {@link getDataRoute | getDataRoute()}
+     */
+    public getExternalDataUrl(): string | undefined {
+        return this.typeExternalDataUrl;
     }
 
     // eslint-disable-next-line jsdoc/require-example

@@ -39,7 +39,7 @@ const supabase: SupabaseClient = createClient(
 );
 
 const app = express();
-const port = 3000;
+const port = 3003;
 /** Ensures CORS only allows requests from these origins. */
 const allowedOrigins: string[] = [
     "https://smorgasboard.irradiated.app/",

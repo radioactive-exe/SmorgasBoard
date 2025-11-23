@@ -3,6 +3,7 @@
 desktop.ini
 *.code-workspace
 dist/
+build/
 node_modules/
 .vscode*/**/
 logs

@@ -137,7 +137,7 @@ smorgas-board panel-element {
         pointer-events: none;
     }
 
-    &::part(config) {
+    &::part(menu) {
         position: absolute;
         inset: 0;
         display: flex;

@@ -509,24 +509,22 @@ input:-webkit-autofill:active {
 }
 
 @media (hover: hover) {
-    #nav {
-        .nav-entry .button:hover {
+    #nav .nav-entry .button:hover {
 
-            & .icon,
-            & .menu-icon,
-            & .menu-icon::before,
-            & .menu-icon::after {
-                background: hsl(from var(--input-secondary) h s calc(l * 1.5));
-            }
+        & .icon,
+        & .menu-icon,
+        & .menu-icon::before,
+        & .menu-icon::after {
+            background: hsl(from var(--input-secondary) h s calc(l * 1.5));
+        }
 
-            & .personal-icon {
-                transform: translate(-0.5rem, 0.2rem) rotate(-10deg);
-            }
+        & .personal-icon {
+            transform: translate(-0.5rem, 0.2rem) rotate(-10deg);
+        }
 
-            & .cloud-exclam-icon {
-                opacity: 1;
-                transform: scale(0.8) translate(1rem, -1rem) rotate(15deg);
-            }
+        & .cloud-exclam-icon {
+            opacity: 1;
+            transform: scale(0.8) translate(1rem, -1rem) rotate(15deg);
         }
     }
 }
