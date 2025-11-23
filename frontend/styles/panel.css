@@ -152,7 +152,7 @@ smorgas-board panel-element {
         clip-path: circle(0% at center);
     }
 
-    &:part(info-menu) {
+    &::part(info-menu) {
         list-style: none;
     }
 
