@@ -510,23 +510,13 @@ input:-webkit-autofill:active {
 
 @media (hover: hover) {
     #nav {
-
-        /* Fixing stylelint inconsistency in media queries */
-
-        .main-nav,
-        .context-nav {
-            opacity: 0;
-            pointer-events: none;
-            backdrop-filter: none;
-        }
-
-        .nav-entry.personal-nav {
-            opacity: 1;
-        }
-
         .nav-entry .button:hover {
-            & .icon {
-                filter: brightness(1.5);
+
+            & .icon,
+            & .menu-icon,
+            & .menu-icon::before,
+            & .menu-icon::after {
+                background: hsl(from var(--input-secondary) h s calc(l * 1.5));
             }
 
             & .personal-icon {

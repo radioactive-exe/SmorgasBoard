@@ -30,33 +30,36 @@
             position: absolute;
             background: var(--input-secondary);
             transition: all var(--med-transition-time) var(--bezier-function);
+        }
 
-            &.menu-icon {
+        & .menu-icon {
+            position: relative;
+            z-index: 5;
+            width: 2rem;
+            height: 0.3rem;
+            border-radius: var(--tiny-border-radius);
+            background: var(--input-secondary);
+            transition: all var(--med-transition-time) var(--bezier-function);
+            transform: rotate(0deg);
+
+            &::before,
+            &::after {
+                content: '';
+                position: absolute;
+                inset: 0;
                 z-index: 5;
-                width: 2rem;
-                height: 0.3rem;
-                transform: rotate(0deg);
+                display: inherit;
+                border-radius: inherit;
+                background: var(--input-secondary);
+                transition: inherit;
+            }
 
-                &::before,
-                &::after {
-                    content: '';
-                    position: inherit;
-                    inset: 0;
-                    z-index: 5;
-                    display: inherit;
-                    border-radius: var(--tiny-border-radius);
-                    background: inherit;
-                    transition: inherit;
-                }
+            &::before {
+                transform: translateY(-0.8rem);
+            }
 
-                &::before {
-                    opacity: 1;
-                    transform: translateY(-0.8rem);
-                }
-
-                &::after {
-                    transform: translateY(0.8rem);
-                }
+            &::after {
+                transform: translateY(0.8rem);
             }
         }
 
@@ -84,11 +87,6 @@
                     inset 0.2rem 0.2rem 0.3rem 0 hsl(from var(--panel-bg) h s calc(l * 0.4) / 0.4),
                     inset -0.2rem -0.2rem 0.3rem 0 hsl(from var(--panel-bg) h s calc(l * 2) / 0.4);
 
-                & .icon {
-                    background: var(--input-accent);
-                    filter: brightness(1.5);
-                }
-
                 & .personal-icon {
                     transform: translate(-0.5rem, 0.2rem) rotate(-10deg);
                 }
@@ -99,7 +97,7 @@
                 }
 
                 & .menu-icon {
-                    transform: rotate(135deg);
+                    transform: rotate(45deg);
 
                     &::before {
                         opacity: 0;
@@ -108,6 +106,20 @@
                     &::after {
                         transform: rotate(-270deg);
                     }
+                }
+
+                & .icon,
+                & .menu-icon,
+                & .menu-icon::before,
+                & .menu-icon::after {
+                    background: var(--input-accent);
+                }
+
+                &:hover .icon,
+                &:hover .menu-icon,
+                &:hover .menu-icon::before,
+                &:hover .menu-icon::after {
+                    background: hsl(from var(--input-accent) h s calc(l * 1.1));
                 }
             }
         }
