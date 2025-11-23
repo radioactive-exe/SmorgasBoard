@@ -164,12 +164,12 @@ smorgas-board panel-element {
         transform-origin: center;
     }
 
-    &::part(config-button) {
+    &::part(menu-button) {
         top: 0.5rem;
         right: 0.5rem;
     }
 
-    &::part(config-button):hover {
+    &::part(menu-button):hover {
         transform: rotate(90deg);
     }
 
@@ -249,7 +249,7 @@ smorgas-board panel-element.being-manipulated {
         cursor: grabbing;
     }
 
-    &::part(config-button) {
+    &::part(menu-button) {
         width: 0;
         height: 0;
         padding: 0;
@@ -314,13 +314,13 @@ smorgas-board panel-element.configuring {
         transform: translate(var(--x-vector), var(--y-vector));
     }
 
-    &::part(config-button) {
+    &::part(menu-button) {
         top: 2rem;
         right: 2rem;
         transform: rotate(180deg);
     }
 
-    &::part(config-button):hover {
+    &::part(menu-button):hover {
         transform: rotate(90deg);
     }
 
