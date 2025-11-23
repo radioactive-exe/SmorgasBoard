@@ -617,7 +617,7 @@ Object.entries(Theme).forEach((theme: [string, Theme]) => {
     menuEntry.innerHTML = `<span class="item-text">${theme[1]}</span>`;
 
     // ? Handle clicking on the Theme to set the current dashboard Theme
-    menuEntry.addEventListener("pointerdown", () => {
+    menuEntry.addEventListener("click", () => {
         dashboard.setCurrentTheme(theme[1]);
     });
 
@@ -634,7 +634,7 @@ spawnablePanelTypes.forEach((panelType: [string, PanelType]) => {
     menuEntry.innerHTML = `<span class="item-text">${panelType[1].getName()}</span>`;
 
     // ? Handle clicking on the Panel name to spawn a new one of that PanelType
-    menuEntry.addEventListener("pointerdown", () => {
+    menuEntry.addEventListener("click", () => {
         dashboard.spawnPanelOfType(panelType[1]);
     });
 
