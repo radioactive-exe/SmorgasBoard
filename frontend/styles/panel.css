@@ -328,7 +328,7 @@ smorgas-board panel-element.configuring {
 
     &::part(menu) {
         padding: var(--panel-content-padding);
-        padding-top: calc(var(--panel-content-padding) * 2);
+        padding-top: calc(var(--panel-content-padding) * 1.5);
         pointer-events: all;
         clip-path: circle(100% at center);
     }
