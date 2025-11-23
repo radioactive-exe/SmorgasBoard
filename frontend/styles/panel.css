@@ -142,6 +142,7 @@ smorgas-board panel-element {
         inset: 0;
         display: flex;
         flex-flow: column nowrap;
+        gap: 2rem;
         overflow: hidden auto;
         padding: calc(var(--panel-content-padding) * 1.6) calc(var(--panel-content-padding) * 2);
         border-radius: inherit;

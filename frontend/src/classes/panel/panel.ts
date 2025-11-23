@@ -387,7 +387,7 @@ class Panel extends HTMLElement {
                 infoMenu.innerHTML += `<li>
                         <p>This panel type can have the following aspect ratios:<br/>
                         ${this.type.getAspectRatios().map((ar) => {
-                            return `${ar.width}:${ar.height}`;
+                            return `${ ar.width }:${ ar.height }, `;
                         })}</p>
                     </li>`;
             }

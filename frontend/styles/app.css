@@ -72,6 +72,10 @@ body {
     color: var(--text-primary);
 }
 
+a {
+    color: var(--text-accent);
+}
+
 .icon {
     width: 2rem;
     height: 2rem;
