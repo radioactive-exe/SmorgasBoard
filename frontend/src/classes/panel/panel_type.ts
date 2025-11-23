@@ -58,7 +58,6 @@ class PanelType {
         PanelTypeConfig.NONE,
         PanelTypeBehaviour.NOTEPAD,
         { width: 2, height: 2 },
-        [{ width: 1, height: 1 }],
     );
     static readonly PHOTO = new PanelType(
         PanelTypeId.PHOTO,
@@ -77,6 +76,14 @@ class PanelType {
         PanelTypeConfig.CLOCK,
         PanelTypeBehaviour.CLOCK,
         { width: 2, height: 1 },
+        [
+            { width: 2, height: 1 },
+            { width: 3, height: 1 },
+            { width: 4, height: 1 },
+            { width: 5, height: 1 },
+            { width: 3, height: 2 },
+            { width: 5, height: 2 },
+        ],
     );
     static readonly TODO = new PanelType(
         PanelTypeId.TODO,

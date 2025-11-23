@@ -100,7 +100,7 @@
                     transform: rotate(45deg);
 
                     &::before {
-                        opacity: 0;
+                        transform: translate(0);
                     }
 
                     &::after {
