@@ -748,7 +748,8 @@ const _supabaseAuthChangeHandler: { data: { subscription: Subscription } } =
             // ? If the state change was a sign in event, either for the first time or a returning login
             if (e == "SIGNED_IN" && session && session.user) {
                 // ? Store the user data from the resulting session in the event (if all went well)
-                user = {
+
+                const potentialUser = {
                     id: session.user.id,
                     email: session.user.email as string,
                     username:
@@ -758,66 +759,78 @@ const _supabaseAuthChangeHandler: { data: { subscription: Subscription } } =
                     access_token: session.access_token,
                 };
 
-                // ? Iterate through all the spans/containers that are labelled to contain the
-                // ? user's username and update them to show the user's name. So far, this is
-                // ? only in the auth menu, but as the program scales, this will update the username
-                // ? in any fields labelled as necessary.
-                (
-                    document.querySelectorAll(
-                        ".username",
-                    ) as NodeListOf<HTMLElement>
-                )?.forEach((u: HTMLElement) => {
-                    if (u)
-                        u.textContent =
-                            user?.username ?? "Placeholder_username";
-                });
+                // ? Since a SIGNED_IN event is fired off on tab focus every time,
+                // ? check if there is a change in the user before reloading.
+                // ? If there is no stored user, then this was the user signing in,
+                // ? and if there was a user and the ID is different, then there is
+                // ? a change in user. If the stored and potential ID are the same,
+                // ? the SIGNED_IN event was simply a tab refresh, so do not reload
+                // ? or repopulate Username fields
+                if (!user || (user && potentialUser.id != user.id)) {
+                    // ? Update the stored User
+                    user = potentialUser;
 
-                // ? Switch the visible auth menu in the personal nav, and then close that nav
-                anonAuthMenu?.style.setProperty("display", "none");
-                loggedInAuthMenu?.style.setProperty("display", "inherit");
-                personalNavButton?.classList.remove("active");
-
-                // ? Hide the form, we have successfully signed in
-                form?.classList.remove("visible");
-
-                // ? Assign the value to the changes listener, subscribing to the Realtime Channel,
-                // ? which receives updates when changes are made to the specific user's row in the dashboard.
-                // ? This is because of the RLS we enforced and thus the policies for users to only listen
-                // ? to changes to their own database row (i.e. only changes to their dashboard data)
-                _smorgasbaseChangesListener = supabase
-                    .channel(`changes_user_${user.id}`, {
-                        config: { private: true },
-                    })
-                    .on("broadcast", { event: "UPDATE" }, (_payload) => {
-                        // console.log(_payload);
-                        // ? If the change was triggered by another client instance than this one
-                        if (!wasLocalChange) {
-                            // ? Then reload to show the changes here
-                            dashboard.load();
-                        } else {
-                            // ? Otherwise, this was a local change from this client/instance, so wait
-                            // ? until all has stabilised then reset the flag variable
-                            setTimeout(() => {
-                                wasLocalChange = false;
-                            }, 1000);
-                        }
-                    })
-                    .subscribe();
-
-                // ? If this is a returning user logging in, simply load the data stored in the database
-                if (!firstTime) {
-                    dashboard.load();
-                } else {
-                    // ? Otherwise, if this is a first time register, save all the local data to the cloud
-                    dashboard.save();
-
-                    // ? And then send the welcome email!
-                    await supabase.functions.invoke("hello-world", {
-                        body: {
-                            email: user.email,
-                            username: user.username,
-                        },
+                    // ? Iterate through all the spans/containers that are labelled to contain the
+                    // ? user's username and update them to show the user's name. So far, this is
+                    // ? only in the auth menu, but as the program scales, this will update the username
+                    // ? in any fields labelled as necessary.
+                    (
+                        document.querySelectorAll(
+                            ".username",
+                        ) as NodeListOf<HTMLElement>
+                    )?.forEach((u: HTMLElement) => {
+                        if (u)
+                            u.textContent =
+                                user?.username ?? "Placeholder_username";
                     });
+
+                    // ? Switch the visible auth menu in the personal nav, and then close that nav
+                    anonAuthMenu?.style.setProperty("display", "none");
+                    loggedInAuthMenu?.style.setProperty("display", "inherit");
+                    personalNavButton?.classList.remove("active");
+
+                    // ? Hide the form, we have successfully signed in
+                    form?.classList.remove("visible");
+
+                    // ? Assign the value to the changes listener, subscribing to the Realtime Channel,
+                    // ? which receives updates when changes are made to the specific user's row in the dashboard.
+                    // ? This is because of the RLS we enforced and thus the policies for users to only listen
+                    // ? to changes to their own database row (i.e. only changes to their dashboard data)
+                    _smorgasbaseChangesListener = supabase
+                        .channel(`changes_user_${user.id}`, {
+                            config: { private: true },
+                        })
+                        .on("broadcast", { event: "UPDATE" }, (_payload) => {
+                            // console.log(_payload);
+                            // ? If the change was triggered by another client instance than this one
+                            if (!wasLocalChange) {
+                                // ? Then reload to show the changes here
+                                dashboard.load();
+                            } else {
+                                // ? Otherwise, this was a local change from this client/instance, so wait
+                                // ? until all has stabilised then reset the flag variable
+                                setTimeout(() => {
+                                    wasLocalChange = false;
+                                }, 1000);
+                            }
+                        })
+                        .subscribe();
+
+                    // ? If this is a returning user logging in, simply load the data stored in the database
+                    if (!firstTime) {
+                        dashboard.load();
+                    } else {
+                        // ? Otherwise, if this is a first time register, save all the local data to the cloud
+                        dashboard.save();
+
+                        // ? And then send the welcome email!
+                        await supabase.functions.invoke("hello-world", {
+                            body: {
+                                email: user.email,
+                                username: user.username,
+                            },
+                        });
+                    }
                 }
 
                 // ? If the change was a Sign out event.
