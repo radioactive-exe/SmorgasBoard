@@ -847,13 +847,16 @@ const _supabaseAuthChangeHandler: { data: { subscription: Subscription } } =
                 dashboard.clear();
                 dashboard.load();
 
-                // ? If the chang was the start of a session, either logged in or anonymous
-            } else if (e == "INITIAL_SESSION") {
+                // ? If the change was the start of a session, either logged in or anonymous
                 // ? Only load if the session is anonymous.
                 // ? If it is not, then the `SIGNED_IN` event was fired off before this,
                 // ? and the loading for the authenticated user was handled there.
-                if (!user) dashboard.load();
-            }
+            } else if (e == "INITIAL_SESSION" && !user) dashboard.load();
+            // ? If the change was a Token refresh.
+            // ? Then update the stored access token
+            else if (e == "TOKEN_REFRESHED" && user && session && session.user)
+                user.access_token = session.access_token;
+
             // console.log("!!", e);
         },
     );
