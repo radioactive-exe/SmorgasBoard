@@ -516,6 +516,7 @@
 
                     & .checkbox-tick-svg {
                         stroke-dashoffset: 0;
+                        stroke-dasharray: 131;
                     }
 
                     &::before {

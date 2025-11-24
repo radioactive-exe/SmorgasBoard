@@ -2,6 +2,9 @@ smorgas-board panel-element {
     position: fixed;
     top: var(--y);
     left: var(--x);
+    display: flex;
+    justify-content: center;
+    align-items: center;
     overflow: visible;
     width: var(--width);
     height: var(--height);
@@ -26,8 +29,6 @@ smorgas-board panel-element {
     }
 
     &::part(panel-body) {
-        position: absolute;
-        inset: var(--panel-body-inset);
         width: calc(100% - 2 * var(--panel-body-inset));
         height: calc(100% - 2 * var(--panel-body-inset));
         border-radius: var(--panel-border-radius);
@@ -39,7 +40,9 @@ smorgas-board panel-element {
     }
 
     &:hover::part(panel-body) {
-        transform: scale(1.02);
+        width: 100%;
+        height: 100%;
+        box-shadow: 0 0 0.2rem 0 var(--shadow-col);
     }
 
     &::part(panel-body in-motion) {
