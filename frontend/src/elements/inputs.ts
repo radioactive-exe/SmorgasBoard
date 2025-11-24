@@ -150,7 +150,7 @@ function initDropdownSelector(selector: HTMLElement): void {
  */
 function initToggleSelector(selector: HTMLElement): void {
     const checkbox: HTMLInputElement = selector.querySelector(
-        ".toggle-selector",
+        ".toggle-checkbox",
     ) as HTMLInputElement;
 
     /**
