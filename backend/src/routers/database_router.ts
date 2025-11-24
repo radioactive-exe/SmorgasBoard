@@ -11,11 +11,11 @@
 /** File Header Delimiter. */
 
 import { cors, express } from "../declarations.js";
-import { supabase } from "../index.js";
+import { allowedOrigins, supabase } from "../index.js";
 
 const databaseRouter = express.Router();
 
-databaseRouter.use(cors({ origin: true, credentials: true }));
+databaseRouter.use(cors({ origin: allowedOrigins, credentials: true }));
 
 /**
  * Handles all GET requests sent to fetch data from the Supabase database.

@@ -104,7 +104,7 @@ class PanelType {
         { width: 3, height: 2 },
         [],
         "api/weather",
-        "https://weatherapi.com/",
+        "https://www.weatherapi.com/",
     );
 
     /**
