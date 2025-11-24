@@ -75,7 +75,10 @@
                 z-index: 2;
                 overflow: hidden auto;
                 width: 0;
-                max-height: 10.5rem;
+
+                &:not(#dimensions-menu) {
+                    max-height: 10.5rem;
+                }
             }
 
             &.hover-item.active {
@@ -83,7 +86,7 @@
                     transform: rotate(0deg);
                 }
 
-                & .sub-menu {
+                & .sub-menu.hover-menu {
                     background: var(--panel-bg);
                     backdrop-filter: inherit;
 
