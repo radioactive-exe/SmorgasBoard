@@ -398,7 +398,7 @@ class Panel extends HTMLElement {
             // ? If the panel has an external URL specifically, add an entry linking to the source
             if (this.type.getDataRoute() && infoMenu) {
                 infoMenu.innerHTML += `<li>
-                        <p>Powered by: <a href="${this.type.getExternalDataUrl() ?? this.type.getDataRoute()}">${this.type.getExternalDataUrl() ?? this.type.getDataRoute()}</a>
+                        <p>Powered by: <a target="_blank" href="${this.type.getExternalDataUrl() ?? this.type.getDataRoute()}">${this.type.getExternalDataUrl() ?? this.type.getDataRoute()}</a>
                         </p>
                     </li>`;
             }

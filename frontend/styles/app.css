@@ -259,7 +259,6 @@ smorgas-board {
             inset: 0;
             width: 100%;
             height: 100%;
-            box-shadow: 0 0 0.2rem 0 var(--shadow-col);
         }
 
         &::part(cell) {

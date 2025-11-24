@@ -41,6 +41,10 @@ smorgas-board panel-element {
         backface-visibility: hidden;
     }
 
+    &:hover::part(panel-body) {
+        box-shadow: var(--shadow-offset-x, 0) var(--shadow-offset-y, 0) 1rem 0.2rem var(--shadow-col);
+    }
+
     &::part(panel-body in-motion) {
         transition: all 0s;
         animation: lerp-transition forwards var(--med-transition-time) ease;
@@ -371,10 +375,7 @@ smorgas-board panel-element.final-preview {
 }
 
 @media (hover: hover) {
-    smorgas-board panel-element:not(.configuring, .in-edit-mode panel-element) {
-        &:hover::part(panel-body) {
-            box-shadow: var(--shadow-offset-x) var(--shadow-offset-y) 0.2rem 0 var(--shadow-col);
-            transform: perspective(200rem) rotateX(var(--rotate-x, 0)) rotateY(var(--rotate-y, 0)) rotateZ(0deg);
-        }
+    smorgas-board panel-element:not(.configuring):hover::part(panel-body) {
+        transform: perspective(200rem) rotateX(var(--rotate-x, 0)) rotateY(var(--rotate-y, 0)) rotateZ(0deg);
     }
 }
