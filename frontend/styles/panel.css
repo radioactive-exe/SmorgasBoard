@@ -374,6 +374,8 @@ smorgas-board panel-element.final-preview {
 @media (hover: hover) {
     smorgas-board panel-element:not(.configuring, .in-edit-mode panel-element) {
         &:hover::part(panel-body) {
+            width: calc(100% - 2 * var(--panel-body-inset));
+            height: calc(100% - 2 * var(--panel-body-inset));
             box-shadow: var(--shadow-offset-x) var(--shadow-offset-y) 0.2rem 0 var(--shadow-col);
             transform: perspective(200rem) rotateX(var(--rotate-x, 0)) rotateY(var(--rotate-y, 0)) rotateZ(0deg);
         }
