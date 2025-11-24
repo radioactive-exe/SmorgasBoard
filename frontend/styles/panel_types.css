@@ -250,13 +250,17 @@ panel-element[data-panel-type="TODO"] {
                 align-items: center;
                 overflow: hidden;
                 width: 100%;
-                padding: 0 var(--panel-content-padding);
                 border-top: 0.2rem solid var(--cell-bg);
                 user-select: none;
                 transition: all var(--med-transition-time) ease;
 
+                & .selector {
+                    margin: 0;
+                }
+
                 & .checkbox-label {
                     width: 100%;
+                    padding: var(--panel-content-padding);
                 }
 
                 & .todo-list-entry-text {
