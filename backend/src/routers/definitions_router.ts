@@ -15,8 +15,7 @@
 
 /** File Header Delimiter. */
 
-import { cors, express } from "../declarations.js";
-import { allowedOrigins } from "../index.js";
+import { allowedOrigins, cors, express } from "../declarations.js";
 
 import templatesRouter from "./definitions_subrouters/templates_router.js";
 

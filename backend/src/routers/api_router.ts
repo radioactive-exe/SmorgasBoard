@@ -14,8 +14,7 @@
 
 /** File Header Delimiter. */
 
-import { cors, express } from "../declarations.js";
-import { allowedOrigins } from "../index.js";
+import { allowedOrigins, cors, express } from "../declarations.js";
 
 import weatherApiRouter from "./api_subrouters/weather_router.js";
 

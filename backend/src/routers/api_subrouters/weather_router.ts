@@ -10,8 +10,7 @@
 
 /** File Header Delimiter. */
 
-import { cors, express } from "../../declarations.js";
-import { allowedOrigins } from "../../index.js";
+import { allowedOrigins, cors, express } from "../../declarations.js";
 
 const weatherApiKey = process.env.WEATHER_API_KEY;
 

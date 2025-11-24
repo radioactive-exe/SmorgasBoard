@@ -10,8 +10,8 @@
 
 /** File Header Delimiter. */
 
-import { cors, express } from "../declarations.js";
-import { allowedOrigins, supabase } from "../index.js";
+import { allowedOrigins, cors, express } from "../declarations.js";
+import { supabase } from "../index.js";
 
 const databaseRouter = express.Router();
 

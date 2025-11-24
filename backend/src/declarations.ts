@@ -23,4 +23,23 @@ import { createClient } from "@supabase/supabase-js";
 import cors from "cors";
 import dotenv from "dotenv";
 import express from "express";
-export { SupabaseClient, cors, createClient, dotenv, express, fs, path, url };
+
+/** Ensures CORS only allows requests from these origins. */
+const allowedOrigins: string[] = [
+    "https://smorgasboard.irradiated.app/",
+    "https://smorgasboard.irradiated.app",
+    "https://smorgasboard.vercel.app/",
+    "https://smorgasboard.vercel.app",
+    process.env.ORIGIN_URL ?? "",
+];
+export {
+    SupabaseClient,
+    allowedOrigins,
+    cors,
+    createClient,
+    dotenv,
+    express,
+    fs,
+    path,
+    url,
+};

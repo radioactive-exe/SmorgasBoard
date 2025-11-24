@@ -14,6 +14,7 @@
 import type { SupabaseClient } from "./declarations.js";
 
 import {
+    allowedOrigins,
     cors,
     createClient,
     dotenv,
@@ -40,14 +41,6 @@ const supabase: SupabaseClient = createClient(
 
 const app = express();
 const port = 3003;
-/** Ensures CORS only allows requests from these origins. */
-const allowedOrigins: string[] = [
-    "https://smorgasboard.irradiated.app/",
-    "https://smorgasboard.irradiated.app",
-    "https://smorgasboard.vercel.app/",
-    "https://smorgasboard.vercel.app",
-    process.env.ORIGIN_URL ?? "",
-];
 
 const __filename = url.fileURLToPath(import.meta.url);
 /** The current directory as a file path. */
@@ -88,4 +81,4 @@ const _listener = app.listen(port, () =>
 );
 
 export default app;
-export { allowedOrigins, supabase };
+export { supabase };

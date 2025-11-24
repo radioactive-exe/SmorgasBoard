@@ -10,8 +10,14 @@
 
 /** File Header Delimiter. */
 
-import { cors, express, fs, path, url } from "../../declarations.js";
-import { allowedOrigins } from "../../index.js";
+import {
+    allowedOrigins,
+    cors,
+    express,
+    fs,
+    path,
+    url,
+} from "../../declarations.js";
 
 const templatesRouter = express.Router();
 
