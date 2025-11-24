@@ -199,7 +199,7 @@ function buildBooleanEntrySelector(entry: ConfigEntry.Boolean): HTMLElement {
     // ? Filling out the selector container
     toggleSelector.innerHTML = `
         <label class="toggle-checkbox-background">
-            <input type="checkbox" id="toggle" class="toggle-checkbox" />
+            <input type="checkbox" class="toggle-checkbox" />
             <div class="toggle-checkbox-button"></div>
         </label>
     `;

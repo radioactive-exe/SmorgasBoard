@@ -305,7 +305,9 @@ panel-element[data-panel-type="TODO"] {
                 }
 
                 &:is(.in-edit-mode .todo-list-entry) {
-                    padding-right: calc(var(--panel-content-padding) + 1.5rem);
+                    & .selector {
+                        padding-right: calc(var(--panel-content-padding) + 1.5rem);
+                    }
 
                     & .x-icon {
                         width: 2rem;

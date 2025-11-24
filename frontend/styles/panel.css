@@ -39,7 +39,7 @@ smorgas-board panel-element {
     }
 
     &:hover::part(panel-body) {
-        transform: perspective(1rem) translateZ(2rem) rotateZ(0deg);
+        transform: perspective(1rem) translateZ(0.1rem) rotateZ(0deg);
     }
 
     &::part(panel-body in-motion) {
