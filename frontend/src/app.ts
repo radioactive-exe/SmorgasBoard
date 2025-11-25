@@ -782,7 +782,7 @@ const _supabaseAuthChangeHandler: { data: { subscription: Subscription } } =
                     )?.forEach((u: HTMLElement) => {
                         if (u)
                             u.textContent =
-                                user?.username ?? "Placeholder_username";
+                                user?.username ?? "Placeholder_Username";
                     });
 
                     // ? Switch the visible auth menu in the personal nav, and then close that nav

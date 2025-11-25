@@ -716,7 +716,9 @@ class Panel extends HTMLElement {
                         ...(todoList?.children as HTMLCollectionOf<HTMLElement>),
                     ].map((entry: HTMLElement) => {
                         return {
-                            task: entry.textContent,
+                            task:
+                                entry.querySelector(".todo-list-entry-text")
+                                    ?.textContent ?? "Placeholder_Task",
                             checked:
                                 (
                                     entry.querySelector(
