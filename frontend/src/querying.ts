@@ -190,4 +190,4 @@ async function patchIntoSmorgasBase(
     return fetched;
 }
 
-export { getFromSmorgasBase, patchIntoSmorgasBase };
+export { DashboardDataFetch, getFromSmorgasBase, patchIntoSmorgasBase };

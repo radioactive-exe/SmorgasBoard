@@ -44,6 +44,7 @@ import {
 
 import { snapElementToTarget } from "./functions/manip.js";
 import * as utils from "./functions/util.js";
+import type { DashboardDataFetch } from "./querying.js";
 
 // ~ Supabase Client, and Authentication/Database related variables
 
@@ -800,18 +801,39 @@ const _supabaseAuthChangeHandler: { data: { subscription: Subscription } } =
                         .channel(`changes_user_${user.id}`, {
                             config: { private: true },
                         })
-                        .on("broadcast", { event: "UPDATE" }, (_payload) => {
-                            console.log(_payload);
+                        .on("broadcast", { event: "UPDATE" }, (update) => {
+                            console.log(update);
+                            const updateContent: DashboardDataFetch =
+                                update.payload.record;
                             // ? If the change was triggered by another client instance than this one
-                            if (!wasLocalChange) {
+                            if (
+                                !wasLocalChange
+                                // ? And one of the below are different in the payload than the current content:
+                                // ? (1) The Theme
+                                && (updateContent.theme
+                                    // ? (2) The Dimensions
+                                    != dashboard.getCurrentTheme().getId()
+                                    || updateContent.dimensions?.height
+                                        != dashboard.getDimensions().height
+                                    || updateContent.dimensions?.width
+                                        != dashboard.getDimensions().width
+                                    // ? (3) The Free IDs
+                                    // ?  -  A string comparison will suffice as it is a sorted
+                                    // ?     set of numbers only. If the payload ID array isn't sorted and
+                                    // ?     free of duplicates (as the set that saved it), then the
+                                    // ?     received update is malformed)
+                                    || updateContent.free_ids?.toString()
+                                        != [
+                                            ...dashboard.getFreeIds(),
+                                        ].toString())
+                            ) {
                                 // ? Then reload to show the changes here
                                 dashboard.load();
                             } else {
-                                // ? Otherwise, this was a local change from this client/instance, so wait
-                                // ? until all has stabilised then reset the flag variable
-                                setTimeout(() => {
-                                    wasLocalChange = false;
-                                }, 1000);
+                                // ? Otherwise, this was a local change from this client/instance,
+                                // ? or it was a received update with an identical payload to the
+                                // ? current data, so simply reset the flag variable
+                                wasLocalChange = false;
                             }
                         })
                         .subscribe();

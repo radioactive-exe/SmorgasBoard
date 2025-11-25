@@ -151,6 +151,17 @@ class Dashboard extends HTMLElement {
     }
 
     /**
+     * Gets the Set of free IDs stored in the dashboard.
+     *
+     * @returns The set/pool of free IDs as a numerical Set.
+     *
+     * @see {@link freeIds}
+     */
+    public getFreeIds(): Set<number> {
+        return this.freeIds;
+    }
+
+    /**
      * Gets the background cells for the Dashboard.
      *
      * @returns The stored array of cells.

@@ -65,8 +65,10 @@ function execute(panel: Panel): void {
         validateThenAddEntry(addTaskInput, todoList, panel),
     );
     addTaskInput.addEventListener("keydown", (e) => {
-        if (e.key == "Enter")
+        if (e.key == "Enter") {
+            e.preventDefault();
             validateThenAddEntry(addTaskInput, todoList, panel);
+        }
     });
     panel.addEventListener("configchange", (e) => {
         const customEventParsed: CustomEvent<ConfigChangeEventDetail> =
