@@ -801,7 +801,7 @@ const _supabaseAuthChangeHandler: { data: { subscription: Subscription } } =
                             config: { private: true },
                         })
                         .on("broadcast", { event: "UPDATE" }, (_payload) => {
-                            // console.log(_payload);
+                            console.log(_payload);
                             // ? If the change was triggered by another client instance than this one
                             if (!wasLocalChange) {
                                 // ? Then reload to show the changes here
@@ -852,8 +852,7 @@ const _supabaseAuthChangeHandler: { data: { subscription: Subscription } } =
                 // ? If it is not, then the `SIGNED_IN` event was fired off before this,
                 // ? and the loading for the authenticated user was handled there.
             } else if (e == "INITIAL_SESSION" && !user) dashboard.load();
-            // ? If the change was a Token refresh.
-            // ? Then update the stored access token
+            // ? If the change was a Token refresh, update the stored access token
             else if (e == "TOKEN_REFRESHED" && user && session && session.user)
                 user.access_token = session.access_token;
 

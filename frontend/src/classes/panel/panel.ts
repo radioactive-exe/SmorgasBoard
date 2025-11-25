@@ -914,6 +914,28 @@ class Panel extends HTMLElement {
     }
 
     /**
+     * Gets the PanelInstance of this Panel.
+     *
+     * @returns The formatted PanelInstance object representing this panel, for
+     *   use in loading and saving panels/dashboard data.
+     *
+     * @see {@link PanelInstance}
+     * @see {@link getContent | getContent()}
+     */
+    public getInstance(): PanelInstance {
+        return {
+            panel_id: this.dashboardId,
+            panel_type_id: this.type.getId(),
+            area: {
+                pos: this.getPosition(),
+                size: this.getSize(),
+            },
+            content: this.getContent(),
+            config: this.config,
+        };
+    }
+
+    /**
      * Initialise all button handlers and listeners for both handles and
      * buttons.
      *

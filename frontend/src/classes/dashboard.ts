@@ -48,6 +48,17 @@ class Dashboard extends HTMLElement {
      * @see {@link Panel}
      */
     private panels: Panel[];
+    /**
+     * The stored PanelInstances for the panels in the Dashboard.
+     *
+     * @remarks
+     * This is stored to facilitate saving locally and to the cloud, as well as
+     * checking received updates from the Supabase database for any differences
+     * with the local data before reloading, avoiding unnecessary reloads if an
+     * update was received in conflicting timing with resetting whether a change
+     * was local or not.
+     */
+    private panelInstances: PanelInstance[];
     /** The current Theme applied to the Dashboard. */
     private currentTheme: Theme;
     /**
@@ -546,29 +557,17 @@ class Dashboard extends HTMLElement {
     /**
      * Saves all the dashboard data/information to the database.
      *
-     * @remarks
-     * Only the PanelInstances need to be passed to this function, as all other
-     * data is obtained directly from the properties of the Dashboard.
-     *
-     * @param panelStorage - The Array of PanelInstances that is sent to be
-     *   stored in the database as well.
-     *
-     * @example
-     *
-     * For examples of panel content, see the content of Panel.get/setContent()
-     * (below).
-     *
      * @see {@link save | save()}
      * @see {@link PanelInstance}
      * @see {@link Panel.getContent | Panel.getContent()}
      * @see {@link Panel.setContent | Panel.setContent()}
      */
-    private saveToCloud(panelStorage: PanelInstance[]): void {
+    private saveToCloud(): void {
         try {
             // ? Populate the payload and send
             patchIntoSmorgasBase("dashboard", {
                 free_ids: [...this.freeIds],
-                panels: panelStorage,
+                panels: this.panelInstances,
                 dimensions: this.dimensions,
                 theme: this.currentTheme.getId(),
             });
@@ -585,28 +584,16 @@ class Dashboard extends HTMLElement {
      * @see {@link load | load()}
      */
     public save(): void {
-        // * Map through all stored panels and store the PanelInstance derived
-        // * from each one in an array
-        const panelStorage: PanelInstance[] = this.panels.map(
-            (i): PanelInstance => {
-                return {
-                    panel_id: parseInt(i.dataset.panelId ?? "0"),
-                    panel_type_id: i.getType().getId(),
-                    area: {
-                        pos: i.getPosition(),
-                        size: i.getSize(),
-                    },
-                    content: i.getContent(),
-                    config: i.getConfig(),
-                };
-            },
+        // * Map through all stored panels and store their PanelInstances
+        this.panelInstances = this.panels.map(
+            (i): PanelInstance => i.getInstance(),
         );
 
         // ? If authenticated, save directly to the cloud
-        if (user) this.saveToCloud(panelStorage);
+        if (user) this.saveToCloud();
         // ? Otherwise, save all information to local storage
         else {
-            localStorage.setItem("panels", JSON.stringify(panelStorage));
+            localStorage.setItem("panels", JSON.stringify(this.panelInstances));
             localStorage.setItem("free-ids", JSON.stringify([...this.freeIds]));
             localStorage.setItem("dimensions", JSON.stringify(this.dimensions));
             localStorage.setItem(
@@ -737,7 +724,8 @@ class Dashboard extends HTMLElement {
 
             // ? If there are already panels hard-coded and present in the body
             // ? (which should never be the case), spawn a relevant Alert and
-            // ? store the queried Panels in the array of panels, updating their
+            // ? store the queried Panels in the array of panels,
+            // ? as well as updating the stored instances and their
             // ? stored Area from their style properties
             if (queriedPanels.length != 0) {
                 spawnAlert(
@@ -748,6 +736,9 @@ class Dashboard extends HTMLElement {
                     i.updateArea();
                 });
                 this.panels = queriedPanels;
+                this.panelInstances = queriedPanels.map(
+                    (i): PanelInstance => i.getInstance(),
+                );
                 resolve();
                 return;
             }
@@ -794,7 +785,10 @@ class Dashboard extends HTMLElement {
             // * used to check when loading is finished
             let numOfPanels = 0;
 
-            // ? If the function reaches this point, that means there were stored panels that were successfully loaded. So, iterate over all the PanelInstances
+            // ? If the function reaches this point, that means there were stored panels
+            // ? that were successfully loaded. So, iterate over all the PanelInstances,
+            // ? and update the stored ones
+            this.panelInstances = loadedPanelInstances;
             loadedPanelInstances.map((i: PanelInstance) => {
                 // ? Create the Panel to spawn from each Instance
                 const panelToSpawn: Panel = new Panel(
@@ -943,6 +937,7 @@ class Dashboard extends HTMLElement {
     public clearPanelData(): void {
         // ? Clears the Panels and free IDs
         this.panels = [];
+        this.panelInstances = [];
         this.freeIds.clear();
 
         // ? Removes all Panels in the body of the Dashboard
