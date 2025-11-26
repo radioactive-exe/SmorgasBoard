@@ -69,6 +69,7 @@
 
 body {
     overflow: hidden;
+    background: var(--dashboard-bg);
     color: var(--text-primary);
 }
 
@@ -82,7 +83,9 @@ a {
     background: var(--text-accent);
     pointer-events: none;
     user-select: none;
-    transition: transform var(--med-transition-time) ease, opacity var(--med-transition-time) ease, filter var(--med-transition-time) ease;
+    transition-timing-function: ease;
+    transition-duration: var(--med-transition-time);
+    transition-property: transform, opacity, filter, background;
     mask: var(--icon-svg) no-repeat center;
     mask-size: contain;
 
@@ -161,6 +164,21 @@ a {
 
     &.x-icon {
         --icon-svg: url("../public/assets/graphics/circle-x.svg");
+        position: absolute;
+        right: calc(var(--panel-content-padding) - 0.8rem);
+        width: 0;
+        min-width: 0;
+        height: 0;
+        min-height: 0;
+        margin: 0;
+        margin-left: auto;
+        cursor: pointer;
+        pointer-events: all;
+
+        &:hover {
+            background: var(--alert-error-bg);
+            transform: scale(1.1);
+        }
     }
 
     &.weather-icon {
@@ -182,18 +200,15 @@ a {
 
 .icon-button {
     cursor: pointer;
-    transition: all var(--quick-transition-time) var(--bezier-function);
+    transition-timing-function: var(--bezier-function);
+    transition-duration: var(--quick-transition-time);
+    transition-property: transform, background, box-shadow, width, height, padding, filter;
 }
 
 .glassy {
     box-shadow: inset 0.2rem 0.2rem 0.2rem 0 hsl(from var(--panel-bg) h s calc(l * 2) / 0.4),
         inset -0.2rem -0.2rem 0.2rem 0 hsl(from var(--panel-bg) h s calc(l * 0.4) / 0.4);
     backdrop-filter: blur(0.2rem) url("#glass-distortion");
-}
-
-.despawning {
-    pointer-events: none;
-    clip-path: circle(0% at center);
 }
 
 .clickable {
@@ -233,8 +248,9 @@ smorgas-board {
         border-radius: 2rem;
         background: var(--cell-bg);
         opacity: 0.1;
-        transition: all var(--med-transition-time) ease;
-        filter: url("#inset-shadow");
+        transition-timing-function: ease;
+        transition-duration: var(--med-transition-time);
+        transition-property: opacity, width, height, margin, border;
     }
 
 
@@ -399,7 +415,6 @@ input:-webkit-autofill:active {
         width: 1.5rem;
         height: 1.5rem;
         cursor: pointer;
-        transition: all var(--med-transition-time) var(--bezier-function);
 
         &::after {
             content: '';
@@ -408,6 +423,7 @@ input:-webkit-autofill:active {
             border: 0.1rem solid var(--input-secondary);
             border-radius: var(--tiny-border-radius);
             background: var(--input-bg);
+            transition: background var(--med-transition-time) var(--bezier-function);
         }
 
         &.active::after {
@@ -436,7 +452,7 @@ input:-webkit-autofill:active {
         background: hsl(from var(--dashboard-bg) h s l / 0.6);
         opacity: 0;
         pointer-events: none;
-        transition: all var(--med-transition-time) ease, pointer-events 0s ease var(--med-transition-time);
+        transition: opacity var(--med-transition-time) ease, pointer-events 0s ease var(--med-transition-time);
         backdrop-filter: blur(0.8rem);
 
         & .warning-title {
@@ -473,7 +489,7 @@ input:-webkit-autofill:active {
             background: var(--input-accent);
             opacity: 0;
             filter: drop-shadow(0 0 0.5rem var(--shadow-col));
-            transition: all var(--quick-transition-time) ease;
+            transition: opacity var(--quick-transition-time) ease;
             animation-duration: 0.5s;
             animation-play-state: paused;
             animation-timing-function: ease;
@@ -520,14 +536,6 @@ input:-webkit-autofill:active {
 
 @media (hover: hover) {
     #nav .nav-entry .button:hover {
-
-        & .icon,
-        & .menu-icon,
-        & .menu-icon::before,
-        & .menu-icon::after {
-            background: hsl(from var(--input-secondary) h s calc(l * 1.5));
-        }
-
         & .personal-icon {
             transform: translate(-0.5rem, 0.2rem) rotate(-10deg);
         }
@@ -536,5 +544,13 @@ input:-webkit-autofill:active {
             opacity: 1;
             transform: scale(0.8) translate(1rem, -1rem) rotate(15deg);
         }
+
+        & .icon,
+        & .menu-icon,
+        & .menu-icon::before,
+        & .menu-icon::after {
+            background: hsl(from var(--input-secondary) h s calc(l * 1.5));
+        }
+
     }
 }

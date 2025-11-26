@@ -9,10 +9,6 @@ smorgas-board panel-element {
     width: var(--width);
     height: var(--height);
 
-    /* clip-path: circle(0 at 50% 50%);
-    left: 0;
-        top: 0; */
-
     & .panel-title {
         color: var(--text-accent);
     }
@@ -24,7 +20,9 @@ smorgas-board panel-element {
         border-radius: var(--panel-border-radius);
         opacity: 0;
         pointer-events: none;
-        transition: all var(--panel-transition-time) ease;
+        transition-timing-function: ease;
+        transition-duration: var(--panel-transition-time);
+        transition-property: inset, opacity;
         backdrop-filter: url("#glass-distortion");
     }
 
@@ -35,7 +33,9 @@ smorgas-board panel-element {
         height: calc(100% - 2 * var(--panel-body-inset));
         border-radius: var(--panel-border-radius);
         background: var(--panel-bg);
-        transition: all var(--panel-transition-time) ease;
+        transition-timing-function: ease;
+        transition-duration: var(--panel-transition-time);
+        transition-property: width, height, inset, background, opacity, transform, box-shadow, backdrop-filter, filter;
         transform: scale(1) rotateZ(0deg);
         transform-style: preserve-3d;
         backface-visibility: hidden;
@@ -46,7 +46,8 @@ smorgas-board panel-element {
     }
 
     &::part(panel-body in-motion) {
-        transition: all 0s;
+        transition-duration: 0s;
+        transition-property: transform, box-shadow;
     }
 
     &::part(panel-content) {
@@ -57,7 +58,7 @@ smorgas-board panel-element {
         align-items: center;
         border-radius: var(--panel-border-radius);
         user-select: none;
-        transition: all var(--panel-transition-time) ease;
+        transition: inherit;
         transform: perspective(0.01rem) rotateZ(0) scale(1);
         -webkit-font-smoothing: subpixel-antialiased;
         container-type: inline-size;
@@ -75,7 +76,9 @@ smorgas-board panel-element {
         background: hsl(from var(--panel-handle-bg) h s l / 0.6);
         cursor: grab;
         user-select: none;
-        transition: var(--quick-transition-time) ease;
+        transition-timing-function: ease;
+        transition-duration: var(--quick-transition-time);
+        transition-property: width, height, opacity, padding;
         touch-action: none;
     }
 
@@ -105,7 +108,9 @@ smorgas-board panel-element {
         pointer-events: visiblestroke;
         fill: none;
         stroke: hsl(from var(--panel-handle-bg) h s l / 0.7);
-        transition: all var(--quick-transition-time) ease;
+        transition-timing-function: ease;
+        transition-duration: var(--quick-transition-time);
+        transition-property: r, cy, cx, stroke-dashoffset, stroke-dasharray, stroke-width;
         stroke-width: 0;
         stroke-dasharray: 1 1000 120;
         stroke-dashoffset: -14;
@@ -146,12 +151,12 @@ smorgas-board panel-element {
         flex-flow: column nowrap;
         gap: 2rem;
         overflow: hidden auto;
-        padding: calc(var(--panel-content-padding) * 1.6) calc(var(--panel-content-padding) * 2);
+        padding: calc(var(--panel-content-padding) * 1.6) var(--panel-content-padding);
         border-radius: inherit;
         background: hsl(from var(--panel-bg) h s calc(l * 0.9));
         font-size: var(--font-s);
         pointer-events: none;
-        transition: all calc(2 * var(--panel-transition-time)) var(--bezier-function);
+        transition: clip-path calc(2 * var(--panel-transition-time)) var(--bezier-function);
         clip-path: circle(0% at center);
     }
 
@@ -174,13 +179,12 @@ smorgas-board panel-element {
         cursor: pointer;
         pointer-events: all;
         user-select: none;
-        transition: var(--panel-transition-time) ease;
         transform-origin: center;
     }
 
     &::part(menu-button) {
-        top: 0.5rem;
-        right: 0.5rem;
+        top: 1.5rem;
+        right: 1.5rem;
     }
 
     &::part(menu-button):hover {
@@ -241,8 +245,7 @@ smorgas-board panel-element.being-manipulated {
         width: calc(100% - 2 * var(--panel-body-inset));
         height: calc(100% - 2 * var(--panel-body-inset));
         background: rgb(from var(--panel-bg) r g b / var(--panel-manip-opacity));
-        box-shadow: inset 0.2rem 0.2rem 0.5rem 0.1rem hsl(from var(--panel-bg) h s calc(l * 2) / 0.4), inset -0.2rem -0.2rem 0.5rem 0.1rem hsl(from var(--panel-bg) h s calc(l * 0.4) / 0.4);
-        box-shadow: 1.5rem 1.5rem 2rem var(--shadow-col);
+        box-shadow: inset 0.2rem 0.2rem 0.5rem 0.1rem hsl(from var(--panel-bg) h s calc(l * 2) / 0.4), inset -0.2rem -0.2rem 0.5rem 0.1rem hsl(from var(--panel-bg) h s calc(l * 0.4) / 0.4), 1.5rem 1.5rem 2rem var(--shadow-col);
         pointer-events: none;
         backdrop-filter: blur(1px);
     }
@@ -263,8 +266,12 @@ smorgas-board panel-element.being-manipulated {
     }
 
     &.being-dragged {
-        transition: all var(--panel-transition-time) ease, left 0s, top 0s;
-        scale: 1.1;
+        transition:
+            opacity var(--panel-transition-time) ease,
+            background var(--panel-transition-time) ease,
+            transform var(--panel-transition-time) ease,
+            left 0s, top 0s;
+        transform: scale(1.1);
 
         &::part(drag-handle) {
             width: var(--square-handle-full-side);
@@ -278,7 +285,11 @@ smorgas-board panel-element.being-manipulated {
     }
 
     &.being-resized {
-        transition: all var(--panel-transition-time) ease, width 0s, height 0s;
+        transition:
+            opacity var(--panel-transition-time) ease,
+            background var(--panel-transition-time) ease,
+            transform var(--panel-transition-time) ease,
+            width 0s, height 0s;
 
         &::part(resize-handle) {
             opacity: var(--panel-manip-opacity);
@@ -332,8 +343,6 @@ smorgas-board panel-element.configuring {
     }
 
     &::part(menu) {
-        padding: var(--panel-content-padding);
-        padding-top: calc(var(--panel-content-padding) * 1.5);
         pointer-events: all;
         clip-path: circle(100% at center);
     }
@@ -343,7 +352,9 @@ smorgas-board panel-element.configuring {
 smorgas-board panel-element.snapping:not(.final-preview) {
     z-index: 1;
     pointer-events: none;
-    transition: all var(--panel-transition-time) var(--bezier-function);
+    transition-timing-function: var(--bezier-function);
+    transition-duration: var(--panel-transition-time);
+    transition-property: opacity, width, height, inset, top, left, transform, background;
 }
 
 smorgas-board panel-element.final-preview {
@@ -365,7 +376,9 @@ smorgas-board panel-element.final-preview {
     }
 
     &.snapping {
-        transition: all var(--panel-transition-time) ease;
+        transition-timing-function: ease;
+        transition-duration: var(--panel-transition-time);
+        transition-property: opacity, left, top, width, height;
     }
 
     &.visible {

@@ -6,7 +6,7 @@
 
     & .nav-entry {
         position: relative;
-        transition: all var(--med-transition-time) var(--bezier-function);
+        transition: transform var(--med-transition-time) var(--bezier-function);
 
         &:not(.main-nav) {
             position: absolute;
@@ -33,10 +33,16 @@
             }
         }
 
+        & .icon,
+        & .menu-icon {
+            background: var(--input-secondary);
+            transition-timing-function: var(--bezier-function);
+            transition-duration: var(--med-transition-time);
+            transition-property: transform, opacity, filter, background;
+        }
+
         & .icon {
             position: absolute;
-            background: var(--input-secondary);
-            transition: all var(--med-transition-time) var(--bezier-function);
         }
 
         & .menu-icon {
@@ -45,8 +51,6 @@
             width: 2rem;
             height: 0.3rem;
             border-radius: var(--tiny-border-radius);
-            background: var(--input-secondary);
-            transition: all var(--med-transition-time) var(--bezier-function);
             transform: rotate(0deg);
 
             &::before,
@@ -147,7 +151,11 @@
             border: 0 solid var(--input-secondary);
             border-radius: var(--small-border-radius);
             background: var(--panel-bg);
-            transition: all var(--med-transition-time) var(--bezier-function), max-height var(--med-transition-time) var(--bezier-function) calc(0.8 * var(--med-transition-time)), box-shadow calc(1.5 * var(--med-transition-time)) var(--bezier-function) calc(0.8 * var(--med-transition-time)), border-width var(--med-transition-time) var(--bezier-function) calc(0.8 * var(--med-transition-time)), padding var(--med-transition-time) var(--bezier-function) calc(0.8 * var(--med-transition-time));
+            transition:
+                max-height var(--med-transition-time) var(--bezier-function) calc(0.8 * var(--med-transition-time)),
+                box-shadow calc(1.5 * var(--med-transition-time)) var(--bezier-function) calc(0.8 * var(--med-transition-time)),
+                border-width var(--med-transition-time) var(--bezier-function) calc(0.8 * var(--med-transition-time)),
+                padding var(--med-transition-time) var(--bezier-function) calc(0.8 * var(--med-transition-time));
             border-end-end-radius: calc(var(--square-handle-full-side) / 2);
 
             & .auth-options {
@@ -179,7 +187,11 @@
                 max-height: 20rem;
                 border-width: 0.5rem;
                 box-shadow: 0.4rem 0.4rem 0.2rem 0 var(--shadow-col);
-                transition: all var(--med-transition-time) var(--bezier-function), max-width var(--med-transition-time) var(--bezier-function) calc(0.8 * var(--med-transition-time));
+                transition:
+                    max-height var(--med-transition-time) var(--bezier-function),
+                    border-width var(--med-transition-time) var(--bezier-function),
+                    box-shadow var(--med-transition-time) var(--bezier-function),
+                    max-width var(--med-transition-time) var(--bezier-function) calc(0.8 * var(--med-transition-time));
 
                 & .auth-options {
                     padding: var(--input-padding);

@@ -10,6 +10,15 @@
     transition: clip-path var(--quick-transition-time) ease;
     clip-path: circle(100% at center);
 
+    &.despawning {
+        pointer-events: none;
+        clip-path: circle(0% at center);
+
+        & .ball {
+            animation-play-state: paused;
+        }
+    }
+
     & .ball-container {
         position: relative;
         display: inherit;

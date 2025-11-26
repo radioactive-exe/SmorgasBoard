@@ -12,7 +12,6 @@
 .selector {
     margin: var(--input-padding) 0;
     color: var(--text-primary);
-    transition: all var(--med-transition-time) ease;
     isolation: isolate;
 
     &.dropdown-selector {
@@ -35,12 +34,12 @@
                 inset -0.2rem -0.2rem 0.1rem 0.1rem hsl(from var(--input-bg) h s calc(l * 0.4) / 0.8),
                 0 0 0.5rem 0 var(--shadow-col);
             user-select: none;
-            transition: var(--quick-transition-time) ease;
+            transition: background var(--quick-transition-time) ease;
 
             & .menu-caret {
                 --icon-svg: url("../assets/graphics/angle-small-right.svg");
                 background: var(--input-accent);
-                transition: var(--quick-transition-time) ease;
+                transition: transform var(--quick-transition-time) ease;
                 transform: rotate(90deg);
             }
 
@@ -61,7 +60,7 @@
             background: hsl(from var(--input-bg) h s calc(l * 0.6));
             box-shadow: inset 0 0 1rem 0.2rem var(--shadow-col);
             list-style: none;
-            transition: all var(--quick-transition-time) ease;
+            transition: max-height var(--quick-transition-time) ease;
 
             & .dropdown-item {
                 display: flex;
@@ -69,7 +68,7 @@
                 gap: 1rem;
                 padding: calc(var(--input-padding) / 2) var(--input-padding);
                 border-top: inherit;
-                transition: var(--quick-transition-time) var(--bezier-function);
+                transition: background var(--quick-transition-time) var(--bezier-function);
 
                 &:first-of-type {
                     padding-top: calc(1.8 * var(--input-padding));
@@ -81,14 +80,16 @@
                     flex-flow: row;
                     gap: 1rem;
                     user-select: none;
-                    transition: all var(--quick-transition-time) var(--bezier-function);
+                    transition-timing-function: transform var(--quick-transition-time) var(--bezier-function);
 
                     & .selected-icon {
                         --icon-svg: url("../assets/graphics/hand-back-point-left.svg");
                         height: auto;
                         background: var(--input-accent);
                         opacity: 0;
-                        transition: all var(--med-transition-time) var(--bezier-function);
+                        transition-timing-function: var(--bezier-function);
+                        transition-duration: var(--med-transition-time);
+                        transition-property: opacity, transform;
                         transform: translate(8rem);
                     }
 
@@ -102,8 +103,6 @@
                 & .selected-icon.visible {
                     opacity: 1;
                     transform: translate(0);
-
-                    /* position: absolute; */
                 }
 
                 &:hover {
@@ -138,7 +137,7 @@
         height: var(--input-height);
         border-radius: var(--small-border-radius);
         filter: brightness(0.6);
-        transition: all var(--med-transition-time) var(--bezier-function);
+        transition: filter var(--med-transition-time) var(--bezier-function);
 
         & .toggle-checkbox-background {
             position: absolute;
@@ -149,7 +148,9 @@
             box-shadow: inset 0 0 1rem 0.1rem var(--shadow-col),
                 inset 0 0 0.5rem 0.1rem var(--shadow-col);
             cursor: pointer;
-            transition: all var(--med-transition-time) var(--bezier-function);
+            transition-timing-function: var(--bezier-function);
+            transition-duration: var(--med-transition-time);
+            transition-property: background, transform, box-shadow, width, border-radius;
 
             & .toggle-checkbox-button {
                 position: relative;
@@ -232,7 +233,6 @@
         font-weight: bold;
         font-size: var(--font-s);
         letter-spacing: 0.2rem;
-        transition: var(--quick-transition-time) ease;
         isolation: isolate;
 
         & .range-selector-label {
@@ -256,7 +256,6 @@
                 display: block;
                 width: 100%;
                 background: transparent;
-                transition: inherit;
                 appearance: none;
 
                 &::-webkit-slider-runnable-track {
@@ -279,7 +278,9 @@
                         0 0 0 -0.2rem transparent,
                         inset calc(0.3rem * var(--fill-amount)) 0 calc(0.3rem * var(--fill-amount)) 0 var(--input-accent);
                     cursor: grab;
-                    transition: all var(--med-transition-time) ease;
+                    transition-timing-function: ease;
+                    transition-duration: var(--med-transition-time);
+                    transition-property: background, box-shadow;
                     transform: translateY(-0.25rem);
                     appearance: none;
                 }
@@ -329,10 +330,21 @@
     &.string-selector {
         position: relative;
         max-width: 100%;
+        transition:
+            box-shadow var(--quick-transition-time) var(--bezier-function),
+            transform var(--quick-transition-time) var(--bezier-function),
+            padding var(--quick-transition-time) var(--bezier-function),
+            background var(--quick-transition-time) var(--bezier-function),
+            color var(--quick-transition-time) var(--bezier-function),
+            font-size var(--quick-transition-time) var(--bezier-function),
+            letter-spacing var(--quick-transition-time) var(--bezier-function),
+            clip-path var(--quick-transition-time) var(--bezier-function),
+            width var(--quick-transition-time) var(--bezier-function),
+            border var(--med-transition-time) var(--jelly-function);
 
         & .string-selector-label {
             position: relative;
-            transition: all var(--quick-transition-time) var(--bezier-function), border var(--med-transition-time) var(--jelly-function);
+            transition: inherit;
 
             & .string-selector-label-text {
                 position: absolute;
@@ -463,7 +475,9 @@
             height: 100%;
             overflow-wrap: break-word;
             cursor: pointer;
-            transition: all var(--quick-transition-time) ease;
+            transition-timing-function: ease;
+            transition-duration: var(--quick-transition-time);
+            transition-property: border-color, background, transform;
             isolation: isolate;
 
             & .checkbox-input {
@@ -495,7 +509,9 @@
                 & .checkbox-tick-svg {
                     fill: none;
                     stroke: var(--input-bg);
-                    transition: all var(--quick-transition-time) ease, stroke-dashoffset var(--med-transition-time) ease;
+                    transition-timing-function: ease;
+                    transition-duration: var(--med-transition-time);
+                    transition-property: stroke-dasharray, stroke-dashoffset;
                     stroke-dasharray: 131;
                     stroke-dashoffset: -130;
                     stroke-linejoin: round;
@@ -552,7 +568,7 @@
     border-radius: var(--small-border-radius);
     background: var(--scrollbar-thumb-col);
     cursor: grab;
-    transition: all var(--med-transition-time) ease;
+    transition: background var(--med-transition-time) ease;
 }
 
 ::-webkit-scrollbar-thumb:hover {

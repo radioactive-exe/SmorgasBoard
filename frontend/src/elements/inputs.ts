@@ -99,12 +99,6 @@ function initDropdownSelector(selector: HTMLElement): void {
                 // ? So the dropdown menu does not close again.
                 e.stopPropagation();
 
-                // ? Set the clicked option as the selected one, updating the selection text,
-                // ? and lastActive
-                selectionText.textContent = option.textContent;
-                option.classList.add("selected");
-                lastActive = option;
-
                 // ? If the clicked option is different than the last active one,
                 // ? we remove all selection classes and information from the last chosen option,
                 // ? and visually update to show the transition of selection.
@@ -115,6 +109,12 @@ function initDropdownSelector(selector: HTMLElement): void {
                         ?.classList.remove("visible");
                     selectedIcon.classList.add("visible");
                 }
+
+                // ? Set the clicked option as the selected one, updating the selection text,
+                // ? and lastActive
+                selectionText.textContent = option.textContent;
+                option.classList.add("selected");
+                lastActive = option;
 
                 // ? We fire a config change event when the dropdown selection is changed,
                 // ? the detail of which holds the config setting changed, as well as the value

@@ -35,7 +35,13 @@
         ],
         "property-no-unknown": true,
         "color-named": "never",
-        "plugin/use-baseline": [true, { "ignoreSelectors": ["nesting"] }],
+        "plugin/use-baseline": [
+            true,
+            {
+                "ignoreSelectors": ["nesting"],
+                "ignoreProperties": { "user-select": ["none", "auto"] }
+            }
+        ],
         "plugin/no-low-performance-animation-properties": true
     }
 }

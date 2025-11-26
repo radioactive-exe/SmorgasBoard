@@ -10,7 +10,7 @@
     padding: 10rem;
     background: var(--panel-bg);
     pointer-events: all;
-    transition: all var(--med-transition-time) var(--bezier-function);
+    transition: clip-path var(--med-transition-time) var(--bezier-function);
 
     & .form-title-container {
         display: flex;
@@ -51,7 +51,7 @@
             background: var(--input-secondary);
             cursor: pointer;
             pointer-events: all;
-            transition: all var(--quick-transition-time) var(--bezier-function);
+            transition: background var(--quick-transition-time) var(--bezier-function);
         }
     }
 
