@@ -17,11 +17,17 @@
         transform var(--quick-transition-time) var(--bezier-function),
         padding var(--quick-transition-time) var(--bezier-function),
         background var(--quick-transition-time) var(--bezier-function),
+        opacity var(--quick-transition-time) var(--bezier-function),
         color var(--quick-transition-time) var(--bezier-function),
         font-size var(--quick-transition-time) var(--bezier-function),
         letter-spacing var(--quick-transition-time) var(--bezier-function),
         clip-path var(--quick-transition-time) var(--bezier-function),
         width var(--quick-transition-time) var(--bezier-function),
+        margin var(--quick-transition-time) var(--bezier-function),
+        margin-top var(--quick-transition-time) var(--bezier-function),
+        margin-left var(--quick-transition-time) var(--bezier-function),
+        margin-bottom var(--quick-transition-time) var(--bezier-function),
+        margin-right var(--quick-transition-time) var(--bezier-function),
         border var(--med-transition-time) var(--jelly-function);
     isolation: isolate;
 
@@ -91,7 +97,9 @@
                     flex-flow: row;
                     gap: 1rem;
                     user-select: none;
-                    transition-timing-function: transform var(--quick-transition-time) var(--bezier-function);
+                    transition-timing-function: var(--bezier-function);
+                    transition-duration: var(--quick-transition-time);
+                    transition-property: transform;
 
                     & .selected-icon {
                         --icon-svg: url("../assets/graphics/hand-back-point-left.svg");
@@ -117,7 +125,7 @@
                 }
 
                 &:hover {
-                    background: var(--cell-bg);
+                    background: var(--input-bg);
 
                     & .item-content {
                         transform: translate(3rem);
@@ -341,7 +349,6 @@
     &.string-selector {
         position: relative;
         max-width: 100%;
-        transition: inherit;
 
         & .string-selector-label {
             position: relative;

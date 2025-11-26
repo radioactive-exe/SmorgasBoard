@@ -8,7 +8,7 @@
         position: relative;
         transition-timing-function: var(--bezier-function);
         transition-duration: var(--med-transition-time);
-        transition-property: transform, opacity;
+        transition-property: transform, opacity, box-shadow;
 
         &:not(.main-nav) {
             position: absolute;
@@ -194,8 +194,8 @@
                     max-height var(--med-transition-time) var(--bezier-function),
                     border-width var(--med-transition-time) var(--bezier-function),
                     box-shadow var(--med-transition-time) var(--bezier-function),
-                    max-width var(--med-transition-time) var(--bezier-function) calc(0.8 * var(--med-transition-time)),
-                    padding var(--med-transition-time) var(--bezier-function) calc(0.8 * var(--med-transition-time));
+                    max-width var(--med-transition-time) var(--bezier-function) var(--med-transition-time),
+                    padding var(--med-transition-time) var(--bezier-function);
 
                 & .auth-options {
                     padding: var(--input-padding);

@@ -202,7 +202,7 @@ a {
     cursor: pointer;
     transition-timing-function: var(--bezier-function);
     transition-duration: var(--quick-transition-time);
-    transition-property: transform, background, box-shadow, width, height, padding, filter;
+    transition-property: transform, background, box-shadow, width, height, padding, filter, top, right, left, bottom;
 }
 
 .glassy {
@@ -271,7 +271,7 @@ smorgas-board {
             padding: 1rem;
         }
 
-        & panel-element:not(panel-element.configuring):hover::part(panel-body) {
+        & panel-element:not(panel-element.configuring, panel-element.snapping):hover::part(panel-body) {
             inset: 0;
             width: 100%;
             height: 100%;
