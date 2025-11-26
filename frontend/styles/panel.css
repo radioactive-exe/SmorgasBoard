@@ -95,8 +95,8 @@ smorgas-board panel-element {
         position: absolute;
         right: -2rem;
         bottom: -2rem;
-        width: 8rem;
-        height: 8rem;
+        width: 10rem;
+        height: 10rem;
         pointer-events: none;
     }
 
@@ -112,21 +112,18 @@ smorgas-board panel-element {
         transition-duration: var(--quick-transition-time);
         transition-property: r, cy, cx, stroke-dashoffset, stroke-dasharray, stroke-width;
         stroke-width: 0;
-        stroke-dasharray: 1 1000 120;
-        stroke-dashoffset: -14;
+        stroke-dasharray: 0 222;
+        stroke-dashoffset: 415;
         stroke-linecap: round;
-        r: 2rem;
-        cx: 3.5rem;
-        cy: 3.5rem;
+        r: 4rem;
+        cx: 4rem;
+        cy: 4rem;
     }
 
     &::part(resize-handle):hover {
         stroke-width: 3.5rem;
-        stroke-dasharray: 60 1000 120;
-        stroke-dashoffset: 0;
-        r: 4rem;
-        cx: 2rem;
-        cy: 2rem;
+        stroke-dasharray: 60 222;
+        stroke-dashoffset: 565;
     }
 
     &::part(resize-handle):active {
@@ -294,11 +291,8 @@ smorgas-board panel-element.being-manipulated {
         &::part(resize-handle) {
             opacity: var(--panel-manip-opacity);
             stroke-width: 3.5rem;
-            stroke-dasharray: 60 1000 120;
-            stroke-dashoffset: 0;
-            r: 4rem;
-            cx: 2rem;
-            cy: 2rem;
+            stroke-dasharray: 60 222;
+            stroke-dashoffset: 565;
         }
 
         &::part(drag-handle) {
@@ -361,6 +355,7 @@ smorgas-board panel-element.final-preview {
     position: absolute;
     top: var(--y);
     left: var(--x);
+    z-index: 0;
     width: var(--width);
     height: var(--height);
     border-radius: 2rem;

@@ -485,7 +485,7 @@
             cursor: pointer;
             transition-timing-function: ease;
             transition-duration: var(--quick-transition-time);
-            transition-property: border-color, background, transform;
+            transition-property: border-color, background, transform, color, width;
             isolation: isolate;
 
             & .checkbox-input {
@@ -520,8 +520,8 @@
                     transition-timing-function: ease;
                     transition-duration: var(--med-transition-time);
                     transition-property: stroke-dasharray, stroke-dashoffset;
-                    stroke-dasharray: 131;
-                    stroke-dashoffset: -130;
+                    stroke-dasharray: 20px;
+                    stroke-dashoffset: 20px;
                     stroke-linejoin: round;
                     stroke-linecap: round;
                     stroke-width: 0.4rem;
@@ -540,7 +540,6 @@
 
                     & .checkbox-tick-svg {
                         stroke-dashoffset: 0;
-                        stroke-dasharray: 131;
                     }
 
                     &::before {
