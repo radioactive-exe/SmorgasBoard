@@ -10,7 +10,9 @@
     padding: 10rem;
     background: var(--panel-bg);
     pointer-events: all;
-    transition: clip-path var(--med-transition-time) var(--bezier-function);
+    transition-timing-function: var(--bezier-function);
+    transition-duration: var(--med-transition-time);
+    transition-property: clip-path, transform, opacity, margin, margin-top;
 
     & .form-title-container {
         display: flex;
@@ -34,7 +36,11 @@
     & #username-selector {
         position: absolute;
         opacity: 0;
-        transform: translate(0, calc(var(--input-height) + var(--input-padding)));
+        transform: translate(0, var(--input-height));
+    }
+
+    & #email-selector {
+        margin: 0;
     }
 
     & #password-selector {

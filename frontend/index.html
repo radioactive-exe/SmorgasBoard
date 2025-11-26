@@ -145,7 +145,7 @@
         </div>
 
         <div id="modal-layer">
-            <form class="selector string-selector" id="auth-form" action="">
+            <form class="form full-window-form" id="auth-form" action="">
                 <button class="button" id="close-form-button" type="button">
                     Maybe Later
                     <div class="icon exit-icon"></div>
@@ -154,41 +154,48 @@
                     <h1 id="register-title">Join the Family!</h1>
                     <h1 id="login-title">Welcome Back!</h1>
                 </div>
-                <label class="string-selector-label" id="username-selector">
-                    <input
-                        class="string-selector-input"
-                        id="username"
-                        type="text"
-                        name="username"
-                    />
-                    <span class="string-selector-label-text">Username</span>
-                </label>
-                <label class="string-selector-label" id="email-selector">
-                    <input
-                        class="string-selector-input"
-                        id="email"
-                        type="email"
-                        name=""
-                        placeholder=""
-                        required
-                    />
-                    <span class="string-selector-label-text">E-mail</span>
-                </label>
-                <label class="string-selector-label" id="password-selector">
-                    <input
-                        class="string-selector-input"
-                        id="password"
-                        type="password"
-                        name=""
-                        placeholder=""
-                        required
-                    />
-                    <span class="string-selector-label-text">Password</span>
-                    <div
-                        class="icon eye-icon"
-                        id="password-visibility-button"
-                    ></div>
-                </label>
+
+                <div class="selector string-selector" id="username-selector">
+                    <label class="string-selector-label">
+                        <input
+                            class="string-selector-input"
+                            id="username"
+                            type="text"
+                            name="username"
+                        />
+                        <span class="string-selector-label-text">Username</span>
+                    </label>
+                </div>
+                <div class="selector string-selector" id="email-selector">
+                    <label class="string-selector-label">
+                        <input
+                            class="string-selector-input"
+                            id="email"
+                            type="email"
+                            name=""
+                            placeholder=""
+                            required
+                        />
+                        <span class="string-selector-label-text">E-mail</span>
+                    </label>
+                </div>
+                <div class="selector string-selector" id="password-selector">
+                    <label class="string-selector-label">
+                        <input
+                            class="string-selector-input"
+                            id="password"
+                            type="password"
+                            name=""
+                            placeholder=""
+                            required
+                        />
+                        <span class="string-selector-label-text">Password</span>
+                        <div
+                            class="icon eye-icon"
+                            id="password-visibility-button"
+                        ></div>
+                    </label>
+                </div>
                 <div class="subtitle-container">
                     <p class="subtitle" id="register-subtitle">
                         First time here?

@@ -10,14 +10,7 @@
 
 /** File Header Delimiter. */
 
-import {
-    allowedOrigins,
-    cors,
-    express,
-    fs,
-    path,
-    url,
-} from "../../declarations.js";
+import { cors, express, fs, path, url } from "../../declarations.js";
 
 const templatesRouter = express.Router();
 
@@ -56,13 +49,15 @@ const _templateHandler = templatesRouter.get(
 
         // ? In case all is well, read the contents of the file and send them to the frontend
         fs.readFile(templateLocation, (_err, data) => {
-            res.setHeader(
-                "Access-Control-Allow-Origin",
-                process.env.ORIGIN_URL ?? "",
-            ).json({
-                panel_type: req.params.panel,
-                panel_template: data.toString(),
-            });
+            res
+                //     .setHeader(
+                //     "Access-Control-Allow-Origin",
+                //     process.env.ORIGIN_URL ?? "",
+                // )
+                .json({
+                    panel_type: req.params.panel,
+                    panel_template: data.toString(),
+                });
             return;
         });
     },

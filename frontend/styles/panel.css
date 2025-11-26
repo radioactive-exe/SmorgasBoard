@@ -183,8 +183,8 @@ smorgas-board panel-element {
     }
 
     &::part(menu-button) {
-        top: 1.5rem;
-        right: 1.5rem;
+        top: 2.5rem;
+        right: 2.5rem;
     }
 
     &::part(menu-button):hover {
