@@ -259,7 +259,165 @@ function getOptionLabelFromList(
     return foundLabel != "" ? foundLabel : null;
 }
 
+/**
+ * Deeply compares two arrays of objects or primitives for equal contents.
+ *
+ * @param   a1 - The first array of objects/primitives.
+ * @param   a2 - The second array of objects/primitives.
+ *
+ * @returns    True if the two arrays contain the same elements and values,
+ *   regardless of order, false otherwise.
+ *
+ * @example
+ *
+ * ```ts
+ * const a1: number[] = [2, 4, 3, 1];
+ * const a2: number[] = [1, 4, 3, 2];
+ * const a3: number[] = [3, 2, 6];
+ *
+ * console.log (areEqual(a1, a2)); // => Outputs `true`
+ * console.log (areEqual(a1, a3)); // => Outputs `false`
+ * ```
+ *
+ * @example
+ *
+ * ```ts
+ * const ob1 = {
+ *     name: "Kyle",
+ *     hobbies: ["tennis", "video_games"],
+ *     best_friend: { name: "Joe", age: 21 },
+ * };
+ * const ob2 = {
+ *     name: "Kyle",
+ *     best_friend: { name: "Joe", age: 21 },
+ *     hobbies: ["video_games", "tennis"],
+ * };
+ * const ob3 = {
+ *     name: "Maria",
+ *     best_friend: { name: "Ibrahim", age: 24 },
+ *     hobbies: ["reading", "baseball"],
+ * };
+ *
+ * console.log(areEqual([ob1, ob2], [ob2, ob1])); // => Outputs `true`
+ * console.log(areEqual([ob1, ob2], [ob3, ob1])); // => Outputs `false`
+ * ```
+ *
+ * @see {@link areDeeplyEqual | areDeeplyEqual()}
+ */
+function areEqualArrays(
+    a1: (object | string | number | boolean)[] | undefined,
+    a2: (object | string | number | boolean)[] | undefined,
+): boolean {
+    // ? If either variable is undefined but not both
+    if ((!a1 && a2) || (a1 && !a2)) return false;
+
+    // ? If they are both undefined, then technically equal, albeit not very useful
+    if (!a1 && !a2) return true;
+
+    // ? If both variables point to the same object in memory, then they are equal
+    if (a1 === a2) return true;
+
+    // ? If both arrays have different lengths, immediately return false
+    if (a1?.length != a2?.length) return false;
+
+    // ? Otherwise, iterate through each entry in p1, and check that an identical copy exists
+    // ? in p2 (knowing by this point that they both have the same number of elements)
+    if (a1 && a2)
+        for (const entry of a1) {
+            // ? If an identical match cannot be found, then there is a mismatch between the 2 arrays.
+            // ? Deeply compare the members to find matches
+            if (!a2.some((i) => areDeeplyEqual(entry, i))) return false;
+        }
+
+    // ? If the function reaches this point, there were no mismatches and both entries were
+    // ? arrays of identical elements (regardless of order)
+    return true;
+}
+
+/**
+ * Recursively deeply compares objects/variables of any primitive or object
+ * type.
+ *
+ * @remarks
+ * If the passed parameters are arrays, the original method to compare arrays is
+ * called.
+ *
+ * @param   obj1 - The first variable/object in the comparison.
+ * @param   obj2 - The second variable/object in the comparison.
+ *
+ * @returns      True whether the objects are deeply equal (have the same
+ *   values/properties), and false otherwise.
+ *
+ * @example
+ *
+ * ```ts
+ * const ob1 = { name: "June", age: 18, hobbies: ["tennis", "reading"] };
+ * const ob2 = { name: "June", hobbies: ["tennis", "reading"], age: 18 };
+ * const ob3 = { name: "May", age: 21, hobbies: ["puzzles", "science"] };
+ *
+ * console.log(areDeeplyEqual(ob1, ob2)); // => Outputs `true`
+ * console.log(areDeeplyEqual(ob1, ob3)); // => Outputs `false`
+ * ```
+ *
+ * @see {@link areEqualArrays | areEqualArrays()}
+ */
+function areDeeplyEqual(
+    obj1:
+        | object
+        | string
+        | number
+        | boolean
+        | (object | string | number | boolean)[],
+    obj2:
+        | object
+        | string
+        | number
+        | boolean
+        | (object | string | number | boolean)[],
+): boolean {
+    // ? If both arguments are both primitive types or point to the same object in memory
+    if (obj1 === obj2) return true;
+
+    // ? If both arguments are arrays, then call `areEqualArrays` to do the checking
+    if (Array.isArray(obj1) && Array.isArray(obj2))
+        return areEqualArrays(obj1, obj2);
+
+    // ? Otherwise, check the following, all of which result in an inequality
+    if (
+        // ? (1) If they do not have the same type (primitive or not both objects)
+        typeof obj1 !== typeof obj2
+        // ? (2) If one is an array and the other is not (as "typeof" could not check)
+        || (Array.isArray(obj1) && !Array.isArray(obj2))
+        || (!Array.isArray(obj1) && Array.isArray(obj2))
+        // ? (3) If both of them are objects, but they are not objects of the same type
+        || (typeof obj1 == "object"
+            && typeof obj2 == "object"
+            && obj1.constructor !== obj2.constructor)
+    ) {
+        return false; // One is not an object or is null
+    }
+
+    const keys1 = Object.keys(obj1);
+    const keys2 = Object.keys(obj2);
+
+    if (keys1.length !== keys2.length) return false;
+
+    for (const key of keys1) {
+        if (
+            !keys2.includes(key)
+            || !areDeeplyEqual(
+                obj1[key as keyof typeof obj1],
+                obj2[key as keyof typeof obj2],
+            )
+        ) {
+            return false;
+        }
+    }
+    return true;
+}
+
 export {
+    areEqualArrays,
     areaCollisionWithElement,
     collidesWithAnyPanel,
     deleteAfterTransition,

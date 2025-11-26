@@ -74,16 +74,6 @@
     }
 }
 
-@keyframes lerp-transition {
-    0% {
-        transition: all var(--panel-transition-time) ease;
-    }
-
-    100% {
-        transition: all 0s;
-    }
-}
-
 @keyframes pulse {
     100% {
         transform: scale(0.8);

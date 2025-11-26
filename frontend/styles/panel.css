@@ -47,7 +47,6 @@ smorgas-board panel-element {
 
     &::part(panel-body in-motion) {
         transition: all 0s;
-        animation: lerp-transition forwards var(--med-transition-time) ease;
     }
 
     &::part(panel-content) {
