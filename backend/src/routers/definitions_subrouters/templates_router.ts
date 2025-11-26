@@ -24,7 +24,7 @@ const templatesRouter = express.Router();
 const __filename = url.fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-templatesRouter.use(cors({ origin: allowedOrigins, credentials: true }));
+templatesRouter.use(cors({ origin: true, credentials: true }));
 
 /** Handle calls requesting panel templates from the frontend of Smorgasboard. */
 const _templateHandler = templatesRouter.get(

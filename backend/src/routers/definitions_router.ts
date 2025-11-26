@@ -21,7 +21,7 @@ import templatesRouter from "./definitions_subrouters/templates_router.js";
 
 const definitionsRouter = express.Router();
 
-definitionsRouter.use(cors({ origin: allowedOrigins, credentials: true }));
+definitionsRouter.use(cors({ origin: true, credentials: true }));
 
 /** Routed the calls for panel templates directly to that handler. */
 const _panelsHandler = definitionsRouter.use("/panels/", templatesRouter);
