@@ -16,7 +16,7 @@ const weatherApiKey = process.env.WEATHER_API_KEY;
 
 const weatherApiRouter = express.Router();
 
-weatherApiRouter.use(cors({ origin: true, credentials: true }));
+weatherApiRouter.use(cors({ origin: allowedOrigins, credentials: true }));
 
 /**
  * The Router that handles all search Get requests sent from the Smorgasboard

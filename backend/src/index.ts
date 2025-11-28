@@ -49,7 +49,7 @@ const __dirname = path.dirname(__filename);
 /** Implements CORS to only allow the origins in {@link allowedOrigins}. */
 const _corsHandler = app.use(
     cors({
-        origin: true,
+        origin: allowedOrigins,
     }),
 );
 

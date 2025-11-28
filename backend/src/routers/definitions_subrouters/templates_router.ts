@@ -10,14 +10,21 @@
 
 /** File Header Delimiter. */
 
-import { cors, express, fs, path, url } from "../../declarations.js";
+import {
+    allowedOrigins,
+    cors,
+    express,
+    fs,
+    path,
+    url,
+} from "../../declarations.js";
 
 const templatesRouter = express.Router();
 
 const __filename = url.fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-templatesRouter.use(cors({ origin: true, credentials: true }));
+templatesRouter.use(cors({ origin: allowedOrigins, credentials: true }));
 
 /** Handle calls requesting panel templates from the frontend of Smorgasboard. */
 const _templateHandler = templatesRouter.get(
@@ -49,15 +56,13 @@ const _templateHandler = templatesRouter.get(
 
         // ? In case all is well, read the contents of the file and send them to the frontend
         fs.readFile(templateLocation, (_err, data) => {
-            res
-                //     .setHeader(
-                //     "Access-Control-Allow-Origin",
-                //     process.env.ORIGIN_URL ?? "",
-                // )
-                .json({
-                    panel_type: req.params.panel,
-                    panel_template: data.toString(),
-                });
+            res.setHeader(
+                "Access-Control-Allow-Origin",
+                process.env.ORIGIN_URL ?? "",
+            ).json({
+                panel_type: req.params.panel,
+                panel_template: data.toString(),
+            });
             return;
         });
     },
