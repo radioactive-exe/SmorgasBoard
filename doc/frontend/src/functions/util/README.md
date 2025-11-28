@@ -23,6 +23,8 @@ Radioactive.exe
 | Function                                                              | Description                                                                     |
 | --------------------------------------------------------------------- | ------------------------------------------------------------------------------- |
 | [areaCollisionWithElement](functions/areaCollisionWithElement.md)     | Checks if an inputted Area collides with a particular HTMLElement.              |
+| [areDeeplyEqual](functions/areDeeplyEqual.md)                         | Recursively deeply compares objects/variables of any primitive or object type.  |
+| [areEqualArrays](functions/areEqualArrays.md)                         | Deeply compares two arrays of objects or primitives for equal contents.         |
 | [collidesWithAnyPanel](functions/collidesWithAnyPanel.md)             | Checks whether an inputted area collides with any panel at all.                 |
 | [deleteAfterTransition](functions/deleteAfterTransition.md)           | Deletes/removes an element from the DOM after its transition duration.          |
 | [getOptionLabelFromList](functions/getOptionLabelFromList.md)         | Gets the corresponding label for the option with the inputted value.            |

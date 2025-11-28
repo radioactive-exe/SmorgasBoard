@@ -28,6 +28,7 @@
 
     --font-xs: 1rem;
     --font-s: 1.5rem;
+    --font-inputs: 1.6rem;
     --font-sm: 3rem;
     --font-m: 5rem;
     --panel-manip-opacity: 0.5;
@@ -67,10 +68,15 @@
     backface-visibility: hidden !important;
 }
 
+html {
+    overscroll-behavior: none;
+}
+
 body {
     overflow: hidden;
     background: var(--dashboard-bg);
     color: var(--text-primary);
+    overscroll-behavior: none;
 }
 
 a {
@@ -218,18 +224,19 @@ a {
 
 smorgas-board {
     position: fixed;
-    width: 100svw;
+    overflow: hidden;
     width: 100vw;
-    min-width: 100svw;
+    width: 100svw;
     min-width: 100vw;
-    max-width: 100svw;
+    min-width: 100svw;
     max-width: 100vw;
-    height: 100svh;
+    max-width: 100svw;
     height: 100vh;
-    min-height: 100svh;
+    height: 100svh;
     min-height: 100vh;
-    max-height: 100svh;
+    min-height: 100svh;
     max-height: 100vh;
+    max-height: 100svh;
     transition: background var(--med-transition-time) ease;
 
     &::part(cell-container) {

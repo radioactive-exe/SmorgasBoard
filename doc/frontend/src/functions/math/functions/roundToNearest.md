@@ -10,7 +10,7 @@
 function roundToNearest(num, stepSize): number;
 ```
 
-Defined in: [frontend/src/functions/math.ts:73](https://github.com/radioactive-exe/SmorgasBoard/blob/926cbddda26fb97159fb37a817d7bc65d47642d7/frontend/src/functions/math.ts#L73)
+Defined in: [frontend/src/functions/math.ts:73](https://github.com/radioactive-exe/SmorgasBoard/blob/2ebef5894f4e0a25d5d13ec2211c0540e8e9bb7a/frontend/src/functions/math.ts#L73)
 
 Snaps an input number to the closest multiple of the inputted step number.
 

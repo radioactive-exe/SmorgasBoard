@@ -33,6 +33,11 @@
         }
     }
 
+    & .string-selector {
+        max-width: 95vw;
+        max-width: 95svw;
+    }
+
     & #username-selector {
         position: absolute;
         opacity: 0;
@@ -45,11 +50,6 @@
 
     & #password-selector {
         margin-top: 0;
-
-        & .string-selector-label {
-            display: flex;
-            align-items: center;
-        }
 
         & #password {
             padding-right: 4rem;

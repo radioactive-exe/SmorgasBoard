@@ -10,7 +10,7 @@
 firstTime: boolean = false;
 ```
 
-Defined in: [frontend/src/app.ts:80](https://github.com/radioactive-exe/SmorgasBoard/blob/926cbddda26fb97159fb37a817d7bc65d47642d7/frontend/src/app.ts#L80)
+Defined in: [frontend/src/app.ts:81](https://github.com/radioactive-exe/SmorgasBoard/blob/2ebef5894f4e0a25d5d13ec2211c0540e8e9bb7a/frontend/src/app.ts#L81)
 
 Whether or not the login was the first register or a returning user. This is
 utilised in the `auth` file when registering and logging in.

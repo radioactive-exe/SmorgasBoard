@@ -6,7 +6,7 @@
 
 # Class: Theme
 
-Defined in: [frontend/src/classes/theme.ts:19](https://github.com/radioactive-exe/SmorgasBoard/blob/926cbddda26fb97159fb37a817d7bc65d47642d7/frontend/src/classes/theme.ts#L19)
+Defined in: [frontend/src/classes/theme.ts:19](https://github.com/radioactive-exe/SmorgasBoard/blob/2ebef5894f4e0a25d5d13ec2211c0540e8e9bb7a/frontend/src/classes/theme.ts#L19)
 
 A class defining Themes to be used in SmorgasBoard.
 
@@ -26,7 +26,7 @@ private new Theme(
    url): Theme;
 ```
 
-Defined in: [frontend/src/classes/theme.ts:69](https://github.com/radioactive-exe/SmorgasBoard/blob/926cbddda26fb97159fb37a817d7bc65d47642d7/frontend/src/classes/theme.ts#L69)
+Defined in: [frontend/src/classes/theme.ts:69](https://github.com/radioactive-exe/SmorgasBoard/blob/2ebef5894f4e0a25d5d13ec2211c0540e8e9bb7a/frontend/src/classes/theme.ts#L69)
 
 Creates an instance of a Theme.
 
@@ -65,12 +65,12 @@ file of `./themes/midnight.css`.
 
 | Property                           | Modifier   | Type     | Description                                                                      | Defined in                                                                                                                                                          |
 | ---------------------------------- | ---------- | -------- | -------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| <a id="id"></a> `id`               | `private`  | `number` | The internal ID number for the Theme.                                            | [frontend/src/classes/theme.ts:70](https://github.com/radioactive-exe/SmorgasBoard/blob/926cbddda26fb97159fb37a817d7bc65d47642d7/frontend/src/classes/theme.ts#L70) |
-| <a id="name"></a> `name`           | `private`  | `string` | The user-friendly client-facing name to be used for the Theme in menus, UI, etc. | [frontend/src/classes/theme.ts:71](https://github.com/radioactive-exe/SmorgasBoard/blob/926cbddda26fb97159fb37a817d7bc65d47642d7/frontend/src/classes/theme.ts#L71) |
-| <a id="url"></a> `url`             | `private`  | `string` | The relative URL of the Theme's CSS File.                                        | [frontend/src/classes/theme.ts:72](https://github.com/radioactive-exe/SmorgasBoard/blob/926cbddda26fb97159fb37a817d7bc65d47642d7/frontend/src/classes/theme.ts#L72) |
-| <a id="console"></a> `CONSOLE`     | `readonly` | `Theme`  | -                                                                                | [frontend/src/classes/theme.ts:30](https://github.com/radioactive-exe/SmorgasBoard/blob/926cbddda26fb97159fb37a817d7bc65d47642d7/frontend/src/classes/theme.ts#L30) |
-| <a id="default"></a> `DEFAULT`     | `readonly` | `Theme`  | -                                                                                | [frontend/src/classes/theme.ts:25](https://github.com/radioactive-exe/SmorgasBoard/blob/926cbddda26fb97159fb37a817d7bc65d47642d7/frontend/src/classes/theme.ts#L25) |
-| <a id="palenight"></a> `PALENIGHT` | `readonly` | `Theme`  | -                                                                                | [frontend/src/classes/theme.ts:35](https://github.com/radioactive-exe/SmorgasBoard/blob/926cbddda26fb97159fb37a817d7bc65d47642d7/frontend/src/classes/theme.ts#L35) |
+| <a id="id"></a> `id`               | `private`  | `number` | The internal ID number for the Theme.                                            | [frontend/src/classes/theme.ts:70](https://github.com/radioactive-exe/SmorgasBoard/blob/2ebef5894f4e0a25d5d13ec2211c0540e8e9bb7a/frontend/src/classes/theme.ts#L70) |
+| <a id="name"></a> `name`           | `private`  | `string` | The user-friendly client-facing name to be used for the Theme in menus, UI, etc. | [frontend/src/classes/theme.ts:71](https://github.com/radioactive-exe/SmorgasBoard/blob/2ebef5894f4e0a25d5d13ec2211c0540e8e9bb7a/frontend/src/classes/theme.ts#L71) |
+| <a id="url"></a> `url`             | `private`  | `string` | The relative URL of the Theme's CSS File.                                        | [frontend/src/classes/theme.ts:72](https://github.com/radioactive-exe/SmorgasBoard/blob/2ebef5894f4e0a25d5d13ec2211c0540e8e9bb7a/frontend/src/classes/theme.ts#L72) |
+| <a id="console"></a> `CONSOLE`     | `readonly` | `Theme`  | -                                                                                | [frontend/src/classes/theme.ts:30](https://github.com/radioactive-exe/SmorgasBoard/blob/2ebef5894f4e0a25d5d13ec2211c0540e8e9bb7a/frontend/src/classes/theme.ts#L30) |
+| <a id="default"></a> `DEFAULT`     | `readonly` | `Theme`  | -                                                                                | [frontend/src/classes/theme.ts:25](https://github.com/radioactive-exe/SmorgasBoard/blob/2ebef5894f4e0a25d5d13ec2211c0540e8e9bb7a/frontend/src/classes/theme.ts#L25) |
+| <a id="palenight"></a> `PALENIGHT` | `readonly` | `Theme`  | -                                                                                | [frontend/src/classes/theme.ts:35](https://github.com/radioactive-exe/SmorgasBoard/blob/2ebef5894f4e0a25d5d13ec2211c0540e8e9bb7a/frontend/src/classes/theme.ts#L35) |
 
 ## Methods
 
@@ -80,7 +80,7 @@ file of `./themes/midnight.css`.
 getId(): number;
 ```
 
-Defined in: [frontend/src/classes/theme.ts:84](https://github.com/radioactive-exe/SmorgasBoard/blob/926cbddda26fb97159fb37a817d7bc65d47642d7/frontend/src/classes/theme.ts#L84)
+Defined in: [frontend/src/classes/theme.ts:84](https://github.com/radioactive-exe/SmorgasBoard/blob/2ebef5894f4e0a25d5d13ec2211c0540e8e9bb7a/frontend/src/classes/theme.ts#L84)
 
 Returns the Theme ID.
 
@@ -103,7 +103,7 @@ Theme from a stored ID
 getUrl(): string;
 ```
 
-Defined in: [frontend/src/classes/theme.ts:110](https://github.com/radioactive-exe/SmorgasBoard/blob/926cbddda26fb97159fb37a817d7bc65d47642d7/frontend/src/classes/theme.ts#L110)
+Defined in: [frontend/src/classes/theme.ts:110](https://github.com/radioactive-exe/SmorgasBoard/blob/2ebef5894f4e0a25d5d13ec2211c0540e8e9bb7a/frontend/src/classes/theme.ts#L110)
 
 Returns ths URL of the Theme.
 
@@ -127,7 +127,7 @@ link's `src` attribute.
 toString(): string;
 ```
 
-Defined in: [frontend/src/classes/theme.ts:96](https://github.com/radioactive-exe/SmorgasBoard/blob/926cbddda26fb97159fb37a817d7bc65d47642d7/frontend/src/classes/theme.ts#L96)
+Defined in: [frontend/src/classes/theme.ts:96](https://github.com/radioactive-exe/SmorgasBoard/blob/2ebef5894f4e0a25d5d13ec2211c0540e8e9bb7a/frontend/src/classes/theme.ts#L96)
 
 Returns the name of the Theme.
 

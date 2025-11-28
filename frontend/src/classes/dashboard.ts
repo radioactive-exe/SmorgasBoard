@@ -151,6 +151,42 @@ class Dashboard extends HTMLElement {
     }
 
     /**
+     * Gets the stored PanelInstance data for all Panels from the last save.
+     *
+     * @returns An array of PanelInstances, used when updating/saving to cloud,
+     *   as well as comparing incoming payloads for changes.
+     *
+     * @see {@link PanelInstance}
+     * @see {@link Panel.getInstance | Panel.getInstance()}
+     * @see {@link getImmediatePanelInstances | getImmediatePanelInstances()}
+     */
+    public getPanelInstances(): PanelInstance[] {
+        return this.panelInstances;
+    }
+
+    /**
+     * Gets the immediate/current PanelInstance data for all Panels.
+     *
+     * @remarks
+     * This is used to get the dashboard panels at the exact moment of calling,
+     * and not the stored data from the last save (which is when
+     * {@link panelInstances} is updated). This is thus called even if during a
+     * save timeout after an edit, used for comparing incoming payloads for
+     * changes if those changes occur: <br/> (1) after an edit on the current
+     * client instance, <br/> (2) after the save on the other client instance,
+     * and <br/> (3) before the save on the current client instance.
+     *
+     * @returns An array of PanelInstances, from the immediate content.
+     *
+     * @see {@link PanelInstance}
+     * @see {@link Panel.getInstance | Panel.getInstance()}
+     * @see {@link getPanelInstances | getPanelInstances()}
+     */
+    public getImmediatePanelInstances(): PanelInstance[] {
+        return this.panels.map((i) => i.getInstance());
+    }
+
+    /**
      * Gets the Set of free IDs stored in the dashboard.
      *
      * @returns The set/pool of free IDs as a numerical Set.

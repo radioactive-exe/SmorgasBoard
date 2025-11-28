@@ -825,7 +825,12 @@ const _supabaseAuthChangeHandler: { data: { subscription: Subscription } } =
                                     || updateContent.free_ids?.toString()
                                         != [
                                             ...dashboard.getFreeIds(),
-                                        ].toString())
+                                        ].toString()
+                                    // ? (4) The Panels (specifically, the PanelInstances)
+                                    || !utils.areEqualArrays(
+                                        updateContent.panels,
+                                        dashboard.getImmediatePanelInstances(),
+                                    ))
                             ) {
                                 // ? Then reload to show the changes here
                                 dashboard.load();

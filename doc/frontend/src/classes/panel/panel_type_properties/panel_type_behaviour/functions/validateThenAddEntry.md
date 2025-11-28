@@ -10,7 +10,7 @@
 function validateThenAddEntry(addTaskInput, todoList, panel): void;
 ```
 
-Defined in: [frontend/src/classes/panel/panel_behaviour/todo_panel.ts:106](https://github.com/radioactive-exe/SmorgasBoard/blob/926cbddda26fb97159fb37a817d7bc65d47642d7/frontend/src/classes/panel/panel_behaviour/todo_panel.ts#L106)
+Defined in: [frontend/src/classes/panel/panel_behaviour/todo_panel.ts:108](https://github.com/radioactive-exe/SmorgasBoard/blob/2ebef5894f4e0a25d5d13ec2211c0540e8e9bb7a/frontend/src/classes/panel/panel_behaviour/todo_panel.ts#L108)
 
 Validates the function call and then calls the `addTask()` function to
 execute the actual adding of the task once validated with the appropriate

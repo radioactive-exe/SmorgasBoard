@@ -10,7 +10,7 @@
 const hoverHandler: object;
 ```
 
-Defined in: [frontend/src/functions/manip.ts:418](https://github.com/radioactive-exe/SmorgasBoard/blob/926cbddda26fb97159fb37a817d7bc65d47642d7/frontend/src/functions/manip.ts#L418)
+Defined in: [frontend/src/functions/manip.ts:421](https://github.com/radioactive-exe/SmorgasBoard/blob/2ebef5894f4e0a25d5d13ec2211c0540e8e9bb7a/frontend/src/functions/manip.ts#L421)
 
 Bundles the 3 hover handlers, the [enter](#enter)
 handler, the [move](#move) handler, and the

@@ -10,7 +10,7 @@
 const supabase: SupabaseClient;
 ```
 
-Defined in: [backend/src/index.ts:36](https://github.com/radioactive-exe/SmorgasBoard/blob/926cbddda26fb97159fb37a817d7bc65d47642d7/backend/src/index.ts#L36)
+Defined in: [backend/src/index.ts:37](https://github.com/radioactive-exe/SmorgasBoard/blob/2ebef5894f4e0a25d5d13ec2211c0540e8e9bb7a/backend/src/index.ts#L37)
 
 The Supabase client created for use throughout the backend.
 

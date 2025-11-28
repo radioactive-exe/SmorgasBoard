@@ -10,7 +10,7 @@
 function collidesWithAnyPanel(area): boolean;
 ```
 
-Defined in: [frontend/src/functions/util.ts:74](https://github.com/radioactive-exe/SmorgasBoard/blob/926cbddda26fb97159fb37a817d7bc65d47642d7/frontend/src/functions/util.ts#L74)
+Defined in: [frontend/src/functions/util.ts:74](https://github.com/radioactive-exe/SmorgasBoard/blob/2ebef5894f4e0a25d5d13ec2211c0540e8e9bb7a/frontend/src/functions/util.ts#L74)
 
 Checks whether an inputted area collides with any panel at all.
 

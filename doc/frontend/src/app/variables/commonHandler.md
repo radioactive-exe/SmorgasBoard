@@ -10,7 +10,7 @@
 const commonHandler: object;
 ```
 
-Defined in: [frontend/src/app.ts:498](https://github.com/radioactive-exe/SmorgasBoard/blob/926cbddda26fb97159fb37a817d7bc65d47642d7/frontend/src/app.ts#L498)
+Defined in: [frontend/src/app.ts:499](https://github.com/radioactive-exe/SmorgasBoard/blob/2ebef5894f4e0a25d5d13ec2211c0540e8e9bb7a/frontend/src/app.ts#L499)
 
 Common handlers to be used by panels when being manipulated, common between
 both resizing and dragging around.

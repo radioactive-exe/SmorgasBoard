@@ -10,7 +10,7 @@
 function getFromSmorgasBase(...targets): Promise<DashboardDataFetch[]>;
 ```
 
-Defined in: [frontend/src/querying.ts:88](https://github.com/radioactive-exe/SmorgasBoard/blob/926cbddda26fb97159fb37a817d7bc65d47642d7/frontend/src/querying.ts#L88)
+Defined in: [frontend/src/querying.ts:88](https://github.com/radioactive-exe/SmorgasBoard/blob/2ebef5894f4e0a25d5d13ec2211c0540e8e9bb7a/frontend/src/querying.ts#L88)
 
 Fetches specific items from the database for the logged in User.
 

@@ -352,6 +352,8 @@
 
         & .string-selector-label {
             position: relative;
+            display: flex;
+            align-items: center;
             transition: inherit;
 
             & .string-selector-label-text {
@@ -384,7 +386,7 @@
                     0 0 0 0 transparent, inset 0 0 0 0 transparent,
                     inset 0 0 0 0 transparent;
                 outline: none;
-                font-size: var(--font-s);
+                font-size: var(--font-inputs);
                 font-family: inherit;
                 transition: inherit;
 

@@ -12,7 +12,7 @@ panel-element[data-panel-type="NOTEPAD"] {
         background: var(--textarea-bg);
         color: var(--text-primary);
         outline: none;
-        font-size: var(--font-s);
+        font-size: var(--font-inputs);
         font-family: inherit;
         resize: none;
         transition-timing-function: ease;

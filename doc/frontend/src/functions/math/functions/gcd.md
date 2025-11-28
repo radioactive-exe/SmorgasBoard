@@ -10,7 +10,7 @@
 function gcd(a, b): number;
 ```
 
-Defined in: [frontend/src/functions/math.ts:96](https://github.com/radioactive-exe/SmorgasBoard/blob/926cbddda26fb97159fb37a817d7bc65d47642d7/frontend/src/functions/math.ts#L96)
+Defined in: [frontend/src/functions/math.ts:96](https://github.com/radioactive-exe/SmorgasBoard/blob/2ebef5894f4e0a25d5d13ec2211c0540e8e9bb7a/frontend/src/functions/math.ts#L96)
 
 Finds the greatest common divisor/factor of 2 input numbers.
 

@@ -320,14 +320,27 @@ function areEqualArrays(
     // ? If both arrays have different lengths, immediately return false
     if (a1?.length != a2?.length) return false;
 
-    // ? Otherwise, iterate through each entry in p1, and check that an identical copy exists
-    // ? in p2 (knowing by this point that they both have the same number of elements)
-    if (a1 && a2)
+    // ? Otherwise iterate through each entry in each array,
+    // ? and check that an identical copy exists in the other (knowing by this point
+    // ? that they both have the same number of elements and are not undefined).
+    // ! This has to be done twice, once in either direction, as in case the first array has more than one element
+    // ! that match the same element in the second array, then there will be one (or more) elements unaccounted
+    // ! for in the second array. The alternative is copying the first array and splicing all the found elements,
+    // ! but that is more complex, and more expensive due to the continuous splicing and index changes.
+    if (a1 && a2) {
+        // ? Use a regular for loop as opposed to a forEach loop as this way a flag is not needed
+        // ? (due to the `Not all code paths return a value` issue).
         for (const entry of a1) {
             // ? If an identical match cannot be found, then there is a mismatch between the 2 arrays.
             // ? Deeply compare the members to find matches
             if (!a2.some((i) => areDeeplyEqual(entry, i))) return false;
         }
+        for (const entry of a2) {
+            // ? If an identical match cannot be found, then there is a mismatch between the 2 arrays.
+            // ? Deeply compare the members to find matches
+            if (!a1.some((i) => areDeeplyEqual(entry, i))) return false;
+        }
+    }
 
     // ? If the function reaches this point, there were no mismatches and both entries were
     // ? arrays of identical elements (regardless of order)
@@ -394,25 +407,35 @@ function areDeeplyEqual(
             && typeof obj2 == "object"
             && obj1.constructor !== obj2.constructor)
     ) {
-        return false; // One is not an object or is null
+        return false;
     }
 
+    // * The keys/properties of both objects
     const keys1 = Object.keys(obj1);
     const keys2 = Object.keys(obj2);
 
+    // ? If they do not have the same quantity of properties, then they are not equal
     if (keys1.length !== keys2.length) return false;
 
+    // ? Use a regular for loop as opposed to a forEach loop as this way a flag is not needed
+    // ? (due to the `Not all code paths return a value` issue).
     for (const key of keys1) {
+        // ? Iterate over all the keys of the first object, and if
         if (
+            // ? (1) You cannot find a match in the second object, or
             !keys2.includes(key)
+            // ? (2) A match is found but the values for those keys are not deeply equal
             || !areDeeplyEqual(
                 obj1[key as keyof typeof obj1],
                 obj2[key as keyof typeof obj2],
             )
         ) {
+            // ? Then the objects are not equal
             return false;
         }
     }
+
+    // ? If no other issue is found here, then the objects are equal
     return true;
 }
 
