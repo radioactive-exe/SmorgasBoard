@@ -1,4 +1,4 @@
-/** @type {import('vite').UserConfig} */
+/** @type {import("vite").UserConfig} */
 
 import autoprefixer from "autoprefixer";
 import { build } from "vite";
@@ -6,7 +6,7 @@ import { build } from "vite";
 export default {
     publicDir: "./public",
     server: {
-        host: "127.0.0.1",
+        host: "0.0.0.0",
         port: 3000,
     },
     css: {

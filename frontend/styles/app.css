@@ -262,7 +262,7 @@ smorgas-board {
         }
 
         & ::part(resize-handle) {
-            stroke-width: 2rem;
+            stroke-width: 1.5rem;
         }
 
         & ::part(icon-button) {
@@ -271,7 +271,7 @@ smorgas-board {
             padding: 1rem;
         }
 
-        & panel-element:not(panel-element.configuring):hover::part(panel-body) {
+        & panel-element:not(panel-element.configuring, panel-element.snapping):hover::part(panel-body) {
             inset: 0;
             width: 100%;
             height: 100%;
