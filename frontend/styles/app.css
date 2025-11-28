@@ -248,6 +248,7 @@ smorgas-board {
         border-radius: 2rem;
         background: var(--cell-bg);
         opacity: 0.1;
+        user-select: none;
         transition-timing-function: ease;
         transition-duration: var(--med-transition-time);
         transition-property: opacity, width, height, margin, border;
@@ -269,6 +270,12 @@ smorgas-board {
             width: 4rem;
             height: 4rem;
             padding: 1rem;
+        }
+
+        & ::part(delete-button) {
+            width: 3rem;
+            height: 3rem;
+            padding: 0.5rem;
         }
 
         & panel-element:not(panel-element.configuring, panel-element.snapping):hover::part(panel-body) {

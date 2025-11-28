@@ -85,14 +85,14 @@ panel-element[data-panel-type="PHOTO"] {
         width: 100%;
         height: 100%;
         padding: var(--panel-content-padding);
-        border: 0.8rem dashed var(--input-secondary);
         border-radius: var(--small-border-radius);
+        outline: 0.8rem dashed var(--input-secondary);
         text-align: center;
         filter: drop-shadow(0 0 0 var(--input-secondary));
         resize: horizontal;
         transition-timing-function: ease;
         transition-duration: var(--quick-transition-time);
-        transition-property: border-radius, filter;
+        transition-property: border-radius, filter, outline-offset, height, width;
 
         & input[type="file"] {
             display: none;
@@ -109,6 +109,9 @@ panel-element[data-panel-type="PHOTO"] {
             color: var(--input-accent);
             filter: drop-shadow(inset 0 0 0.5rem 0 var(--shadow-col));
             cursor: pointer;
+            transition-timing-function: ease;
+            transition-duration: var(--quick-transition-time);
+            transition-property: height, width;
 
             & .image-drop-icon {
                 width: 100%;
@@ -145,8 +148,13 @@ panel-element[data-panel-type="PHOTO"] {
 
         &.active {
             border-radius: calc(var(--small-border-radius) * 3);
+            outline-offset: -0.5rem;
             filter: drop-shadow(0 0 1rem var(--input-secondary));
         }
+
+        /* &:is(panel-element:hover .drop-area) {
+            outline-offset: -0.3rem;
+        } */
 
         &:has(~ .panel-image.filled) {
             opacity: 0;

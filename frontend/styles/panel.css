@@ -26,6 +26,29 @@ smorgas-board panel-element {
         backdrop-filter: url("#glass-distortion");
     }
 
+    &::part(panel-body)::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        z-index: 0;
+        border-radius: inherit;
+        background: linear-gradient(45deg,
+                transparent 5%,
+                var(--cell-bg) 50%,
+                transparent 99%);
+        opacity: 0;
+        transition: opacity var(--quick-transition-time) ease;
+    }
+
+    &::part(panel-body)::after {
+        content: '';
+        position: absolute;
+        inset: 0.2rem;
+        z-index: 0;
+        border-radius: inherit;
+        background: inherit;
+    }
+
     &::part(panel-body) {
         position: absolute;
         inset: var(--panel-body-inset);
@@ -38,11 +61,16 @@ smorgas-board panel-element {
         transition-property: width, height, inset, background, opacity, transform, box-shadow, backdrop-filter, filter;
         transform: scale(1) rotateZ(0deg);
         transform-style: preserve-3d;
+        isolation: isolate;
         backface-visibility: hidden;
     }
 
     &:hover::part(panel-body) {
         box-shadow: var(--shadow-offset-x, 0) var(--shadow-offset-y, 0) 1rem 0.2rem var(--shadow-col);
+    }
+
+    &:hover::part(panel-body)::before {
+        opacity: 1;
     }
 
     &::part(panel-body in-motion) {
@@ -53,10 +81,12 @@ smorgas-board panel-element {
     &::part(panel-content) {
         position: absolute;
         inset: var(--panel-content-padding);
+        z-index: 1;
         display: flex;
         justify-content: center;
         align-items: center;
         border-radius: var(--panel-border-radius);
+        background: var(--panel-bg);
         user-select: none;
         transition: inherit;
         transform: perspective(0.01rem) rotateZ(0) scale(1);
@@ -64,6 +94,10 @@ smorgas-board panel-element {
         container-type: inline-size;
         transform-style: preserve-3d;
         backface-visibility: hidden;
+    }
+
+    &::part(handle) {
+        z-index: 3;
     }
 
     &::part(drag-handle) {
@@ -98,6 +132,7 @@ smorgas-board panel-element {
         width: 8rem;
         height: 8rem;
         pointer-events: none;
+        user-select: none;
     }
 
     &::part(resize-handle) {
@@ -106,6 +141,7 @@ smorgas-board panel-element {
         bottom: 0;
         cursor: grab;
         pointer-events: visiblestroke;
+        user-select: none;
         fill: none;
         stroke: hsl(from var(--panel-handle-bg) h s l / 0.7);
         transition-timing-function: ease;
@@ -142,6 +178,7 @@ smorgas-board panel-element {
     &::part(menu) {
         position: absolute;
         inset: 0;
+        z-index: 2;
         display: flex;
         flex-flow: column nowrap;
         gap: 2rem;
@@ -165,7 +202,7 @@ smorgas-board panel-element {
 
     &::part(icon-button) {
         position: absolute;
-        z-index: 2;
+        z-index: 3;
         box-sizing: border-box;
         width: 0;
         height: 0;
@@ -187,13 +224,13 @@ smorgas-board panel-element {
     }
 
     &::part(delete-button) {
-        bottom: 0.5rem;
-        left: 0.5rem;
-        background: var(--input-bg);
+        bottom: -0.5rem;
+        left: -0.5rem;
+        background: var(--alert-error-bg);
     }
 
     &::part(delete-button-icon) {
-        background: var(--alert-error-bg);
+        background: var(--input-bg);
     }
 
     &::part(delete-button):hover {
@@ -243,6 +280,10 @@ smorgas-board panel-element.being-manipulated {
         box-shadow: inset 0.2rem 0.2rem 0.5rem 0.1rem hsl(from var(--panel-bg) h s calc(l * 2) / 0.4), inset -0.2rem -0.2rem 0.5rem 0.1rem hsl(from var(--panel-bg) h s calc(l * 0.4) / 0.4), 1.5rem 1.5rem 2rem var(--shadow-col);
         pointer-events: none;
         backdrop-filter: blur(1px);
+    }
+
+    &::part(panel-body)::before {
+        opacity: 0;
     }
 
     &::part(panel-content) {
