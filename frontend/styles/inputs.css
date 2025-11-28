@@ -209,30 +209,6 @@
             display: none;
         }
 
-        & .toggle-checkbox-background:has(.toggle-checkbox:checked) {
-            & .toggle-checkbox-button {
-                transform: translate(100%);
-
-                &::before,
-                &::after {
-                    background: var(--input-accent);
-                    box-shadow: 0 0 0.2rem 0 var(--input-accent);
-                }
-
-                &::before {
-                    width: 40%;
-                    border-radius: var(--small-border-radius);
-                    transform: translate(45%, 170%) rotate(45deg);
-                }
-
-                &::after {
-                    width: 60%;
-                    border-radius: var(--small-border-radius);
-                    transform: translate(50%, 140%) rotate(135deg);
-                }
-            }
-        }
-
         &:hover {
             filter: brightness(0.7);
         }
@@ -242,6 +218,28 @@
 
             &:hover {
                 filter: brightness(0.9);
+            }
+        }
+
+        & .toggle-checkbox:checked ~ .toggle-checkbox-button {
+            transform: translate(100%);
+
+            &::before,
+            &::after {
+                background: var(--input-accent);
+                box-shadow: 0 0 0.2rem 0 var(--input-accent);
+            }
+
+            &::before {
+                width: 40%;
+                border-radius: var(--small-border-radius);
+                transform: translate(45%, 170%) rotate(45deg);
+            }
+
+            &::after {
+                width: 60%;
+                border-radius: var(--small-border-radius);
+                transform: translate(50%, 140%) rotate(135deg);
             }
         }
     }
