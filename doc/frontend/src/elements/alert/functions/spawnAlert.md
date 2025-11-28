@@ -10,7 +10,7 @@
 function spawnAlert(alertMessage, alertLevel): HTMLElement;
 ```
 
-Defined in: [frontend/src/elements/alert.ts:97](https://github.com/radioactive-exe/SmorgasBoard/blob/2ebef5894f4e0a25d5d13ec2211c0540e8e9bb7a/frontend/src/elements/alert.ts#L97)
+Defined in: [frontend/src/elements/alert.ts:97](https://github.com/radioactive-exe/SmorgasBoard/blob/468e606912a299394e1853645fa504c70b13b52b/frontend/src/elements/alert.ts#L97)
 
 Summons/spawns an alert with a certain message and alert level.
 

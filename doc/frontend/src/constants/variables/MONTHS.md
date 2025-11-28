@@ -10,7 +10,7 @@
 const MONTHS: string[];
 ```
 
-Defined in: [frontend/src/constants.ts:31](https://github.com/radioactive-exe/SmorgasBoard/blob/2ebef5894f4e0a25d5d13ec2211c0540e8e9bb7a/frontend/src/constants.ts#L31)
+Defined in: [frontend/src/constants.ts:31](https://github.com/radioactive-exe/SmorgasBoard/blob/468e606912a299394e1853645fa504c70b13b52b/frontend/src/constants.ts#L31)
 
 Months of the year in an array that indexes them by JS/TS Date integers for
 months.

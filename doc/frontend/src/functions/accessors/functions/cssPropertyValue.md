@@ -10,7 +10,7 @@
 function cssPropertyValue(el, property): number;
 ```
 
-Defined in: [frontend/src/functions/accessors.ts:99](https://github.com/radioactive-exe/SmorgasBoard/blob/2ebef5894f4e0a25d5d13ec2211c0540e8e9bb7a/frontend/src/functions/accessors.ts#L99)
+Defined in: [frontend/src/functions/accessors.ts:99](https://github.com/radioactive-exe/SmorgasBoard/blob/468e606912a299394e1853645fa504c70b13b52b/frontend/src/functions/accessors.ts#L99)
 
 Gets the numerical value of the CSS property of an element directly.
 

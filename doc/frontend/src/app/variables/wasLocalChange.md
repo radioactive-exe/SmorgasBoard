@@ -10,7 +10,7 @@
 wasLocalChange: boolean = false;
 ```
 
-Defined in: [frontend/src/app.ts:111](https://github.com/radioactive-exe/SmorgasBoard/blob/2ebef5894f4e0a25d5d13ec2211c0540e8e9bb7a/frontend/src/app.ts#L111)
+Defined in: [frontend/src/app.ts:111](https://github.com/radioactive-exe/SmorgasBoard/blob/468e606912a299394e1853645fa504c70b13b52b/frontend/src/app.ts#L111)
 
 Whether or not the change whose update was received from the Supabase
 realtime listener was one triggered by an action on this client instance.

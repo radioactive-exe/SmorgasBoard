@@ -597,6 +597,8 @@ function finishLoading(): void {
     loader.classList.add("despawning");
 }
 
+// ~ Initialising context menu and its listeners and submenus
+
 /**
  * An array of all possible PanelTypes that are spawnable by the general user.
  *
@@ -681,23 +683,11 @@ hoverEntries.forEach((item) => {
     });
 });
 
+// ? Handles spawning the context menu
+dashboard.addEventListener("contextmenu", spawnContextMenu);
+
 // ? Spawn the context menu when the Context nav entry is clicked/tapped (when visible)
 contextNavButton?.addEventListener("click", spawnContextMenu);
-
-// ~ Listener Initialisation
-
-// ? Handle resizing the window
-window.addEventListener("resize", () => {
-    // ? Snap all the panels into place, ensuring they stay aligned
-    dashboard.organiseElements();
-
-    // ? If there is a panel being configured, ensure it stays in the centre
-    if (current.panel.classList.contains("configuring"))
-        current.panel.moveToCentre();
-
-    // ? Update the dimensions matrix and the overlay, if needed
-    refreshDimensions();
-});
 
 // ? Reset all the highlighted cells in the matrix when the mouse leaves
 matrix?.addEventListener("mouseleave", () => {
@@ -716,8 +706,32 @@ matrix?.addEventListener("mouseleave", () => {
     offscreenRightArrow?.classList.remove("visible");
 });
 
-// ? Handles spawning the context menu
-dashboard.addEventListener("contextmenu", spawnContextMenu);
+// ~ General window/document listener initialisation
+
+// ? Handle resizing the window
+window.addEventListener("resize", () => {
+    // ? Snap all the panels into place, ensuring they stay aligned
+    dashboard.organiseElements();
+
+    // ? If there is a panel being configured, ensure it stays in the centre
+    if (current.panel.classList.contains("configuring"))
+        current.panel.moveToCentre();
+
+    // ? Update the dimensions matrix and the overlay, if needed
+    refreshDimensions();
+});
+
+// ? Handle closing the personal nav when clicking anywhere else
+window.addEventListener("pointerdown", (e) => {
+    // ? If the click/pointerdown event was not on the personal nav button or any other
+    // ? part of the personal nav entry, then close the personal nav menu
+    if (
+        !personalNavButton?.parentElement?.contains(
+            e.target as HTMLElement | null,
+        )
+    )
+        personalNavButton?.classList.remove("active");
+});
 
 // ~ Supabase Realtime and Auth Event handling
 

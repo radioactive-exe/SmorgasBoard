@@ -6,7 +6,7 @@
 
 # Interface: LocationForecast
 
-Defined in: [frontend/src/types/weather_api.types.ts:248](https://github.com/radioactive-exe/SmorgasBoard/blob/2ebef5894f4e0a25d5d13ec2211c0540e8e9bb7a/frontend/src/types/weather_api.types.ts#L248)
+Defined in: [frontend/src/types/weather_api.types.ts:248](https://github.com/radioactive-exe/SmorgasBoard/blob/468e606912a299394e1853645fa504c70b13b52b/frontend/src/types/weather_api.types.ts#L248)
 
 The complete Forecast response from the API.
 
@@ -27,6 +27,6 @@ both for the day and the hours in the days requested.
 
 | Property                         | Type                      | Inherited from                                                                    | Defined in                                                                                                                                                                                |
 | -------------------------------- | ------------------------- | --------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| <a id="current"></a> `current`   | [`Current`](Current.md)   | [`LocationCurrent`](LocationCurrent.md).[`current`](LocationCurrent.md#current)   | [frontend/src/types/weather_api.types.ts:234](https://github.com/radioactive-exe/SmorgasBoard/blob/2ebef5894f4e0a25d5d13ec2211c0540e8e9bb7a/frontend/src/types/weather_api.types.ts#L234) |
-| <a id="forecast"></a> `forecast` | [`Forecast`](Forecast.md) | -                                                                                 | [frontend/src/types/weather_api.types.ts:249](https://github.com/radioactive-exe/SmorgasBoard/blob/2ebef5894f4e0a25d5d13ec2211c0540e8e9bb7a/frontend/src/types/weather_api.types.ts#L249) |
-| <a id="location"></a> `location` | [`Location`](Location.md) | [`LocationCurrent`](LocationCurrent.md).[`location`](LocationCurrent.md#location) | [frontend/src/types/weather_api.types.ts:233](https://github.com/radioactive-exe/SmorgasBoard/blob/2ebef5894f4e0a25d5d13ec2211c0540e8e9bb7a/frontend/src/types/weather_api.types.ts#L233) |
+| <a id="current"></a> `current`   | [`Current`](Current.md)   | [`LocationCurrent`](LocationCurrent.md).[`current`](LocationCurrent.md#current)   | [frontend/src/types/weather_api.types.ts:234](https://github.com/radioactive-exe/SmorgasBoard/blob/468e606912a299394e1853645fa504c70b13b52b/frontend/src/types/weather_api.types.ts#L234) |
+| <a id="forecast"></a> `forecast` | [`Forecast`](Forecast.md) | -                                                                                 | [frontend/src/types/weather_api.types.ts:249](https://github.com/radioactive-exe/SmorgasBoard/blob/468e606912a299394e1853645fa504c70b13b52b/frontend/src/types/weather_api.types.ts#L249) |
+| <a id="location"></a> `location` | [`Location`](Location.md) | [`LocationCurrent`](LocationCurrent.md).[`location`](LocationCurrent.md#location) | [frontend/src/types/weather_api.types.ts:233](https://github.com/radioactive-exe/SmorgasBoard/blob/468e606912a299394e1853645fa504c70b13b52b/frontend/src/types/weather_api.types.ts#L233) |

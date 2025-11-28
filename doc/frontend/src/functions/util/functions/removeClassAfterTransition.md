@@ -10,7 +10,7 @@
 function removeClassAfterTransition(el, cl): void;
 ```
 
-Defined in: [frontend/src/functions/util.ts:150](https://github.com/radioactive-exe/SmorgasBoard/blob/2ebef5894f4e0a25d5d13ec2211c0540e8e9bb7a/frontend/src/functions/util.ts#L150)
+Defined in: [frontend/src/functions/util.ts:150](https://github.com/radioactive-exe/SmorgasBoard/blob/468e606912a299394e1853645fa504c70b13b52b/frontend/src/functions/util.ts#L150)
 
 Removes a specified class from an element after its transition duration.
 

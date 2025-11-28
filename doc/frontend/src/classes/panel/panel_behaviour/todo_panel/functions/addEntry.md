@@ -10,7 +10,7 @@
 function addEntry(panel, todoList, value, isChecked, updateStored): void;
 ```
 
-Defined in: [frontend/src/classes/panel/panel_behaviour/todo_panel.ts:157](https://github.com/radioactive-exe/SmorgasBoard/blob/2ebef5894f4e0a25d5d13ec2211c0540e8e9bb7a/frontend/src/classes/panel/panel_behaviour/todo_panel.ts#L157)
+Defined in: [frontend/src/classes/panel/panel_behaviour/todo_panel.ts:157](https://github.com/radioactive-exe/SmorgasBoard/blob/468e606912a299394e1853645fa504c70b13b52b/frontend/src/classes/panel/panel_behaviour/todo_panel.ts#L157)
 
 Adds an entry with an inputted content (and checked status if loading) to the
 list of tasks, which can be checked/unchecked and removed.

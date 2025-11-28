@@ -10,7 +10,7 @@
 type Boolean = object;
 ```
 
-Defined in: [frontend/src/classes/config/config_entry.ts:113](https://github.com/radioactive-exe/SmorgasBoard/blob/2ebef5894f4e0a25d5d13ec2211c0540e8e9bb7a/frontend/src/classes/config/config_entry.ts#L113)
+Defined in: [frontend/src/classes/config/config_entry.ts:113](https://github.com/radioactive-exe/SmorgasBoard/blob/468e606912a299394e1853645fa504c70b13b52b/frontend/src/classes/config/config_entry.ts#L113)
 
 The inferred type of the Boolean Config Entry schema for use as a type
 directly.

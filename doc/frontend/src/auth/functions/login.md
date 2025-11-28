@@ -10,7 +10,7 @@
 function login(email, password): Promise<void>;
 ```
 
-Defined in: [frontend/src/auth.ts:237](https://github.com/radioactive-exe/SmorgasBoard/blob/2ebef5894f4e0a25d5d13ec2211c0540e8e9bb7a/frontend/src/auth.ts#L237)
+Defined in: [frontend/src/auth.ts:237](https://github.com/radioactive-exe/SmorgasBoard/blob/468e606912a299394e1853645fa504c70b13b52b/frontend/src/auth.ts#L237)
 
 Attempts to log the user in using Supabase Auth API with the inputted
 credentials.

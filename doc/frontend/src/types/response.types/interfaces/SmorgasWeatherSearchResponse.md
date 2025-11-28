@@ -6,7 +6,7 @@
 
 # Interface: SmorgasWeatherSearchResponse
 
-Defined in: [frontend/src/types/response.types.ts:37](https://github.com/radioactive-exe/SmorgasBoard/blob/2ebef5894f4e0a25d5d13ec2211c0540e8e9bb7a/frontend/src/types/response.types.ts#L37)
+Defined in: [frontend/src/types/response.types.ts:37](https://github.com/radioactive-exe/SmorgasBoard/blob/468e606912a299394e1853645fa504c70b13b52b/frontend/src/types/response.types.ts#L37)
 
 The shape of the packaged search response from the backend.
 
@@ -19,5 +19,5 @@ obtained from the direct call from the backend to the WeatherAPI.
 
 | Property                       | Type                                                           | Defined in                                                                                                                                                                        |
 | ------------------------------ | -------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| <a id="query"></a> `query`     | `string`                                                       | [frontend/src/types/response.types.ts:38](https://github.com/radioactive-exe/SmorgasBoard/blob/2ebef5894f4e0a25d5d13ec2211c0540e8e9bb7a/frontend/src/types/response.types.ts#L38) |
-| <a id="results"></a> `results` | [`Location`](../../weather_api.types/interfaces/Location.md)[] | [frontend/src/types/response.types.ts:39](https://github.com/radioactive-exe/SmorgasBoard/blob/2ebef5894f4e0a25d5d13ec2211c0540e8e9bb7a/frontend/src/types/response.types.ts#L39) |
+| <a id="query"></a> `query`     | `string`                                                       | [frontend/src/types/response.types.ts:38](https://github.com/radioactive-exe/SmorgasBoard/blob/468e606912a299394e1853645fa504c70b13b52b/frontend/src/types/response.types.ts#L38) |
+| <a id="results"></a> `results` | [`Location`](../../weather_api.types/interfaces/Location.md)[] | [frontend/src/types/response.types.ts:39](https://github.com/radioactive-exe/SmorgasBoard/blob/468e606912a299394e1853645fa504c70b13b52b/frontend/src/types/response.types.ts#L39) |

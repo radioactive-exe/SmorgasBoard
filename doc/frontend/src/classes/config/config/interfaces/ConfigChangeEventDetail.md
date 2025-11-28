@@ -6,7 +6,7 @@
 
 # Interface: ConfigChangeEventDetail
 
-Defined in: [frontend/src/classes/config/config.ts:28](https://github.com/radioactive-exe/SmorgasBoard/blob/2ebef5894f4e0a25d5d13ec2211c0540e8e9bb7a/frontend/src/classes/config/config.ts#L28)
+Defined in: [frontend/src/classes/config/config.ts:28](https://github.com/radioactive-exe/SmorgasBoard/blob/468e606912a299394e1853645fa504c70b13b52b/frontend/src/classes/config/config.ts#L28)
 
 The interface holding the shape of a custom event detail for the ConfigChange
 custom event.
@@ -21,5 +21,5 @@ changed config setting.
 
 | Property                       | Type                              | Description                                                                                              | Defined in                                                                                                                                                                          |
 | ------------------------------ | --------------------------------- | -------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| <a id="setting"></a> `setting` | `string`                          | The config setting that was changed, obtained from the dataset attributes of the selector that fired it. | [frontend/src/classes/config/config.ts:33](https://github.com/radioactive-exe/SmorgasBoard/blob/2ebef5894f4e0a25d5d13ec2211c0540e8e9bb7a/frontend/src/classes/config/config.ts#L33) |
-| <a id="value"></a> `value`     | `string` \| `number` \| `boolean` | The new value of the changed setting, obtained from the value of the selector upon firing.               | [frontend/src/classes/config/config.ts:38](https://github.com/radioactive-exe/SmorgasBoard/blob/2ebef5894f4e0a25d5d13ec2211c0540e8e9bb7a/frontend/src/classes/config/config.ts#L38) |
+| <a id="setting"></a> `setting` | `string`                          | The config setting that was changed, obtained from the dataset attributes of the selector that fired it. | [frontend/src/classes/config/config.ts:33](https://github.com/radioactive-exe/SmorgasBoard/blob/468e606912a299394e1853645fa504c70b13b52b/frontend/src/classes/config/config.ts#L33) |
+| <a id="value"></a> `value`     | `string` \| `number` \| `boolean` | The new value of the changed setting, obtained from the value of the selector upon firing.               | [frontend/src/classes/config/config.ts:38](https://github.com/radioactive-exe/SmorgasBoard/blob/468e606912a299394e1853645fa504c70b13b52b/frontend/src/classes/config/config.ts#L38) |

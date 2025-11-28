@@ -10,7 +10,7 @@
 function execute(panel): void;
 ```
 
-Defined in: [frontend/src/classes/panel/panel_behaviour/clock_panel.ts:41](https://github.com/radioactive-exe/SmorgasBoard/blob/2ebef5894f4e0a25d5d13ec2211c0540e8e9bb7a/frontend/src/classes/panel/panel_behaviour/clock_panel.ts#L41)
+Defined in: [frontend/src/classes/panel/panel_behaviour/clock_panel.ts:41](https://github.com/radioactive-exe/SmorgasBoard/blob/468e606912a299394e1853645fa504c70b13b52b/frontend/src/classes/panel/panel_behaviour/clock_panel.ts#L41)
 
 The main function called upon behaviour execution after the Panel template,
 base, and config setup, for the Clock PanelType.

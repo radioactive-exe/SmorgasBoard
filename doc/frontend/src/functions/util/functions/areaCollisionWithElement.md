@@ -10,7 +10,7 @@
 function areaCollisionWithElement(area, el): boolean;
 ```
 
-Defined in: [frontend/src/functions/util.ts:44](https://github.com/radioactive-exe/SmorgasBoard/blob/2ebef5894f4e0a25d5d13ec2211c0540e8e9bb7a/frontend/src/functions/util.ts#L44)
+Defined in: [frontend/src/functions/util.ts:44](https://github.com/radioactive-exe/SmorgasBoard/blob/468e606912a299394e1853645fa504c70b13b52b/frontend/src/functions/util.ts#L44)
 
 Checks if an inputted Area collides with a particular HTMLElement.
 

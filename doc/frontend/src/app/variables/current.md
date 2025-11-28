@@ -10,7 +10,7 @@
 const current: object;
 ```
 
-Defined in: [frontend/src/app.ts:159](https://github.com/radioactive-exe/SmorgasBoard/blob/2ebef5894f4e0a25d5d13ec2211c0540e8e9bb7a/frontend/src/app.ts#L159)
+Defined in: [frontend/src/app.ts:159](https://github.com/radioactive-exe/SmorgasBoard/blob/468e606912a299394e1853645fa504c70b13b52b/frontend/src/app.ts#L159)
 
 Different properties relating to the current element being focused
 on/manipulated in the Dashboard.
