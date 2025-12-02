@@ -194,6 +194,11 @@ async function register(
                     error: "Too many Registration Attempts! Please wait a few minutes before trying again.",
                 };
                 break;
+            case "over_email_send_rate_limit":
+                statusMessage = {
+                    error: "Too many requested emails! Please wait a bit, up to an hour, before trying again. Sorry! This is the issue with the current mail plan I am on.",
+                };
+                break;
             case "anonymous_provider_disabled":
                 statusMessage = {
                     error: "Invalid Email Domain! Please use a valid email address domain, such as `gmail`, `outlook`, etc.",
@@ -281,6 +286,11 @@ async function login(email: string, password: string): Promise<void> {
             case "over_request_rate_limit":
                 statusMessage = {
                     error: "Too many Login Attempts! Please wait a few minutes before trying again.",
+                };
+                break;
+            case "over_email_send_rate_limit":
+                statusMessage = {
+                    error: "Too many requested emails! Please wait a bit, up to an hour, before trying again. Sorry! This is the issue with the current mail plan I am on.",
                 };
                 break;
             case "email_not_confirmed":
