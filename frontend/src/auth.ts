@@ -220,10 +220,10 @@ async function register(
                 break;
         }
     } else if (registrationResult.data.user) {
-        // ? If we get here, the signin was successful, and we have a stored user (in the `SIGNED_IN` handler)!
+        // ? If we get here, the signup was successful, and all that is left is for the user to confirm/verify their email!
 
         statusMessage = {
-            success: `Great! Welcome to SmorgasBoard, ${user?.username ?? "Placeholder_User"}. Enjoy your stay!`,
+            success: `Great! Welcome to SmorgasBoard, ${user?.username ?? "Placeholder_User"}. One last step, just check the confirmation email you just got (or should get in a bit) to confirm your email address.`,
         };
     }
     spawnAlert(
@@ -294,6 +294,10 @@ async function login(email: string, password: string): Promise<void> {
                     error: "Too many Login Attempts! Please wait a few minutes before trying again.",
                 };
                 break;
+            case "email_not_confirmed":
+                statusMessage = {
+                    error: "Whoops! One last step before you can log in - just confirm your email address with the confirmation link you received when you signed up!",
+                };
             default:
                 statusMessage = { error: unexpectedErrorMessage };
                 break;
