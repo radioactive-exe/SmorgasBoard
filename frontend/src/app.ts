@@ -901,10 +901,50 @@ const _supabaseAuthChangeHandler: { data: { subscription: Subscription } } =
                 }, 1000);
 
                 // ? If the change was the start of a session, either logged in or anonymous
+            } else if (e == "INITIAL_SESSION") {
+                // ? Check for the presence of a hash in the URL.
+                // ? This implies the URL was accessed from a special link
+                // ? (given the current implementation), such as the
+                // ? password reset link. If the latter is the case, the error will be present
+                if (window.location.hash) {
+                    // ? Extract the Hash content, parse as a map of parameters and values, then get the
+                    // ? error description
+                    const hashContent: string =
+                        window.location.hash.substring(1);
+                    const hashParameters = new URLSearchParams(hashContent);
+                    const errorDesc: string | null =
+                        hashParameters.get("error_description");
+                    const errorCode: string | null = hashParameters.get("code");
+
+                    // ? If present, send an alert with the error description (such as an expired OTP)
+                    // ? and the error code (if present), or a message stating no error code exists.
+                    if (errorDesc) {
+                        spawnAlert(
+                            (errorDesc.length > 0
+                                ? errorDesc
+                                : "There's something wrong with the URL you used. Please submit an issue on the GitHub repository with the error code and how you got here.")
+                                + "Error code: "
+                                + errorCode
+                                != null
+                                ? (errorCode as string)
+                                : "<No Error code>",
+                            AlertLevel.ERROR,
+                        );
+                    }
+
+                    // ? Then, remove the Hash from the URL
+                    history.pushState(
+                        "",
+                        document.title,
+                        window.location.pathname,
+                    );
+                }
+
                 // ? Only load if the session is anonymous.
                 // ? If it is not, then the `SIGNED_IN` event was fired off before this,
                 // ? and the loading for the authenticated user was handled there.
-            } else if (e == "INITIAL_SESSION" && !user) dashboard.load();
+                if (!user) dashboard.load();
+            }
             // ? If the change was a Token refresh, update the stored access token
             else if (e == "TOKEN_REFRESHED" && user && session && session.user)
                 user.access_token = session.access_token;
@@ -914,7 +954,7 @@ const _supabaseAuthChangeHandler: { data: { subscription: Subscription } } =
                 goToPasswordResetScreen();
             }
 
-            // console.log("!!", e);
+            console.log("!!", e);
         },
     );
 

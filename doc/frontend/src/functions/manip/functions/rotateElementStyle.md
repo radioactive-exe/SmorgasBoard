@@ -10,7 +10,7 @@
 function rotateElementStyle(el, offset): void;
 ```
 
-Defined in: [frontend/src/functions/manip.ts:272](https://github.com/radioactive-exe/SmorgasBoard/blob/468e606912a299394e1853645fa504c70b13b52b/frontend/src/functions/manip.ts#L272)
+Defined in: [frontend/src/functions/manip.ts:272](https://github.com/radioactive-exe/SmorgasBoard/blob/8f4f7feb3d95b1e6f220d9a6d967884a54a55d8e/frontend/src/functions/manip.ts#L272)
 
 Applies the inputted rotation and offset to the style of the element.
 

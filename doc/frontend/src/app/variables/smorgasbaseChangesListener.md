@@ -10,7 +10,7 @@
 _smorgasbaseChangesListener: RealtimeChannel;
 ```
 
-Defined in: [frontend/src/app.ts:745](https://github.com/radioactive-exe/SmorgasBoard/blob/468e606912a299394e1853645fa504c70b13b52b/frontend/src/app.ts#L745)
+Defined in: [frontend/src/app.ts:746](https://github.com/radioactive-exe/SmorgasBoard/blob/8f4f7feb3d95b1e6f220d9a6d967884a54a55d8e/frontend/src/app.ts#L746)
 
 The realtime channel listener for changes on the Dashboard Table in the
 Supabase database.

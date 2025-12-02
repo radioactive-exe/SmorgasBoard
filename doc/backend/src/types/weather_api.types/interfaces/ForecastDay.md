@@ -6,7 +6,7 @@
 
 # Interface: ForecastDay
 
-Defined in: [backend/src/types/weather_api.types.ts:201](https://github.com/radioactive-exe/SmorgasBoard/blob/468e606912a299394e1853645fa504c70b13b52b/backend/src/types/weather_api.types.ts#L201)
+Defined in: [backend/src/types/weather_api.types.ts:201](https://github.com/radioactive-exe/SmorgasBoard/blob/8f4f7feb3d95b1e6f220d9a6d967884a54a55d8e/backend/src/types/weather_api.types.ts#L201)
 
 The complete object for each forecast day requested from the API.
 
@@ -21,8 +21,8 @@ daily information. The hours array also stores 24 objects of type
 
 | Property                             | Type                | Defined in                                                                                                                                                                              |
 | ------------------------------------ | ------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| <a id="astro"></a> `astro`           | [`Astro`](Astro.md) | [backend/src/types/weather_api.types.ts:202](https://github.com/radioactive-exe/SmorgasBoard/blob/468e606912a299394e1853645fa504c70b13b52b/backend/src/types/weather_api.types.ts#L202) |
-| <a id="date"></a> `date`             | `string`            | [backend/src/types/weather_api.types.ts:203](https://github.com/radioactive-exe/SmorgasBoard/blob/468e606912a299394e1853645fa504c70b13b52b/backend/src/types/weather_api.types.ts#L203) |
-| <a id="date_epoch"></a> `date_epoch` | `number`            | [backend/src/types/weather_api.types.ts:204](https://github.com/radioactive-exe/SmorgasBoard/blob/468e606912a299394e1853645fa504c70b13b52b/backend/src/types/weather_api.types.ts#L204) |
-| <a id="day"></a> `day`               | [`Day`](Day.md)     | [backend/src/types/weather_api.types.ts:205](https://github.com/radioactive-exe/SmorgasBoard/blob/468e606912a299394e1853645fa504c70b13b52b/backend/src/types/weather_api.types.ts#L205) |
-| <a id="hour"></a> `hour`             | [`Hour`](Hour.md)[] | [backend/src/types/weather_api.types.ts:206](https://github.com/radioactive-exe/SmorgasBoard/blob/468e606912a299394e1853645fa504c70b13b52b/backend/src/types/weather_api.types.ts#L206) |
+| <a id="astro"></a> `astro`           | [`Astro`](Astro.md) | [backend/src/types/weather_api.types.ts:202](https://github.com/radioactive-exe/SmorgasBoard/blob/8f4f7feb3d95b1e6f220d9a6d967884a54a55d8e/backend/src/types/weather_api.types.ts#L202) |
+| <a id="date"></a> `date`             | `string`            | [backend/src/types/weather_api.types.ts:203](https://github.com/radioactive-exe/SmorgasBoard/blob/8f4f7feb3d95b1e6f220d9a6d967884a54a55d8e/backend/src/types/weather_api.types.ts#L203) |
+| <a id="date_epoch"></a> `date_epoch` | `number`            | [backend/src/types/weather_api.types.ts:204](https://github.com/radioactive-exe/SmorgasBoard/blob/8f4f7feb3d95b1e6f220d9a6d967884a54a55d8e/backend/src/types/weather_api.types.ts#L204) |
+| <a id="day"></a> `day`               | [`Day`](Day.md)     | [backend/src/types/weather_api.types.ts:205](https://github.com/radioactive-exe/SmorgasBoard/blob/8f4f7feb3d95b1e6f220d9a6d967884a54a55d8e/backend/src/types/weather_api.types.ts#L205) |
+| <a id="hour"></a> `hour`             | [`Hour`](Hour.md)[] | [backend/src/types/weather_api.types.ts:206](https://github.com/radioactive-exe/SmorgasBoard/blob/8f4f7feb3d95b1e6f220d9a6d967884a54a55d8e/backend/src/types/weather_api.types.ts#L206) |

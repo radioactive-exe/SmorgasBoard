@@ -10,7 +10,7 @@
 function cssProperty(el, property): string;
 ```
 
-Defined in: [frontend/src/functions/accessors.ts:67](https://github.com/radioactive-exe/SmorgasBoard/blob/468e606912a299394e1853645fa504c70b13b52b/frontend/src/functions/accessors.ts#L67)
+Defined in: [frontend/src/functions/accessors.ts:67](https://github.com/radioactive-exe/SmorgasBoard/blob/8f4f7feb3d95b1e6f220d9a6d967884a54a55d8e/frontend/src/functions/accessors.ts#L67)
 
 Gets the normal un-altered string value of a CSS property of an element.
 

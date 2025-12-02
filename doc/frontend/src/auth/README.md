@@ -27,8 +27,11 @@ Radioactive.exe
 
 ## Functions
 
-| Function                          | Description                                                                        |
-| --------------------------------- | ---------------------------------------------------------------------------------- |
-| [login](functions/login.md)       | Attempts to log the user in using Supabase Auth API with the inputted credentials. |
-| [logout](functions/logout.md)     | Signs the user out.                                                                |
-| [register](functions/register.md) | This method signs up the user with the inputted fields.                            |
+| Function                                                        | Description                                                                        |
+| --------------------------------------------------------------- | ---------------------------------------------------------------------------------- |
+| [goToLoginScreen](functions/goToLoginScreen.md)                 | Focuses on or opens the Login screen.                                              |
+| [goToPasswordResetScreen](functions/goToPasswordResetScreen.md) | Focuses on or opens the Password Reset screen.                                     |
+| [goToRegisterScreen](functions/goToRegisterScreen.md)           | Focuses on or opens the Register screen.                                           |
+| [login](functions/login.md)                                     | Attempts to log the user in using Supabase Auth API with the inputted credentials. |
+| [logout](functions/logout.md)                                   | Signs the user out.                                                                |
+| [register](functions/register.md)                               | This method signs up the user with the inputted fields.                            |

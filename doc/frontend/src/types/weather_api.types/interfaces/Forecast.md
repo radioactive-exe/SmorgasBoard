@@ -6,7 +6,7 @@
 
 # Interface: Forecast
 
-Defined in: [frontend/src/types/weather_api.types.ts:219](https://github.com/radioactive-exe/SmorgasBoard/blob/468e606912a299394e1853645fa504c70b13b52b/frontend/src/types/weather_api.types.ts#L219)
+Defined in: [frontend/src/types/weather_api.types.ts:219](https://github.com/radioactive-exe/SmorgasBoard/blob/8f4f7feb3d95b1e6f220d9a6d967884a54a55d8e/frontend/src/types/weather_api.types.ts#L219)
 
 The complete forecast response from the API.
 
@@ -21,4 +21,4 @@ can request up to 3 forecast days.
 
 | Property                               | Type                              | Defined in                                                                                                                                                                                |
 | -------------------------------------- | --------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| <a id="forecastday"></a> `forecastday` | [`ForecastDay`](ForecastDay.md)[] | [frontend/src/types/weather_api.types.ts:220](https://github.com/radioactive-exe/SmorgasBoard/blob/468e606912a299394e1853645fa504c70b13b52b/frontend/src/types/weather_api.types.ts#L220) |
+| <a id="forecastday"></a> `forecastday` | [`ForecastDay`](ForecastDay.md)[] | [frontend/src/types/weather_api.types.ts:220](https://github.com/radioactive-exe/SmorgasBoard/blob/8f4f7feb3d95b1e6f220d9a6d967884a54a55d8e/frontend/src/types/weather_api.types.ts#L220) |

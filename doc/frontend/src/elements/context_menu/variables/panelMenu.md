@@ -10,7 +10,7 @@
 const panelMenu: HTMLElement;
 ```
 
-Defined in: [frontend/src/elements/context_menu.ts:46](https://github.com/radioactive-exe/SmorgasBoard/blob/468e606912a299394e1853645fa504c70b13b52b/frontend/src/elements/context_menu.ts#L46)
+Defined in: [frontend/src/elements/context_menu.ts:46](https://github.com/radioactive-exe/SmorgasBoard/blob/8f4f7feb3d95b1e6f220d9a6d967884a54a55d8e/frontend/src/elements/context_menu.ts#L46)
 
 The Panel spawning menu housed inside the panel context menu entry.
 

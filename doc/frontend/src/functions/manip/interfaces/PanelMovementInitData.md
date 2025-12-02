@@ -6,7 +6,7 @@
 
 # Interface: PanelMovementInitData
 
-Defined in: [frontend/src/functions/manip.ts:31](https://github.com/radioactive-exe/SmorgasBoard/blob/468e606912a299394e1853645fa504c70b13b52b/frontend/src/functions/manip.ts#L31)
+Defined in: [frontend/src/functions/manip.ts:31](https://github.com/radioactive-exe/SmorgasBoard/blob/8f4f7feb3d95b1e6f220d9a6d967884a54a55d8e/frontend/src/functions/manip.ts#L31)
 
 The initial data for a panel movement/drag event, including the initial event
 coordinates and the initial panel position.
@@ -20,5 +20,5 @@ coordinates and the initial panel position.
 
 | Property                               | Type                                                             | Description                                                                            | Defined in                                                                                                                                                              |
 | -------------------------------------- | ---------------------------------------------------------------- | -------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| <a id="eventcoords"></a> `eventCoords` | [`Coordinates`](../../../classes/area/interfaces/Coordinates.md) | The initial coordinates of the first click/tap that triggered the drag movement event. | [frontend/src/functions/manip.ts:36](https://github.com/radioactive-exe/SmorgasBoard/blob/468e606912a299394e1853645fa504c70b13b52b/frontend/src/functions/manip.ts#L36) |
-| <a id="panelpos"></a> `panelPos`       | [`Coordinates`](../../../classes/area/interfaces/Coordinates.md) | The initial position of the panel being moved.                                         | [frontend/src/functions/manip.ts:38](https://github.com/radioactive-exe/SmorgasBoard/blob/468e606912a299394e1853645fa504c70b13b52b/frontend/src/functions/manip.ts#L38) |
+| <a id="eventcoords"></a> `eventCoords` | [`Coordinates`](../../../classes/area/interfaces/Coordinates.md) | The initial coordinates of the first click/tap that triggered the drag movement event. | [frontend/src/functions/manip.ts:36](https://github.com/radioactive-exe/SmorgasBoard/blob/8f4f7feb3d95b1e6f220d9a6d967884a54a55d8e/frontend/src/functions/manip.ts#L36) |
+| <a id="panelpos"></a> `panelPos`       | [`Coordinates`](../../../classes/area/interfaces/Coordinates.md) | The initial position of the panel being moved.                                         | [frontend/src/functions/manip.ts:38](https://github.com/radioactive-exe/SmorgasBoard/blob/8f4f7feb3d95b1e6f220d9a6d967884a54a55d8e/frontend/src/functions/manip.ts#L38) |

@@ -10,7 +10,7 @@
 function resizePanel(panel, e, initData): void;
 ```
 
-Defined in: [frontend/src/functions/manip.ts:139](https://github.com/radioactive-exe/SmorgasBoard/blob/468e606912a299394e1853645fa504c70b13b52b/frontend/src/functions/manip.ts#L139)
+Defined in: [frontend/src/functions/manip.ts:139](https://github.com/radioactive-exe/SmorgasBoard/blob/8f4f7feb3d95b1e6f220d9a6d967884a54a55d8e/frontend/src/functions/manip.ts#L139)
 
 Resizes the handle (while keeping it completely within the bounds of the
 screen and larger than its minimum size) through dragging the resize handle.

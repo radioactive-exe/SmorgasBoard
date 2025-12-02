@@ -10,7 +10,7 @@
 const _supabaseAuthChangeHandler: object;
 ```
 
-Defined in: [frontend/src/app.ts:760](https://github.com/radioactive-exe/SmorgasBoard/blob/468e606912a299394e1853645fa504c70b13b52b/frontend/src/app.ts#L760)
+Defined in: [frontend/src/app.ts:761](https://github.com/radioactive-exe/SmorgasBoard/blob/8f4f7feb3d95b1e6f220d9a6d967884a54a55d8e/frontend/src/app.ts#L761)
 
 Handles Supabase Auth state changes, including logins, logouts, session
 starts, and even token refreshes, using the native

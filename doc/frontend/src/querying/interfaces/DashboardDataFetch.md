@@ -6,7 +6,7 @@
 
 # Interface: DashboardDataFetch
 
-Defined in: [frontend/src/querying.ts:28](https://github.com/radioactive-exe/SmorgasBoard/blob/468e606912a299394e1853645fa504c70b13b52b/frontend/src/querying.ts#L28)
+Defined in: [frontend/src/querying.ts:28](https://github.com/radioactive-exe/SmorgasBoard/blob/8f4f7feb3d95b1e6f220d9a6d967884a54a55d8e/frontend/src/querying.ts#L28)
 
 An interface for the structure of the dashboard data.
 
@@ -25,8 +25,8 @@ typing fetched data.
 
 | Property                              | Type                                                                       | Defined in                                                                                                                                                |
 | ------------------------------------- | -------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| <a id="dimensions"></a> `dimensions?` | [`Size`](../../classes/area/interfaces/Size.md)                            | [frontend/src/querying.ts:33](https://github.com/radioactive-exe/SmorgasBoard/blob/468e606912a299394e1853645fa504c70b13b52b/frontend/src/querying.ts#L33) |
-| <a id="free_ids"></a> `free_ids?`     | `number`[]                                                                 | [frontend/src/querying.ts:32](https://github.com/radioactive-exe/SmorgasBoard/blob/468e606912a299394e1853645fa504c70b13b52b/frontend/src/querying.ts#L32) |
-| <a id="panels"></a> `panels?`         | [`PanelInstance`](../../classes/panel/panel/interfaces/PanelInstance.md)[] | [frontend/src/querying.ts:29](https://github.com/radioactive-exe/SmorgasBoard/blob/468e606912a299394e1853645fa504c70b13b52b/frontend/src/querying.ts#L29) |
-| <a id="theme"></a> `theme?`           | `number`                                                                   | [frontend/src/querying.ts:30](https://github.com/radioactive-exe/SmorgasBoard/blob/468e606912a299394e1853645fa504c70b13b52b/frontend/src/querying.ts#L30) |
-| <a id="username"></a> `username?`     | `string`                                                                   | [frontend/src/querying.ts:31](https://github.com/radioactive-exe/SmorgasBoard/blob/468e606912a299394e1853645fa504c70b13b52b/frontend/src/querying.ts#L31) |
+| <a id="dimensions"></a> `dimensions?` | [`Size`](../../classes/area/interfaces/Size.md)                            | [frontend/src/querying.ts:33](https://github.com/radioactive-exe/SmorgasBoard/blob/8f4f7feb3d95b1e6f220d9a6d967884a54a55d8e/frontend/src/querying.ts#L33) |
+| <a id="free_ids"></a> `free_ids?`     | `number`[]                                                                 | [frontend/src/querying.ts:32](https://github.com/radioactive-exe/SmorgasBoard/blob/8f4f7feb3d95b1e6f220d9a6d967884a54a55d8e/frontend/src/querying.ts#L32) |
+| <a id="panels"></a> `panels?`         | [`PanelInstance`](../../classes/panel/panel/interfaces/PanelInstance.md)[] | [frontend/src/querying.ts:29](https://github.com/radioactive-exe/SmorgasBoard/blob/8f4f7feb3d95b1e6f220d9a6d967884a54a55d8e/frontend/src/querying.ts#L29) |
+| <a id="theme"></a> `theme?`           | `number`                                                                   | [frontend/src/querying.ts:30](https://github.com/radioactive-exe/SmorgasBoard/blob/8f4f7feb3d95b1e6f220d9a6d967884a54a55d8e/frontend/src/querying.ts#L30) |
+| <a id="username"></a> `username?`     | `string`                                                                   | [frontend/src/querying.ts:31](https://github.com/radioactive-exe/SmorgasBoard/blob/8f4f7feb3d95b1e6f220d9a6d967884a54a55d8e/frontend/src/querying.ts#L31) |

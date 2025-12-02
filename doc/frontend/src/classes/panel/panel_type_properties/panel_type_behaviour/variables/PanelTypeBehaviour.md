@@ -10,7 +10,7 @@
 const PanelTypeBehaviour: object;
 ```
 
-Defined in: [frontend/src/classes/panel/panel_type_properties/panel_type_behaviour.ts:29](https://github.com/radioactive-exe/SmorgasBoard/blob/468e606912a299394e1853645fa504c70b13b52b/frontend/src/classes/panel/panel_type_properties/panel_type_behaviour.ts#L29)
+Defined in: [frontend/src/classes/panel/panel_type_properties/panel_type_behaviour.ts:29](https://github.com/radioactive-exe/SmorgasBoard/blob/8f4f7feb3d95b1e6f220d9a6d967884a54a55d8e/frontend/src/classes/panel/panel_type_properties/panel_type_behaviour.ts#L29)
 
 The Property object for PanelType Behaviour. Each PanelType is given its
 executing function from the `panel_behaviour` sibling folder to the current

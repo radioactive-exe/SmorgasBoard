@@ -10,7 +10,7 @@
 function snapElementToTarget(el, target, shouldAnimate): void;
 ```
 
-Defined in: [frontend/src/functions/manip.ts:399](https://github.com/radioactive-exe/SmorgasBoard/blob/468e606912a299394e1853645fa504c70b13b52b/frontend/src/functions/manip.ts#L399)
+Defined in: [frontend/src/functions/manip.ts:399](https://github.com/radioactive-exe/SmorgasBoard/blob/8f4f7feb3d95b1e6f220d9a6d967884a54a55d8e/frontend/src/functions/manip.ts#L399)
 
 Snaps one element to another by use of their areas.
 

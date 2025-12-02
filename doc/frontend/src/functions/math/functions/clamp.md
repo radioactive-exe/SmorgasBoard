@@ -10,7 +10,7 @@
 function clamp(num, min, max): number;
 ```
 
-Defined in: [frontend/src/functions/math.ts:37](https://github.com/radioactive-exe/SmorgasBoard/blob/468e606912a299394e1853645fa504c70b13b52b/frontend/src/functions/math.ts#L37)
+Defined in: [frontend/src/functions/math.ts:37](https://github.com/radioactive-exe/SmorgasBoard/blob/8f4f7feb3d95b1e6f220d9a6d967884a54a55d8e/frontend/src/functions/math.ts#L37)
 
 Clamps an input number between two bounds.
 

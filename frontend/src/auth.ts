@@ -356,8 +356,35 @@ function logout(): void {
 }
 
 /**
- * @param newPassword
- * @param newPasswordConfirmation
+ * Validates password and confirmation equality, after which the user's password
+ * is directly updated through the Supabase Auth.
+ *
+ * @param newPassword             - The new password the user wishes to set.
+ * @param newPasswordConfirmation - The confirmation for the new password. This
+ *   must be identical to {@link newPassword} for the password reset to go
+ *   through.
+ *
+ * @example
+ *
+ * ```ts
+ * validateAndResetPassword("IForgotTheOldOne#12", "IForgotTheOldOne#13");
+ * ```
+ *
+ * The above fails, and an alert is spawned informing the user of that, as the
+ * confirmation is not identical to the new password.
+ *
+ * @example
+ *
+ * ```ts
+ * validateAndResetPassword("IForgotTheOldOne#12", "IForgotTheOldOne#12");
+ * ```
+ *
+ * The above succeeds, as both passwords are identical. An informative alert is
+ * spawned, the user is updated in the Auth system, and the login menu is
+ * focused/opened.
+ *
+ * @see {@link resetPasswordButton}
+ * @see {@link https://supabase.com/docs/guides/auth | Supabase#Auth}
  */
 async function validateAndResetPassword(
     newPassword: string,
@@ -380,11 +407,19 @@ async function validateAndResetPassword(
 
         if (error) {
             spawnAlert(error.message, AlertLevel.ERROR);
-        } else
+        } else {
+            // ? Remove the # from the URL after resetting the password
+            history.pushState("", document.title, window.location.pathname);
+
+            // ? Send an alert informing the user
             spawnAlert(
                 "Password successfully reset! Go ahead and log in!",
                 AlertLevel.INFO,
             );
+
+            // ? Go to the login screen
+            goToLoginScreen();
+        }
     }
 }
 

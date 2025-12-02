@@ -7,20 +7,26 @@
 # Function: register()
 
 ```ts
-function register(username, email, password): Promise<void>;
+function register(
+  username,
+  email,
+  password,
+  passwordConfirmation,
+): Promise<void>;
 ```
 
-Defined in: [frontend/src/auth.ts:111](https://github.com/radioactive-exe/SmorgasBoard/blob/468e606912a299394e1853645fa504c70b13b52b/frontend/src/auth.ts#L111)
+Defined in: [frontend/src/auth.ts:131](https://github.com/radioactive-exe/SmorgasBoard/blob/8f4f7feb3d95b1e6f220d9a6d967884a54a55d8e/frontend/src/auth.ts#L131)
 
 This method signs up the user with the inputted fields.
 
 ## Parameters
 
-| Parameter  | Type     | Description                                                                                                                                |
-| ---------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
-| `username` | `string` | The username the user wants to choose.                                                                                                     |
-| `email`    | `string` | The email the user will be using to sign up and log in. They will receive a welcome email if it is a valid address.                        |
-| `password` | `string` | Self-explanatory, this will be the user's desired password. This is subject ot length, capitalisation, and special character requirements. |
+| Parameter              | Type     | Description                                                                                                                                  |
+| ---------------------- | -------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
+| `username`             | `string` | The username the user wants to choose.                                                                                                       |
+| `email`                | `string` | The email the user will be using to sign up and log in. They will receive a welcome email if it is a valid address.                          |
+| `password`             | `string` | Self-explanatory, this will be the user's desired password. This is subject ot length, capitalisation, and special character requirements.   |
+| `passwordConfirmation` | `string` | The password confirmation value (i.e. The value of the "Confirm Password" input). This is validated to be the same as [password](#register). |
 
 ## Returns
 
@@ -38,7 +44,12 @@ requirements are met. Additionally, this will succeed if there is no other
 "pro_coder_33":
 
 ```ts
-register("pro_coder_33", "real_email@someplace.com", "ILoveMyDog123#");
+register(
+  "pro_coder_33",
+  "real_email@someplace.com",
+  "ILoveMyDog123#",
+  "ILoveMyDog123#",
+);
 ```
 
 ## See
