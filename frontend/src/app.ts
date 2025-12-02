@@ -867,6 +867,7 @@ const _supabaseAuthChangeHandler: { data: { subscription: Subscription } } =
                         const hashParameters = new URLSearchParams(hashContent);
                         const verificationHash: string | null =
                             hashParameters.get("verified");
+                        console.log("Hash", verificationHash);
 
                         // ? If the hash parameter is present (albeit empty), this was the first
                         // ? signin after confirming the email
@@ -900,12 +901,7 @@ const _supabaseAuthChangeHandler: { data: { subscription: Subscription } } =
                             },
                         });
 
-                        // ? Lastly, clear the URL hash, and reset the firstTime variable
-                        history.pushState(
-                            "",
-                            document.title,
-                            window.location.pathname,
-                        );
+                        // ? Reset the firstTime variable
                         firstTime = false;
                     }
                 }
@@ -949,7 +945,16 @@ const _supabaseAuthChangeHandler: { data: { subscription: Subscription } } =
                 // ? Only load if the session is anonymous.
                 // ? If it is not, then the `SIGNED_IN` event was fired off before this,
                 // ? and the loading for the authenticated user was handled there.
-                if (!user) dashboard.load();
+                if (!user) {
+                    dashboard.load();
+
+                    // ? Then, remove any potential Hash from the URL
+                    history.pushState(
+                        "",
+                        document.title,
+                        window.location.pathname,
+                    );
+                }
 
                 // ? Check for the presence of a hash in the URL.
                 // ? This implies the URL was accessed from a special link
@@ -983,14 +988,14 @@ const _supabaseAuthChangeHandler: { data: { subscription: Subscription } } =
                             `,
                             AlertLevel.ERROR,
                         );
-                    }
 
-                    // ? Then, remove the Hash from the URL
-                    history.pushState(
-                        "",
-                        document.title,
-                        window.location.pathname,
-                    );
+                        // ? Then, remove the Hash from the URL
+                        history.pushState(
+                            "",
+                            document.title,
+                            window.location.pathname,
+                        );
+                    }
                 }
             }
             // ? If the change was a Token refresh, update the stored access token
