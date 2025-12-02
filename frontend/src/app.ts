@@ -858,17 +858,26 @@ const _supabaseAuthChangeHandler: { data: { subscription: Subscription } } =
                         .subscribe();
 
                     // ? If, after signing in, the user's last signin time and their email confirmation
-                    // ? time are the same, then this login was the confirmation link click
-                    console.log(
-                        session.user.last_sign_in_at,
-                        session.user.email_confirmed_at,
-                    );
+                    // ? time are the same (approximately), then this login was the confirmation link click
                     if (
                         session.user.last_sign_in_at
-                        === session.user.email_confirmed_at
+                        && session.user.email_confirmed_at
                     ) {
-                        // ? And thus, it was the first signin
-                        firstTime = true;
+                        // * The date formed from the last sign in time string and the email confirmation time string
+                        const lastSignInTime = new Date(
+                            session.user.last_sign_in_at,
+                        );
+                        const verificationTime = new Date(
+                            session.user.email_confirmed_at,
+                        );
+
+                        // ? And thus, if there is less than half a second in between the two times,
+                        // ? it was the first signin
+                        firstTime =
+                            Math.abs(
+                                lastSignInTime.getTime()
+                                    - verificationTime.getTime(),
+                            ) <= 500;
                         // ? Clear the URL hash
                         history.pushState(
                             "",
