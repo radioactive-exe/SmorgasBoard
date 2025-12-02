@@ -811,7 +811,7 @@ class Dashboard extends HTMLElement {
             if (!loadedPanelInstances || loadedPanelInstances.length == 0) {
                 // ? Spawn an alert informing the user that the stored data is empty
                 spawnAlert(
-                    "No stored panels! Initiating base board with a random Panel. To Add more, Right Click and hover on 'Add Panel', and have fun!",
+                    "No stored panels! Spawning a random starter panel. Open the context menu (right click or use the button on the right), and have fun!",
                     AlertLevel.INFO,
                 );
 

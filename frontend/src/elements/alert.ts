@@ -135,13 +135,16 @@ function spawnAlert(
             dismissAlert(alert);
         },
         // ? Error alerts stay for 20 seconds
-        alertLevel == AlertLevel.ERROR
+        (alertLevel == AlertLevel.ERROR
             ? 20000
             : // ? Warning alerts stay for 10 seconds
               alertLevel == AlertLevel.WARNING
               ? 10000
               : // ? Info alerts stay for 5 seconds
-                5000,
+                5000)
+            // ? Lastly, add 1.5 seconds for every additional 60 characters.
+            // ? This ensures longer messages stay a bit longer and can be read fully
+            + 1500 * Math.round(alertMessage.length / 60),
     );
 
     /**

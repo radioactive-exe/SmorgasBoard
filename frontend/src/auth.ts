@@ -598,7 +598,7 @@ resetPasswordClickable?.addEventListener("click", () => {
     else {
         supabase.auth.resetPasswordForEmail(emailInput.value);
         spawnAlert(
-            "If the email is registered on Smorgasboard, you'll get a password reset email. Open it and follow!",
+            "If the email is registered on Smorgasboard, you'll get a password reset email. Open it and follow the instructions! You might have to wait up to an hour for the email to show up (given the current Mail plan, whoops).",
             AlertLevel.INFO,
         );
     }

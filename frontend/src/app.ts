@@ -817,7 +817,6 @@ const _supabaseAuthChangeHandler: { data: { subscription: Subscription } } =
                             config: { private: true },
                         })
                         .on("broadcast", { event: "UPDATE" }, (update) => {
-                            console.log(update);
                             const updateContent: DashboardDataFetch =
                                 update.payload.record;
                             // ? If the change was triggered by another client instance than this one
