@@ -778,11 +778,18 @@ const _supabaseAuthChangeHandler: { data: { subscription: Subscription } } =
                 // ? Since a SIGNED_IN event is fired off on tab focus every time,
                 // ? check if there is a change in the user before reloading.
                 // ? If there is no stored user, then this was the user signing in,
-                // ? and if there was a user and the ID is different, then there is
-                // ? a change in user. If the stored and potential ID are the same,
+                // ? and if there was a user and the ID, email, or access token are different,
+                // ? then there is a change in user. If the stored and potential users are the same,
                 // ? the SIGNED_IN event was simply a tab refresh, so do not reload
                 // ? or repopulate Username fields
-                if (!user || (user && potentialUser.id != user.id)) {
+                if (
+                    !user
+                    || (user
+                        && (potentialUser.id != user.id
+                            || potentialUser.email != user.email
+                            || potentialUser.username != user.username
+                            || potentialUser.access_token != user.access_token))
+                ) {
                     // ? Update the stored User
                     user = potentialUser;
 
@@ -880,7 +887,7 @@ const _supabaseAuthChangeHandler: { data: { subscription: Subscription } } =
                             ) <= 500
                         )
                             firstTime = true;
-                        
+
                         // ? Clear the URL hash
                         history.pushState(
                             "",
