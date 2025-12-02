@@ -157,7 +157,6 @@ async function register(
             data: {
                 username,
             },
-            emailRedirectTo: "https://smorgasboard.irradiated.app/#verified",
         },
     });
 
@@ -288,6 +287,7 @@ async function login(email: string, password: string): Promise<void> {
                 statusMessage = {
                     error: "Whoops! One last step before you can log in - just confirm your email address with the confirmation link you received when you signed up!",
                 };
+                break;
             default:
                 statusMessage = { error: unexpectedErrorMessage };
                 break;

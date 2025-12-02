@@ -858,8 +858,7 @@ const _supabaseAuthChangeHandler: { data: { subscription: Subscription } } =
                         .subscribe();
 
                     // ? If there is a hash in the URL, which is custom set to happen if this was an email
-                    // ? verification signin
-                    console.log("Window hash", window.location.hash);
+                    // ? verification click
                     if (window.location.hash) {
                         // ? Extract the Hash content, parse as a map of parameters and values, then get the
                         // ? verification hash (if present)
@@ -868,7 +867,6 @@ const _supabaseAuthChangeHandler: { data: { subscription: Subscription } } =
                         const hashParameters = new URLSearchParams(hashContent);
                         const verificationHash: string | null =
                             hashParameters.get("verified");
-                        console.log("Hash", verificationHash);
 
                         // ? If the hash parameter is present (albeit empty), this was the first
                         // ? signin after confirming the email
