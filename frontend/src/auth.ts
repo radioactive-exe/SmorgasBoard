@@ -22,7 +22,7 @@ import type {
 
 import { AuthWeakPasswordError, isAuthApiError } from "@supabase/supabase-js";
 
-import { setFirstTime, supabase, user } from "./app.js";
+import { supabase, user } from "./app.js";
 import { AlertLevel, spawnAlert } from "./elements/alert.js";
 
 // ? All the necessary HTML elements for the authentication procedures.
@@ -134,12 +134,6 @@ async function register(
     password: string,
     passwordConfirmation: string,
 ): Promise<void> {
-    /**
-     * This updates the variable stored in the main module to track that this
-     * was a first time register, and not a returning signin.
-     */
-    setFirstTime(true);
-
     // ? If the user tries to register without an entered username
     if (username == "") {
         statusMessage = { error: "Please enter a username!" };
@@ -163,6 +157,7 @@ async function register(
             data: {
                 username,
             },
+            emailRedirectTo: "https://smorgasboard.irradiated.app/#verified",
         },
     });
 
@@ -264,11 +259,6 @@ async function register(
  * @see {@link https://supabase.com/docs/guides/auth | Supabase#Auth}
  */
 async function login(email: string, password: string): Promise<void> {
-    /**
-     * This updates the variable stored in {@link "./app.ts"} to clarify on the
-     * `SIGNED_IN` event that this is a returning login.
-     */
-    setFirstTime(false);
     statusMessage = {};
     const loginResult: AuthResponse = await supabase.auth.signInWithPassword({
         email,

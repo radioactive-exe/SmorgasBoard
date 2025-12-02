@@ -857,16 +857,40 @@ const _supabaseAuthChangeHandler: { data: { subscription: Subscription } } =
                         })
                         .subscribe();
 
+                    // ? If there is a hash in the URL, which is custom set to happen if this was an email
+                    // ? verification signin
+                    if (window.location.hash) {
+                        // ? Extract the Hash content, parse as a map of parameters and values, then get the
+                        // ? verification hash (if present)
+                        const hashContent: string =
+                            window.location.hash.substring(1);
+                        const hashParameters = new URLSearchParams(hashContent);
+                        const verificationHash: string | null =
+                            hashParameters.get("verified");
+
+                        // ? If the hash parameter is present (albeit empty), this was the first
+                        // ? signin after confirming the email
+                        if (verificationHash != null) firstTime = true;
+
+                        // ? Clear the URL hash
+                        history.pushState(
+                            "",
+                            document.title,
+                            window.location.pathname,
+                        );
+                    }
+
                     // ? If this is a returning user logging in, simply load the data stored in the database
                     if (!firstTime) {
                         dashboard.load();
+                        // ? Otherwise, if this is a first time signin after confirming,
+                        // ? save all the local data to the cloud, and trigger a welcome alert
                     } else {
+                        dashboard.save();
                         spawnAlert(
                             `Awesome! Your email is all verified! Enjoy your stay, ${user.username}`,
                             AlertLevel.INFO,
                         );
-                        // ? Otherwise, if this is a first time register, save all the local data to the cloud
-                        dashboard.save();
 
                         // ? And then send the welcome email!
                         supabase.functions.invoke("hello-world", {
@@ -875,6 +899,14 @@ const _supabaseAuthChangeHandler: { data: { subscription: Subscription } } =
                                 username: user.username,
                             },
                         });
+
+                        // ? Lastly, clear the URL hash, and reset the firstTime variable
+                        history.pushState(
+                            "",
+                            document.title,
+                            window.location.pathname,
+                        );
+                        firstTime = false;
                     }
                 }
 
