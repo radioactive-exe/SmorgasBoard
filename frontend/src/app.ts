@@ -859,6 +859,7 @@ const _supabaseAuthChangeHandler: { data: { subscription: Subscription } } =
 
                     // ? If there is a hash in the URL, which is custom set to happen if this was an email
                     // ? verification signin
+                    console.log("Window hash", window.location.hash);
                     if (window.location.hash) {
                         // ? Extract the Hash content, parse as a map of parameters and values, then get the
                         // ? verification hash (if present)
@@ -945,16 +946,7 @@ const _supabaseAuthChangeHandler: { data: { subscription: Subscription } } =
                 // ? Only load if the session is anonymous.
                 // ? If it is not, then the `SIGNED_IN` event was fired off before this,
                 // ? and the loading for the authenticated user was handled there.
-                if (!user) {
-                    dashboard.load();
-
-                    // ? Then, remove any potential Hash from the URL
-                    history.pushState(
-                        "",
-                        document.title,
-                        window.location.pathname,
-                    );
-                }
+                if (!user) dashboard.load();
 
                 // ? Check for the presence of a hash in the URL.
                 // ? This implies the URL was accessed from a special link
