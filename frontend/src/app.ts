@@ -918,6 +918,7 @@ const _supabaseAuthChangeHandler: { data: { subscription: Subscription } } =
                         // ? If the dashboard is not loading, save right away
                         if (!loader.classList.contains("despawning")) {
                             dashboard.save();
+                            console.log("Already ready");
                             // ? Otherwise, if it still is (i.e. this was a confirmation email click)
                         } else {
                             // ? Then wait till the dashboard's loaded event is fired,
