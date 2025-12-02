@@ -873,11 +873,13 @@ const _supabaseAuthChangeHandler: { data: { subscription: Subscription } } =
 
                         // ? And thus, if there is less than half a second in between the two times,
                         // ? it was the first signin
-                        firstTime =
+                        if (
                             Math.abs(
                                 lastSignInTime.getTime()
                                     - verificationTime.getTime(),
-                            ) <= 500;
+                            ) <= 500
+                        )
+                            firstTime = true;
                         // ? Clear the URL hash
                         history.pushState(
                             "",
