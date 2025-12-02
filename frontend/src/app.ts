@@ -859,6 +859,10 @@ const _supabaseAuthChangeHandler: { data: { subscription: Subscription } } =
 
                     // ? If, after signing in, the user's last signin time and their email confirmation
                     // ? time are the same, then this login was the confirmation link click
+                    console.log(
+                        session.user.last_sign_in_at,
+                        session.user.email_confirmed_at,
+                    );
                     if (
                         session.user.last_sign_in_at
                         === session.user.email_confirmed_at
