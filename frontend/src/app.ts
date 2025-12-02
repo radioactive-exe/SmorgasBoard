@@ -896,10 +896,10 @@ const _supabaseAuthChangeHandler: { data: { subscription: Subscription } } =
             // ? If the change was a Token refresh, update the stored access token
             else if (e == "TOKEN_REFRESHED" && user && session && session.user)
                 user.access_token = session.access_token;
+            // ? If the page was opened by following a password reset button/link in the password reset email,
+            // ? then open the password reset screen
             else if (e == "PASSWORD_RECOVERY") {
-                console.log("Recovery requested", user, session, session?.user);
-                form?.classList.add("visible");
-                form?.classList.add("visible");
+                goToPasswordResetScreen();
             }
 
             // console.log("!!", e);
@@ -913,7 +913,6 @@ document.addEventListener("keydown", async (e) => {
             dashboard.toggleEditMode();
             break;
         case "ArrowLeft":
-            goToPasswordResetScreen();
     }
 });
 
