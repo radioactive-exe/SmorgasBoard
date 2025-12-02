@@ -128,10 +128,21 @@ function spawnAlert(
         alert.classList.add("visible");
     }, 100);
 
-    /** ? Automatic dismissal of the alert after 5 seconds. */
-    alertDismissTimeout = setTimeout(() => {
-        dismissAlert(alert);
-    }, 5000);
+    // ? Automatic dismissal of the alert after a number of seconds determined
+    // ? by the AlertLevel.
+    alertDismissTimeout = setTimeout(
+        () => {
+            dismissAlert(alert);
+        },
+        // ? Error alerts stay for 20 seconds
+        alertLevel == AlertLevel.ERROR
+            ? 20000
+            : // ? Warning alerts stay for 10 seconds
+              alertLevel == AlertLevel.WARNING
+              ? 10000
+              : // ? Info alerts stay for 5 seconds
+                5000,
+    );
 
     /**
      * ? A manual way to dismiss the alert before the 5 seconds if needed/wanted
