@@ -437,6 +437,7 @@ async function validateAndResetPassword(
 function goToRegisterScreen(): void {
     form?.classList.add("visible");
     form?.classList.add("new-user");
+    form?.classList.remove("resetting-password");
 
     // ? Make the username input required and tab-focusable (i.e. let the user focus on it by pressing tab)
     usernameInput.setAttribute("required", "true");
