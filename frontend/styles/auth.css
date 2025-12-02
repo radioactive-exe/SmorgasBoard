@@ -30,6 +30,11 @@
                 opacity: 0;
                 transform: translate(-10rem);
             }
+
+            &#reset-password-title {
+                opacity: 0;
+                transform: translateY(-5rem);
+            }
         }
     }
 
@@ -44,18 +49,21 @@
         transform: translate(0, var(--input-height));
     }
 
-    & #email-selector {
+    & #email-selector,
+    & #password-selector {
         margin: 0;
     }
 
-    & #password-selector {
+    & #password-selector,
+    & #confirm-password-selector {
         margin-top: 0;
 
-        & #password {
+        & #password,
+        & #confirm-password {
             padding-right: 4rem;
         }
 
-        & #password-visibility-button {
+        & .password-visibility-button {
             --icon-svg: url("../public/assets/graphics/eye.svg");
             position: absolute;
             right: 1rem;
@@ -66,6 +74,10 @@
         }
     }
 
+    & #confirm-password-selector {
+        opacity: 0;
+    }
+
     & button {
         position: absolute;
 
@@ -73,6 +85,12 @@
             opacity: 0;
             pointer-events: none;
             transform: translate(-12rem);
+        }
+
+        &#reset-password-button {
+            opacity: 0;
+            pointer-events: none;
+            transform: translateY(-5rem);
         }
 
         &#close-form-button {
@@ -96,6 +114,8 @@
     & .subtitle-container {
         display: flex;
         justify-content: center;
+        align-items: end;
+        width: max-content;
         height: var(--input-padding);
         margin-top: auto;
         margin-bottom: -1rem;
@@ -104,6 +124,10 @@
 
         & .subtitle {
             position: absolute;
+            display: flex;
+            flex-flow: column nowrap;
+            justify-content: center;
+            align-items: center;
             user-select: none;
             transition: inherit;
 
@@ -111,6 +135,12 @@
                 opacity: 0;
                 pointer-events: none;
                 transform: translate(-15rem);
+            }
+
+            &#reset-password-subtitle {
+                opacity: 0;
+                pointer-events: none;
+                transform: translateY(-10rem);
             }
         }
     }
@@ -122,6 +152,10 @@
 
         & #email-selector {
             margin-top: calc(var(--input-height) + var(--input-padding));
+        }
+
+        & #confirm-password-selector {
+            opacity: 1;
         }
 
         & .form-title-container h1 {
@@ -164,6 +198,78 @@
                     opacity: 1;
                     pointer-events: all;
                     transform: translate(0);
+                }
+            }
+        }
+    }
+
+    &.resetting-password {
+        & #email-selector {
+            margin-bottom: calc(-1 * var(--input-height));
+            opacity: 0;
+        }
+
+        & #confirm-password-selector {
+            opacity: 1;
+        }
+
+        & .form-title-container h1 {
+            &#register-title {
+                opacity: 0;
+                transform: translate(-10rem);
+            }
+
+            &#login-title {
+                opacity: 0;
+                transform: translate(10rem);
+            }
+
+            &#reset-password-title {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        & .button-container {
+            & .button {
+                &#register-button {
+                    opacity: 0;
+                    pointer-events: none;
+                    transform: translate(-12rem);
+                }
+
+                &#login-button {
+                    opacity: 0;
+                    pointer-events: none;
+                    transform: translate(12rem);
+                }
+
+                &#reset-password-button {
+                    opacity: 1;
+                    pointer-events: all;
+                    transform: translateY(0);
+                }
+            }
+        }
+
+        & .subtitle-container {
+            & .subtitle {
+                &#register-subtitle {
+                    opacity: 0;
+                    pointer-events: none;
+                    transform: translate(15rem);
+                }
+
+                &#login-subtitle {
+                    opacity: 0;
+                    pointer-events: none;
+                    transform: translate(-15rem);
+                }
+
+                &#reset-password-subtitle {
+                    opacity: 1;
+                    pointer-events: all;
+                    transform: translateY(0);
                 }
             }
         }

@@ -606,8 +606,9 @@
 }
 
 button {
-    width: 10rem;
+    min-width: 10rem;
     height: var(--input-height);
+    padding: 0 var(--input-padding);
     border: none;
     border-radius: var(--small-border-radius);
     background: var(--input-bg);
@@ -624,7 +625,6 @@ button {
     transition-property: width, background, box-shadow, letter-spacing, transform, opacity;
 
     &:hover {
-        width: 12rem;
         background: hsl(from var(--input-bg) h s calc(l * 1.1));
         box-shadow: 0.1rem 0.1rem 1rem 0.1rem var(--shadow-col),
             inset 0.2rem 0.2rem 0.2rem 0 hsl(from var(--input-bg) h s calc(l * 2) / 0.6),

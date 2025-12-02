@@ -23,7 +23,7 @@ import type {
 
 import { createClient } from "@supabase/supabase-js";
 
-import { form } from "./auth.js";
+import { form, goToPasswordResetScreen } from "./auth.js";
 import type { Size } from "./classes/area.js";
 import { Area } from "./classes/area.js";
 import { Dashboard } from "./classes/dashboard.js";
@@ -759,7 +759,7 @@ let _smorgasbaseChangesListener: RealtimeChannel;
  */
 const _supabaseAuthChangeHandler: { data: { subscription: Subscription } } =
     supabase.auth.onAuthStateChange(
-        async (e: AuthChangeEvent, session: Session | null) => {
+        (e: AuthChangeEvent, session: Session | null) => {
             // ? If the state change was a sign in event, either for the first time or a returning login
             if (e == "SIGNED_IN" && session && session.user) {
                 // ? Store the user data from the resulting session in the event (if all went well)
@@ -865,7 +865,7 @@ const _supabaseAuthChangeHandler: { data: { subscription: Subscription } } =
                         dashboard.save();
 
                         // ? And then send the welcome email!
-                        await supabase.functions.invoke("hello-world", {
+                        supabase.functions.invoke("hello-world", {
                             body: {
                                 email: user.email,
                                 username: user.username,
@@ -896,6 +896,11 @@ const _supabaseAuthChangeHandler: { data: { subscription: Subscription } } =
             // ? If the change was a Token refresh, update the stored access token
             else if (e == "TOKEN_REFRESHED" && user && session && session.user)
                 user.access_token = session.access_token;
+            else if (e == "PASSWORD_RECOVERY") {
+                console.log("Recovery requested", user, session, session?.user);
+                form?.classList.add("visible");
+                form?.classList.add("visible");
+            }
 
             // console.log("!!", e);
         },
@@ -908,6 +913,7 @@ document.addEventListener("keydown", async (e) => {
             dashboard.toggleEditMode();
             break;
         case "ArrowLeft":
+            goToPasswordResetScreen();
     }
 });
 

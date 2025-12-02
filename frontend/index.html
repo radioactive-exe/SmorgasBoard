@@ -153,6 +153,7 @@
                 <div class="form-title-container">
                     <h1 id="register-title">Join the Family!</h1>
                     <h1 id="login-title">Welcome Back!</h1>
+                    <h1 id="reset-password-title">Reset your Password</h1>
                 </div>
 
                 <div class="selector string-selector" id="username-selector">
@@ -191,28 +192,79 @@
                         />
                         <span class="string-selector-label-text">Password</span>
                         <div
-                            class="icon eye-icon"
-                            id="password-visibility-button"
+                            class="icon eye-icon password-visibility-button"
+                        ></div>
+                    </label>
+                </div>
+                <div
+                    class="selector string-selector"
+                    id="confirm-password-selector"
+                >
+                    <label class="string-selector-label">
+                        <input
+                            class="string-selector-input"
+                            id="confirm-password"
+                            type="password"
+                            name=""
+                            placeholder=""
+                            required
+                        />
+                        <span class="string-selector-label-text"
+                            >Confirm Password</span
+                        >
+                        <div
+                            class="icon eye-icon password-visibility-button"
                         ></div>
                     </label>
                 </div>
                 <div class="subtitle-container">
                     <p class="subtitle" id="register-subtitle">
-                        First time here?
-                        <span class="clickable" id="register-subtitle-clickable"
-                            >Sign up!</span
-                        >
+                        <span class="subtitle-entry">
+                            Feeling a bit forgetful? That's okay. Click
+                            <span
+                                class="clickable"
+                                id="reset-password-clickable"
+                                >here</span
+                            >
+                            to send a password reset email!
+                        </span>
+                        <span class="subtitle-entry">
+                            First time here?
+                            <span
+                                class="clickable"
+                                id="register-subtitle-clickable"
+                                >Sign up!</span
+                            >
+                        </span>
                     </p>
                     <p class="subtitle" id="login-subtitle">
-                        Already part of the family?
-                        <span class="clickable" id="login-subtitle-clickable"
-                            >Log in!</span
-                        >
+                        <span class="subtitle-entry">
+                            Already part of the family?
+                            <span
+                                class="clickable"
+                                id="login-subtitle-clickable"
+                                >Log in!</span
+                            >
+                        </span>
+                    </p>
+                    <p class="subtitle" id="reset-password-subtitle">
+                        <span class="subtitle-entry">
+                            Remember your password? Try
+                            <span class="clickable" id="back-to-login-clickable"
+                                >Logging in!</span
+                            >
+                        </span>
                     </p>
                 </div>
                 <div class="button-container">
                     <button class="button submit-button" id="register-button">
                         Sign Up
+                    </button>
+                    <button
+                        class="button submit-button"
+                        id="reset-password-button"
+                    >
+                        Reset Password
                     </button>
                     <button class="button submit-button" id="login-button">
                         Login
@@ -255,13 +307,13 @@
                 </div>
             </div>
 
-            <div class="loader">
+            <!-- <div class="loader">
                 <div class="ball-container">
                     <div class="ball"></div>
                     <div class="ball"></div>
                     <div class="ball"></div>
                 </div>
-            </div>
+            </div> -->
         </div>
 
         <svg id="filter-container">
