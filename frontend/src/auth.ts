@@ -221,6 +221,12 @@ async function register(
     } else if (registrationResult.data.user) {
         // ? If we get here, the signup was successful, and all that is left is for the user to confirm/verify their email!
 
+        // ? Clear all the inputs
+        emailInput.value = "";
+        usernameInput.value = "";
+        passwordInput.value = "";
+        confirmPasswordInput.value = "";
+
         statusMessage = {
             success: `Great! Welcome to SmorgasBoard. One last step, just check the confirmation email you just got (or should get in a bit) to confirm your email address.`,
         };
@@ -304,6 +310,13 @@ async function login(email: string, password: string): Promise<void> {
         }
     } else if (loginResult.data.user) {
         // ? If we get here, the user has successfully logged in, and we have populated the local user with all necessary information (in the `SIGNED_IN` handler)!
+
+        // ? Clear all the inputs
+        emailInput.value = "";
+        usernameInput.value = "";
+        passwordInput.value = "";
+        confirmPasswordInput.value = "";
+
         statusMessage = {
             success: `Welcome back, ${user?.username ?? "Placeholder_User"}!`,
         };
@@ -420,6 +433,12 @@ async function validateAndResetPassword(
                 "Password successfully reset! Go ahead and log in!",
                 AlertLevel.INFO,
             );
+
+            // ? Clear all the inputs
+            emailInput.value = "";
+            usernameInput.value = "";
+            passwordInput.value = "";
+            confirmPasswordInput.value = "";
 
             // ? Go to the login screen
             goToLoginScreen();
