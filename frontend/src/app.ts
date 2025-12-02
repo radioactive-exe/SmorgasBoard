@@ -908,9 +908,6 @@ const _supabaseAuthChangeHandler: { data: { subscription: Subscription } } =
                                 username: user.username,
                             },
                         });
-
-                        // ? Reset the firstTime variable
-                        firstTime = false;
                     }
                 }
 
