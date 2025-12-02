@@ -857,21 +857,14 @@ const _supabaseAuthChangeHandler: { data: { subscription: Subscription } } =
                         })
                         .subscribe();
 
-                    // ? If there is a hash in the URL, which is custom set to happen if this was an email
-                    // ? verification click
-                    if (window.location.hash) {
-                        // ? Extract the Hash content, parse as a map of parameters and values, then get the
-                        // ? verification hash (if present)
-                        const hashContent: string =
-                            window.location.hash.substring(1);
-                        const hashParameters = new URLSearchParams(hashContent);
-                        const verificationHash: string | null =
-                            hashParameters.get("verified");
-
-                        // ? If the hash parameter is present (albeit empty), this was the first
-                        // ? signin after confirming the email
-                        if (verificationHash != null) firstTime = true;
-
+                    // ? If, after signing in, the user's last signin time and their email confirmation
+                    // ? time are the same, then this login was the confirmation link click
+                    if (
+                        session.user.last_sign_in_at
+                        === session.user.email_confirmed_at
+                    ) {
+                        // ? And thus, it was the first signin
+                        firstTime = true;
                         // ? Clear the URL hash
                         history.pushState(
                             "",
