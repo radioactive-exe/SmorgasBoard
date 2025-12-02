@@ -97,13 +97,9 @@
             top: var(--input-padding);
             right: var(--input-padding);
             display: flex;
+            gap: 1rem;
             justify-content: space-around;
             align-items: center;
-            width: 13rem;
-
-            &:hover {
-                width: 18rem;
-            }
 
             & .exit-icon {
                 background: var(--text-primary);

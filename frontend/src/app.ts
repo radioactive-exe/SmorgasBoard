@@ -30,6 +30,7 @@ import { Dashboard } from "./classes/dashboard.js";
 import { Panel } from "./classes/panel/panel.js";
 import { PanelType } from "./classes/panel/panel_type.js";
 import { Theme } from "./classes/theme.js";
+import { AlertLevel, spawnAlert } from "./elements/alert.js";
 
 import {
     deletePanelButton,
@@ -45,7 +46,6 @@ import {
 import { snapElementToTarget } from "./functions/manip.js";
 import * as utils from "./functions/util.js";
 import type { DashboardDataFetch } from "./querying.js";
-import { AlertLevel, spawnAlert } from "./elements/alert.js";
 
 // ~ Supabase Client, and Authentication/Database related variables
 
