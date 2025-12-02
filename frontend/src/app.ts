@@ -880,6 +880,7 @@ const _supabaseAuthChangeHandler: { data: { subscription: Subscription } } =
                             ) <= 500
                         )
                             firstTime = true;
+                        
                         // ? Clear the URL hash
                         history.pushState(
                             "",
@@ -1005,7 +1006,7 @@ const _supabaseAuthChangeHandler: { data: { subscription: Subscription } } =
                 goToPasswordResetScreen();
             }
 
-            // console.log("!!", e);
+            console.log("!!", e);
         },
     );
 
