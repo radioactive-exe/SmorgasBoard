@@ -223,7 +223,7 @@ async function register(
         // ? If we get here, the signup was successful, and all that is left is for the user to confirm/verify their email!
 
         statusMessage = {
-            success: `Great! Welcome to SmorgasBoard, ${user?.username ?? "Placeholder_User"}. One last step, just check the confirmation email you just got (or should get in a bit) to confirm your email address.`,
+            success: `Great! Welcome to SmorgasBoard. One last step, just check the confirmation email you just got (or should get in a bit) to confirm your email address.`,
         };
     }
     spawnAlert(

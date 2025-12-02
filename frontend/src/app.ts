@@ -861,6 +861,10 @@ const _supabaseAuthChangeHandler: { data: { subscription: Subscription } } =
                     if (!firstTime) {
                         dashboard.load();
                     } else {
+                        spawnAlert(
+                            `Awesome! Your email is all verified! Enjoy your stay, ${user.username}`,
+                            AlertLevel.INFO,
+                        );
                         // ? Otherwise, if this is a first time register, save all the local data to the cloud
                         dashboard.save();
 
