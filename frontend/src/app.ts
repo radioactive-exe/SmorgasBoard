@@ -921,7 +921,7 @@ const _supabaseAuthChangeHandler: { data: { subscription: Subscription } } =
                     if (errorDesc) {
                         spawnAlert(
                             (errorDesc.length > 0
-                                ? errorDesc
+                                ? errorDesc + "."
                                 : "There's something wrong with the URL you used. Please submit an issue on the GitHub repository with the error code and how you got here.")
                                 + "Error code: "
                                 + errorCode
