@@ -880,54 +880,72 @@ const _supabaseAuthChangeHandler: { data: { subscription: Subscription } } =
                 // * The username, for the good-bye alert
                 const username = user?.username;
 
-                // ? Clear the stored user
-                user = null;
+                // ? If the currently stored user exists.
+                // ! This is checked as an invalid OTP/password reset link
+                // ! triggers a SIGNED_OUT event, so check that the user before this
+                // ! event was fired existed. If they didn't, then this fire off
+                // ! was the result of something like the OTP/link expiration,
+                // ! and not an act of a signed in user signing out manually
+                // ! (as, again, there was no stored user).
+                if (user != null) {
+                    // ? Clear the stored user
+                    user = null;
 
-                // ? Update which menus are shown in the auth/personal nav
-                anonAuthMenu?.style.setProperty("display", "inherit");
-                loggedInAuthMenu?.style.setProperty("display", "none");
-                personalNavButton?.classList.remove("active");
+                    // ? Update which menus are shown in the auth/personal nav
+                    anonAuthMenu?.style.setProperty("display", "inherit");
+                    loggedInAuthMenu?.style.setProperty("display", "none");
+                    personalNavButton?.classList.remove("active");
 
-                // ? Clear the dashboard and restore any local data,
-                // ? But show the loader first for a bit and announce the user's departure
-                dashboard.clear();
-                loader.classList.remove("despawning");
-                spawnAlert(
-                    `Bye-bye, ${username ?? "Placeholder_Username"}! Hope to see you back again soon.`,
-                    AlertLevel.INFO,
-                );
-                setTimeout(() => {
-                    dashboard.load();
-                }, 1000);
+                    // ? Clear the dashboard and restore any local data,
+                    // ? But show the loader first for a bit and announce the user's departure
+                    dashboard.clear();
+                    loader.classList.remove("despawning");
+                    spawnAlert(
+                        `Bye-bye, ${username ?? "Placeholder_Username"}! Hope to see you back again soon.`,
+                        AlertLevel.INFO,
+                    );
+                    setTimeout(() => {
+                        dashboard.load();
+                    }, 1000);
+                }
 
                 // ? If the change was the start of a session, either logged in or anonymous
             } else if (e == "INITIAL_SESSION") {
+                // ? Only load if the session is anonymous.
+                // ? If it is not, then the `SIGNED_IN` event was fired off before this,
+                // ? and the loading for the authenticated user was handled there.
+                if (!user) dashboard.load();
+
                 // ? Check for the presence of a hash in the URL.
                 // ? This implies the URL was accessed from a special link
                 // ? (given the current implementation), such as the
                 // ? password reset link. If the latter is the case, the error will be present
                 if (window.location.hash) {
                     // ? Extract the Hash content, parse as a map of parameters and values, then get the
-                    // ? error description
+                    // ? error description and codes
                     const hashContent: string =
                         window.location.hash.substring(1);
                     const hashParameters = new URLSearchParams(hashContent);
                     const errorDesc: string | null =
                         hashParameters.get("error_description");
-                    const errorCode: string | null = hashParameters.get("code");
+                    const errorCode: string | null =
+                        hashParameters.get("error_code");
 
                     // ? If present, send an alert with the error description (such as an expired OTP)
                     // ? and the error code (if present), or a message stating no error code exists.
                     if (errorDesc) {
                         spawnAlert(
-                            (errorDesc.length > 0
-                                ? errorDesc + "."
-                                : "There's something wrong with the URL you used. Please submit an issue on the GitHub repository with the error code and how you got here.")
-                                + "Error code: "
-                                + errorCode
-                                != null
-                                ? (errorCode as string)
-                                : "<No Error code>",
+                            `
+                            ${
+                                errorDesc.length > 0
+                                    ? errorDesc
+                                    : "There's something wrong with the URL you used. Please submit an issue on the GitHub repository with the error code and how you got here"
+                            }. Error code: ${
+                                errorCode != null
+                                    ? (errorCode as string)
+                                    : "<No Error code>"
+                            }
+                            `,
                             AlertLevel.ERROR,
                         );
                     }
@@ -939,11 +957,6 @@ const _supabaseAuthChangeHandler: { data: { subscription: Subscription } } =
                         window.location.pathname,
                     );
                 }
-
-                // ? Only load if the session is anonymous.
-                // ? If it is not, then the `SIGNED_IN` event was fired off before this,
-                // ? and the loading for the authenticated user was handled there.
-                if (!user) dashboard.load();
             }
             // ? If the change was a Token refresh, update the stored access token
             else if (e == "TOKEN_REFRESHED" && user && session && session.user)
@@ -954,7 +967,7 @@ const _supabaseAuthChangeHandler: { data: { subscription: Subscription } } =
                 goToPasswordResetScreen();
             }
 
-            console.log("!!", e);
+            // console.log("!!", e);
         },
     );
 
