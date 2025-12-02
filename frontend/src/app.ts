@@ -45,6 +45,7 @@ import {
 import { snapElementToTarget } from "./functions/manip.js";
 import * as utils from "./functions/util.js";
 import type { DashboardDataFetch } from "./querying.js";
+import { AlertLevel, spawnAlert } from "./elements/alert.js";
 
 // ~ Supabase Client, and Authentication/Database related variables
 
@@ -876,6 +877,9 @@ const _supabaseAuthChangeHandler: { data: { subscription: Subscription } } =
 
                 // ? If the change was a Sign out event.
             } else if (e == "SIGNED_OUT") {
+                // * The username, for the good-bye alert
+                const username = user?.username;
+
                 // ? Clear the stored user
                 user = null;
 
@@ -884,9 +888,17 @@ const _supabaseAuthChangeHandler: { data: { subscription: Subscription } } =
                 loggedInAuthMenu?.style.setProperty("display", "none");
                 personalNavButton?.classList.remove("active");
 
-                // ? Clear the dashboard and restore any local data
+                // ? Clear the dashboard and restore any local data,
+                // ? But show the loader first for a bit and announce the user's departure
                 dashboard.clear();
-                dashboard.load();
+                loader.classList.remove("despawning");
+                spawnAlert(
+                    `Bye-bye, ${username ?? "Placeholder_Username"}! Hope to see you back again soon.`,
+                    AlertLevel.INFO,
+                );
+                setTimeout(() => {
+                    dashboard.load();
+                }, 1000);
 
                 // ? If the change was the start of a session, either logged in or anonymous
                 // ? Only load if the session is anonymous.
