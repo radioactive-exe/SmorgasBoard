@@ -610,13 +610,17 @@ class Dashboard extends HTMLElement {
      * @see {@link Panel.setContent | Panel.setContent()}
      */
     private saveToCloud(): void {
-        // ? Populate the payload and send
-        patchIntoSmorgasBase("dashboard", {
-            free_ids: [...this.freeIds],
-            panels: this.panelInstances,
-            dimensions: this.dimensions,
-            theme: this.currentTheme.getId(),
-        });
+        try {
+            // ? Populate the payload and send
+            patchIntoSmorgasBase("dashboard", {
+                free_ids: [...this.freeIds],
+                panels: this.panelInstances,
+                dimensions: this.dimensions,
+                theme: this.currentTheme.getId(),
+            });
+        } catch {
+            console.error("Invalid panels sent. Check storage");
+        }
     }
 
     /**

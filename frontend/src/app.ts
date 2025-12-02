@@ -593,9 +593,15 @@ function setDocumentHandlers(): void {
     document.addEventListener("pointerup", documentPointerHandlers.release);
 }
 
-/** Close/hide the loader as loading the dashboard has finished. */
+/**
+ * Close/hide the loader as loading the dashboard has finished, and fire off the
+ * finished loading event.
+ */
 function finishLoading(): void {
     loader.classList.add("despawning");
+    dashboard.dispatchEvent(
+        new CustomEvent("dashboard-loaded", { bubbles: true }),
+    );
 }
 
 // ~ Initialising context menu and its listeners and submenus
@@ -896,7 +902,6 @@ const _supabaseAuthChangeHandler: { data: { subscription: Subscription } } =
                         // ? Otherwise, if this is a first time signin after confirming,
                         // ? save all the local data to the cloud, and trigger a welcome alert
                     } else {
-                        dashboard.save();
                         spawnAlert(
                             `Awesome! Your email is all verified! Enjoy your stay, ${user.username}`,
                             AlertLevel.INFO,
@@ -909,6 +914,19 @@ const _supabaseAuthChangeHandler: { data: { subscription: Subscription } } =
                                 username: user.username,
                             },
                         });
+
+                        // ? If the dashboard is not loading, save right away
+                        if (!loader.classList.contains("despawning")) {
+                            dashboard.save();
+                            // ? Otherwise, if it still is (i.e. this was a confirmation email click)
+                        } else {
+                            // ? Then wait till the dashboard's loaded event is fired,
+                            // ? then save.
+                            dashboard.addEventListener(
+                                "dashboard-loaded",
+                                dashboard.save,
+                            );
+                        }
                     }
                 }
 
