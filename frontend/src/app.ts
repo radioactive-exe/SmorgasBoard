@@ -864,16 +864,12 @@ const _supabaseAuthChangeHandler: { data: { subscription: Subscription } } =
                         })
                         .subscribe();
 
-                    // ? If, after signing in, the user's last signin time and their email confirmation
-                    // ? time are the same (approximately), then this login was the confirmation link click
-                    if (
-                        session.user.last_sign_in_at
-                        && session.user.email_confirmed_at
-                    ) {
-                        // * The date formed from the last sign in time string and the email confirmation time string
-                        const lastSignInTime = new Date(
-                            session.user.last_sign_in_at,
-                        );
+                    // ? If, after signing in, the user's last session access time (now)
+                    // ? and their email confirmation time are the same (approximately), then this login
+                    // ? was the confirmation link click
+                    if (session.user.email_confirmed_at) {
+                        // * The current time (the current session access) and the email confirmation time
+                        const now = new Date();
                         const verificationTime = new Date(
                             session.user.email_confirmed_at,
                         );
@@ -881,10 +877,8 @@ const _supabaseAuthChangeHandler: { data: { subscription: Subscription } } =
                         // ? And thus, if there is less than half a second in between the two times,
                         // ? it was the first signin
                         if (
-                            Math.abs(
-                                lastSignInTime.getTime()
-                                    - verificationTime.getTime(),
-                            ) <= 500
+                            Math.abs(now.getTime() - verificationTime.getTime())
+                            <= 500
                         )
                             firstTime = true;
 
@@ -1010,7 +1004,7 @@ const _supabaseAuthChangeHandler: { data: { subscription: Subscription } } =
                 goToPasswordResetScreen();
             }
 
-            console.log("!!", e);
+            // console.log("!!", e);
         },
     );
 
