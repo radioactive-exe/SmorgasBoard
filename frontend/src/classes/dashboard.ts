@@ -663,6 +663,8 @@ class Dashboard extends HTMLElement {
     public load(): Promise<void> {
         // ? Show the loader
         loader.classList.remove("despawning");
+        // ? Stop any save timeout
+        clearTimeout(this.saveTimeout);
 
         // ? Load the theme, panels, and dimensions, lastly hiding the loader again
         return this.loadStoredTheme()

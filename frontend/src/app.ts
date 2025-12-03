@@ -928,6 +928,9 @@ const _supabaseAuthChangeHandler: { data: { subscription: Subscription } } =
                                 dashboard.save,
                             );
                         }
+
+                        // ? Reset the firstTime variable
+                        firstTime = false;
                     }
                 }
 
@@ -975,7 +978,8 @@ const _supabaseAuthChangeHandler: { data: { subscription: Subscription } } =
                 // ? Check for the presence of a hash in the URL.
                 // ? This implies the URL was accessed from a special link
                 // ? (given the current implementation), such as the
-                // ? password reset link. If the latter is the case, the error will be present
+                // ? password reset or confirmation link.
+                // ? If the latter is the case, an expired link will have an error code
                 if (window.location.hash) {
                     // ? Extract the Hash content, parse as a map of parameters and values, then get the
                     // ? error description and codes
