@@ -208,7 +208,7 @@ a {
     cursor: pointer;
     transition-timing-function: ease;
     transition-duration: var(--quick-transition-time);
-    transition-property: transform, background, box-shadow, width, height, padding, filter, top, right, left, bottom;
+    transition-property: transform, background, box-shadow, width, height, padding, margin, filter, top, right, left, bottom;
 }
 
 .glassy {

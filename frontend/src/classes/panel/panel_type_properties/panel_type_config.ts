@@ -52,7 +52,7 @@ class PanelTypeConfig {
                             optionValue: "full",
                         },
                         {
-                            optionLabel: "Long - Month is spelled out",
+                            optionLabel: "Long - Month spelled out",
                             optionValue: "long",
                         },
                         {
@@ -74,7 +74,7 @@ class PanelTypeConfig {
                             optionValue: "full",
                         },
                         {
-                            optionLabel: "Long - Month is spelled out",
+                            optionLabel: "Long - Month spelled out",
                             optionValue: "long",
                         },
                         {
