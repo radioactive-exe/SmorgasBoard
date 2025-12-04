@@ -504,6 +504,11 @@ panel-element[data-panel-type="WEATHER"] {
 
                 &.visible {
                     display: flex;
+
+                    &:is(.in-edit-mode) .preview-header.visible {
+                        width: calc(100% - 6rem);
+                        margin-right: 3rem;
+                    }
                 }
             }
 
