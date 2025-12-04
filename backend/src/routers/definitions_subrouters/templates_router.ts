@@ -41,7 +41,7 @@ const _templateHandler = templatesRouter.get(
         // ? Obtain the (potential) location for the template file
         const templateLocation = path.join(
             __dirname
-                + `/../../../definitions/templates/${req.params.panel}.html`,
+                + `${process.env.DEFINITIONS_RELATIVE_PATH}/templates/${req.params.panel}.html`,
         );
 
         // ? In case the panel parameter for which the template is requested does not

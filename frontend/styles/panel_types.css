@@ -501,6 +501,7 @@ panel-element[data-panel-type="WEATHER"] {
                 padding: 0.4rem 1rem;
                 border-radius: var(--small-border-radius);
                 background: var(--shadow-col);
+                transition: margin var(--quick-transition-time) ease, width var(--quick-transition-time) ease;
 
                 &.visible {
                     display: flex;
