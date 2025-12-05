@@ -23,11 +23,11 @@ import {
     url,
 } from "./declarations.js";
 
+dotenv.config();
+
 import apiRouter from "./routers/api_router.js";
 import databaseRouter from "./routers/database_router.js";
 import definitionsRouter from "./routers/definitions_router.js";
-
-dotenv.config();
 
 /**
  * The Supabase client created for use throughout the backend.
