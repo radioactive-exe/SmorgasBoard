@@ -43,8 +43,7 @@ const _templateHandler = templatesRouter.get(
             __dirname,
             process.env.DEFINITIONS_RELATIVE_PATH ?? "",
             "/templates/",
-            req.params.panel,
-            ".html",
+            `${req.params.panel}.html`,
         );
         console.log(templateLocation);
 
