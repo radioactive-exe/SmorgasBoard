@@ -40,8 +40,11 @@ const _templateHandler = templatesRouter.get(
 
         // ? Obtain the (potential) location for the template file
         const templateLocation = path.join(
-            __dirname
-                + `/../../../definitions/templates/${req.params.panel}.html`,
+            __dirname,
+            process.env.DEFINITIONS_RELATIVE_PATH ?? "",
+            "/templates/",
+            req.params.panel,
+            ".html",
         );
         console.log(templateLocation);
 
