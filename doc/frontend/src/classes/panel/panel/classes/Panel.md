@@ -6,7 +6,7 @@
 
 # Class: Panel
 
-Defined in: [frontend/src/classes/panel/panel.ts:81](https://github.com/radioactive-exe/SmorgasBoard/blob/8f4f7feb3d95b1e6f220d9a6d967884a54a55d8e/frontend/src/classes/panel/panel.ts#L81)
+Defined in: [frontend/src/classes/panel/panel.ts:81](https://github.com/radioactive-exe/SmorgasBoard/blob/9f1d0dc382a9eea2c4a3df32f8f8d12feec01794/frontend/src/classes/panel/panel.ts#L81)
 
 The crown jewel of Smorgasboard. This is the mighty Panel, the main element
 that serves as the cornerstone of the Dashboard. It can be manipulated,
@@ -35,7 +35,7 @@ new Panel(
    body?): Panel;
 ```
 
-Defined in: [frontend/src/classes/panel/panel.ts:132](https://github.com/radioactive-exe/SmorgasBoard/blob/8f4f7feb3d95b1e6f220d9a6d967884a54a55d8e/frontend/src/classes/panel/panel.ts#L132)
+Defined in: [frontend/src/classes/panel/panel.ts:132](https://github.com/radioactive-exe/SmorgasBoard/blob/9f1d0dc382a9eea2c4a3df32f8f8d12feec01794/frontend/src/classes/panel/panel.ts#L132)
 
 Creates an instance of Panel and initialises all relevant and important
 attributes, including the Config, etc.
@@ -82,12 +82,12 @@ HTMLElement.constructor;
 
 | Property                               | Modifier  | Type                                                 | Default value | Description                                                                                                                                                                                                                                                                                                            | Defined in                                                                                                                                                                        |
 | -------------------------------------- | --------- | ---------------------------------------------------- | ------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| <a id="area"></a> `area`               | `private` | [`Area`](../../../area/classes/Area.md)              | `undefined`   | The Area to initialise the Panel with (its location and size).                                                                                                                                                                                                                                                         | [frontend/src/classes/panel/panel.ts:133](https://github.com/radioactive-exe/SmorgasBoard/blob/8f4f7feb3d95b1e6f220d9a6d967884a54a55d8e/frontend/src/classes/panel/panel.ts#L133) |
-| <a id="config"></a> `config`           | `private` | `Record`\<`string`, `unknown`\> \| `undefined`       | `undefined`   | A Config to initialise the Panel with. Default is `undefined` as the Panel will be instantiated with the Default config for its PanelType, unless an explicit Config is loaded from saved data.                                                                                                                        | [frontend/src/classes/panel/panel.ts:136](https://github.com/radioactive-exe/SmorgasBoard/blob/8f4f7feb3d95b1e6f220d9a6d967884a54a55d8e/frontend/src/classes/panel/panel.ts#L136) |
-| <a id="dashboardid"></a> `dashboardId` | `private` | `number`                                             | `undefined`   | The unique ID the Panel will have in the Dashboard. This is readonly as this should not be changed after being created.                                                                                                                                                                                                | [frontend/src/classes/panel/panel.ts:135](https://github.com/radioactive-exe/SmorgasBoard/blob/8f4f7feb3d95b1e6f220d9a6d967884a54a55d8e/frontend/src/classes/panel/panel.ts#L135) |
-| <a id="keyelements"></a> `keyElements` | `private` | `Map`\<`string`, `HTMLElement` \| `null`\>           | `undefined`   | The KeyElements that this panel has. This is determined by its PanelType, and these elements are utilised in its behavioural execution. **See** - [PanelType](../../panel_type/classes/PanelType.md) - [bindKeyElements()](#bindkeyelements) - [getKeyElements()](#getkeyelements) - [getKeyElement()](#getkeyelement) | [frontend/src/classes/panel/panel.ts:91](https://github.com/radioactive-exe/SmorgasBoard/blob/8f4f7feb3d95b1e6f220d9a6d967884a54a55d8e/frontend/src/classes/panel/panel.ts#L91)   |
-| <a id="savetimeout"></a> `saveTimeout` | `private` | `Timeout`                                            | `undefined`   | The timeout to trigger a save. Mostly, this is used to show the Save icon, as the save delay is handled by the Dashboard itself. **See** [triggerSave()](#triggersave)                                                                                                                                                 | [frontend/src/classes/panel/panel.ts:98](https://github.com/radioactive-exe/SmorgasBoard/blob/8f4f7feb3d95b1e6f220d9a6d967884a54a55d8e/frontend/src/classes/panel/panel.ts#L98)   |
-| <a id="type"></a> `type`               | `private` | [`PanelType`](../../panel_type/classes/PanelType.md) | `undefined`   | The PanelType the Panel has.                                                                                                                                                                                                                                                                                           | [frontend/src/classes/panel/panel.ts:134](https://github.com/radioactive-exe/SmorgasBoard/blob/8f4f7feb3d95b1e6f220d9a6d967884a54a55d8e/frontend/src/classes/panel/panel.ts#L134) |
+| <a id="area"></a> `area`               | `private` | [`Area`](../../../area/classes/Area.md)              | `undefined`   | The Area to initialise the Panel with (its location and size).                                                                                                                                                                                                                                                         | [frontend/src/classes/panel/panel.ts:133](https://github.com/radioactive-exe/SmorgasBoard/blob/9f1d0dc382a9eea2c4a3df32f8f8d12feec01794/frontend/src/classes/panel/panel.ts#L133) |
+| <a id="config"></a> `config`           | `private` | `Record`\<`string`, `unknown`\> \| `undefined`       | `undefined`   | A Config to initialise the Panel with. Default is `undefined` as the Panel will be instantiated with the Default config for its PanelType, unless an explicit Config is loaded from saved data.                                                                                                                        | [frontend/src/classes/panel/panel.ts:136](https://github.com/radioactive-exe/SmorgasBoard/blob/9f1d0dc382a9eea2c4a3df32f8f8d12feec01794/frontend/src/classes/panel/panel.ts#L136) |
+| <a id="dashboardid"></a> `dashboardId` | `private` | `number`                                             | `undefined`   | The unique ID the Panel will have in the Dashboard. This is readonly as this should not be changed after being created.                                                                                                                                                                                                | [frontend/src/classes/panel/panel.ts:135](https://github.com/radioactive-exe/SmorgasBoard/blob/9f1d0dc382a9eea2c4a3df32f8f8d12feec01794/frontend/src/classes/panel/panel.ts#L135) |
+| <a id="keyelements"></a> `keyElements` | `private` | `Map`\<`string`, `HTMLElement` \| `null`\>           | `undefined`   | The KeyElements that this panel has. This is determined by its PanelType, and these elements are utilised in its behavioural execution. **See** - [PanelType](../../panel_type/classes/PanelType.md) - [bindKeyElements()](#bindkeyelements) - [getKeyElements()](#getkeyelements) - [getKeyElement()](#getkeyelement) | [frontend/src/classes/panel/panel.ts:91](https://github.com/radioactive-exe/SmorgasBoard/blob/9f1d0dc382a9eea2c4a3df32f8f8d12feec01794/frontend/src/classes/panel/panel.ts#L91)   |
+| <a id="savetimeout"></a> `saveTimeout` | `private` | `Timeout`                                            | `undefined`   | The timeout to trigger a save. Mostly, this is used to show the Save icon, as the save delay is handled by the Dashboard itself. **See** [triggerSave()](#triggersave)                                                                                                                                                 | [frontend/src/classes/panel/panel.ts:98](https://github.com/radioactive-exe/SmorgasBoard/blob/9f1d0dc382a9eea2c4a3df32f8f8d12feec01794/frontend/src/classes/panel/panel.ts#L98)   |
+| <a id="type"></a> `type`               | `private` | [`PanelType`](../../panel_type/classes/PanelType.md) | `undefined`   | The PanelType the Panel has.                                                                                                                                                                                                                                                                                           | [frontend/src/classes/panel/panel.ts:134](https://github.com/radioactive-exe/SmorgasBoard/blob/9f1d0dc382a9eea2c4a3df32f8f8d12feec01794/frontend/src/classes/panel/panel.ts#L134) |
 
 ## Methods
 
@@ -97,7 +97,7 @@ HTMLElement.constructor;
 addButtonListeners(): void;
 ```
 
-Defined in: [frontend/src/classes/panel/panel.ts:954](https://github.com/radioactive-exe/SmorgasBoard/blob/8f4f7feb3d95b1e6f220d9a6d967884a54a55d8e/frontend/src/classes/panel/panel.ts#L954)
+Defined in: [frontend/src/classes/panel/panel.ts:954](https://github.com/radioactive-exe/SmorgasBoard/blob/9f1d0dc382a9eea2c4a3df32f8f8d12feec01794/frontend/src/classes/panel/panel.ts#L954)
 
 Initialise all button handlers and listeners for both handles and
 buttons.
@@ -127,7 +127,7 @@ but this list may grow as the implementation evolves.
 addHoverListeners(): void;
 ```
 
-Defined in: [frontend/src/classes/panel/panel.ts:1059](https://github.com/radioactive-exe/SmorgasBoard/blob/8f4f7feb3d95b1e6f220d9a6d967884a54a55d8e/frontend/src/classes/panel/panel.ts#L1059)
+Defined in: [frontend/src/classes/panel/panel.ts:1059](https://github.com/radioactive-exe/SmorgasBoard/blob/9f1d0dc382a9eea2c4a3df32f8f8d12feec01794/frontend/src/classes/panel/panel.ts#L1059)
 
 Adds all hover handlers responsible for rotating the Panel on mouse
 hovering.
@@ -154,7 +154,7 @@ hovering.
 beginBehaviour(): void;
 ```
 
-Defined in: [frontend/src/classes/panel/panel.ts:1285](https://github.com/radioactive-exe/SmorgasBoard/blob/8f4f7feb3d95b1e6f220d9a6d967884a54a55d8e/frontend/src/classes/panel/panel.ts#L1285)
+Defined in: [frontend/src/classes/panel/panel.ts:1285](https://github.com/radioactive-exe/SmorgasBoard/blob/9f1d0dc382a9eea2c4a3df32f8f8d12feec01794/frontend/src/classes/panel/panel.ts#L1285)
 
 Begin executing the Panel's actual logic and behaviour.
 
@@ -179,7 +179,7 @@ This is determined by the PanelType, and is different for each Panel.
 private bindKeyElements(): void;
 ```
 
-Defined in: [frontend/src/classes/panel/panel.ts:1123](https://github.com/radioactive-exe/SmorgasBoard/blob/8f4f7feb3d95b1e6f220d9a6d967884a54a55d8e/frontend/src/classes/panel/panel.ts#L1123)
+Defined in: [frontend/src/classes/panel/panel.ts:1123](https://github.com/radioactive-exe/SmorgasBoard/blob/9f1d0dc382a9eea2c4a3df32f8f8d12feec01794/frontend/src/classes/panel/panel.ts#L1123)
 
 Bind and assign all KeyElements for the Panel.
 
@@ -205,7 +205,7 @@ having the value of one KeyElement.
 getArea(): Area;
 ```
 
-Defined in: [frontend/src/classes/panel/panel.ts:468](https://github.com/radioactive-exe/SmorgasBoard/blob/8f4f7feb3d95b1e6f220d9a6d967884a54a55d8e/frontend/src/classes/panel/panel.ts#L468)
+Defined in: [frontend/src/classes/panel/panel.ts:468](https://github.com/radioactive-exe/SmorgasBoard/blob/9f1d0dc382a9eea2c4a3df32f8f8d12feec01794/frontend/src/classes/panel/panel.ts#L468)
 
 Gets the Area of the current Panel.
 
@@ -228,7 +228,7 @@ position and size.
 getConfig(): Record<string, unknown> | undefined;
 ```
 
-Defined in: [frontend/src/classes/panel/panel.ts:447](https://github.com/radioactive-exe/SmorgasBoard/blob/8f4f7feb3d95b1e6f220d9a6d967884a54a55d8e/frontend/src/classes/panel/panel.ts#L447)
+Defined in: [frontend/src/classes/panel/panel.ts:447](https://github.com/radioactive-exe/SmorgasBoard/blob/9f1d0dc382a9eea2c4a3df32f8f8d12feec01794/frontend/src/classes/panel/panel.ts#L447)
 
 Gets the Panel's Config, if available.
 
@@ -251,7 +251,7 @@ has no Config Schema (and thus no Config was initialised).
 getContent(): PanelContent;
 ```
 
-Defined in: [frontend/src/classes/panel/panel.ts:682](https://github.com/radioactive-exe/SmorgasBoard/blob/8f4f7feb3d95b1e6f220d9a6d967884a54a55d8e/frontend/src/classes/panel/panel.ts#L682)
+Defined in: [frontend/src/classes/panel/panel.ts:682](https://github.com/radioactive-exe/SmorgasBoard/blob/9f1d0dc382a9eea2c4a3df32f8f8d12feec01794/frontend/src/classes/panel/panel.ts#L682)
 
 Get the Content of the Panel, parsed and formulated in a specific way
 depending on the PanelType.
@@ -284,7 +284,7 @@ Panel, thus affecting how to Get (this method) and Set
 getId(): number;
 ```
 
-Defined in: [frontend/src/classes/panel/panel.ts:456](https://github.com/radioactive-exe/SmorgasBoard/blob/8f4f7feb3d95b1e6f220d9a6d967884a54a55d8e/frontend/src/classes/panel/panel.ts#L456)
+Defined in: [frontend/src/classes/panel/panel.ts:456](https://github.com/radioactive-exe/SmorgasBoard/blob/9f1d0dc382a9eea2c4a3df32f8f8d12feec01794/frontend/src/classes/panel/panel.ts#L456)
 
 Get the numerical ID of the Panel in the Dashboard.
 
@@ -302,7 +302,7 @@ The ID the Panel has in the Dashboard.
 getInstance(): PanelInstance;
 ```
 
-Defined in: [frontend/src/classes/panel/panel.ts:927](https://github.com/radioactive-exe/SmorgasBoard/blob/8f4f7feb3d95b1e6f220d9a6d967884a54a55d8e/frontend/src/classes/panel/panel.ts#L927)
+Defined in: [frontend/src/classes/panel/panel.ts:927](https://github.com/radioactive-exe/SmorgasBoard/blob/9f1d0dc382a9eea2c4a3df32f8f8d12feec01794/frontend/src/classes/panel/panel.ts#L927)
 
 Gets the PanelInstance of this Panel.
 
@@ -326,7 +326,7 @@ use in loading and saving panels/dashboard data.
 getKeyElement(element): HTMLElement | null | undefined;
 ```
 
-Defined in: [frontend/src/classes/panel/panel.ts:1272](https://github.com/radioactive-exe/SmorgasBoard/blob/8f4f7feb3d95b1e6f220d9a6d967884a54a55d8e/frontend/src/classes/panel/panel.ts#L1272)
+Defined in: [frontend/src/classes/panel/panel.ts:1272](https://github.com/radioactive-exe/SmorgasBoard/blob/9f1d0dc382a9eea2c4a3df32f8f8d12feec01794/frontend/src/classes/panel/panel.ts#L1272)
 
 Gets a particular Key Element from the Panel's KeyElements map, used for
 direct access.
@@ -368,7 +368,7 @@ assigned a value, and the element assigned to it exists.
 getKeyElements(): Map<string, HTMLElement | null>;
 ```
 
-Defined in: [frontend/src/classes/panel/panel.ts:1245](https://github.com/radioactive-exe/SmorgasBoard/blob/8f4f7feb3d95b1e6f220d9a6d967884a54a55d8e/frontend/src/classes/panel/panel.ts#L1245)
+Defined in: [frontend/src/classes/panel/panel.ts:1245](https://github.com/radioactive-exe/SmorgasBoard/blob/9f1d0dc382a9eea2c4a3df32f8f8d12feec01794/frontend/src/classes/panel/panel.ts#L1245)
 
 Get all KeyElements for the Panel.
 
@@ -388,7 +388,7 @@ found when bound.
 getPosition(): Coordinates;
 ```
 
-Defined in: [frontend/src/classes/panel/panel.ts:537](https://github.com/radioactive-exe/SmorgasBoard/blob/8f4f7feb3d95b1e6f220d9a6d967884a54a55d8e/frontend/src/classes/panel/panel.ts#L537)
+Defined in: [frontend/src/classes/panel/panel.ts:537](https://github.com/radioactive-exe/SmorgasBoard/blob/9f1d0dc382a9eea2c4a3df32f8f8d12feec01794/frontend/src/classes/panel/panel.ts#L537)
 
 Gets the Panel's position.
 
@@ -414,7 +414,7 @@ The Position stored in the Panel's Area, as an object of type
 getSize(): Size;
 ```
 
-Defined in: [frontend/src/classes/panel/panel.ts:619](https://github.com/radioactive-exe/SmorgasBoard/blob/8f4f7feb3d95b1e6f220d9a6d967884a54a55d8e/frontend/src/classes/panel/panel.ts#L619)
+Defined in: [frontend/src/classes/panel/panel.ts:619](https://github.com/radioactive-exe/SmorgasBoard/blob/9f1d0dc382a9eea2c4a3df32f8f8d12feec01794/frontend/src/classes/panel/panel.ts#L619)
 
 Gets the size of the Panel.
 
@@ -440,7 +440,7 @@ Gets the size of the Panel.
 getType(): PanelType;
 ```
 
-Defined in: [frontend/src/classes/panel/panel.ts:661](https://github.com/radioactive-exe/SmorgasBoard/blob/8f4f7feb3d95b1e6f220d9a6d967884a54a55d8e/frontend/src/classes/panel/panel.ts#L661)
+Defined in: [frontend/src/classes/panel/panel.ts:661](https://github.com/radioactive-exe/SmorgasBoard/blob/9f1d0dc382a9eea2c4a3df32f8f8d12feec01794/frontend/src/classes/panel/panel.ts#L661)
 
 Gets the Panel's PanelType.
 
@@ -462,7 +462,7 @@ The type of Panel as an object of type [PanelType](../../panel_type/classes/Pane
 private init(existentConfig?, body?): void;
 ```
 
-Defined in: [frontend/src/classes/panel/panel.ts:168](https://github.com/radioactive-exe/SmorgasBoard/blob/8f4f7feb3d95b1e6f220d9a6d967884a54a55d8e/frontend/src/classes/panel/panel.ts#L168)
+Defined in: [frontend/src/classes/panel/panel.ts:168](https://github.com/radioactive-exe/SmorgasBoard/blob/9f1d0dc382a9eea2c4a3df32f8f8d12feec01794/frontend/src/classes/panel/panel.ts#L168)
 
 Initialise the Panel completely, starting with the base/template and
 ending when behaviour begins.
@@ -495,7 +495,7 @@ ending when behaviour begins.
 private initBase(): Promise<void>;
 ```
 
-Defined in: [frontend/src/classes/panel/panel.ts:215](https://github.com/radioactive-exe/SmorgasBoard/blob/8f4f7feb3d95b1e6f220d9a6d967884a54a55d8e/frontend/src/classes/panel/panel.ts#L215)
+Defined in: [frontend/src/classes/panel/panel.ts:215](https://github.com/radioactive-exe/SmorgasBoard/blob/9f1d0dc382a9eea2c4a3df32f8f8d12feec01794/frontend/src/classes/panel/panel.ts#L215)
 
 Initialise the base/empty body of the Panel with its buttons and
 container.
@@ -523,7 +523,7 @@ A promise that is resolved once the base has initialised.
 private initMenu(existentConfig?): Promise<void>;
 ```
 
-Defined in: [frontend/src/classes/panel/panel.ts:312](https://github.com/radioactive-exe/SmorgasBoard/blob/8f4f7feb3d95b1e6f220d9a6d967884a54a55d8e/frontend/src/classes/panel/panel.ts#L312)
+Defined in: [frontend/src/classes/panel/panel.ts:312](https://github.com/radioactive-exe/SmorgasBoard/blob/9f1d0dc382a9eea2c4a3df32f8f8d12feec01794/frontend/src/classes/panel/panel.ts#L312)
 
 Initiates the Panel's Menu, with an optional existing Config, otherwise
 initialising with the Default Config for the PanelType. This menu will
@@ -571,7 +571,7 @@ assigned to the Panel.
 initPreview(): void;
 ```
 
-Defined in: [frontend/src/classes/panel/panel.ts:1089](https://github.com/radioactive-exe/SmorgasBoard/blob/8f4f7feb3d95b1e6f220d9a6d967884a54a55d8e/frontend/src/classes/panel/panel.ts#L1089)
+Defined in: [frontend/src/classes/panel/panel.ts:1089](https://github.com/radioactive-exe/SmorgasBoard/blob/9f1d0dc382a9eea2c4a3df32f8f8d12feec01794/frontend/src/classes/panel/panel.ts#L1089)
 
 Set up the Preview with all necessary information to preview where the
 Panel would end up snapped to the grid while being manipulated.
@@ -593,7 +593,7 @@ Panel would end up snapped to the grid while being manipulated.
 private initTemplate(): Promise<void>;
 ```
 
-Defined in: [frontend/src/classes/panel/panel.ts:254](https://github.com/radioactive-exe/SmorgasBoard/blob/8f4f7feb3d95b1e6f220d9a6d967884a54a55d8e/frontend/src/classes/panel/panel.ts#L254)
+Defined in: [frontend/src/classes/panel/panel.ts:254](https://github.com/radioactive-exe/SmorgasBoard/blob/9f1d0dc382a9eea2c4a3df32f8f8d12feec01794/frontend/src/classes/panel/panel.ts#L254)
 
 Initiates the Panel's shape/content with its defined template in the
 backend, determined by its PanelType.
@@ -621,7 +621,7 @@ A promise that is resolved once the template has initialised.
 moveToCentre(): void;
 ```
 
-Defined in: [frontend/src/classes/panel/panel.ts:586](https://github.com/radioactive-exe/SmorgasBoard/blob/8f4f7feb3d95b1e6f220d9a6d967884a54a55d8e/frontend/src/classes/panel/panel.ts#L586)
+Defined in: [frontend/src/classes/panel/panel.ts:586](https://github.com/radioactive-exe/SmorgasBoard/blob/9f1d0dc382a9eea2c4a3df32f8f8d12feec01794/frontend/src/classes/panel/panel.ts#L586)
 
 Moves the Panel's body to the centre of the screen/window, both
 vertically and horizontally.
@@ -648,7 +648,7 @@ altering the position of the actual containing element.
 removeHoverListeners(): void;
 ```
 
-Defined in: [frontend/src/classes/panel/panel.ts:1072](https://github.com/radioactive-exe/SmorgasBoard/blob/8f4f7feb3d95b1e6f220d9a6d967884a54a55d8e/frontend/src/classes/panel/panel.ts#L1072)
+Defined in: [frontend/src/classes/panel/panel.ts:1072](https://github.com/radioactive-exe/SmorgasBoard/blob/9f1d0dc382a9eea2c4a3df32f8f8d12feec01794/frontend/src/classes/panel/panel.ts#L1072)
 
 Removes all hover handlers responsible for rotating the Panel on mouse
 hovering.
@@ -670,7 +670,7 @@ hovering.
 setArea(other): void;
 ```
 
-Defined in: [frontend/src/classes/panel/panel.ts:488](https://github.com/radioactive-exe/SmorgasBoard/blob/8f4f7feb3d95b1e6f220d9a6d967884a54a55d8e/frontend/src/classes/panel/panel.ts#L488)
+Defined in: [frontend/src/classes/panel/panel.ts:488](https://github.com/radioactive-exe/SmorgasBoard/blob/9f1d0dc382a9eea2c4a3df32f8f8d12feec01794/frontend/src/classes/panel/panel.ts#L488)
 
 Sets the Panel's Area to an inputted one.
 
@@ -705,7 +705,7 @@ The above sets the Panel's Area to be positioned at (0,0) with a size of
 setContent(content): Promise<void>;
 ```
 
-Defined in: [frontend/src/classes/panel/panel.ts:785](https://github.com/radioactive-exe/SmorgasBoard/blob/8f4f7feb3d95b1e6f220d9a6d967884a54a55d8e/frontend/src/classes/panel/panel.ts#L785)
+Defined in: [frontend/src/classes/panel/panel.ts:785](https://github.com/radioactive-exe/SmorgasBoard/blob/9f1d0dc382a9eea2c4a3df32f8f8d12feec01794/frontend/src/classes/panel/panel.ts#L785)
 
 Populates the Panel body with the loaded PanelContent in a way unique to
 the Panel Type.
@@ -753,7 +753,7 @@ string `body` as the content of the Notepad TextArea.
 setPosition(x, y): void;
 ```
 
-Defined in: [frontend/src/classes/panel/panel.ts:562](https://github.com/radioactive-exe/SmorgasBoard/blob/8f4f7feb3d95b1e6f220d9a6d967884a54a55d8e/frontend/src/classes/panel/panel.ts#L562)
+Defined in: [frontend/src/classes/panel/panel.ts:562](https://github.com/radioactive-exe/SmorgasBoard/blob/9f1d0dc382a9eea2c4a3df32f8f8d12feec01794/frontend/src/classes/panel/panel.ts#L562)
 
 Sets the Panel's position from an input set of absolute numbers (in
 pixels).
@@ -793,7 +793,7 @@ Dashboard.
 setSize(width, height): void;
 ```
 
-Defined in: [frontend/src/classes/panel/panel.ts:643](https://github.com/radioactive-exe/SmorgasBoard/blob/8f4f7feb3d95b1e6f220d9a6d967884a54a55d8e/frontend/src/classes/panel/panel.ts#L643)
+Defined in: [frontend/src/classes/panel/panel.ts:643](https://github.com/radioactive-exe/SmorgasBoard/blob/9f1d0dc382a9eea2c4a3df32f8f8d12feec01794/frontend/src/classes/panel/panel.ts#L643)
 
 Sets the Panel's Size from an input set of absolute numbers (in pixels).
 
@@ -832,7 +832,7 @@ tall.
 triggerSave(): void;
 ```
 
-Defined in: [frontend/src/classes/panel/panel.ts:1297](https://github.com/radioactive-exe/SmorgasBoard/blob/8f4f7feb3d95b1e6f220d9a6d967884a54a55d8e/frontend/src/classes/panel/panel.ts#L1297)
+Defined in: [frontend/src/classes/panel/panel.ts:1297](https://github.com/radioactive-exe/SmorgasBoard/blob/9f1d0dc382a9eea2c4a3df32f8f8d12feec01794/frontend/src/classes/panel/panel.ts#L1297)
 
 Triggers a save by firing off an update event that is listened to by the
 Dashboard.
@@ -854,7 +854,7 @@ icon after a delay, representing when the Dashboard save occurs.
 updateArea(): void;
 ```
 
-Defined in: [frontend/src/classes/panel/panel.ts:509](https://github.com/radioactive-exe/SmorgasBoard/blob/8f4f7feb3d95b1e6f220d9a6d967884a54a55d8e/frontend/src/classes/panel/panel.ts#L509)
+Defined in: [frontend/src/classes/panel/panel.ts:509](https://github.com/radioactive-exe/SmorgasBoard/blob/9f1d0dc382a9eea2c4a3df32f8f8d12feec01794/frontend/src/classes/panel/panel.ts#L509)
 
 Updates the current Panel's Area with the values in the style, in case
 there is ever a disconnect between the two.
@@ -886,7 +886,7 @@ styles, where they are handled by the Area constructor and rounded.
 updatePreview(): void;
 ```
 
-Defined in: [frontend/src/classes/panel/panel.ts:1109](https://github.com/radioactive-exe/SmorgasBoard/blob/8f4f7feb3d95b1e6f220d9a6d967884a54a55d8e/frontend/src/classes/panel/panel.ts#L1109)
+Defined in: [frontend/src/classes/panel/panel.ts:1109](https://github.com/radioactive-exe/SmorgasBoard/blob/9f1d0dc382a9eea2c4a3df32f8f8d12feec01794/frontend/src/classes/panel/panel.ts#L1109)
 
 Updates the Preview currently bound to the Panel, snapping it to the grid
 based on the position of this calling Panel.

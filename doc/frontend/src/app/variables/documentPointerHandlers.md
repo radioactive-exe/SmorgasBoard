@@ -10,7 +10,7 @@
 const documentPointerHandlers: object;
 ```
 
-Defined in: [frontend/src/app.ts:488](https://github.com/radioactive-exe/SmorgasBoard/blob/8f4f7feb3d95b1e6f220d9a6d967884a54a55d8e/frontend/src/app.ts#L488)
+Defined in: [frontend/src/app.ts:488](https://github.com/radioactive-exe/SmorgasBoard/blob/9f1d0dc382a9eea2c4a3df32f8f8d12feec01794/frontend/src/app.ts#L488)
 
 The handlers that are reassigned and utilised when manipulating Panels,
 either through resizing or dragging around.

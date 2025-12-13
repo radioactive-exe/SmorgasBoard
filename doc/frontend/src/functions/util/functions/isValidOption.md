@@ -10,7 +10,7 @@
 function isValidOption(possibleOptions, potentialValue): boolean;
 ```
 
-Defined in: [frontend/src/functions/util.ts:214](https://github.com/radioactive-exe/SmorgasBoard/blob/8f4f7feb3d95b1e6f220d9a6d967884a54a55d8e/frontend/src/functions/util.ts#L214)
+Defined in: [frontend/src/functions/util.ts:214](https://github.com/radioactive-exe/SmorgasBoard/blob/9f1d0dc382a9eea2c4a3df32f8f8d12feec01794/frontend/src/functions/util.ts#L214)
 
 Checks whether a particular config value is valid/part of the possible
 options.

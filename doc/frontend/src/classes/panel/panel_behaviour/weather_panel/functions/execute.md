@@ -10,7 +10,7 @@
 function execute(panel): void;
 ```
 
-Defined in: [frontend/src/classes/panel/panel_behaviour/weather_panel.ts:81](https://github.com/radioactive-exe/SmorgasBoard/blob/8f4f7feb3d95b1e6f220d9a6d967884a54a55d8e/frontend/src/classes/panel/panel_behaviour/weather_panel.ts#L81)
+Defined in: [frontend/src/classes/panel/panel_behaviour/weather_panel.ts:81](https://github.com/radioactive-exe/SmorgasBoard/blob/9f1d0dc382a9eea2c4a3df32f8f8d12feec01794/frontend/src/classes/panel/panel_behaviour/weather_panel.ts#L81)
 
 The main function called upon behaviour execution after the Panel template,
 base, and config setup, for the Weather PanelType.

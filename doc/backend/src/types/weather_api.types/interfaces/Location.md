@@ -6,7 +6,7 @@
 
 # Interface: Location
 
-Defined in: [backend/src/types/weather_api.types.ts:35](https://github.com/radioactive-exe/SmorgasBoard/blob/8f4f7feb3d95b1e6f220d9a6d967884a54a55d8e/backend/src/types/weather_api.types.ts#L35)
+Defined in: [backend/src/types/weather_api.types.ts:35](https://github.com/radioactive-exe/SmorgasBoard/blob/9f1d0dc382a9eea2c4a3df32f8f8d12feec01794/backend/src/types/weather_api.types.ts#L35)
 
 The general Location object inside Weather API responses.
 
@@ -20,11 +20,11 @@ the API. It is a type explained in the API Docs.
 
 | Property                                        | Type     | Defined in                                                                                                                                                                            |
 | ----------------------------------------------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| <a id="country"></a> `country`                  | `string` | [backend/src/types/weather_api.types.ts:38](https://github.com/radioactive-exe/SmorgasBoard/blob/8f4f7feb3d95b1e6f220d9a6d967884a54a55d8e/backend/src/types/weather_api.types.ts#L38) |
-| <a id="lat"></a> `lat`                          | `number` | [backend/src/types/weather_api.types.ts:39](https://github.com/radioactive-exe/SmorgasBoard/blob/8f4f7feb3d95b1e6f220d9a6d967884a54a55d8e/backend/src/types/weather_api.types.ts#L39) |
-| <a id="localtime"></a> `localtime`              | `string` | [backend/src/types/weather_api.types.ts:42](https://github.com/radioactive-exe/SmorgasBoard/blob/8f4f7feb3d95b1e6f220d9a6d967884a54a55d8e/backend/src/types/weather_api.types.ts#L42) |
-| <a id="localtime_epoch"></a> `localtime_epoch?` | `number` | [backend/src/types/weather_api.types.ts:43](https://github.com/radioactive-exe/SmorgasBoard/blob/8f4f7feb3d95b1e6f220d9a6d967884a54a55d8e/backend/src/types/weather_api.types.ts#L43) |
-| <a id="lon"></a> `lon`                          | `number` | [backend/src/types/weather_api.types.ts:40](https://github.com/radioactive-exe/SmorgasBoard/blob/8f4f7feb3d95b1e6f220d9a6d967884a54a55d8e/backend/src/types/weather_api.types.ts#L40) |
-| <a id="name"></a> `name`                        | `string` | [backend/src/types/weather_api.types.ts:36](https://github.com/radioactive-exe/SmorgasBoard/blob/8f4f7feb3d95b1e6f220d9a6d967884a54a55d8e/backend/src/types/weather_api.types.ts#L36) |
-| <a id="region"></a> `region`                    | `string` | [backend/src/types/weather_api.types.ts:37](https://github.com/radioactive-exe/SmorgasBoard/blob/8f4f7feb3d95b1e6f220d9a6d967884a54a55d8e/backend/src/types/weather_api.types.ts#L37) |
-| <a id="tz_id"></a> `tz_id?`                     | `string` | [backend/src/types/weather_api.types.ts:41](https://github.com/radioactive-exe/SmorgasBoard/blob/8f4f7feb3d95b1e6f220d9a6d967884a54a55d8e/backend/src/types/weather_api.types.ts#L41) |
+| <a id="country"></a> `country`                  | `string` | [backend/src/types/weather_api.types.ts:38](https://github.com/radioactive-exe/SmorgasBoard/blob/9f1d0dc382a9eea2c4a3df32f8f8d12feec01794/backend/src/types/weather_api.types.ts#L38) |
+| <a id="lat"></a> `lat`                          | `number` | [backend/src/types/weather_api.types.ts:39](https://github.com/radioactive-exe/SmorgasBoard/blob/9f1d0dc382a9eea2c4a3df32f8f8d12feec01794/backend/src/types/weather_api.types.ts#L39) |
+| <a id="localtime"></a> `localtime`              | `string` | [backend/src/types/weather_api.types.ts:42](https://github.com/radioactive-exe/SmorgasBoard/blob/9f1d0dc382a9eea2c4a3df32f8f8d12feec01794/backend/src/types/weather_api.types.ts#L42) |
+| <a id="localtime_epoch"></a> `localtime_epoch?` | `number` | [backend/src/types/weather_api.types.ts:43](https://github.com/radioactive-exe/SmorgasBoard/blob/9f1d0dc382a9eea2c4a3df32f8f8d12feec01794/backend/src/types/weather_api.types.ts#L43) |
+| <a id="lon"></a> `lon`                          | `number` | [backend/src/types/weather_api.types.ts:40](https://github.com/radioactive-exe/SmorgasBoard/blob/9f1d0dc382a9eea2c4a3df32f8f8d12feec01794/backend/src/types/weather_api.types.ts#L40) |
+| <a id="name"></a> `name`                        | `string` | [backend/src/types/weather_api.types.ts:36](https://github.com/radioactive-exe/SmorgasBoard/blob/9f1d0dc382a9eea2c4a3df32f8f8d12feec01794/backend/src/types/weather_api.types.ts#L36) |
+| <a id="region"></a> `region`                    | `string` | [backend/src/types/weather_api.types.ts:37](https://github.com/radioactive-exe/SmorgasBoard/blob/9f1d0dc382a9eea2c4a3df32f8f8d12feec01794/backend/src/types/weather_api.types.ts#L37) |
+| <a id="tz_id"></a> `tz_id?`                     | `string` | [backend/src/types/weather_api.types.ts:41](https://github.com/radioactive-exe/SmorgasBoard/blob/9f1d0dc382a9eea2c4a3df32f8f8d12feec01794/backend/src/types/weather_api.types.ts#L41) |

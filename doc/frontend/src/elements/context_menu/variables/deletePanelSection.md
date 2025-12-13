@@ -10,7 +10,7 @@
 const deletePanelSection: HTMLElement;
 ```
 
-Defined in: [frontend/src/elements/context_menu.ts:75](https://github.com/radioactive-exe/SmorgasBoard/blob/8f4f7feb3d95b1e6f220d9a6d967884a54a55d8e/frontend/src/elements/context_menu.ts#L75)
+Defined in: [frontend/src/elements/context_menu.ts:75](https://github.com/radioactive-exe/SmorgasBoard/blob/9f1d0dc382a9eea2c4a3df32f8f8d12feec01794/frontend/src/elements/context_menu.ts#L75)
 
 The section of the context menu that houses the delete button and a menu
 spacer.
