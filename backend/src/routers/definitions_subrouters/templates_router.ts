@@ -55,26 +55,24 @@ const _templateHandler = templatesRouter.get(
             ),
         );
 
-        // ? In case the panel parameter for which the template is requested does not
-        // ? have an implemented template file
-        if (!fs.existsSync(templateLocation)) {
-            res.status(501).json({
-                body: "The requested template file does not exist. Please submit an issue on the Smorgasboard repository (using the link in the context menu).",
-            });
-
-            return;
-        }
-
-        // ? In case all is well, read the contents of the file and send them to the frontend
-        fs.readFile(templateLocation, (_err, data) => {
-            res.setHeader(
-                "Access-Control-Allow-Origin",
-                process.env.ORIGIN_URL ?? "",
-            ).json({
-                panel_type: req.params.panel,
-                panel_template: data.toString(),
-            });
-            return;
+        // ? Attempt to read the contents of the file and send them to the frontend
+        fs.readFile(templateLocation, (err, data) => {
+            // ? In case the panel parameter for which the template is requested does not
+            // ? have an implemented template file
+            if (err) {
+                res.status(501).json({
+                    body: "The requested template file does not exist. Please submit an issue on the Smorgasboard repository (using the link in the context menu).",
+                });
+                // ? Otherwise, in case the template file is implemented
+            } else {
+                res.setHeader(
+                    "Access-Control-Allow-Origin",
+                    process.env.ORIGIN_URL ?? "",
+                ).json({
+                    panel_type: req.params.panel,
+                    panel_template: data.toString(),
+                });
+            }
         });
     },
 );
