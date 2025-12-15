@@ -45,8 +45,14 @@ const _templateHandler = templatesRouter.get(
         );
 
         console.log(
-            "/../../../../definitions",
-            process.env.DEFINITIONS_RELATIVE_PATH,
+            path.join(
+                __dirname
+                    + `../../../../definitions/templates/${req.params.panel}.html`,
+            ),
+            path.join(
+                __dirname
+                    + `${process.env.DEFINITIONS_RELATIVE_PATH}/templates/${req.params.panel}.html`,
+            ),
         );
 
         // ? In case the panel parameter for which the template is requested does not
