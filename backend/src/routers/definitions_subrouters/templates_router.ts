@@ -44,17 +44,6 @@ const _templateHandler = templatesRouter.get(
                 + `${process.env.DEFINITIONS_RELATIVE_PATH}/templates/${req.params.panel}.html`,
         );
 
-        console.log(
-            path.join(
-                __dirname
-                    + `../../../../definitions/templates/${req.params.panel}.html`,
-            ),
-            path.join(
-                __dirname
-                    + `${process.env.DEFINITIONS_RELATIVE_PATH}/templates/${req.params.panel}.html`,
-            ),
-        );
-
         // ? In case the panel parameter for which the template is requested does not
         // ? have an implemented template file
         if (!fs.existsSync(templateLocation)) {
