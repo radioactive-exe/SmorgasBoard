@@ -10,19 +10,9 @@
 
 /** File Header Delimiter. */
 
-import {
-    allowedOrigins,
-    cors,
-    express,
-    fs,
-    path,
-    url,
-} from "../../declarations.js";
+import { allowedOrigins, cors, express, fs, path } from "../../declarations.js";
 
 const templatesRouter = express.Router();
-
-const __filename = url.fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 
 templatesRouter.use(cors({ origin: allowedOrigins, credentials: true }));
 
@@ -38,30 +28,32 @@ const _templateHandler = templatesRouter.get(
             return;
         }
 
+        const templateFile = path.join(
+            process.cwd(),
+            `${process.env.DEFINITIONS_RELATIVE_PATH}/${req.params.panel}.html`,
+        );
+
         // ? Obtain the (potential) location for the template file, and then
         // ? Attempt to read the contents of the file and send them to the frontend
-        fs.readFile(
-            `${process.env.DEFINITIONS_RELATIVE_PATH}/${req.params.panel}.html`,
-            (err, data) => {
-                // ? In case the panel parameter for which the template is requested does not
-                // ? have an implemented template file
-                if (err) {
-                    console.log(err);
-                    res.status(501).json({
-                        body: "The requested template file does not exist. Please submit an issue on the Smorgasboard repository (using the link in the context menu).",
-                    });
-                    // ? Otherwise, in case the template file is implemented
-                } else {
-                    res.setHeader(
-                        "Access-Control-Allow-Origin",
-                        process.env.ORIGIN_URL ?? "",
-                    ).json({
-                        panel_type: req.params.panel,
-                        panel_template: data.toString(),
-                    });
-                }
-            },
-        );
+        fs.readFile(templateFile, (err, data) => {
+            // ? In case the panel parameter for which the template is requested does not
+            // ? have an implemented template file
+            if (err) {
+                console.log(err);
+                res.status(501).json({
+                    body: "The requested template file does not exist. Please submit an issue on the Smorgasboard repository (using the link in the context menu).",
+                });
+                // ? Otherwise, in case the template file is implemented
+            } else {
+                res.setHeader(
+                    "Access-Control-Allow-Origin",
+                    process.env.ORIGIN_URL ?? "",
+                ).json({
+                    panel_type: req.params.panel,
+                    panel_template: data.toString(),
+                });
+            }
+        });
     },
 );
 
