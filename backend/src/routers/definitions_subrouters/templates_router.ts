@@ -39,20 +39,10 @@ const _templateHandler = templatesRouter.get(
         }
 
         // ? Obtain the (potential) location for the template file
+        const relativePath: string =
+            process.env.DEFINITIONS_RELATIVE_PATH ?? "unimplemented";
         const templateLocation = path.join(
-            __dirname
-                + `${process.env.DEFINITIONS_RELATIVE_PATH}/templates/${req.params.panel}.html`,
-        );
-
-        console.log(
-            path.join(
-                __dirname
-                    + `../../../../definitions/templates/${req.params.panel}.html`,
-            ),
-            path.join(
-                __dirname
-                    + `${process.env.DEFINITIONS_RELATIVE_PATH}/templates/${req.params.panel}.html`,
-            ),
+            __dirname + `${relativePath}/templates/${req.params.panel}.html`,
         );
 
         // ? Attempt to read the contents of the file and send them to the frontend
@@ -60,6 +50,7 @@ const _templateHandler = templatesRouter.get(
             // ? In case the panel parameter for which the template is requested does not
             // ? have an implemented template file
             if (err) {
+                console.log(err);
                 res.status(501).json({
                     body: "The requested template file does not exist. Please submit an issue on the Smorgasboard repository (using the link in the context menu).",
                 });
