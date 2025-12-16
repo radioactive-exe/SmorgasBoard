@@ -4,6 +4,5 @@
     "buildCommand": "npm run build",
     "outputDirectory": "dist/",
     "builds": [{ "src": "src/index.ts", "use": "@vercel/node" }],
-    "routes": [{ "src": "/(.*)", "dest": "/src/index.ts" }],
-    "trailingSlash": true
+    "routes": [{ "src": "/(.*)", "dest": "/src/index.ts" }]
 }
