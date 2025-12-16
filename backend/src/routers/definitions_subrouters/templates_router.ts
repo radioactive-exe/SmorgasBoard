@@ -39,11 +39,11 @@ const _templateHandler = templatesRouter.get(
         }
 
         // ? Obtain the (potential) location for the template file
-        const relativePath: string =
-            process.env.DEFINITIONS_RELATIVE_PATH ?? "unimplemented";
+        // const relativePath: string =
+        //     process.env.DEFINITIONS_RELATIVE_PATH ?? "unimplemented";
         const templateLocation = path.join(
             __dirname,
-            relativePath.trim(),
+            "../../../definitions",
             `templates/${req.params.panel}.html`,
         );
 
