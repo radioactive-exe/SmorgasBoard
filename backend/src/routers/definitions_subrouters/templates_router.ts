@@ -41,7 +41,7 @@ const _templateHandler = templatesRouter.get(
         // ? Obtain the (potential) location for the template file, and then
         // ? Attempt to read the contents of the file and send them to the frontend
         fs.readFile(
-            `./definitions/templates/${req.params.panel}.html`,
+            `${process.env.DEFINITIONS_RELATIVE_PATH}/${req.params.panel}.html`,
             (err, data) => {
                 // ? In case the panel parameter for which the template is requested does not
                 // ? have an implemented template file
