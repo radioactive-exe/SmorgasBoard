@@ -44,6 +44,17 @@ const _templateHandler = templatesRouter.get(
                 + `${process.env.DEFINITIONS_RELATIVE_PATH}/templates/${req.params.panel}.html`,
         );
 
+        console.log(
+            path.join(
+                __dirname
+                    + `../../../../definitions/templates/${req.params.panel}.html`,
+            ),
+            path.join(
+                __dirname
+                    + `${process.env.DEFINITIONS_RELATIVE_PATH}/templates/${req.params.panel}.html`,
+            ),
+        );
+
         // ? Attempt to read the contents of the file and send them to the frontend
         fs.readFile(templateLocation, (err, data) => {
             // ? In case the panel parameter for which the template is requested does not
