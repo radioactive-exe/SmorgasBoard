@@ -30,7 +30,7 @@ const _templateHandler = templatesRouter.get(
 
         const templateFile = path.join(
             process.cwd(),
-            `${process.env.DEFINITIONS_RELATIVE_PATH}/${req.params.panel}.html`,
+            `./definitions/templates/${req.params.panel}.html`,
         );
 
         // ? Obtain the (potential) location for the template file, and then
