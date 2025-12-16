@@ -42,7 +42,8 @@ const _templateHandler = templatesRouter.get(
         const relativePath: string =
             process.env.DEFINITIONS_RELATIVE_PATH ?? "unimplemented";
         const templateLocation = path.join(
-            __dirname + `${relativePath}/templates/${req.params.panel}.html`,
+            __dirname
+                + `${relativePath.trim()}/templates/${req.params.panel}.html`,
         );
 
         // ? Attempt to read the contents of the file and send them to the frontend
