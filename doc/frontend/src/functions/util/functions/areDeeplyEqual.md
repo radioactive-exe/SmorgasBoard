@@ -10,7 +10,7 @@
 function areDeeplyEqual(obj1, obj2): boolean;
 ```
 
-Defined in: [frontend/src/functions/util.ts:377](https://github.com/radioactive-exe/SmorgasBoard/blob/9f1d0dc382a9eea2c4a3df32f8f8d12feec01794/frontend/src/functions/util.ts#L377)
+Defined in: [frontend/src/functions/util.ts:377](https://github.com/radioactive-exe/SmorgasBoard/blob/cface3ffad0bcfe6eefa24c05c64a6dc1416d438/frontend/src/functions/util.ts#L377)
 
 Recursively deeply compares objects/variables of any primitive or object
 type.

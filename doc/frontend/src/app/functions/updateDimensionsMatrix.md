@@ -10,7 +10,7 @@
 function updateDimensionsMatrix(): void;
 ```
 
-Defined in: [frontend/src/app.ts:292](https://github.com/radioactive-exe/SmorgasBoard/blob/9f1d0dc382a9eea2c4a3df32f8f8d12feec01794/frontend/src/app.ts#L292)
+Defined in: [frontend/src/app.ts:292](https://github.com/radioactive-exe/SmorgasBoard/blob/cface3ffad0bcfe6eefa24c05c64a6dc1416d438/frontend/src/app.ts#L292)
 
 Called when the screen/window is resized in order to, if needed, regenerate
 the dimensions matrix with the new maximum width and height.

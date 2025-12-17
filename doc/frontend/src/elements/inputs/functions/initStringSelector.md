@@ -10,7 +10,7 @@
 function initStringSelector(selector): void;
 ```
 
-Defined in: [frontend/src/elements/inputs.ts:264](https://github.com/radioactive-exe/SmorgasBoard/blob/9f1d0dc382a9eea2c4a3df32f8f8d12feec01794/frontend/src/elements/inputs.ts#L264)
+Defined in: [frontend/src/elements/inputs.ts:264](https://github.com/radioactive-exe/SmorgasBoard/blob/cface3ffad0bcfe6eefa24c05c64a6dc1416d438/frontend/src/elements/inputs.ts#L264)
 
 Adds all relevant listeners and instantiates all necessary variables for the
 custom text/string selectors.

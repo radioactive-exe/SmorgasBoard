@@ -6,7 +6,7 @@
 
 # Class: Area
 
-Defined in: [frontend/src/classes/area.ts:136](https://github.com/radioactive-exe/SmorgasBoard/blob/9f1d0dc382a9eea2c4a3df32f8f8d12feec01794/frontend/src/classes/area.ts#L136)
+Defined in: [frontend/src/classes/area.ts:136](https://github.com/radioactive-exe/SmorgasBoard/blob/cface3ffad0bcfe6eefa24c05c64a6dc1416d438/frontend/src/classes/area.ts#L136)
 
 This is the Area class.
 
@@ -33,7 +33,7 @@ organised.
 new Area(coords, size): Area;
 ```
 
-Defined in: [frontend/src/classes/area.ts:179](https://github.com/radioactive-exe/SmorgasBoard/blob/9f1d0dc382a9eea2c4a3df32f8f8d12feec01794/frontend/src/classes/area.ts#L179)
+Defined in: [frontend/src/classes/area.ts:179](https://github.com/radioactive-exe/SmorgasBoard/blob/cface3ffad0bcfe6eefa24c05c64a6dc1416d438/frontend/src/classes/area.ts#L179)
 
 Creates an instance of an Area.
 
@@ -67,9 +67,9 @@ dashboard/container) and with a default size of `{width: 1, height: 1}`.
 
 | Property                 | Modifier   | Type                                          | Description                                                                                                                                                                                                    | Defined in                                                                                                                                                          |
 | ------------------------ | ---------- | --------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| <a id="pos"></a> `pos`   | `private`  | [`Coordinates`](../interfaces/Coordinates.md) | Position component of the Area.                                                                                                                                                                                | [frontend/src/classes/area.ts:151](https://github.com/radioactive-exe/SmorgasBoard/blob/9f1d0dc382a9eea2c4a3df32f8f8d12feec01794/frontend/src/classes/area.ts#L151) |
-| <a id="size"></a> `size` | `private`  | [`Size`](../interfaces/Size.md)               | Size component of the Area.                                                                                                                                                                                    | [frontend/src/classes/area.ts:153](https://github.com/radioactive-exe/SmorgasBoard/blob/9f1d0dc382a9eea2c4a3df32f8f8d12feec01794/frontend/src/classes/area.ts#L153) |
-| <a id="init"></a> `INIT` | `readonly` | `Area`                                        | A bare-bones default Area. **Remarks** This is a static member used when a Panel needs to be initialised from scratch and either (a) does not have a set Area or (b) has one that will be changed right after. | [frontend/src/classes/area.ts:145](https://github.com/radioactive-exe/SmorgasBoard/blob/9f1d0dc382a9eea2c4a3df32f8f8d12feec01794/frontend/src/classes/area.ts#L145) |
+| <a id="pos"></a> `pos`   | `private`  | [`Coordinates`](../interfaces/Coordinates.md) | Position component of the Area.                                                                                                                                                                                | [frontend/src/classes/area.ts:151](https://github.com/radioactive-exe/SmorgasBoard/blob/cface3ffad0bcfe6eefa24c05c64a6dc1416d438/frontend/src/classes/area.ts#L151) |
+| <a id="size"></a> `size` | `private`  | [`Size`](../interfaces/Size.md)               | Size component of the Area.                                                                                                                                                                                    | [frontend/src/classes/area.ts:153](https://github.com/radioactive-exe/SmorgasBoard/blob/cface3ffad0bcfe6eefa24c05c64a6dc1416d438/frontend/src/classes/area.ts#L153) |
+| <a id="init"></a> `INIT` | `readonly` | `Area`                                        | A bare-bones default Area. **Remarks** This is a static member used when a Panel needs to be initialised from scratch and either (a) does not have a set Area or (b) has one that will be changed right after. | [frontend/src/classes/area.ts:145](https://github.com/radioactive-exe/SmorgasBoard/blob/cface3ffad0bcfe6eefa24c05c64a6dc1416d438/frontend/src/classes/area.ts#L145) |
 
 ## Methods
 
@@ -79,7 +79,7 @@ dashboard/container) and with a default size of `{width: 1, height: 1}`.
 getAbsoluteHeight(): number;
 ```
 
-Defined in: [frontend/src/classes/area.ts:341](https://github.com/radioactive-exe/SmorgasBoard/blob/9f1d0dc382a9eea2c4a3df32f8f8d12feec01794/frontend/src/classes/area.ts#L341)
+Defined in: [frontend/src/classes/area.ts:341](https://github.com/radioactive-exe/SmorgasBoard/blob/cface3ffad0bcfe6eefa24c05c64a6dc1416d438/frontend/src/classes/area.ts#L341)
 
 Gets the absolute height of the Area in pixels.
 
@@ -104,7 +104,7 @@ The absolute Height (in pixels) of the Area.
 getAbsoluteWidth(): number;
 ```
 
-Defined in: [frontend/src/classes/area.ts:313](https://github.com/radioactive-exe/SmorgasBoard/blob/9f1d0dc382a9eea2c4a3df32f8f8d12feec01794/frontend/src/classes/area.ts#L313)
+Defined in: [frontend/src/classes/area.ts:313](https://github.com/radioactive-exe/SmorgasBoard/blob/cface3ffad0bcfe6eefa24c05c64a6dc1416d438/frontend/src/classes/area.ts#L313)
 
 Gets the absolute width of the Area in pixels.
 
@@ -129,7 +129,7 @@ The absolute Width (in pixels) of the Area.
 getAbsoluteX(): number;
 ```
 
-Defined in: [frontend/src/classes/area.ts:209](https://github.com/radioactive-exe/SmorgasBoard/blob/9f1d0dc382a9eea2c4a3df32f8f8d12feec01794/frontend/src/classes/area.ts#L209)
+Defined in: [frontend/src/classes/area.ts:209](https://github.com/radioactive-exe/SmorgasBoard/blob/cface3ffad0bcfe6eefa24c05c64a6dc1416d438/frontend/src/classes/area.ts#L209)
 
 Returns the X (horizontal) coordinate of the Area in pixels.
 
@@ -153,7 +153,7 @@ The X coordinate in pixels.
 getAbsoluteY(): number;
 ```
 
-Defined in: [frontend/src/classes/area.ts:235](https://github.com/radioactive-exe/SmorgasBoard/blob/9f1d0dc382a9eea2c4a3df32f8f8d12feec01794/frontend/src/classes/area.ts#L235)
+Defined in: [frontend/src/classes/area.ts:235](https://github.com/radioactive-exe/SmorgasBoard/blob/cface3ffad0bcfe6eefa24c05c64a6dc1416d438/frontend/src/classes/area.ts#L235)
 
 Returns the Y (Vertical) coordinate of the Area in pixels.
 
@@ -177,7 +177,7 @@ The Y coordinate in pixels.
 getCoordinates(): Coordinates;
 ```
 
-Defined in: [frontend/src/classes/area.ts:248](https://github.com/radioactive-exe/SmorgasBoard/blob/9f1d0dc382a9eea2c4a3df32f8f8d12feec01794/frontend/src/classes/area.ts#L248)
+Defined in: [frontend/src/classes/area.ts:248](https://github.com/radioactive-exe/SmorgasBoard/blob/cface3ffad0bcfe6eefa24c05c64a6dc1416d438/frontend/src/classes/area.ts#L248)
 
 Returns the position/coordinates of this Area.
 
@@ -200,7 +200,7 @@ expressed in fractional units ([pos](#pos)).
 getHeight(): number;
 ```
 
-Defined in: [frontend/src/classes/area.ts:327](https://github.com/radioactive-exe/SmorgasBoard/blob/9f1d0dc382a9eea2c4a3df32f8f8d12feec01794/frontend/src/classes/area.ts#L327)
+Defined in: [frontend/src/classes/area.ts:327](https://github.com/radioactive-exe/SmorgasBoard/blob/cface3ffad0bcfe6eefa24c05c64a6dc1416d438/frontend/src/classes/area.ts#L327)
 
 Gets the fractional height of the Area.
 
@@ -225,7 +225,7 @@ The fractional Height of the Area.
 getSize(): Size;
 ```
 
-Defined in: [frontend/src/classes/area.ts:358](https://github.com/radioactive-exe/SmorgasBoard/blob/9f1d0dc382a9eea2c4a3df32f8f8d12feec01794/frontend/src/classes/area.ts#L358)
+Defined in: [frontend/src/classes/area.ts:358](https://github.com/radioactive-exe/SmorgasBoard/blob/cface3ffad0bcfe6eefa24c05c64a6dc1416d438/frontend/src/classes/area.ts#L358)
 
 Returns the fractional Size of the Area, as an object of type
 [Size](../interfaces/Size.md).
@@ -253,7 +253,7 @@ The Size (fractional/relative) of the Area.
 getWidth(): number;
 ```
 
-Defined in: [frontend/src/classes/area.ts:299](https://github.com/radioactive-exe/SmorgasBoard/blob/9f1d0dc382a9eea2c4a3df32f8f8d12feec01794/frontend/src/classes/area.ts#L299)
+Defined in: [frontend/src/classes/area.ts:299](https://github.com/radioactive-exe/SmorgasBoard/blob/cface3ffad0bcfe6eefa24c05c64a6dc1416d438/frontend/src/classes/area.ts#L299)
 
 Gets the fractional width of the Area.
 
@@ -278,7 +278,7 @@ The fractional Width of the Area.
 getX(): number;
 ```
 
-Defined in: [frontend/src/classes/area.ts:196](https://github.com/radioactive-exe/SmorgasBoard/blob/9f1d0dc382a9eea2c4a3df32f8f8d12feec01794/frontend/src/classes/area.ts#L196)
+Defined in: [frontend/src/classes/area.ts:196](https://github.com/radioactive-exe/SmorgasBoard/blob/cface3ffad0bcfe6eefa24c05c64a6dc1416d438/frontend/src/classes/area.ts#L196)
 
 Returns the X (horizontal) coordinate of the Area.
 
@@ -302,7 +302,7 @@ The X coordinate.
 getY(): number;
 ```
 
-Defined in: [frontend/src/classes/area.ts:222](https://github.com/radioactive-exe/SmorgasBoard/blob/9f1d0dc382a9eea2c4a3df32f8f8d12feec01794/frontend/src/classes/area.ts#L222)
+Defined in: [frontend/src/classes/area.ts:222](https://github.com/radioactive-exe/SmorgasBoard/blob/cface3ffad0bcfe6eefa24c05c64a6dc1416d438/frontend/src/classes/area.ts#L222)
 
 Returns the Y (Vertical) coordinate of the Area.
 
@@ -326,7 +326,7 @@ The Y coordinate.
 setPosition(coords): void;
 ```
 
-Defined in: [frontend/src/classes/area.ts:277](https://github.com/radioactive-exe/SmorgasBoard/blob/9f1d0dc382a9eea2c4a3df32f8f8d12feec01794/frontend/src/classes/area.ts#L277)
+Defined in: [frontend/src/classes/area.ts:277](https://github.com/radioactive-exe/SmorgasBoard/blob/cface3ffad0bcfe6eefa24c05c64a6dc1416d438/frontend/src/classes/area.ts#L277)
 
 Sets the Area's position from an input.
 
@@ -371,7 +371,7 @@ snapped/rounded to the nearest row and column in the dashboard.
 setSize(size): void;
 ```
 
-Defined in: [frontend/src/classes/area.ts:383](https://github.com/radioactive-exe/SmorgasBoard/blob/9f1d0dc382a9eea2c4a3df32f8f8d12feec01794/frontend/src/classes/area.ts#L383)
+Defined in: [frontend/src/classes/area.ts:383](https://github.com/radioactive-exe/SmorgasBoard/blob/cface3ffad0bcfe6eefa24c05c64a6dc1416d438/frontend/src/classes/area.ts#L383)
 
 Sets the Area's current Size from an input.
 

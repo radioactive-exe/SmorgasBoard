@@ -6,7 +6,7 @@
 
 # Interface: TodoTask
 
-Defined in: [frontend/src/types/main.types.ts:27](https://github.com/radioactive-exe/SmorgasBoard/blob/9f1d0dc382a9eea2c4a3df32f8f8d12feec01794/frontend/src/types/main.types.ts#L27)
+Defined in: [frontend/src/types/main.types.ts:27](https://github.com/radioactive-exe/SmorgasBoard/blob/cface3ffad0bcfe6eefa24c05c64a6dc1416d438/frontend/src/types/main.types.ts#L27)
 
 The shape of a stored task when dealing with Todo panels.
 
@@ -20,5 +20,5 @@ sign-in.
 
 | Property                       | Type      | Defined in                                                                                                                                                                |
 | ------------------------------ | --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| <a id="checked"></a> `checked` | `boolean` | [frontend/src/types/main.types.ts:29](https://github.com/radioactive-exe/SmorgasBoard/blob/9f1d0dc382a9eea2c4a3df32f8f8d12feec01794/frontend/src/types/main.types.ts#L29) |
-| <a id="task"></a> `task`       | `string`  | [frontend/src/types/main.types.ts:28](https://github.com/radioactive-exe/SmorgasBoard/blob/9f1d0dc382a9eea2c4a3df32f8f8d12feec01794/frontend/src/types/main.types.ts#L28) |
+| <a id="checked"></a> `checked` | `boolean` | [frontend/src/types/main.types.ts:29](https://github.com/radioactive-exe/SmorgasBoard/blob/cface3ffad0bcfe6eefa24c05c64a6dc1416d438/frontend/src/types/main.types.ts#L29) |
+| <a id="task"></a> `task`       | `string`  | [frontend/src/types/main.types.ts:28](https://github.com/radioactive-exe/SmorgasBoard/blob/cface3ffad0bcfe6eefa24c05c64a6dc1416d438/frontend/src/types/main.types.ts#L28) |

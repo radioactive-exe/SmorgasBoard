@@ -10,7 +10,7 @@
 function setFirstTime(val): void;
 ```
 
-Defined in: [frontend/src/app.ts:100](https://github.com/radioactive-exe/SmorgasBoard/blob/9f1d0dc382a9eea2c4a3df32f8f8d12feec01794/frontend/src/app.ts#L100)
+Defined in: [frontend/src/app.ts:100](https://github.com/radioactive-exe/SmorgasBoard/blob/cface3ffad0bcfe6eefa24c05c64a6dc1416d438/frontend/src/app.ts#L100)
 
 Updates the value of `firstTime`. This is called during login and/or
 registration.

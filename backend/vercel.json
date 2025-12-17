@@ -1,13 +1,16 @@
 {
     "$schema": "https://openapi.vercel.sh/vercel.json",
     "installCommand": "npm i",
-    "buildCommand": "npm run build",
-    "outputDirectory": "dist/",
-    "builds": [{ "src": "src/index.ts", "use": "@vercel/node" }],
-    "routes": [{ "src": "/(.*)", "dest": "/src/index.ts" }],
+    "outputDirectory": "build/",
+    "rewrites": [
+        {
+            "source": "/(.*)",
+            "destination": "api/index.ts"
+        }
+    ],
     "functions": {
-        "src/index.ts": {
-            "includeFiles": "./definitions/**/*"
+        "api/**/*.ts": {
+            "includeFiles": "public/**/*"
         }
     }
 }

@@ -16,8 +16,8 @@
         "declaration": true,
         "declarationDir": "build/dist/lib/types",
         "declarationMap": true,
-        "types": ["vite/client", "node"]
+        "types": ["node"]
     },
-    "include": ["**/src/**/*"],
+    "include": ["**/src/**/*", "**/api/**/*", "**/definitions/**/*"],
     "exclude": ["**/node_modules/*", "**/dist/**/*"]
 }

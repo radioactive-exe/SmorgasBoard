@@ -10,7 +10,7 @@
 const ListSelectionOptionObject: ZodObject<ListSelectionOption>;
 ```
 
-Defined in: [frontend/src/classes/config/config_entry.ts:75](https://github.com/radioactive-exe/SmorgasBoard/blob/9f1d0dc382a9eea2c4a3df32f8f8d12feec01794/frontend/src/classes/config/config_entry.ts#L75)
+Defined in: [frontend/src/classes/config/config_entry.ts:75](https://github.com/radioactive-exe/SmorgasBoard/blob/cface3ffad0bcfe6eefa24c05c64a6dc1416d438/frontend/src/classes/config/config_entry.ts#L75)
 
 The Zod Schema for a single option from the possible options of a List
 Selection Config Entry.

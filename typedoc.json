@@ -1,5 +1,5 @@
 {
-    "entryPoints": ["./*/src/**/*.ts"],
+    "entryPoints": ["./*/src/**/*.ts", "./*/api/**/*.ts"],
     "out": "doc",
     "plugin": [
         "typedoc-plugin-zod",
@@ -8,7 +8,7 @@
     ],
     "excludeNotDocumented": true,
     "excludeNotDocumentedKinds": ["Variable"],
-    "exclude": ["./backend/src/declarations.ts"],
+    "exclude": ["./backend/api/declarations.ts"],
     "tsconfig": "./tsconfig.json",
     "excludeExternals": true,
     "placeInternalsInOwningModule": true,

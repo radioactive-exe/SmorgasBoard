@@ -10,7 +10,7 @@
 function execute(panel): void;
 ```
 
-Defined in: [frontend/src/classes/panel/panel_behaviour/photo_panel.ts:39](https://github.com/radioactive-exe/SmorgasBoard/blob/9f1d0dc382a9eea2c4a3df32f8f8d12feec01794/frontend/src/classes/panel/panel_behaviour/photo_panel.ts#L39)
+Defined in: [frontend/src/classes/panel/panel_behaviour/photo_panel.ts:39](https://github.com/radioactive-exe/SmorgasBoard/blob/cface3ffad0bcfe6eefa24c05c64a6dc1416d438/frontend/src/classes/panel/panel_behaviour/photo_panel.ts#L39)
 
 The main function called upon behaviour execution after the Panel template,
 base, and config setup, for the Photo PanelType.

@@ -10,7 +10,7 @@
 function updateTimeAndDate(panel, dateText, timeText): void;
 ```
 
-Defined in: [frontend/src/classes/panel/panel_behaviour/clock_panel.ts:194](https://github.com/radioactive-exe/SmorgasBoard/blob/9f1d0dc382a9eea2c4a3df32f8f8d12feec01794/frontend/src/classes/panel/panel_behaviour/clock_panel.ts#L194)
+Defined in: [frontend/src/classes/panel/panel_behaviour/clock_panel.ts:194](https://github.com/radioactive-exe/SmorgasBoard/blob/cface3ffad0bcfe6eefa24c05c64a6dc1416d438/frontend/src/classes/panel/panel_behaviour/clock_panel.ts#L194)
 
 Begins the time/date updating loop, and calls itself.
 

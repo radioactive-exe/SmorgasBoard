@@ -10,7 +10,7 @@
 function getDefaultConfig(configSchema): Record<string, unknown> | undefined;
 ```
 
-Defined in: [frontend/src/classes/config/config.ts:83](https://github.com/radioactive-exe/SmorgasBoard/blob/9f1d0dc382a9eea2c4a3df32f8f8d12feec01794/frontend/src/classes/config/config.ts#L83)
+Defined in: [frontend/src/classes/config/config.ts:83](https://github.com/radioactive-exe/SmorgasBoard/blob/cface3ffad0bcfe6eefa24c05c64a6dc1416d438/frontend/src/classes/config/config.ts#L83)
 
 Gets a copy of the default config of a particular schema.
 

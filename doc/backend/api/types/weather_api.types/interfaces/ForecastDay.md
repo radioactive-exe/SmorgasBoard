@@ -1,0 +1,28 @@
+[**Smorgasboard**](../../../../../README.md)
+
+---
+
+[Smorgasboard](../../../../../README.md) / [backend/api/types/weather_api.types](../README.md) / ForecastDay
+
+# Interface: ForecastDay
+
+Defined in: backend/api/types/weather_api.types.ts:201
+
+The complete object for each forecast day requested from the API.
+
+## Remarks
+
+This object contains the date for the day in question, both in
+string/readable format and in epoch time, and it contains all astrology and
+daily information. The hours array also stores 24 objects of type
+[Hour](Hour.md), from midnight to midnight for the entire date.
+
+## Properties
+
+| Property                             | Type                | Defined in                                 |
+| ------------------------------------ | ------------------- | ------------------------------------------ |
+| <a id="astro"></a> `astro`           | [`Astro`](Astro.md) | backend/api/types/weather_api.types.ts:202 |
+| <a id="date"></a> `date`             | `string`            | backend/api/types/weather_api.types.ts:203 |
+| <a id="date_epoch"></a> `date_epoch` | `number`            | backend/api/types/weather_api.types.ts:204 |
+| <a id="day"></a> `day`               | [`Day`](Day.md)     | backend/api/types/weather_api.types.ts:205 |
+| <a id="hour"></a> `hour`             | [`Hour`](Hour.md)[] | backend/api/types/weather_api.types.ts:206 |

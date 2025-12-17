@@ -20,7 +20,7 @@ function savedLocationEntry(
 ): HTMLLIElement;
 ```
 
-Defined in: [frontend/src/classes/panel/panel_behaviour/weather_panel.ts:829](https://github.com/radioactive-exe/SmorgasBoard/blob/9f1d0dc382a9eea2c4a3df32f8f8d12feec01794/frontend/src/classes/panel/panel_behaviour/weather_panel.ts#L829)
+Defined in: [frontend/src/classes/panel/panel_behaviour/weather_panel.ts:829](https://github.com/radioactive-exe/SmorgasBoard/blob/cface3ffad0bcfe6eefa24c05c64a6dc1416d438/frontend/src/classes/panel/panel_behaviour/weather_panel.ts#L829)
 
 Creates and returns a saved location entry to be added to the saved location
 list.

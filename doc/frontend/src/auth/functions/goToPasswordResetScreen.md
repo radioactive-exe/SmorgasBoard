@@ -10,7 +10,7 @@
 function goToPasswordResetScreen(): void;
 ```
 
-Defined in: [frontend/src/auth.ts:535](https://github.com/radioactive-exe/SmorgasBoard/blob/9f1d0dc382a9eea2c4a3df32f8f8d12feec01794/frontend/src/auth.ts#L535)
+Defined in: [frontend/src/auth.ts:535](https://github.com/radioactive-exe/SmorgasBoard/blob/cface3ffad0bcfe6eefa24c05c64a6dc1416d438/frontend/src/auth.ts#L535)
 
 Focuses on or opens the Password Reset screen.
 

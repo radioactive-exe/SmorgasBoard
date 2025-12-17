@@ -10,7 +10,7 @@
 function setLocalChange(val): void;
 ```
 
-Defined in: [frontend/src/app.ts:136](https://github.com/radioactive-exe/SmorgasBoard/blob/9f1d0dc382a9eea2c4a3df32f8f8d12feec01794/frontend/src/app.ts#L136)
+Defined in: [frontend/src/app.ts:136](https://github.com/radioactive-exe/SmorgasBoard/blob/cface3ffad0bcfe6eefa24c05c64a6dc1416d438/frontend/src/app.ts#L136)
 
 Updates the value of `localChange`. This is utilised by both the Supabase
 realtime dashboard update listener and the patching functions in the

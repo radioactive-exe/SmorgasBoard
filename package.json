@@ -22,7 +22,10 @@
         ]
     },
     "scripts": {
-        "gen_docs": "npx typedoc --options ./typedoc.json"
+        "gen_docs": "npx typedoc --options ./typedoc.json",
+        "client": "concurrently \"npm run watch -w frontend\" \"npm run dev -w frontend\"",
+        "server": "concurrently \"npm run watch -w backend\" \"npm run start -w backend\"",
+        "run_local": "concurrently \"npm run client\" \"npm run server\""
     },
     "devDependencies": {
         "@eslint/css": "^0.14.1",
@@ -31,6 +34,7 @@
         "@microsoft/tsdoc-config": "^0.17.1",
         "@types/node": "^24.10.0",
         "@typescript-eslint/parser": "^8.46.3",
+        "concurrently": "^9.2.1",
         "eslint": "^9.39.1",
         "eslint-plugin-import": "^2.32.0",
         "eslint-plugin-jsdoc": "^61.2.0",
@@ -45,5 +49,9 @@
         "typedoc-plugin-zod": "^1.4.3",
         "typescript-eslint": "^8.46.3",
         "vite": "^7.2.2"
-    }
+    },
+    "workspaces": [
+        "./frontend",
+        "./backend"
+    ]
 }

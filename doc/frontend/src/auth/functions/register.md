@@ -15,7 +15,7 @@ function register(
 ): Promise<void>;
 ```
 
-Defined in: [frontend/src/auth.ts:131](https://github.com/radioactive-exe/SmorgasBoard/blob/9f1d0dc382a9eea2c4a3df32f8f8d12feec01794/frontend/src/auth.ts#L131)
+Defined in: [frontend/src/auth.ts:131](https://github.com/radioactive-exe/SmorgasBoard/blob/cface3ffad0bcfe6eefa24c05c64a6dc1416d438/frontend/src/auth.ts#L131)
 
 This method signs up the user with the inputted fields.
 
