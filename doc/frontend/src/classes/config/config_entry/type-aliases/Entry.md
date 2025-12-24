@@ -10,7 +10,7 @@
 type Entry = object;
 ```
 
-Defined in: [frontend/src/classes/config/config_entry.ts:104](https://github.com/radioactive-exe/SmorgasBoard/blob/cface3ffad0bcfe6eefa24c05c64a6dc1416d438/frontend/src/classes/config/config_entry.ts#L104)
+Defined in: [frontend/src/classes/config/config_entry.ts:104](https://github.com/radioactive-exe/SmorgasBoard/blob/33eed8942f295b0c4031e7847b84f067b2d59ff1/frontend/src/classes/config/config_entry.ts#L104)
 
 The inferred type of the Base Config Entry schema for use as a type directly.
 

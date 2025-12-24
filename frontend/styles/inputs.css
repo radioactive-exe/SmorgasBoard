@@ -6,6 +6,16 @@
 
 .selector-bar {
     position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    pointer-events: none;
+
+    & .selector-bar-selector,
+    & .selector-bar-button,
+    & .search-results {
+        pointer-events: all;
+    }
 }
 
 
@@ -15,20 +25,9 @@
     transition:
         box-shadow var(--quick-transition-time) var(--bezier-function),
         transform var(--quick-transition-time) var(--bezier-function),
-        padding var(--quick-transition-time) var(--bezier-function),
-        background var(--quick-transition-time) var(--bezier-function),
-        opacity var(--quick-transition-time) var(--bezier-function),
-        color var(--quick-transition-time) var(--bezier-function),
-        font-size var(--quick-transition-time) var(--bezier-function),
-        letter-spacing var(--quick-transition-time) var(--bezier-function),
+        opacity var(--quick-transition-time) ease,
         clip-path var(--quick-transition-time) var(--bezier-function),
-        width var(--quick-transition-time) var(--bezier-function),
-        margin var(--quick-transition-time) var(--bezier-function),
-        margin-top var(--quick-transition-time) var(--bezier-function),
-        margin-left var(--quick-transition-time) var(--bezier-function),
-        margin-bottom var(--quick-transition-time) var(--bezier-function),
-        margin-right var(--quick-transition-time) var(--bezier-function),
-        border var(--med-transition-time) var(--jelly-function);
+        filter var(--med-transition-time) ease;
     isolation: isolate;
 
     &.dropdown-selector {
@@ -51,7 +50,7 @@
                 inset -0.2rem -0.2rem 0.1rem 0.1rem hsl(from var(--input-bg) h s calc(l * 0.4) / 0.8),
                 0 0 0.5rem 0 var(--shadow-col);
             user-select: none;
-            transition: background var(--quick-transition-time) ease;
+            transition: filter var(--quick-transition-time) ease;
 
             & .menu-caret {
                 --icon-svg: url("../assets/graphics/angle-small-right.svg");
@@ -61,7 +60,7 @@
             }
 
             &:hover {
-                background: hsl(from var(--input-bg) h s calc(l * 1.2));
+                filter: brightness(1.2);
             }
         }
 
@@ -71,21 +70,24 @@
             z-index: -1;
             overflow: hidden;
             width: var(--input-width);
-            max-height: 0;
             border: 1px solid var(--cell-bg);
             border-radius: 0 0 var(--small-border-radius) var(--small-border-radius);
             background: hsl(from var(--input-bg) h s calc(l * 0.6));
             box-shadow: inset 0 0 1rem 0.2rem var(--shadow-col);
             list-style: none;
-            transition: max-height var(--quick-transition-time) ease;
+            transition: transform var(--quick-transition-time) ease;
+            transform: scaleY(0);
+            transform-origin: top;
 
             & .dropdown-item {
+                position: relative;
                 display: flex;
                 flex-flow: row;
                 gap: 1rem;
                 padding: calc(var(--input-padding) / 2) var(--input-padding);
                 border-top: inherit;
-                transition: background var(--quick-transition-time) var(--bezier-function);
+                opacity: 0;
+                transition: opacity var(--quick-transition-time) ease;
 
                 &:first-of-type {
                     padding-top: calc(1.8 * var(--input-padding));
@@ -124,8 +126,20 @@
                     transform: translate(0);
                 }
 
-                &:hover {
+                &::before {
+                    content: '';
+                    position: absolute;
+                    inset: 0;
+                    z-index: -1;
                     background: var(--input-bg);
+                    opacity: 0;
+                    transition: inherit;
+                }
+
+                &:hover {
+                    &::before {
+                        opacity: 1;
+                    }
 
                     & .item-content {
                         transform: translate(3rem);
@@ -140,7 +154,11 @@
             }
 
             & .dropdown-list {
-                max-height: 18rem;
+                transform: scaleY(1);
+
+                & .dropdown-item {
+                    opacity: 1;
+                }
             }
         }
 
@@ -169,7 +187,7 @@
             cursor: pointer;
             transition-timing-function: var(--bezier-function);
             transition-duration: var(--med-transition-time);
-            transition-property: background, transform, box-shadow, width, border-radius;
+            transition-property: transform, opacity;
 
             & .toggle-checkbox-button {
                 position: relative;
@@ -181,25 +199,48 @@
                 box-shadow: 0 0 0.5rem 0.1rem var(--shadow-col);
                 transition: inherit;
 
-                &::before,
-                &::after {
-                    content: "";
-                    position: absolute;
+                & .toggle-p1,
+                & .toggle-p2 {
                     display: block;
-                    height: 0.8rem;
-                    background: hsl(from var(--input-bg) h s calc(l * 0.8));
                     transition: inherit;
+
+                    &::before,
+                    &::after {
+                        content: '';
+                        position: absolute;
+                        inset: 0;
+                        height: 0.8rem;
+                        border-radius: var(--small-border-radius);
+                        transition: inherit;
+                    }
                 }
 
-                &::before {
+                & .toggle-p1::before {
                     width: 70%;
-                    border-radius: var(--small-border-radius);
+                    background: hsl(from var(--input-bg) h s calc(l * 0.8));
+                    transform: scaleX(1) translate(20%, 140%) rotate(45deg);
+                }
+
+                & .toggle-p1::after {
+                    width: 40%;
+                    background: var(--input-accent);
+                    box-shadow: 0 0 0.2rem 0 var(--input-accent);
+                    opacity: 0;
                     transform: translate(20%, 140%) rotate(45deg);
                 }
 
-                &::after {
+                & .toggle-p2::before {
                     width: 70%;
                     border-radius: var(--small-border-radius);
+                    background: hsl(from var(--input-bg) h s calc(l * 0.8));
+                    transform: translate(20%, 140%) rotate(-45deg);
+                }
+
+                & .toggle-p2::after {
+                    width: 60%;
+                    background: var(--input-accent);
+                    box-shadow: 0 0 0.2rem 0 var(--input-accent);
+                    opacity: 0;
                     transform: translate(20%, 140%) rotate(-45deg);
                 }
             }
@@ -213,33 +254,35 @@
             filter: brightness(0.7);
         }
 
-        &:has(.toggle-checkbox:checked) {
+        &.checked {
             filter: none;
 
             &:hover {
                 filter: brightness(0.9);
             }
-        }
 
-        & .toggle-checkbox:checked ~ .toggle-checkbox-button {
-            transform: translate(100%);
+            & .toggle-checkbox-button {
+                transform: translate(100%);
 
-            &::before,
-            &::after {
-                background: var(--input-accent);
-                box-shadow: 0 0 0.2rem 0 var(--input-accent);
-            }
+                & .toggle-p1::before {
+                    opacity: 0;
+                    transform: scaleX(0.6) translate(45%, 170%) rotate(45deg);
+                }
 
-            &::before {
-                width: 40%;
-                border-radius: var(--small-border-radius);
-                transform: translate(45%, 170%) rotate(45deg);
-            }
+                & .toggle-p1::after {
+                    opacity: 1;
+                    transform: translate(45%, 170%) rotate(45deg);
+                }
 
-            &::after {
-                width: 60%;
-                border-radius: var(--small-border-radius);
-                transform: translate(50%, 140%) rotate(135deg);
+                & .toggle-p2::before {
+                    opacity: 0;
+                    transform: translate(50%, 140%) rotate(135deg);
+                }
+
+                & .toggle-p2::after {
+                    opacity: 1;
+                    transform: translate(50%, 140%) rotate(135deg);
+                }
             }
         }
     }
@@ -257,6 +300,7 @@
             gap: var(--input-padding);
             justify-content: center;
             align-items: center;
+            transition: inherit;
 
             & .range-selector-text {
                 width: var(--input-height);
@@ -273,6 +317,7 @@
                 display: block;
                 width: 100%;
                 background: transparent;
+                transition: inherit;
                 appearance: none;
 
                 &::-webkit-slider-runnable-track {
@@ -295,9 +340,7 @@
                         0 0 0 -0.2rem transparent,
                         inset calc(0.3rem * var(--fill-amount)) 0 calc(0.3rem * var(--fill-amount)) 0 var(--input-accent);
                     cursor: grab;
-                    transition-timing-function: ease;
-                    transition-duration: var(--med-transition-time);
-                    transition-property: background, box-shadow;
+                    transition: inherit;
                     transform: translateY(-0.25rem);
                     appearance: none;
                 }
@@ -312,12 +355,12 @@
                 }
 
                 &::-webkit-slider-thumb:active {
-                    background: hsl(from var(--input-secondary) h s calc(l * 0.8));
                     box-shadow: 0.1rem 0.1rem 1rem 0.1rem var(--shadow-col),
                         inset 0.1rem 0.1rem 0.1rem 0 hsl(from var(--input-secondary) h s calc(l * 2) / 0.6),
                         inset -0.1rem -0.1rem 0.1rem 0 hsl(from var(--input-secondary) h s calc(l * 0.4) / 0.6),
                         0 0 0 1rem hsl(from var(--input-accent) h s l / 0.2),
                         inset calc(0.2rem * var(--fill-amount)) 0 calc(0.2rem * var(--fill-amount)) 0 var(--input-accent);
+                    filter: brightness(0.8);
                     cursor: grabbing;
                 }
 
@@ -347,27 +390,58 @@
     &.string-selector {
         position: relative;
         max-width: 100%;
+        border-radius: var(--small-border-radius);
 
         & .string-selector-label {
             position: relative;
             display: flex;
             align-items: center;
+            border-radius: inherit;
             transition: inherit;
 
             & .string-selector-label-text {
                 position: absolute;
-                top: calc(50% - var(--font-s) / 2);
+                top: calc(50% - (var(--font-s) / 2) - 0.375 * var(--input-padding));
                 left: 0;
-                height: calc(var(--font-xs) + 0.25 * var(--input-padding));
-                padding: 0 var(--input-padding);
-                border: 0 solid transparent;
-                border-radius: var(--small-border-radius) var(--small-border-radius) 0 0;
-                color: hsl(from var(--text-primary) h s l / 0.5);
+                z-index: 2;
+                height: calc(1.25 * (var(--font-xs) + 0.3755 * var(--input-padding)));
+                padding: calc(0.375 * var(--input-padding)) calc(1.25 * var(--input-padding));
+                color: var(--text-primary);
                 font-size: var(--font-s);
                 white-space: nowrap;
+                opacity: 0.4;
                 pointer-events: none;
                 user-select: none;
                 transition: inherit;
+                transform-origin: left;
+
+                &::before {
+                    content: '';
+                    position: absolute;
+                    inset: 0;
+                    z-index: -1;
+                    border-radius: calc(1.25 * var(--small-border-radius)) calc(1.25 * var(--small-border-radius)) 0 0;
+                    background: var(--input-bg);
+                    box-shadow: inset 0.25rem 0.25rem 0.25rem 0 hsl(from var(--input-bg) h s calc(l * 2) / 0.6),
+                        0 0.625rem 0 0 var(--input-bg);
+                    opacity: 0;
+                    pointer-events: none;
+                    transition: inherit;
+                }
+
+                &::after {
+                    content: '';
+                    position: absolute;
+                    inset: 0;
+                    bottom: 0.75rem;
+                    z-index: -2;
+                    border-radius: calc(1.25 * var(--small-border-radius)) calc(1.25 * var(--small-border-radius)) 0 0;
+                    outline: 0.4rem solid var(--alert-error-bg);
+                    opacity: 0;
+                    pointer-events: none;
+                    transition: inherit;
+                    transform: scale(0);
+                }
             }
 
             & .string-selector-input {
@@ -376,51 +450,53 @@
                 max-width: 100%;
                 height: var(--input-height);
                 padding: var(--input-padding);
-                border: 0 solid transparent;
+                border: none;
                 border-radius: var(--small-border-radius);
                 background-color: var(--input-bg);
                 color: var(--text-primary);
-                box-shadow: inset 0 0.1rem 1.4rem 0 var(--shadow-col),
-                    0 0 0 0 transparent, inset 0 0 0 0 transparent,
-                    inset 0 0 0 0 transparent;
-                outline: none;
+                box-shadow: inset 0 0.1rem 1.4rem 0 var(--shadow-col);
                 font-size: var(--font-inputs);
-                font-family: inherit;
+                font-family: var(--theme-font);
                 transition: inherit;
 
                 &:focus,
                 &:hover,
-                &:not(input[type="email"], input[type="password"]):valid,
-                &:is(input[type="email"]):not(:placeholder-shown),
-                &:is(input[type="password"]):not(:placeholder-shown) {
+                &:valid,
+                &:is(input[type="email"], input[type="password"]):not(:placeholder-shown) {
                     box-shadow: inset 0 0 0 0 transparent,
                         0.1rem 0.1rem 1rem 0.1rem var(--shadow-col),
                         inset 0.2rem 0.2rem 0.2rem 0 hsl(from var(--input-bg) h s calc(l * 2) / 0.6),
                         inset -0.2rem -0.2rem 0.2rem 0 hsl(from var(--input-bg) h s calc(l * 0.4) / 0.6);
 
                     & ~ .string-selector-label-text {
-                        padding: calc(0.25 * var(--input-padding)) var(--input-padding);
-                        background-color: var(--input-bg);
-                        color: var(--text-primary);
-                        box-shadow: inset 0.2rem 0.2rem 0.2rem 0 hsl(from var(--input-bg) h s calc(l * 2) / 0.6),
-                            0 0.5rem 0 0 var(--input-bg);
-                        font-size: var(--font-xs);
-                        letter-spacing: 0.2rem;
-                        transform: translate(0.8rem,
-                                calc(-0.5 * var(--input-height) - 0.3 * var(--font-xs)));
+                        opacity: 1;
+                        transform: translate(1rem,
+                                calc((-0.5 * var(--input-height)) - 0.5 * var(--font-xs) + 0.2 * var(--input-padding))) scale(0.8);
+
+                        &::before {
+                            opacity: 1;
+                        }
                     }
                 }
+            }
 
-                &:is(input[type="email"]):not(:valid, :placeholder-shown),
-                &:is(input[type="password"]):not(:valid, :placeholder-shown) {
-                    border: 4px solid var(--alert-error-bg);
-                    transform: scale(1, 1.1);
+            &::before {
+                content: '';
+                position: absolute;
+                inset: 0;
+                z-index: -1;
+                border-radius: inherit;
+                outline: 0.4rem solid var(--alert-error-bg);
+                opacity: 0;
+                pointer-events: none;
+                transition: inherit;
+                transform: scale(0);
+            }
 
-                    & ~ .string-selector-label-text {
-                        border: 4px solid var(--alert-error-bg);
-                        border-bottom: none;
-                    }
-                }
+            &.invalid::before,
+            &.invalid .string-selector-label-text::after {
+                opacity: 1;
+                transform: scale(1);
             }
         }
     }
@@ -434,8 +510,8 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            width: var(--input-height);
-            height: var(--input-height);
+            width: calc(var(--input-height) + 0.2rem);
+            height: calc(var(--input-height) + 0.2rem);
             border-radius: var(--small-border-radius);
             background: var(--input-secondary);
             box-shadow: inset 0 0.1rem 0.2rem 0 hsl(from var(--input-secondary) h s calc(l*1.5)), inset -0.1rem -0.1rem 0.2rem 0 hsl(from var(--input-secondary) h s calc(l*0.4)), 0.2rem 0.2rem 0.2rem 0 var(--shadow-col);
@@ -463,10 +539,6 @@
             &.selector-bar-input {
                 padding-right: calc(var(--input-height) + var(--input-padding));
             }
-
-            & ~ .selector-bar-label-text {
-                top: calc(50% - 0.6 * var(--font-s));
-            }
         }
     }
 
@@ -485,8 +557,17 @@
             cursor: pointer;
             transition-timing-function: ease;
             transition-duration: var(--quick-transition-time);
-            transition-property: border-color, background, transform, color, width;
+            transition-property: transform, opacity;
             isolation: isolate;
+
+            &::after {
+                content: '';
+                position: absolute;
+                top: calc(50% - 1rem);
+                left: var(--input-padding);
+                width: 2rem;
+                height: 2rem;
+            }
 
             & .checkbox-input {
                 display: none;
@@ -495,10 +576,10 @@
             & .checkbox-tick {
                 position: relative;
                 inset: 0;
-                display: block;
+                display: flex;
                 width: 2rem;
                 height: 2rem;
-                border: 0.2rem solid transparent;
+                border: 0.2rem solid var(--input-secondary);
                 border-radius: var(--tiny-border-radius);
                 background: var(--input-secondary);
                 transition: inherit;
@@ -507,14 +588,26 @@
                     content: '';
                     position: absolute;
                     inset: 0;
-                    z-index: -1;
                     display: block;
                     border-radius: inherit;
+                    background: var(--input-bg);
+                    opacity: 0;
+                    transition: inherit;
+                }
+
+                &::after {
+                    content: '';
+                    position: absolute;
+                    inset: -0.2rem;
+                    border: 0.3rem solid var(--input-accent);
+                    border-radius: var(--tiny-border-radius);
                     background: var(--input-accent);
                     opacity: 0;
+                    transition: inherit;
                 }
 
                 & .checkbox-tick-svg {
+                    z-index: 1;
                     fill: none;
                     stroke: var(--input-bg);
                     transition-timing-function: ease;
@@ -529,15 +622,15 @@
             }
 
             &:hover .checkbox-tick {
-                border-color: var(--input-secondary);
-                background: var(--input-bg);
                 transform: scale(1.1);
+
+                &::before {
+                    opacity: 1;
+                }
             }
 
             & .checkbox-input:checked {
                 & ~ .checkbox-tick {
-                    background: var(--input-accent);
-
                     & .checkbox-tick-svg {
                         stroke-dashoffset: 0;
                     }
@@ -545,10 +638,10 @@
                     &::before {
                         animation: pulse-check var(--med-transition-time) ease forwards;
                     }
-                }
 
-                &:hover ~ .checkbox-tick {
-                    border-color: var(--input-accent);
+                    &::after {
+                        opacity: 1;
+                    }
                 }
             }
         }
@@ -575,7 +668,6 @@
     border-radius: var(--small-border-radius);
     background: var(--scrollbar-thumb-col);
     cursor: grab;
-    transition: background var(--med-transition-time) ease;
 }
 
 ::-webkit-scrollbar-thumb:hover {
@@ -617,26 +709,20 @@ button {
         inset 0.2rem 0.2rem 0.2rem 0 hsl(from var(--input-bg) h s calc(l * 2) / 0.6),
         inset -0.2rem -0.2rem 0.2rem 0 hsl(from var(--input-bg) h s calc(l * 0.4) / 0.6),
         0 0 0 -0.2rem transparent;
-    font-family: inherit;
+    font-family: var(--theme-font);
     text-transform: uppercase;
     cursor: pointer;
     transition-timing-function: var(--bezier-function);
     transition-duration: var(--quick-transition-time);
-    transition-property: width, background, box-shadow, letter-spacing, transform, opacity;
+    transition-property: filter, letter-spacing, transform, opacity;
 
     &:hover {
-        background: hsl(from var(--input-bg) h s calc(l * 1.1));
-        box-shadow: 0.1rem 0.1rem 1rem 0.1rem var(--shadow-col),
-            inset 0.2rem 0.2rem 0.2rem 0 hsl(from var(--input-bg) h s calc(l * 2) / 0.6),
-            inset -0.2rem -0.2rem 0.2rem 0 hsl(from var(--input-bg) h s calc(l * 0.4) / 0.6);
         letter-spacing: 0.4rem;
+        filter: brightness(1.1);
     }
 
     &:active {
         background: hsl(from var(--input-bg) h s calc(l * 0.8));
-        box-shadow: 0.1rem 0.1rem 1rem 0.1rem var(--shadow-col),
-            inset 0.1rem 0.1rem 0.1rem 0 hsl(from var(--input-secondary) h s calc(l * 2) / 0.6),
-            inset -0.1rem -0.1rem 0.1rem 0 hsl(from var(--input-secondary) h s calc(l * 0.4) / 0.6);
     }
 
 }

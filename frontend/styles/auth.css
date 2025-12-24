@@ -6,13 +6,12 @@
     flex-flow: column nowrap;
     gap: var(--input-padding);
     align-items: center;
-    margin: 0;
     padding: 10rem;
     background: var(--panel-bg);
     pointer-events: all;
     transition-timing-function: var(--bezier-function);
     transition-duration: var(--med-transition-time);
-    transition-property: clip-path, transform, opacity, margin, margin-top;
+    transition-property: clip-path, transform, opacity;
 
     & .form-title-container {
         display: flex;
@@ -38,45 +37,58 @@
         }
     }
 
-    & .string-selector {
-        max-width: 95vw;
-        max-width: 95svw;
-    }
+    & .form-inputs-container {
+        display: inherit;
+        flex-flow: inherit;
+        height: min(20rem, 80%);
 
-    & #username-selector {
-        position: absolute;
-        opacity: 0;
-        transform: translate(0, var(--input-height));
-    }
-
-    & #email-selector,
-    & #password-selector {
-        margin: 0;
-    }
-
-    & #password-selector,
-    & #confirm-password-selector {
-        margin-top: 0;
-
-        & #password,
-        & #confirm-password {
-            padding-right: 4rem;
+        & .string-selector {
+            max-width: 95vw;
+            max-width: 95svw;
         }
 
-        & .password-visibility-button {
-            --icon-svg: url("../public/assets/graphics/eye.svg");
+        & #username-selector {
             position: absolute;
-            right: 1rem;
-            background: var(--input-secondary);
-            cursor: pointer;
-            pointer-events: all;
-            transition: background var(--quick-transition-time) var(--bezier-function);
+            opacity: 0;
+        }
+
+        & #password-selector,
+        & #confirm-password-selector {
+            margin-top: 0;
+
+            & #password,
+            & #confirm-password {
+                padding-right: 4rem;
+            }
+
+            & .password-visibility-button {
+                --icon-svg: url("../public/assets/graphics/eye.svg");
+                position: absolute;
+                right: 1rem;
+                background: var(--input-secondary);
+                cursor: pointer;
+                pointer-events: all;
+
+                &::before {
+                    content: '';
+                    position: absolute;
+                    inset: 0;
+                    background: var(--input-accent);
+                    opacity: 0;
+                    transition: opacity var(--quick-transition-time) var(--bezier-function);
+                }
+
+                &.active::before {
+                    opacity: 1;
+                }
+            }
+        }
+
+        & #confirm-password-selector {
+            opacity: 0;
         }
     }
 
-    & #confirm-password-selector {
-        opacity: 0;
-    }
 
     & button {
         position: absolute;
@@ -148,8 +160,10 @@
             opacity: 1;
         }
 
-        & #email-selector {
-            margin-top: calc(var(--input-height) + var(--input-padding));
+        & #email-selector,
+        & #password-selector,
+        & #confirm-password-selector {
+            transform: translateY(calc(var(--input-height) + var(--input-padding)));
         }
 
         & #confirm-password-selector {
@@ -203,12 +217,16 @@
 
     &.resetting-password {
         & #email-selector {
-            margin-bottom: calc(-1 * var(--input-height));
             opacity: 0;
         }
 
         & #confirm-password-selector {
             opacity: 1;
+        }
+
+        & #confirm-password-selector,
+        & #password-selector {
+            transform: translateY(calc(-1 * var(--input-height) - var(--input-padding)));
         }
 
         & .form-title-container h1 {

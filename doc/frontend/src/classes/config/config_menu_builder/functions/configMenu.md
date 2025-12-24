@@ -10,7 +10,7 @@
 function configMenu(config): HTMLUListElement;
 ```
 
-Defined in: [frontend/src/classes/config/config_menu_builder.ts:73](https://github.com/radioactive-exe/SmorgasBoard/blob/cface3ffad0bcfe6eefa24c05c64a6dc1416d438/frontend/src/classes/config/config_menu_builder.ts#L73)
+Defined in: [frontend/src/classes/config/config_menu_builder.ts:73](https://github.com/radioactive-exe/SmorgasBoard/blob/33eed8942f295b0c4031e7847b84f067b2d59ff1/frontend/src/classes/config/config_menu_builder.ts#L73)
 
 The entry point for the Config Menu building process.
 

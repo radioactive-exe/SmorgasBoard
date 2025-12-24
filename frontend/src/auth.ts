@@ -562,7 +562,7 @@ function goToPasswordResetScreen(): void {
 // ? Makes the password visible while holding down on the Show Password button, by temporarily converting the password input concerned into a regular text input, removing the redaction.
 passwordVisibilityButtons?.forEach((button) => {
     button.addEventListener("pointerdown", () => {
-        button.style.setProperty("background", "var(--input-accent)");
+        button.classList.add("active");
 
         // ? Set the concerned password input as a regular text input, removing redaction
         button.parentElement
@@ -581,7 +581,7 @@ passwordVisibilityButtons?.forEach((button) => {
  */
 function hidePasswords(): void {
     passwordVisibilityButtons?.forEach((button) => {
-        button.style.setProperty("background", "var(--input-secondary)");
+        button.classList.remove("active");
     });
 
     // ? Set the inputs to be password inputs again
@@ -592,6 +592,7 @@ function hidePasswords(): void {
     document.removeEventListener("pointerup", hidePasswords);
 }
 
+// ? Updates and tracks validity if the passwords do not match
 confirmPasswordInput.addEventListener("input", () => {
     if (
         confirmPasswordInput.value
@@ -599,7 +600,16 @@ confirmPasswordInput.addEventListener("input", () => {
     )
         confirmPasswordInput.setCustomValidity("Passwords must match!");
     else confirmPasswordInput.setCustomValidity("");
-    confirmPasswordInput.reportValidity();
+    if (!confirmPasswordInput.checkValidity() && confirmPasswordInput.value)
+        confirmPasswordInput.parentElement?.classList.add("invalid");
+    else confirmPasswordInput.parentElement?.classList.remove("invalid");
+});
+
+// ? Updates and tracks validity of the email input
+emailInput.addEventListener("input", () => {
+    if (!emailInput.checkValidity() && emailInput.value)
+        emailInput.parentElement?.classList.add("invalid");
+    else emailInput.parentElement?.classList.remove("invalid");
 });
 
 // ? Focuses/opens the login menu.

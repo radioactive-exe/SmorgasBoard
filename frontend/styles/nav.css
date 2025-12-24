@@ -3,162 +3,91 @@
     right: 1.5rem;
     bottom: 1.5rem;
     z-index: 4;
+    width: var(--square-handle-full-side);
+    height: var(--square-handle-full-side);
 
     & .nav-entry {
         position: relative;
         transition-timing-function: var(--bezier-function);
         transition-duration: var(--med-transition-time);
-        transition-property: transform, opacity, box-shadow;
+        transition-property: transform, opacity, filter;
 
         &:not(.main-nav) {
             position: absolute;
-
-
-            & .button {
-                opacity: 0;
-            }
-
-            &:has(~ .main-nav .active) {
-                transform: translateY(calc(var(--pos) * -7rem));
-
-                &:nth-of-type(1) {
-                    --pos: 2;
-                }
-
-                &:nth-of-type(2) {
-                    --pos: 1;
-                }
-
-                & .button {
-                    opacity: 1;
-                }
-            }
+            top: 0;
         }
 
         & .icon,
-        & .menu-icon {
+        & .menu-icon,
+        & .menu-icon .top,
+        & .menu-icon .bottom {
             background: var(--input-secondary);
             transition-timing-function: var(--bezier-function);
             transition-duration: var(--med-transition-time);
-            transition-property: transform, opacity, filter, background;
-        }
+            transition-property: transform, opacity, filter;
 
-        & .icon {
-            position: absolute;
-        }
+            &:not(.menu-icon) {
+                position: absolute;
+            }
 
-        & .menu-icon {
-            position: relative;
-            z-index: 5;
-            width: 2rem;
-            height: 0.3rem;
-            border-radius: var(--tiny-border-radius);
-            transform: rotate(0deg);
+            &.menu-icon {
+                position: relative;
+                z-index: 5;
+                width: 2rem;
+                height: 0.3rem;
+                border-radius: var(--tiny-border-radius);
+                transform: rotate(0deg);
 
-            &::before,
+                & .top,
+                & .bottom {
+                    position: absolute;
+                    inset: 0;
+                    border-radius: inherit;
+
+                    &.top {
+                        transform: translateY(-0.8rem);
+                    }
+
+                    &.bottom {
+                        transform: translateY(0.8rem);
+                    }
+                }
+            }
+
             &::after {
                 content: '';
                 position: absolute;
                 inset: 0;
-                z-index: 5;
-                display: inherit;
                 border-radius: inherit;
-                background: var(--input-secondary);
+                background: var(--input-accent);
+                opacity: 0;
                 transition: inherit;
             }
-
-            &::before {
-                transform: translateY(-0.8rem);
-            }
-
-            &::after {
-                transform: translateY(0.8rem);
-            }
         }
 
-        & .button {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            width: var(--square-handle-full-side);
-            height: var(--square-handle-full-side);
-            border-radius: 50%;
-            background: hsl(from var(--input-bg) h s l / 0.4);
-            box-shadow: inset 0.2rem 0.2rem 0.3rem 0 hsl(from var(--panel-bg) h s calc(l * 2) / 0.4),
-                inset -0.2rem -0.2rem 0.3rem 0 hsl(from var(--panel-bg) h s calc(l * 0.4) / 0.4),
-                0.4rem 0.4rem 0.2rem 0 var(--shadow-col);
-            cursor: pointer;
-            transition: inherit;
-
-            & .cloud-exclam-icon {
-                opacity: 0;
-                transform: scale(0.7) translate(0) rotate(0deg);
-            }
-
-            &.active {
-                box-shadow:
-                    inset 0.2rem 0.2rem 0.3rem 0 hsl(from var(--panel-bg) h s calc(l * 0.4) / 0.4),
-                    inset -0.2rem -0.2rem 0.3rem 0 hsl(from var(--panel-bg) h s calc(l * 2) / 0.4);
-
-                & .personal-icon {
-                    transform: translate(-0.5rem, 0.2rem) rotate(-10deg);
-                }
-
-                & .cloud-exclam-icon {
-                    opacity: 1;
-                    transform: scale(0.8) translate(1rem, -1rem) rotate(15deg);
-                }
-
-                & .menu-icon {
-                    transform: rotate(45deg);
-
-                    &::before {
-                        transform: translate(0);
-                    }
-
-                    &::after {
-                        transform: rotate(-270deg);
-                    }
-                }
-
-                & .icon,
-                & .menu-icon,
-                & .menu-icon::before,
-                & .menu-icon::after {
-                    background: var(--input-accent);
-                }
-
-                &:hover .icon,
-                &:hover .menu-icon,
-                &:hover .menu-icon::before,
-                &:hover .menu-icon::after {
-                    background: hsl(from var(--input-accent) h s calc(l * 1.1));
-                }
-            }
+        &.main-nav {
+            z-index: 1;
         }
-    }
 
-
-    & .personal-nav {
-        & .personal-nav-menu {
+        &.personal-nav .personal-nav-menu {
             position: absolute;
             right: calc(var(--square-handle-full-side) / 2);
             bottom: calc(var(--square-handle-full-side) / 2);
+            z-index: -1;
             display: flex;
             flex-flow: column;
             align-items: end;
             overflow: hidden;
-            max-width: 0;
-            max-height: 0;
-            border: 0 solid var(--input-secondary);
+            max-width: 15rem;
+            max-height: 20rem;
+            border: 0.5rem solid var(--input-secondary);
             border-radius: var(--small-border-radius);
             background: var(--panel-bg);
+            box-shadow: 0.4rem 0.4rem 0.2rem 0 var(--shadow-col);
             transition:
-                max-height var(--med-transition-time) var(--bezier-function) calc(0.8 * var(--med-transition-time)),
-                box-shadow calc(1.5 * var(--med-transition-time)) var(--bezier-function) calc(0.8 * var(--med-transition-time)),
-                border-width var(--med-transition-time) var(--bezier-function) calc(0.8 * var(--med-transition-time)),
-                max-width var(--med-transition-time) var(--bezier-function) calc(0.8 * var(--med-transition-time)),
-                padding var(--med-transition-time) var(--bezier-function) calc(0.8 * var(--med-transition-time));
+                transform var(--med-transition-time) var(--bezier-function) calc(0.8 * var(--med-transition-time));
+            transform: scaleX(0) scaleY(0);
+            transform-origin: bottom right;
             border-end-end-radius: calc(var(--square-handle-full-side) / 2);
 
             & .auth-options {
@@ -166,7 +95,8 @@
                 flex-flow: inherit;
                 align-items: inherit;
                 overflow: hidden;
-                padding: 0;
+                padding: var(--input-padding);
+                padding-bottom: calc(var(--square-handle-full-side) + var(--input-padding));
                 transition: inherit;
 
                 & .auth-options-section-title {
@@ -184,26 +114,118 @@
                     }
                 }
             }
+        }
 
-            &:has(~ .button.active) {
-                max-width: 15rem;
-                max-height: 20rem;
-                border-width: 0.5rem;
-                box-shadow: 0.4rem 0.4rem 0.2rem 0 var(--shadow-col);
-                transition:
-                    max-height var(--med-transition-time) var(--bezier-function),
-                    border-width var(--med-transition-time) var(--bezier-function),
-                    box-shadow var(--med-transition-time) var(--bezier-function),
-                    max-width var(--med-transition-time) var(--bezier-function) var(--med-transition-time),
-                    padding var(--med-transition-time) var(--bezier-function);
+        & .button {
+            z-index: -2;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: var(--square-handle-full-side);
+            height: var(--square-handle-full-side);
+            border-radius: 50%;
+            cursor: pointer;
+            transition: inherit;
 
-                & .auth-options {
-                    padding: var(--input-padding);
-                    padding-bottom: calc(var(--square-handle-full-side) + var(--input-padding));
+            &:hover .icon,
+            &:hover .menu-icon,
+            &:hover .menu-icon .top,
+            &:hover .menu-icon .bottom {
+                filter: brightness(1.2);
+            }
+
+            &::before,
+            &::after {
+                content: '';
+                position: absolute;
+                inset: 0;
+                z-index: -1;
+                border-radius: inherit;
+                background: hsl(from var(--input-bg) h s l / 0.4);
+                transition: inherit;
+            }
+
+            &::before {
+                box-shadow:
+                    inset 0.3rem 0.3rem 0.4rem 0 hsl(from var(--panel-bg) h s calc(l * 0.4) / 0.4),
+                    inset -0.3rem -0.3rem 0.3rem 0 hsl(from var(--panel-bg) h s calc(l * 2) / 0.4);
+                opacity: 0;
+            }
+
+            &::after {
+                box-shadow: inset 0.2rem 0.2rem 0.3rem 0 hsl(from var(--panel-bg) h s calc(l * 2) / 0.4),
+                    inset -0.2rem -0.2rem 0.3rem 0 hsl(from var(--panel-bg) h s calc(l * 0.4) / 0.4),
+                    0.4rem 0.4rem 0.2rem 0 var(--shadow-col);
+
+            }
+
+            & .cloud-exclam-icon {
+                opacity: 0;
+                transform: scale(0.7) translate(0) rotate(0deg);
+            }
+
+            &:not(.main-nav .button) {
+                opacity: 0;
+            }
+
+            &:is(.active .button) {
+                &::before {
+                    opacity: 1;
+                }
+
+                &::after {
+                    opacity: 0;
+                }
+
+                & .personal-icon {
+                    transform: translate(-0.5rem, 0.2rem) rotate(-10deg);
+                }
+
+                & .cloud-exclam-icon {
+                    opacity: 1;
+                    transform: scale(0.8) translate(1rem, -1rem) rotate(15deg);
+                }
+
+                & .menu-icon {
+                    transform: rotate(45deg);
+
+                    & .top {
+                        transform: translate(0);
+                    }
+
+                    & .bottom {
+                        transform: rotate(-270deg);
+                    }
+                }
+
+                & .icon::after,
+                & .menu-icon .top::after,
+                & .menu-icon .bottom::after {
                     opacity: 1;
                 }
             }
+        }
 
+        &.active {
+            &.personal-nav .personal-nav-menu {
+                transform: scale(1);
+            }
+
+            &.main-nav.active ~ .nav-entry {
+                transform: translateY(calc(var(--pos) * -7rem));
+
+                & .button {
+                    opacity: 1;
+                }
+
+                &:nth-of-type(2) {
+                    --pos: 2;
+                }
+
+                &:nth-of-type(3) {
+                    --pos: 1;
+                }
+            }
         }
     }
 }

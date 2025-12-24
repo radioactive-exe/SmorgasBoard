@@ -36,9 +36,11 @@ Radioactive.exe
 
 ## Functions
 
-| Function                                                      | Description                                                                 |
-| ------------------------------------------------------------- | --------------------------------------------------------------------------- |
-| [fitContextMenuOnScreen](functions/fitContextMenuOnScreen.md) | Ensures that the context menu stays on screen after a structure change.     |
-| [keepContextMenu](functions/keepContextMenu.md)               | Keeps the context menu on screen.                                           |
-| [removeContextMenu](functions/removeContextMenu.md)           | Safely dismiss the context menu and make it invisible again, after a delay. |
-| [spawnContextMenu](functions/spawnContextMenu.md)             | Makes the context menu visible.                                             |
+| Function                                                        | Description                                                                                                                                                   |
+| --------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [contextMenuClickHandler](functions/contextMenuClickHandler.md) | Handles the right click/context menu click event, spawning the context menu based on the click location and showing/hiding the deletion section as necessary. |
+| [contextMenuNavHandler](functions/contextMenuNavHandler.md)     | Handles spawning the context menu by clicking the navigation entry for it.                                                                                    |
+| [fitContextMenuOnScreen](functions/fitContextMenuOnScreen.md)   | Ensures that the context menu stays on screen after a structure change.                                                                                       |
+| [keepContextMenu](functions/keepContextMenu.md)                 | Keeps the context menu on screen.                                                                                                                             |
+| [removeContextMenu](functions/removeContextMenu.md)             | Safely dismiss the context menu and make it invisible again, after a delay.                                                                                   |
+| [spawnContextMenu](functions/spawnContextMenu.md)               | Makes the context menu visible.                                                                                                                               |

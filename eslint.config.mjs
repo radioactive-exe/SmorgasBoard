@@ -338,16 +338,17 @@ export default defineConfig([
             "jsdoc/empty-tags": "off",
             "jsdoc/escape-inline-tags": "off",
             "jsdoc/multiline-blocks": "off",
-            "css/no-invalid-properties": [
-                "error",
-                {
-                    allowUnknownVariables: true,
-                },
-            ],
+            "css/no-invalid-properties": ["off"],
             "css/use-baseline": [
                 "error",
                 {
                     allowSelectors: ["nesting"],
+                    allowProperties: [
+                        "mask",
+                        "user-select",
+                        "mask-size",
+                        "backdrop-filter",
+                    ],
                 },
             ],
         },

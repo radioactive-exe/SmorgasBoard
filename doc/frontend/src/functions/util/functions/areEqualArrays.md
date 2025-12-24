@@ -10,7 +10,7 @@
 function areEqualArrays(a1, a2): boolean;
 ```
 
-Defined in: [frontend/src/functions/util.ts:307](https://github.com/radioactive-exe/SmorgasBoard/blob/cface3ffad0bcfe6eefa24c05c64a6dc1416d438/frontend/src/functions/util.ts#L307)
+Defined in: [frontend/src/functions/util.ts:311](https://github.com/radioactive-exe/SmorgasBoard/blob/33eed8942f295b0c4031e7847b84f067b2d59ff1/frontend/src/functions/util.ts#L311)
 
 Deeply compares two arrays of objects or primitives for equal contents.
 

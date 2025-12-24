@@ -14,6 +14,7 @@ import {
     finishLoading,
     loader,
     refreshDimensions,
+    saveIcon,
     spawnablePanelTypes,
     user,
 } from "../app.js";
@@ -631,6 +632,8 @@ class Dashboard extends HTMLElement {
      * @see {@link load | load()}
      */
     public save(): void {
+        saveIcon.classList.add("visible");
+
         // * Map through all stored panels and store their PanelInstances
         this.panelInstances = this.panels.map(
             (i): PanelInstance => i.getInstance(),
@@ -648,6 +651,10 @@ class Dashboard extends HTMLElement {
                 this.currentTheme.getId().toString(),
             );
         }
+
+        setTimeout(() => {
+            saveIcon.classList.remove("visible");
+        }, 500);
     }
 
     /**

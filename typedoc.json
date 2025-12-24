@@ -25,7 +25,8 @@
             "default": "https://supabase.com/docs/guides/realtime"
         },
         "@supabase/supabase-js": {
-            "default": "https://supabase.com/docs/reference/javascript/introduction"
+            "default": "https://supabase.com/docs/reference/javascript/introduction",
+            "SupabaseClient": "https://supabase.com/docs/reference/javascript/installing"
         },
         "@supabase/auth-js": {
             "AuthApiError": "https://supabase.com/docs/guides/auth/debugging/error-codes",

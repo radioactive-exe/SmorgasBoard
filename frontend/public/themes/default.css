@@ -18,5 +18,7 @@
     --input-bg: #0c5549;
     --input-secondary: hsl(from var(--input-bg) h s calc(l*2.2));
     --input-accent: #2bfff1;
-    font-family: "Libre Franklin", sans-serif;
+    --theme-font: "Libre Franklin",
+        sans-serif;
+    font-family: var(--theme-font);
 }

@@ -6,7 +6,7 @@
 
 # Interface: EarthCoordinates
 
-Defined in: [frontend/src/types/main.types.ts:14](https://github.com/radioactive-exe/SmorgasBoard/blob/cface3ffad0bcfe6eefa24c05c64a6dc1416d438/frontend/src/types/main.types.ts#L14)
+Defined in: [frontend/src/types/main.types.ts:14](https://github.com/radioactive-exe/SmorgasBoard/blob/33eed8942f295b0c4031e7847b84f067b2d59ff1/frontend/src/types/main.types.ts#L14)
 
 The shape of a stored pair of coordinates when dealing with Weather panels.
 
@@ -14,5 +14,5 @@ The shape of a stored pair of coordinates when dealing with Weather panels.
 
 | Property               | Type     | Defined in                                                                                                                                                                |
 | ---------------------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| <a id="lat"></a> `lat` | `number` | [frontend/src/types/main.types.ts:15](https://github.com/radioactive-exe/SmorgasBoard/blob/cface3ffad0bcfe6eefa24c05c64a6dc1416d438/frontend/src/types/main.types.ts#L15) |
-| <a id="lon"></a> `lon` | `number` | [frontend/src/types/main.types.ts:16](https://github.com/radioactive-exe/SmorgasBoard/blob/cface3ffad0bcfe6eefa24c05c64a6dc1416d438/frontend/src/types/main.types.ts#L16) |
+| <a id="lat"></a> `lat` | `number` | [frontend/src/types/main.types.ts:15](https://github.com/radioactive-exe/SmorgasBoard/blob/33eed8942f295b0c4031e7847b84f067b2d59ff1/frontend/src/types/main.types.ts#L15) |
+| <a id="lon"></a> `lon` | `number` | [frontend/src/types/main.types.ts:16](https://github.com/radioactive-exe/SmorgasBoard/blob/33eed8942f295b0c4031e7847b84f067b2d59ff1/frontend/src/types/main.types.ts#L16) |

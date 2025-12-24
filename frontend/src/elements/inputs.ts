@@ -166,6 +166,10 @@ function initToggleSelector(selector: HTMLElement): void {
         // ? to wait for 100ms of no inputs to send the update
         clearTimeout(emitSignalTimeout);
         emitSignalTimeout = setTimeout(() => {
+            // ? Add a class to the selector indicating the value
+            // ! This is done to not require a :has() selector
+            if (checkbox.checked) selector.classList.add("checked");
+            else selector.classList.remove("checked");
             // ? We fire a config change event when the checkbox/toggle is changed,
             // ? the detail of which holds the config setting changed, as well as the
             // ? boolean value of the checkbox.
@@ -327,4 +331,5 @@ export {
     initRangeSelector,
     initStringSelector,
     initToggleSelector,
+    previouslyFocusedSelector,
 };

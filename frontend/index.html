@@ -34,7 +34,7 @@
         <link rel="manifest" href="/assets/meta/site.webmanifest" />
     </head>
     <body>
-        <smorgas-board id="dashboard"> </smorgas-board>
+        <smorgas-board></smorgas-board>
 
         <div class="context-menu">
             <ul class="menu glassy">
@@ -51,40 +51,52 @@
                     <li class="context-menu-spacer"></li>
                 </div>
                 <div class="section" id="edit-items-section">
-                    <li class="item hover-item" id="add-panel-item">
+                    <li
+                        class="item hover-item"
+                        id="add-panel-item"
+                        data-menu="panel"
+                    >
                         <div class="icon add-panel-icon"></div>
                         <span class="item-text">Add new Panel</span>
                         <div class="icon menu-caret"></div>
                         <ul
-                            class="menu sub-menu glassy hover-menu"
+                            class="menu sub-menu embossed hover-menu"
                             id="panel-menu"
                         ></ul>
                     </li>
-                    <li class="item hover-item" id="theme-item">
+                    <li
+                        class="item hover-item"
+                        id="theme-item"
+                        data-menu="theme"
+                    >
                         <div class="icon theme-icon"></div>
                         <span class="item-text">Change Theme</span>
                         <div class="icon menu-caret"></div>
                         <ul
-                            class="menu sub-menu glassy hover-menu"
+                            class="menu sub-menu embossed hover-menu"
                             id="theme-menu"
                         ></ul>
                     </li>
-                    <li class="item hover-item" id="dimensions-item">
+                    <li
+                        class="item hover-item"
+                        id="dimensions-item"
+                        data-menu="dimensions"
+                    >
                         <div class="icon dimensions-icon"></div>
                         <span class="item-text">Set Dashboard Size</span>
                         <div class="icon menu-caret"></div>
                         <ul
-                            class="menu sub-menu hover-menu"
+                            class="menu sub-menu embossed hover-menu"
                             id="dimensions-menu"
                         >
-                            <li class="item glassy" id="matrix-item">
+                            <li class="item" id="matrix-item">
                                 <div class="matrix"></div>
                             </li>
                         </ul>
                     </li>
+                    <li class="context-menu-spacer"></li>
                 </div>
-                <li class="context-menu-spacer"></li>
-                <li class="item">
+                <li class="item" id="copyright-item">
                     <a
                         target="_blank"
                         href="https://github.com/radioactive-exe/smorgasboard"
@@ -97,12 +109,24 @@
         </div>
 
         <div class="nav" id="nav">
+            <div class="main-nav nav-entry">
+                <div class="button glassy">
+                    <div class="menu-icon">
+                        <div class="top"></div>
+                        <div class="bottom"></div>
+                    </div>
+                </div>
+            </div>
             <div class="context-nav nav-entry">
                 <div class="button glassy">
                     <div class="icon config-icon"></div>
                 </div>
             </div>
             <div class="personal-nav nav-entry">
+                <div class="button glassy">
+                    <div class="icon personal-icon"></div>
+                    <div class="icon cloud-exclam-icon"></div>
+                </div>
                 <div class="personal-nav-menu">
                     <div class="auth-options">
                         <div class="anon-options auth-options-section">
@@ -132,15 +156,6 @@
                         </div>
                     </div>
                 </div>
-                <div class="button glassy">
-                    <div class="icon personal-icon"></div>
-                    <div class="icon cloud-exclam-icon"></div>
-                </div>
-            </div>
-            <div class="main-nav nav-entry">
-                <div class="button glassy">
-                    <div class="menu-icon"></div>
-                </div>
             </div>
         </div>
 
@@ -156,66 +171,80 @@
                     <h1 id="reset-password-title">Reset your Password</h1>
                 </div>
 
-                <div class="selector string-selector" id="username-selector">
-                    <label class="string-selector-label">
-                        <input
-                            class="string-selector-input"
-                            id="username"
-                            type="text"
-                            name="username"
-                        />
-                        <span class="string-selector-label-text">Username</span>
-                    </label>
-                </div>
-                <div class="selector string-selector" id="email-selector">
-                    <label class="string-selector-label">
-                        <input
-                            class="string-selector-input"
-                            id="email"
-                            type="email"
-                            name=""
-                            placeholder=""
-                            required
-                        />
-                        <span class="string-selector-label-text">E-mail</span>
-                    </label>
-                </div>
-                <div class="selector string-selector" id="password-selector">
-                    <label class="string-selector-label">
-                        <input
-                            class="string-selector-input"
-                            id="password"
-                            type="password"
-                            name=""
-                            placeholder=""
-                            required
-                        />
-                        <span class="string-selector-label-text">Password</span>
-                        <div
-                            class="icon eye-icon password-visibility-button"
-                        ></div>
-                    </label>
-                </div>
-                <div
-                    class="selector string-selector"
-                    id="confirm-password-selector"
-                >
-                    <label class="string-selector-label">
-                        <input
-                            class="string-selector-input"
-                            id="confirm-password"
-                            type="password"
-                            name=""
-                            placeholder=""
-                            required
-                        />
-                        <span class="string-selector-label-text"
-                            >Confirm Password</span
-                        >
-                        <div
-                            class="icon eye-icon password-visibility-button"
-                        ></div>
-                    </label>
+                <div class="form-inputs-container">
+                    <div
+                        class="selector string-selector"
+                        id="username-selector"
+                    >
+                        <label class="string-selector-label">
+                            <input
+                                class="string-selector-input"
+                                id="username"
+                                type="text"
+                                name="username"
+                            />
+                            <span class="string-selector-label-text"
+                                >Username</span
+                            >
+                        </label>
+                    </div>
+                    <div class="selector string-selector" id="email-selector">
+                        <label class="string-selector-label">
+                            <input
+                                class="string-selector-input"
+                                id="email"
+                                type="email"
+                                name=""
+                                placeholder=""
+                                required
+                            />
+                            <span class="string-selector-label-text"
+                                >E-mail</span
+                            >
+                        </label>
+                    </div>
+                    <div
+                        class="selector string-selector"
+                        id="password-selector"
+                    >
+                        <label class="string-selector-label">
+                            <input
+                                class="string-selector-input"
+                                id="password"
+                                type="password"
+                                name=""
+                                placeholder=""
+                                required
+                            />
+                            <span class="string-selector-label-text"
+                                >Password</span
+                            >
+                            <div
+                                class="icon eye-icon password-visibility-button"
+                            ></div>
+                        </label>
+                    </div>
+                    <div
+                        class="selector string-selector"
+                        id="confirm-password-selector"
+                    >
+                        <label class="string-selector-label">
+                            <input
+                                class="string-selector-input"
+                                id="confirm-password"
+                                type="password"
+                                name=""
+                                placeholder=""
+                                required
+                            />
+                            <span class="string-selector-label-text"
+                                >Confirm Password</span
+                            >
+                            <div
+                                class="icon eye-icon password-visibility-button"
+                            ></div>
+                        </label>
+                    </div>
                 </div>
                 <div class="subtitle-container">
                     <p class="subtitle" id="register-subtitle">
@@ -273,8 +302,14 @@
             </form>
 
             <div class="off-screen-arrows">
-                <div class="icon arrow-icon" id="off-screen-right"></div>
-                <div class="icon arrow-icon" id="off-screen-down"></div>
+                <div
+                    class="icon arrow-icon off-screen-arrow"
+                    id="off-screen-right"
+                ></div>
+                <div
+                    class="icon arrow-icon off-screen-arrow"
+                    id="off-screen-down"
+                ></div>
             </div>
 
             <div class="warning-overlay" id="size-warning-overlay">
@@ -313,6 +348,10 @@
                     <div class="ball"></div>
                     <div class="ball"></div>
                 </div>
+            </div>
+
+            <div class="icon-container container" id="save-icon-container">
+                <div class="icon save-icon" id="dashboard-save-icon"></div>
             </div>
         </div>
 

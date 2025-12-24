@@ -221,14 +221,15 @@ function rotatePanel(e: MouseEvent): void {
     // * The angle shows the full range of motion, as for example for the X axis rotation, the panel
     // * will be able to rotate from -15deg to 15deg, providing a full range of motion of 30deg.
     const offsetX = ((eventCoords.x - centreX) / (right - left)) * 30;
-    const offsetY = ((eventCoords.y - centreY) / (bottom - top)) * 20;
+    const offsetY = ((eventCoords.y - centreY) / (bottom - top)) * -20;
 
     // ? The same steps are taken as the rotational offset, simply multiplied by distant offsets for the shadow
     // ? (4 rem horizontally and 3 rem vertically)
     // ? The offset is negative as the shadow should be offset in the direction opposite to the rotation.
     // ? i.e. rotating to the right should put the shadows on the left.
-    const shadowOffsetX = ((eventCoords.x - centreX) / (right - left)) * -4;
-    const shadowOffsetY = ((eventCoords.y - centreY) / (top - bottom)) * -3;
+    const shadowOffsetX = ((eventCoords.x - centreX) / (right - left)) * -3;
+    const shadowOffsetY =
+        ((eventCoords.y - centreY) / (top - bottom)) * 2 + 0.5;
 
     rotateElementStyle(current.panel, {
         rotation: {
@@ -366,7 +367,7 @@ function snapElementToGrid(
     ) {
         // ? Then we can snap the element (most often the preview) to this new potential area.
         // ? And animate, if needed.
-        if (shouldAnimate) {
+        if (shouldAnimate && snappingTarget !== preview) {
             snappingTarget.classList.add("snapping");
             utils.removeClassAfterTransition(snappingTarget, "snapping");
         }
@@ -401,11 +402,11 @@ function snapElementToTarget(
     target: Panel = preview,
     shouldAnimate = true,
 ): void {
-    if (shouldAnimate) el.classList.add("snapping");
-
+    if (shouldAnimate && el !== preview) {
+        el.classList.add("snapping");
+        utils.removeClassAfterTransition(el, "snapping");
+    }
     el.setArea(target.getArea());
-
-    utils.removeClassAfterTransition(el, "snapping");
 }
 
 /**

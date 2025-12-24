@@ -860,6 +860,8 @@ function savedLocationEntry(
             </div>`;
 
     // ? Create and handle the use of the delete button to remove saved entries
+    const deleteIconContainer = document.createElement("div");
+    deleteIconContainer.classList.add("remove-location-icon-container");
     const deleteIcon = document.createElement("div");
     deleteIcon.classList.add("icon", "x-icon", "remove-location-icon");
     deleteIcon.addEventListener("click", (e) => {
@@ -867,7 +869,8 @@ function savedLocationEntry(
         newEntry.remove();
         panel.triggerSave();
     });
-    newEntry.appendChild(deleteIcon);
+    deleteIconContainer.appendChild(deleteIcon);
+    newEntry.insertBefore(deleteIconContainer, newEntry.childNodes[2]);
 
     // ? Handle clicking on the saved entry to focus on the entry location (thanks to the latitude and longitude)
     newEntry.addEventListener("click", () => {
@@ -941,7 +944,7 @@ function handleConfigChange(e: Event): void {
                 && min.innerHTML.endsWith("F")
                 && max.innerHTML.endsWith("F")
             ) {
-                // ? Convert from Celsius to Fahrenheit
+                // ? Convert from Fahrenheit to Celsius
                 temp.innerHTML = `${Math.round(
                     toCelsius(get.numericalValue(temp.textContent)),
                 )}&degC`;
@@ -963,7 +966,9 @@ function handleConfigChange(e: Event): void {
                 && min.innerHTML.endsWith("C")
                 && max.innerHTML.endsWith("C")
             ) {
-                // ? Convert from Fahrenheit to Celsius
+                console.log("converting to celsius");
+
+                // ? Convert from Celsius to Fahrenheit
                 temp.innerHTML = `${Math.round(
                     toFahrenheit(get.numericalValue(temp.textContent)),
                 )}&degF`;
@@ -1023,15 +1028,16 @@ function refreshSavedLocations(
 
             const tempText = location.querySelector(".location-temp");
             if (tempText)
-                tempText.innerHTML = `${useCelsius ? data.current.temp_c : data.current.temp_f}&deg${temperatureSymbol}`;
+                tempText.innerHTML = `${Math.round(useCelsius ? data.current.temp_c : data.current.temp_f)}&deg${temperatureSymbol}`;
 
             const minTempText = location.querySelector(".location-min");
             if (minTempText)
-                minTempText.innerHTML = `${useCelsius ? data.forecast.forecastday[0].day.mintemp_c : data.forecast.forecastday[0].day.mintemp_f}&deg${temperatureSymbol}`;
+                minTempText.innerHTML = `${Math.round(useCelsius ? data.forecast.forecastday[0].day.mintemp_c : data.forecast.forecastday[0].day.mintemp_f)}&deg${temperatureSymbol}`;
 
             const maxTempText = location.querySelector(".location-max");
+
             if (maxTempText)
-                maxTempText.innerHTML = `${useCelsius ? data.forecast.forecastday[0].day.maxtemp_c : data.forecast.forecastday[0].day.maxtemp_f}&deg${temperatureSymbol}`;
+                maxTempText.innerHTML = `${Math.round(useCelsius ? data.forecast.forecastday[0].day.maxtemp_c : data.forecast.forecastday[0].day.maxtemp_f)}&deg${temperatureSymbol}`;
         },
     );
 }

@@ -45,7 +45,7 @@ class PanelTypeConfig {
                 value: true,
             }),
             dateFormat: zod
-                .custom<ConfigEntry.ListSelection>((entry) => {
+                .custom<ConfigEntry.ListSelection>((entry: unknown) => {
                     const options: ConfigEntry.ListSelectionOption[] = [
                         {
                             optionLabel: "Full, including weekday",

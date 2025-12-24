@@ -6,7 +6,7 @@
 
 # Class: PanelType
 
-Defined in: [frontend/src/classes/panel/panel_type.ts:31](https://github.com/radioactive-exe/SmorgasBoard/blob/cface3ffad0bcfe6eefa24c05c64a6dc1416d438/frontend/src/classes/panel/panel_type.ts#L31)
+Defined in: [frontend/src/classes/panel/panel_type.ts:31](https://github.com/radioactive-exe/SmorgasBoard/blob/33eed8942f295b0c4031e7847b84f067b2d59ff1/frontend/src/classes/panel/panel_type.ts#L31)
 
 The class of a particular Type of Panel utilised in Smorgasboard. The
 PanelType for each Panel holds information about the numerical ID of the
@@ -31,7 +31,7 @@ private new PanelType(
    typeExternalDataUrl?): PanelType;
 ```
 
-Defined in: [frontend/src/classes/panel/panel_type.ts:164](https://github.com/radioactive-exe/SmorgasBoard/blob/cface3ffad0bcfe6eefa24c05c64a6dc1416d438/frontend/src/classes/panel/panel_type.ts#L164)
+Defined in: [frontend/src/classes/panel/panel_type.ts:164](https://github.com/radioactive-exe/SmorgasBoard/blob/33eed8942f295b0c4031e7847b84f067b2d59ff1/frontend/src/classes/panel/panel_type.ts#L164)
 
 Creates an instance of PanelType.
 
@@ -85,23 +85,23 @@ dashboard cells.
 
 | Property                                                | Modifier   | Type                                                                                                            | Default value | Description                                                                                                                                                                                                                                | Defined in                                                                                                                                                                                  |
 | ------------------------------------------------------- | ---------- | --------------------------------------------------------------------------------------------------------------- | ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| <a id="typeaspectratios"></a> `typeAspectRatios`        | `private`  | [`Size`](../../../area/interfaces/Size.md)[]                                                                    | `[]`          | Any aspect ratios that this panel type has to have. If it can have any aspect ratio, this array is empty, which is the default.                                                                                                            | [frontend/src/classes/panel/panel_type.ts:172](https://github.com/radioactive-exe/SmorgasBoard/blob/cface3ffad0bcfe6eefa24c05c64a6dc1416d438/frontend/src/classes/panel/panel_type.ts#L172) |
-| <a id="typebehaviour"></a> `typeBehaviour`              | `private`  | (`panel`) => `void` \| `null`                                                                                   | `undefined`   | The panel type's behaviour function, if this Panel has any post-initialisation behaviour, such as a clock, etc.                                                                                                                            | [frontend/src/classes/panel/panel_type.ts:170](https://github.com/radioactive-exe/SmorgasBoard/blob/cface3ffad0bcfe6eefa24c05c64a6dc1416d438/frontend/src/classes/panel/panel_type.ts#L170) |
-| <a id="typeconfig"></a> `typeConfig`                    | `private`  | \| [`PanelTypeConfig`](../../panel_type_properties/panel_type_config/classes/PanelTypeConfig.md) \| `undefined` | `undefined`   | The panel type's config schema. As an object of type [PanelTypeConfig](../../panel_type_properties/panel_type_config/classes/PanelTypeConfig.md), which is either a Config object, or undefined if there is no config for this panel type. | [frontend/src/classes/panel/panel_type.ts:169](https://github.com/radioactive-exe/SmorgasBoard/blob/cface3ffad0bcfe6eefa24c05c64a6dc1416d438/frontend/src/classes/panel/panel_type.ts#L169) |
-| <a id="typedata"></a> `typeData`                        | `private`  | [`PanelTypeData`](../../panel_type_properties/panel_type_data/enumerations/PanelTypeData.md)                    | `undefined`   | The type of data this PanelType uses/stores (none, local, global, or external).                                                                                                                                                            | [frontend/src/classes/panel/panel_type.ts:167](https://github.com/radioactive-exe/SmorgasBoard/blob/cface3ffad0bcfe6eefa24c05c64a6dc1416d438/frontend/src/classes/panel/panel_type.ts#L167) |
-| <a id="typedataroute"></a> `typeDataRoute?`             | `private`  | `string`                                                                                                        | `undefined`   | If the panel's data type is external, the source/api route from the backend is stored here.                                                                                                                                                | [frontend/src/classes/panel/panel_type.ts:173](https://github.com/radioactive-exe/SmorgasBoard/blob/cface3ffad0bcfe6eefa24c05c64a6dc1416d438/frontend/src/classes/panel/panel_type.ts#L173) |
-| <a id="typeexternaldataurl"></a> `typeExternalDataUrl?` | `private`  | `string`                                                                                                        | `undefined`   | If the panel's data type is external, the external URL is stored here, to be used in a link tag in the info menu for the Panel.                                                                                                            | [frontend/src/classes/panel/panel_type.ts:174](https://github.com/radioactive-exe/SmorgasBoard/blob/cface3ffad0bcfe6eefa24c05c64a6dc1416d438/frontend/src/classes/panel/panel_type.ts#L174) |
-| <a id="typeid"></a> `typeId`                            | `private`  | [`PanelTypeId`](../../panel_type_properties/panel_type_id/enumerations/PanelTypeId.md)                          | `undefined`   | The numerical ID for this PanelType.                                                                                                                                                                                                       | [frontend/src/classes/panel/panel_type.ts:165](https://github.com/radioactive-exe/SmorgasBoard/blob/cface3ffad0bcfe6eefa24c05c64a6dc1416d438/frontend/src/classes/panel/panel_type.ts#L165) |
-| <a id="typeminsize"></a> `typeMinSize`                  | `private`  | [`Size`](../../../area/interfaces/Size.md)                                                                      | `undefined`   | The minimum size for this type of panel. If no custom minimum size is declared, the default value `{1, 1}` is used.                                                                                                                        | [frontend/src/classes/panel/panel_type.ts:171](https://github.com/radioactive-exe/SmorgasBoard/blob/cface3ffad0bcfe6eefa24c05c64a6dc1416d438/frontend/src/classes/panel/panel_type.ts#L171) |
-| <a id="typename"></a> `typeName`                        | `private`  | [`PanelTypeName`](../../panel_type_properties/panel_type_name/enumerations/PanelTypeName.md)                    | `undefined`   | The user-friendly UI-facing name for the Panel Type.                                                                                                                                                                                       | [frontend/src/classes/panel/panel_type.ts:166](https://github.com/radioactive-exe/SmorgasBoard/blob/cface3ffad0bcfe6eefa24c05c64a6dc1416d438/frontend/src/classes/panel/panel_type.ts#L166) |
-| <a id="typetemplate"></a> `typeTemplate`                | `private`  | [`PanelTypeTemplate`](../../panel_type_properties/panel_type_template/enumerations/PanelTypeTemplate.md)        | `undefined`   | The panel's template source from the backend. This is stored in an enum, [PanelTypeTemplate](../../panel_type_properties/panel_type_template/enumerations/PanelTypeTemplate.md), whose values are strings.                                 | [frontend/src/classes/panel/panel_type.ts:168](https://github.com/radioactive-exe/SmorgasBoard/blob/cface3ffad0bcfe6eefa24c05c64a6dc1416d438/frontend/src/classes/panel/panel_type.ts#L168) |
-| <a id="clock"></a> `CLOCK`                              | `readonly` | `PanelType`                                                                                                     | `undefined`   | -                                                                                                                                                                                                                                          | [frontend/src/classes/panel/panel_type.ts:71](https://github.com/radioactive-exe/SmorgasBoard/blob/cface3ffad0bcfe6eefa24c05c64a6dc1416d438/frontend/src/classes/panel/panel_type.ts#L71)   |
-| <a id="default"></a> `DEFAULT`                          | `readonly` | `PanelType`                                                                                                     | `undefined`   | -                                                                                                                                                                                                                                          | [frontend/src/classes/panel/panel_type.ts:45](https://github.com/radioactive-exe/SmorgasBoard/blob/cface3ffad0bcfe6eefa24c05c64a6dc1416d438/frontend/src/classes/panel/panel_type.ts#L45)   |
-| <a id="notepad"></a> `NOTEPAD`                          | `readonly` | `PanelType`                                                                                                     | `undefined`   | -                                                                                                                                                                                                                                          | [frontend/src/classes/panel/panel_type.ts:53](https://github.com/radioactive-exe/SmorgasBoard/blob/cface3ffad0bcfe6eefa24c05c64a6dc1416d438/frontend/src/classes/panel/panel_type.ts#L53)   |
-| <a id="photo"></a> `PHOTO`                              | `readonly` | `PanelType`                                                                                                     | `undefined`   | -                                                                                                                                                                                                                                          | [frontend/src/classes/panel/panel_type.ts:62](https://github.com/radioactive-exe/SmorgasBoard/blob/cface3ffad0bcfe6eefa24c05c64a6dc1416d438/frontend/src/classes/panel/panel_type.ts#L62)   |
-| <a id="preview"></a> `PREVIEW`                          | `readonly` | `PanelType`                                                                                                     | `undefined`   | -                                                                                                                                                                                                                                          | [frontend/src/classes/panel/panel_type.ts:37](https://github.com/radioactive-exe/SmorgasBoard/blob/cface3ffad0bcfe6eefa24c05c64a6dc1416d438/frontend/src/classes/panel/panel_type.ts#L37)   |
-| <a id="todo"></a> `TODO`                                | `readonly` | `PanelType`                                                                                                     | `undefined`   | -                                                                                                                                                                                                                                          | [frontend/src/classes/panel/panel_type.ts:88](https://github.com/radioactive-exe/SmorgasBoard/blob/cface3ffad0bcfe6eefa24c05c64a6dc1416d438/frontend/src/classes/panel/panel_type.ts#L88)   |
-| <a id="weather"></a> `WEATHER`                          | `readonly` | `PanelType`                                                                                                     | `undefined`   | -                                                                                                                                                                                                                                          | [frontend/src/classes/panel/panel_type.ts:97](https://github.com/radioactive-exe/SmorgasBoard/blob/cface3ffad0bcfe6eefa24c05c64a6dc1416d438/frontend/src/classes/panel/panel_type.ts#L97)   |
+| <a id="typeaspectratios"></a> `typeAspectRatios`        | `private`  | [`Size`](../../../area/interfaces/Size.md)[]                                                                    | `[]`          | Any aspect ratios that this panel type has to have. If it can have any aspect ratio, this array is empty, which is the default.                                                                                                            | [frontend/src/classes/panel/panel_type.ts:172](https://github.com/radioactive-exe/SmorgasBoard/blob/33eed8942f295b0c4031e7847b84f067b2d59ff1/frontend/src/classes/panel/panel_type.ts#L172) |
+| <a id="typebehaviour"></a> `typeBehaviour`              | `private`  | (`panel`) => `void` \| `null`                                                                                   | `undefined`   | The panel type's behaviour function, if this Panel has any post-initialisation behaviour, such as a clock, etc.                                                                                                                            | [frontend/src/classes/panel/panel_type.ts:170](https://github.com/radioactive-exe/SmorgasBoard/blob/33eed8942f295b0c4031e7847b84f067b2d59ff1/frontend/src/classes/panel/panel_type.ts#L170) |
+| <a id="typeconfig"></a> `typeConfig`                    | `private`  | \| [`PanelTypeConfig`](../../panel_type_properties/panel_type_config/classes/PanelTypeConfig.md) \| `undefined` | `undefined`   | The panel type's config schema. As an object of type [PanelTypeConfig](../../panel_type_properties/panel_type_config/classes/PanelTypeConfig.md), which is either a Config object, or undefined if there is no config for this panel type. | [frontend/src/classes/panel/panel_type.ts:169](https://github.com/radioactive-exe/SmorgasBoard/blob/33eed8942f295b0c4031e7847b84f067b2d59ff1/frontend/src/classes/panel/panel_type.ts#L169) |
+| <a id="typedata"></a> `typeData`                        | `private`  | [`PanelTypeData`](../../panel_type_properties/panel_type_data/enumerations/PanelTypeData.md)                    | `undefined`   | The type of data this PanelType uses/stores (none, local, global, or external).                                                                                                                                                            | [frontend/src/classes/panel/panel_type.ts:167](https://github.com/radioactive-exe/SmorgasBoard/blob/33eed8942f295b0c4031e7847b84f067b2d59ff1/frontend/src/classes/panel/panel_type.ts#L167) |
+| <a id="typedataroute"></a> `typeDataRoute?`             | `private`  | `string`                                                                                                        | `undefined`   | If the panel's data type is external, the source/api route from the backend is stored here.                                                                                                                                                | [frontend/src/classes/panel/panel_type.ts:173](https://github.com/radioactive-exe/SmorgasBoard/blob/33eed8942f295b0c4031e7847b84f067b2d59ff1/frontend/src/classes/panel/panel_type.ts#L173) |
+| <a id="typeexternaldataurl"></a> `typeExternalDataUrl?` | `private`  | `string`                                                                                                        | `undefined`   | If the panel's data type is external, the external URL is stored here, to be used in a link tag in the info menu for the Panel.                                                                                                            | [frontend/src/classes/panel/panel_type.ts:174](https://github.com/radioactive-exe/SmorgasBoard/blob/33eed8942f295b0c4031e7847b84f067b2d59ff1/frontend/src/classes/panel/panel_type.ts#L174) |
+| <a id="typeid"></a> `typeId`                            | `private`  | [`PanelTypeId`](../../panel_type_properties/panel_type_id/enumerations/PanelTypeId.md)                          | `undefined`   | The numerical ID for this PanelType.                                                                                                                                                                                                       | [frontend/src/classes/panel/panel_type.ts:165](https://github.com/radioactive-exe/SmorgasBoard/blob/33eed8942f295b0c4031e7847b84f067b2d59ff1/frontend/src/classes/panel/panel_type.ts#L165) |
+| <a id="typeminsize"></a> `typeMinSize`                  | `private`  | [`Size`](../../../area/interfaces/Size.md)                                                                      | `undefined`   | The minimum size for this type of panel. If no custom minimum size is declared, the default value `{1, 1}` is used.                                                                                                                        | [frontend/src/classes/panel/panel_type.ts:171](https://github.com/radioactive-exe/SmorgasBoard/blob/33eed8942f295b0c4031e7847b84f067b2d59ff1/frontend/src/classes/panel/panel_type.ts#L171) |
+| <a id="typename"></a> `typeName`                        | `private`  | [`PanelTypeName`](../../panel_type_properties/panel_type_name/enumerations/PanelTypeName.md)                    | `undefined`   | The user-friendly UI-facing name for the Panel Type.                                                                                                                                                                                       | [frontend/src/classes/panel/panel_type.ts:166](https://github.com/radioactive-exe/SmorgasBoard/blob/33eed8942f295b0c4031e7847b84f067b2d59ff1/frontend/src/classes/panel/panel_type.ts#L166) |
+| <a id="typetemplate"></a> `typeTemplate`                | `private`  | [`PanelTypeTemplate`](../../panel_type_properties/panel_type_template/enumerations/PanelTypeTemplate.md)        | `undefined`   | The panel's template source from the backend. This is stored in an enum, [PanelTypeTemplate](../../panel_type_properties/panel_type_template/enumerations/PanelTypeTemplate.md), whose values are strings.                                 | [frontend/src/classes/panel/panel_type.ts:168](https://github.com/radioactive-exe/SmorgasBoard/blob/33eed8942f295b0c4031e7847b84f067b2d59ff1/frontend/src/classes/panel/panel_type.ts#L168) |
+| <a id="clock"></a> `CLOCK`                              | `readonly` | `PanelType`                                                                                                     | `undefined`   | -                                                                                                                                                                                                                                          | [frontend/src/classes/panel/panel_type.ts:71](https://github.com/radioactive-exe/SmorgasBoard/blob/33eed8942f295b0c4031e7847b84f067b2d59ff1/frontend/src/classes/panel/panel_type.ts#L71)   |
+| <a id="default"></a> `DEFAULT`                          | `readonly` | `PanelType`                                                                                                     | `undefined`   | -                                                                                                                                                                                                                                          | [frontend/src/classes/panel/panel_type.ts:45](https://github.com/radioactive-exe/SmorgasBoard/blob/33eed8942f295b0c4031e7847b84f067b2d59ff1/frontend/src/classes/panel/panel_type.ts#L45)   |
+| <a id="notepad"></a> `NOTEPAD`                          | `readonly` | `PanelType`                                                                                                     | `undefined`   | -                                                                                                                                                                                                                                          | [frontend/src/classes/panel/panel_type.ts:53](https://github.com/radioactive-exe/SmorgasBoard/blob/33eed8942f295b0c4031e7847b84f067b2d59ff1/frontend/src/classes/panel/panel_type.ts#L53)   |
+| <a id="photo"></a> `PHOTO`                              | `readonly` | `PanelType`                                                                                                     | `undefined`   | -                                                                                                                                                                                                                                          | [frontend/src/classes/panel/panel_type.ts:62](https://github.com/radioactive-exe/SmorgasBoard/blob/33eed8942f295b0c4031e7847b84f067b2d59ff1/frontend/src/classes/panel/panel_type.ts#L62)   |
+| <a id="preview"></a> `PREVIEW`                          | `readonly` | `PanelType`                                                                                                     | `undefined`   | -                                                                                                                                                                                                                                          | [frontend/src/classes/panel/panel_type.ts:37](https://github.com/radioactive-exe/SmorgasBoard/blob/33eed8942f295b0c4031e7847b84f067b2d59ff1/frontend/src/classes/panel/panel_type.ts#L37)   |
+| <a id="todo"></a> `TODO`                                | `readonly` | `PanelType`                                                                                                     | `undefined`   | -                                                                                                                                                                                                                                          | [frontend/src/classes/panel/panel_type.ts:88](https://github.com/radioactive-exe/SmorgasBoard/blob/33eed8942f295b0c4031e7847b84f067b2d59ff1/frontend/src/classes/panel/panel_type.ts#L88)   |
+| <a id="weather"></a> `WEATHER`                          | `readonly` | `PanelType`                                                                                                     | `undefined`   | -                                                                                                                                                                                                                                          | [frontend/src/classes/panel/panel_type.ts:97](https://github.com/radioactive-exe/SmorgasBoard/blob/33eed8942f295b0c4031e7847b84f067b2d59ff1/frontend/src/classes/panel/panel_type.ts#L97)   |
 
 ## Methods
 
@@ -111,7 +111,7 @@ dashboard cells.
 execute(panel): void;
 ```
 
-Defined in: [frontend/src/classes/panel/panel_type.ts:330](https://github.com/radioactive-exe/SmorgasBoard/blob/cface3ffad0bcfe6eefa24c05c64a6dc1416d438/frontend/src/classes/panel/panel_type.ts#L330)
+Defined in: [frontend/src/classes/panel/panel_type.ts:330](https://github.com/radioactive-exe/SmorgasBoard/blob/33eed8942f295b0c4031e7847b84f067b2d59ff1/frontend/src/classes/panel/panel_type.ts#L330)
 
 Begins the behaviour of the PanelType, executing the function, if the
 PanelType has post-initialisation behaviour.
@@ -134,7 +134,7 @@ PanelType has post-initialisation behaviour.
 getAspectRatios(): Size[];
 ```
 
-Defined in: [frontend/src/classes/panel/panel_type.ts:291](https://github.com/radioactive-exe/SmorgasBoard/blob/cface3ffad0bcfe6eefa24c05c64a6dc1416d438/frontend/src/classes/panel/panel_type.ts#L291)
+Defined in: [frontend/src/classes/panel/panel_type.ts:291](https://github.com/radioactive-exe/SmorgasBoard/blob/33eed8942f295b0c4031e7847b84f067b2d59ff1/frontend/src/classes/panel/panel_type.ts#L291)
 
 Gets the array of allowed Aspect Ratios for the PanelType.
 
@@ -156,7 +156,7 @@ getConfigSchema():
   | undefined;
 ```
 
-Defined in: [frontend/src/classes/panel/panel_type.ts:238](https://github.com/radioactive-exe/SmorgasBoard/blob/cface3ffad0bcfe6eefa24c05c64a6dc1416d438/frontend/src/classes/panel/panel_type.ts#L238)
+Defined in: [frontend/src/classes/panel/panel_type.ts:238](https://github.com/radioactive-exe/SmorgasBoard/blob/33eed8942f295b0c4031e7847b84f067b2d59ff1/frontend/src/classes/panel/panel_type.ts#L238)
 
 Gets the Config Schema (if present) for the PanelType.
 
@@ -182,7 +182,7 @@ the PanelType does not have a dedicated Config.
 getDataRoute(): string | undefined;
 ```
 
-Defined in: [frontend/src/classes/panel/panel_type.ts:305](https://github.com/radioactive-exe/SmorgasBoard/blob/cface3ffad0bcfe6eefa24c05c64a6dc1416d438/frontend/src/classes/panel/panel_type.ts#L305)
+Defined in: [frontend/src/classes/panel/panel_type.ts:305](https://github.com/radioactive-exe/SmorgasBoard/blob/33eed8942f295b0c4031e7847b84f067b2d59ff1/frontend/src/classes/panel/panel_type.ts#L305)
 
 Gets the route/URL, if available, of the source of data that the
 PanelType utilises, from the backend directly,.
@@ -207,7 +207,7 @@ local data or none at all.
 getExternalDataUrl(): string | undefined;
 ```
 
-Defined in: [frontend/src/classes/panel/panel_type.ts:319](https://github.com/radioactive-exe/SmorgasBoard/blob/cface3ffad0bcfe6eefa24c05c64a6dc1416d438/frontend/src/classes/panel/panel_type.ts#L319)
+Defined in: [frontend/src/classes/panel/panel_type.ts:319](https://github.com/radioactive-exe/SmorgasBoard/blob/33eed8942f295b0c4031e7847b84f067b2d59ff1/frontend/src/classes/panel/panel_type.ts#L319)
 
 Gets the direct external URL for the API, used to link for crediting in
 the Panel's menu.
@@ -232,7 +232,7 @@ local data or none at all.
 getId(): number;
 ```
 
-Defined in: [frontend/src/classes/panel/panel_type.ts:199](https://github.com/radioactive-exe/SmorgasBoard/blob/cface3ffad0bcfe6eefa24c05c64a6dc1416d438/frontend/src/classes/panel/panel_type.ts#L199)
+Defined in: [frontend/src/classes/panel/panel_type.ts:199](https://github.com/radioactive-exe/SmorgasBoard/blob/33eed8942f295b0c4031e7847b84f067b2d59ff1/frontend/src/classes/panel/panel_type.ts#L199)
 
 Gets the numerical ID number for this PanelType.
 
@@ -254,7 +254,7 @@ The ID for the PanelType.
 getMinHeight(): number;
 ```
 
-Defined in: [frontend/src/classes/panel/panel_type.ts:280](https://github.com/radioactive-exe/SmorgasBoard/blob/cface3ffad0bcfe6eefa24c05c64a6dc1416d438/frontend/src/classes/panel/panel_type.ts#L280)
+Defined in: [frontend/src/classes/panel/panel_type.ts:280](https://github.com/radioactive-exe/SmorgasBoard/blob/33eed8942f295b0c4031e7847b84f067b2d59ff1/frontend/src/classes/panel/panel_type.ts#L280)
 
 Gets the minimum height for the PanelType.
 
@@ -279,7 +279,7 @@ the PanelType.
 getMinSize(): Size;
 ```
 
-Defined in: [frontend/src/classes/panel/panel_type.ts:252](https://github.com/radioactive-exe/SmorgasBoard/blob/cface3ffad0bcfe6eefa24c05c64a6dc1416d438/frontend/src/classes/panel/panel_type.ts#L252)
+Defined in: [frontend/src/classes/panel/panel_type.ts:252](https://github.com/radioactive-exe/SmorgasBoard/blob/33eed8942f295b0c4031e7847b84f067b2d59ff1/frontend/src/classes/panel/panel_type.ts#L252)
 
 Gets the minimum dimensions/size for the PanelType.
 
@@ -304,7 +304,7 @@ minimum size was not specified during construction.
 getMinWidth(): number;
 ```
 
-Defined in: [frontend/src/classes/panel/panel_type.ts:266](https://github.com/radioactive-exe/SmorgasBoard/blob/cface3ffad0bcfe6eefa24c05c64a6dc1416d438/frontend/src/classes/panel/panel_type.ts#L266)
+Defined in: [frontend/src/classes/panel/panel_type.ts:266](https://github.com/radioactive-exe/SmorgasBoard/blob/33eed8942f295b0c4031e7847b84f067b2d59ff1/frontend/src/classes/panel/panel_type.ts#L266)
 
 Gets the minimum width for the PanelType.
 
@@ -329,7 +329,7 @@ the PanelType.
 getName(): string;
 ```
 
-Defined in: [frontend/src/classes/panel/panel_type.ts:213](https://github.com/radioactive-exe/SmorgasBoard/blob/cface3ffad0bcfe6eefa24c05c64a6dc1416d438/frontend/src/classes/panel/panel_type.ts#L213)
+Defined in: [frontend/src/classes/panel/panel_type.ts:213](https://github.com/radioactive-exe/SmorgasBoard/blob/33eed8942f295b0c4031e7847b84f067b2d59ff1/frontend/src/classes/panel/panel_type.ts#L213)
 
 Gets the user-facing name for the PanelType.
 
@@ -355,7 +355,7 @@ This is used in menus, etc.
 getTemplate(): string;
 ```
 
-Defined in: [frontend/src/classes/panel/panel_type.ts:224](https://github.com/radioactive-exe/SmorgasBoard/blob/cface3ffad0bcfe6eefa24c05c64a6dc1416d438/frontend/src/classes/panel/panel_type.ts#L224)
+Defined in: [frontend/src/classes/panel/panel_type.ts:224](https://github.com/radioactive-exe/SmorgasBoard/blob/33eed8942f295b0c4031e7847b84f067b2d59ff1/frontend/src/classes/panel/panel_type.ts#L224)
 
 Gets the backend URL/route for the template for the PanelType.
 
@@ -377,7 +377,7 @@ The route to the template from the backend.
 toString(): string;
 ```
 
-Defined in: [frontend/src/classes/panel/panel_type.ts:188](https://github.com/radioactive-exe/SmorgasBoard/blob/cface3ffad0bcfe6eefa24c05c64a6dc1416d438/frontend/src/classes/panel/panel_type.ts#L188)
+Defined in: [frontend/src/classes/panel/panel_type.ts:188](https://github.com/radioactive-exe/SmorgasBoard/blob/33eed8942f295b0c4031e7847b84f067b2d59ff1/frontend/src/classes/panel/panel_type.ts#L188)
 
 Gets the PanelType's internal name when used in printed/string contexts.
 

@@ -10,7 +10,7 @@
 const _configSchema: zod.ZodObject<Config>;
 ```
 
-Defined in: [frontend/src/classes/config/config.ts:51](https://github.com/radioactive-exe/SmorgasBoard/blob/cface3ffad0bcfe6eefa24c05c64a6dc1416d438/frontend/src/classes/config/config.ts#L51)
+Defined in: [frontend/src/classes/config/config.ts:51](https://github.com/radioactive-exe/SmorgasBoard/blob/33eed8942f295b0c4031e7847b84f067b2d59ff1/frontend/src/classes/config/config.ts#L51)
 
 A [Zod](https://zod.dev/) schema holding the general shape of a Config schema.
 

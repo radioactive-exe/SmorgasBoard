@@ -33,9 +33,14 @@ const _templateHandler = templatesRouter.get(
     (req: express.Request, res: express.Response) => {
         // ? If no parameter is passed
         if (!req.params.panel) {
-            res.status(400).json({
-                body: "Please include a panel type to obtain the template for.",
-            });
+            res.setHeader(
+                "Access-Control-Allow-Origin",
+                process.env.ORIGIN_URL ?? "",
+            )
+                .status(400)
+                .json({
+                    body: "Please include a panel type to obtain the template for.",
+                });
             return;
         }
 
@@ -58,9 +63,14 @@ const _templateHandler = templatesRouter.get(
             // ? In case the panel parameter for which the template is requested does not
             // ? have an implemented template file
             if (err) {
-                res.status(501).json({
-                    body: "The requested template file does not exist. Please submit an issue on the Smorgasboard repository (using the link in the context menu).",
-                });
+                res.setHeader(
+                    "Access-Control-Allow-Origin",
+                    process.env.ORIGIN_URL ?? "",
+                )
+                    .status(501)
+                    .json({
+                        body: "The requested template file does not exist. Please submit an issue on the Smorgasboard repository (using the link in the context menu).",
+                    });
                 // ? Otherwise, in case the template file is implemented
             } else {
                 res.setHeader(

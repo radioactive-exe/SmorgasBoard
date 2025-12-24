@@ -6,7 +6,7 @@
 
 # Interface: LocationCurrent
 
-Defined in: backend/api/types/weather_api.types.ts:231
+Defined in: [backend/api/types/weather_api.types.ts:231](https://github.com/radioactive-exe/SmorgasBoard/blob/33eed8942f295b0c4031e7847b84f067b2d59ff1/backend/api/types/weather_api.types.ts#L231)
 
 The complete current response from the API.
 
@@ -23,7 +23,7 @@ and the current weather information for said location (in the form of a
 
 ## Properties
 
-| Property                         | Type                      | Defined in                                 |
-| -------------------------------- | ------------------------- | ------------------------------------------ |
-| <a id="current"></a> `current`   | [`Current`](Current.md)   | backend/api/types/weather_api.types.ts:233 |
-| <a id="location"></a> `location` | [`Location`](Location.md) | backend/api/types/weather_api.types.ts:232 |
+| Property                         | Type                      | Defined in                                                                                                                                                                              |
+| -------------------------------- | ------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| <a id="current"></a> `current`   | [`Current`](Current.md)   | [backend/api/types/weather_api.types.ts:233](https://github.com/radioactive-exe/SmorgasBoard/blob/33eed8942f295b0c4031e7847b84f067b2d59ff1/backend/api/types/weather_api.types.ts#L233) |
+| <a id="location"></a> `location` | [`Location`](Location.md) | [backend/api/types/weather_api.types.ts:232](https://github.com/radioactive-exe/SmorgasBoard/blob/33eed8942f295b0c4031e7847b84f067b2d59ff1/backend/api/types/weather_api.types.ts#L232) |

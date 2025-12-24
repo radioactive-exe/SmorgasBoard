@@ -112,22 +112,34 @@ const hoverEntries = contextMenu.querySelectorAll(
  */
 let contextMenuHideTimeout: NodeJS.Timeout;
 
-// eslint-disable-next-line jsdoc/require-example
 /**
  * Makes the context menu visible.
  *
  * @remarks
- * This function spawns/shows the context menu based on whether the input was
- * received, either through a mouse or the navigation entries.
+ * This function spawns/shows the context menu at a specific location determined
+ * by the respective handler for the context menu click (right click) or the nav
+ * entry button click.
  *
- * @param e - The pointer event based on the location/target of which the
- *   context menu will be shown.
+ * @param posX - The X (horizontal) position to (attempt) to spawn the context
+ *   menu at. Defaults to 0.
+ * @param posY - The Y (vertical) position to (attempt) to spawn the context
+ *   menu at. Defaults to 0.
  *
+ * @example
+ *
+ * ```ts
+ * spawnContextMenu(200, 350);
+ * ```
+ *
+ * The above spawns the context menu with its top left corner positioned 200
+ * pixels from the left edge and 350 pixels from the top edge.
+ *
+ * @see {@link contextMenuClickHandler | contextMenuClickHandler()}
+ * @see {@link contextMenuNavHandler | contextMenuNavHandler()}
  * @see {@link keepContextMenu | keepContextMenu()}
  * @see {@link removeContextMenu | removeContextMenu()}
  */
-function spawnContextMenu(e: PointerEvent): void {
-    e.preventDefault();
+function spawnContextMenu(posX = 0, posY = 0): void {
     if (
         contextMenu == null
         || themeMenu == null
@@ -135,41 +147,26 @@ function spawnContextMenu(e: PointerEvent): void {
         || innerMenu == null
     )
         return;
-    if (
-        // ? If the click/right click that spawned the context menu was on top of a panel or one of its children.
-        e.target instanceof Panel
-        || (e.target instanceof HTMLElement
-            && (e.target as HTMLElement).closest("panel-element") != null)
-    ) {
-        // ? We target the panel in question (either itself or the closest parent panel
-        // ? of the child element we had clicked on top of)
-        if (e.target instanceof Panel) current.panel = e.target;
-        else current.panel = e.target.closest("panel-element") as Panel;
-
-        // ? We make the deletion section of the context menu visible
-        deletePanelSection?.classList.add("visible");
-
-        // ? If the context menu was near the bottom and the deletion section was shown,
-        // ? adjust the position of the context menu to keep it on-screen
-        fitContextMenuOnScreen();
-
-        // ? Otherwise, we don't need the deletion section.
-    } else deletePanelSection?.classList.remove("visible");
-
     try {
         // ? If we are trying to spawn the context menu too far down on the screen
         // ? that the submenus would not fit/would go out of the screen on the bottom
-        if (e.pageY > window.innerHeight - contextMenu.offsetHeight - 100) {
+        if (posY > window.innerHeight - contextMenu.offsetHeight - 100) {
             // * So we show the submenus above their hover entries.
             themeMenu.style.top = "";
-            themeMenu.style.left = "-2%";
-            themeMenu.style.bottom = "88%";
+            themeMenu.style.left = "0";
+            themeMenu.style.right = "";
+            themeMenu.style.bottom = "100%";
+            themeMenu.style.transformOrigin = "left";
             panelMenu.style.top = "";
-            panelMenu.style.left = "-2%";
-            panelMenu.style.bottom = "88%";
+            panelMenu.style.left = "0";
+            panelMenu.style.right = "";
+            panelMenu.style.bottom = "100%";
+            panelMenu.style.transformOrigin = "left";
             dimensionsMenu.style.top = "";
-            dimensionsMenu.style.left = "-2%";
-            dimensionsMenu.style.bottom = "88%";
+            dimensionsMenu.style.left = "0";
+            dimensionsMenu.style.right = "";
+            dimensionsMenu.style.bottom = "100%";
+            dimensionsMenu.style.transformOrigin = "left";
 
             // ? If we are trying to spawn the context menu in a situation where (a) the window is too thin
             // ? to fit the main menu and the submenu next to each other at all or (b) the position cannot fit
@@ -177,47 +174,65 @@ function spawnContextMenu(e: PointerEvent): void {
             // * (the submenus have the same width as the main menu)
         } else if (
             window.innerWidth < 2 * contextMenu.offsetWidth
-            || (e.pageX > window.innerWidth - 2 * contextMenu.offsetWidth
-                && e.pageX < contextMenu.offsetWidth)
+            || (posX > window.innerWidth - 2 * contextMenu.offsetWidth
+                && posX < contextMenu.offsetWidth)
         ) {
             // * So we show the submenus under their hover entries.
-            themeMenu.style.top = "88%";
-            themeMenu.style.left = "-2%";
+            themeMenu.style.top = "100%";
+            themeMenu.style.left = "0";
+            themeMenu.style.right = "";
             themeMenu.style.bottom = "";
-            panelMenu.style.top = "88%";
-            panelMenu.style.left = "-2%";
+            themeMenu.style.transformOrigin = "left";
+            panelMenu.style.top = "100%";
+            panelMenu.style.left = "0";
+            panelMenu.style.right = "";
             panelMenu.style.bottom = "";
-            dimensionsMenu.style.top = "88%";
-            dimensionsMenu.style.left = "-2%";
+            panelMenu.style.transformOrigin = "left";
+            dimensionsMenu.style.top = "100%";
+            dimensionsMenu.style.left = "0";
+            dimensionsMenu.style.right = "";
             dimensionsMenu.style.bottom = "";
+            dimensionsMenu.style.transformOrigin = "left";
 
             // ? If we are trying to spawn the context menu so far right that the submenus
             // ? cannot fit/would go off the screen on the right, but there is enough space
             // ? on the left (due to the fact that it failed the previous check)
-        } else if (e.pageX > window.innerWidth - 2 * contextMenu.offsetWidth) {
+        } else if (posX > window.innerWidth - 2 * contextMenu.offsetWidth) {
             // * So we show the submenus to the left of their hover entries.
             themeMenu.style.top = "";
-            themeMenu.style.left = "-102%";
+            themeMenu.style.left = "";
+            themeMenu.style.right = "100%";
             themeMenu.style.bottom = "";
+            themeMenu.style.transformOrigin = "right";
             panelMenu.style.top = "";
-            panelMenu.style.left = "-102%";
+            panelMenu.style.left = "";
+            panelMenu.style.right = "100%";
             panelMenu.style.bottom = "";
-            dimensionsMenu.style.top = "88%";
-            dimensionsMenu.style.left = "-2%";
+            panelMenu.style.transformOrigin = "right";
+            dimensionsMenu.style.top = "";
+            dimensionsMenu.style.left = "";
+            dimensionsMenu.style.right = "100%";
             dimensionsMenu.style.bottom = "";
+            dimensionsMenu.style.transformOrigin = "right";
 
             // ? If there is enough space on the right for the submenus to sit comfortably
         } else {
             // * So we show the submenus on the right regularly
             themeMenu.style.top = "";
-            themeMenu.style.left = "98%";
+            themeMenu.style.left = "100%";
+            themeMenu.style.right = "";
             themeMenu.style.bottom = "";
+            themeMenu.style.transformOrigin = "left";
             panelMenu.style.top = "";
-            panelMenu.style.left = "98%";
+            panelMenu.style.left = "100%";
+            panelMenu.style.right = "";
             panelMenu.style.bottom = "";
+            panelMenu.style.transformOrigin = "left";
             dimensionsMenu.style.top = "";
-            dimensionsMenu.style.left = "98%";
+            dimensionsMenu.style.left = "100%";
+            dimensionsMenu.style.right = "";
             dimensionsMenu.style.bottom = "";
+            dimensionsMenu.style.transformOrigin = "left";
         }
 
         // ? Removes the `lerping` class placed when we are ensuring the context menu stays
@@ -230,12 +245,12 @@ function spawnContextMenu(e: PointerEvent): void {
         // * The clamped coordinates to set the context menu's position to.
 
         const x: number = math.clamp(
-            e.pageX,
+            posX,
             0,
             window.innerWidth - contextMenu.offsetWidth - 10,
         );
         const y: number = math.clamp(
-            e.pageY,
+            posY,
             0,
             window.innerHeight - innerMenu.offsetHeight - 10,
         );
@@ -347,10 +362,70 @@ function contextMenuLoseFocusHandler(e: PointerEvent): void {
         removeContextMenu();
 }
 
-// ~ Listener adding and initial load execution
+// eslint-disable-next-line jsdoc/require-example
+/**
+ * Handles the right click/context menu click event, spawning the context menu
+ * based on the click location and showing/hiding the deletion section as
+ * necessary.
+ *
+ * @param e - The pointer event based on the location/target of which the
+ *   context menu will be shown.
+ *
+ * @see {@link spawnContextMenu | spawnContextMenu()}
+ * @see {@link contextMenuNavHandler | contextMenuNavHandler()}
+ */
+function contextMenuClickHandler(e: PointerEvent): void {
+    e.preventDefault();
+    if (
+        // ? If the click/right click that spawned the context menu was on top of a panel or one of its children.
+        e.target instanceof Panel
+        || (e.target instanceof HTMLElement
+            && (e.target as HTMLElement).closest("panel-element") != null)
+    ) {
+        // ? We target the panel in question (either itself or the closest parent panel
+        // ? of the child element we had clicked on top of)
+        if (e.target instanceof Panel) current.panel = e.target;
+        else current.panel = e.target.closest("panel-element") as Panel;
+
+        // ? We make the deletion section of the context menu visible
+        deletePanelSection?.classList.add("visible");
+
+        // ? If the context menu was near the bottom and the deletion section was shown,
+        // ? adjust the position of the context menu to keep it on-screen
+        fitContextMenuOnScreen();
+
+        // ? Otherwise, we don't need the deletion section.
+    } else deletePanelSection?.classList.remove("visible");
+
+    spawnContextMenu(e.pageX, e.pageY);
+}
+
+/**
+ * Handles spawning the context menu by clicking the navigation entry for it.
+ *
+ * @remarks
+ * It spawns the context menu at the X and Y coordinates of the context nav
+ * entry, and the X is taken care of by being clamped by the spawning function.
+ * This handler always using these coordinates ensures that the context menu
+ * spawned through the nav entry always spawns consistently in the same exact
+ * place no matter where on the context nav the user presses.
+ *
+ * @see {@link spawnContextMenu | spawnContextMenu()}
+ * @see {@link contextMenuClickHandler | contextMenuClickHandler()}
+ */
+function contextMenuNavHandler(): void {
+    // ? Hide the deletion section, as it is unneeded when spawned like this
+    deletePanelSection?.classList.remove("visible");
+
+    const box = contextNavButton?.getBoundingClientRect();
+
+    spawnContextMenu(box?.x, box?.y);
+}
 
 export {
     contextMenu,
+    contextMenuClickHandler,
+    contextMenuNavHandler,
     deletePanelButton,
     deletePanelSection,
     editModeButton,
@@ -360,6 +435,5 @@ export {
     keepContextMenu,
     panelMenu,
     removeContextMenu,
-    spawnContextMenu,
     themeMenu,
 };

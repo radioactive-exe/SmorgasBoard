@@ -19,6 +19,12 @@ behaviour, and it handles all config changes by firing up relevant events.
 Radioactive.exe
 [GitHub Profile](https://github.com/radioactive-exe)
 
+## Variables
+
+| Variable                                                            | Description                                                                          |
+| ------------------------------------------------------------------- | ------------------------------------------------------------------------------------ |
+| [previouslyFocusedSelector](variables/previouslyFocusedSelector.md) | The last focused selector, most often relevant when dealing with dropdown selectors. |
+
 ## Functions
 
 | Function                                                  | Description                                                                                                    |

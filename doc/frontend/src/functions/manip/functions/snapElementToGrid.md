@@ -10,7 +10,7 @@
 function snapElementToGrid(snappingTarget, source, shouldAnimate): void;
 ```
 
-Defined in: [frontend/src/functions/manip.ts:305](https://github.com/radioactive-exe/SmorgasBoard/blob/cface3ffad0bcfe6eefa24c05c64a6dc1416d438/frontend/src/functions/manip.ts#L305)
+Defined in: [frontend/src/functions/manip.ts:306](https://github.com/radioactive-exe/SmorgasBoard/blob/33eed8942f295b0c4031e7847b84f067b2d59ff1/frontend/src/functions/manip.ts#L306)
 
 Snaps the moving element to the dashboard grid, based on its own position and
 size, or those of another source.

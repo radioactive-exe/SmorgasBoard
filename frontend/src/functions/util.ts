@@ -44,11 +44,15 @@ let previewDeletionTimeout: NodeJS.Timeout,
 function areaCollisionWithElement(area: Area, el: HTMLElement): boolean {
     // * A margin of 10/20 pixels is given because elements will line up side-to-side, and would otherwise
     // * fire off false positives when 2 panels would occupy neighbouring cells.
+    const elX = get.normalisedCssPropertyValue(el, "--x");
+    const elY = get.normalisedCssPropertyValue(el, "--y");
+    const elWidth = get.normalisedCssPropertyValue(el, "--width");
+    const elHeight = get.normalisedCssPropertyValue(el, "--height");
     return !(
-        area.getAbsoluteY() + area.getAbsoluteHeight() < el.offsetTop + 10
-        || area.getAbsoluteY() >= el.offsetTop + el.offsetHeight - 20
-        || area.getAbsoluteX() + area.getAbsoluteWidth() < el.offsetLeft + 10
-        || area.getAbsoluteX() > el.offsetLeft + el.offsetWidth - 20
+        area.getAbsoluteY() + area.getAbsoluteHeight() < elY + 10
+        || area.getAbsoluteY() >= elY + elHeight - 20
+        || area.getAbsoluteX() + area.getAbsoluteWidth() < elX + 10
+        || area.getAbsoluteX() > elX + elWidth - 20
     );
 }
 

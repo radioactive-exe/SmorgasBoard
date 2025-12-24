@@ -10,7 +10,7 @@
 const dimensionsMenu: HTMLElement;
 ```
 
-Defined in: [frontend/src/elements/context_menu.ts:55](https://github.com/radioactive-exe/SmorgasBoard/blob/cface3ffad0bcfe6eefa24c05c64a6dc1416d438/frontend/src/elements/context_menu.ts#L55)
+Defined in: [frontend/src/elements/context_menu.ts:55](https://github.com/radioactive-exe/SmorgasBoard/blob/33eed8942f295b0c4031e7847b84f067b2d59ff1/frontend/src/elements/context_menu.ts#L55)
 
 The matrix/dimensions selection grid menu housed inside the dimensions
 context menu entry.

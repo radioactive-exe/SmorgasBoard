@@ -200,7 +200,10 @@ function buildBooleanEntrySelector(entry: ConfigEntry.Boolean): HTMLElement {
     toggleSelector.innerHTML = `
         <label class="toggle-checkbox-background">
             <input type="checkbox" class="toggle-checkbox" />
-            <div class="toggle-checkbox-button"></div>
+            <div class="toggle-checkbox-button">
+            <div class="toggle-p1"></div>
+            <div class="toggle-p2"></div>
+            </div>
         </label>
     `;
 
@@ -210,6 +213,9 @@ function buildBooleanEntrySelector(entry: ConfigEntry.Boolean): HTMLElement {
 
     // ? Setting the checkbox to reflect the config option value
     checkbox.checked = entry.value;
+
+    // ? And the parent class
+    if (entry.value) toggleSelector.classList.add("checked");
 
     // ? Calls the function that initiates all listeners and config change events
     // ? for the Toggle/Boolean selector.

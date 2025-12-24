@@ -33,13 +33,15 @@ import { Theme } from "./classes/theme.js";
 import { AlertLevel, spawnAlert } from "./elements/alert.js";
 
 import {
+    contextMenu,
+    contextMenuClickHandler,
+    contextMenuNavHandler,
     deletePanelButton,
     editModeButton,
     fitContextMenuOnScreen,
     hoverEntries,
     innerMenu,
     panelMenu,
-    spawnContextMenu,
     themeMenu,
 } from "./elements/context_menu.js";
 
@@ -189,6 +191,11 @@ const current = {
 const modalLayer: HTMLElement =
     document.querySelector("#modal-layer") ?? document.createElement("div");
 
+/** The save icon that pops up indicating the dashboard was saved. */
+const saveIcon: HTMLElement =
+    document.querySelector("#dashboard-save-icon")
+    ?? document.createElement("div");
+
 /**
  * A node list of all the nav buttons/entries in the nav menu.
  *
@@ -212,7 +219,8 @@ const contextNavButton: HTMLElement | null = document.querySelector(
 navButtons.forEach((navButton) => {
     navButton?.addEventListener("click", () => {
         // ? The context nav is not toggle-able
-        if (navButton != contextNavButton) navButton.classList.toggle("active");
+        if (navButton != contextNavButton)
+            navButton.parentElement?.classList.toggle("active");
 
         // ? Go through all the nav buttons
         navButtons.forEach((otherButton) => {
@@ -224,8 +232,8 @@ navButtons.forEach((navButton) => {
                 // ? off when any other nav button is clicked)
                 && !(navButton != mainNavButton && otherButton == mainNavButton)
             ) {
-                // ? Then deactivate it. This ensures only one nav entry is active at a given point
-                otherButton.classList.remove("active");
+                // ? Then, deactivate it. This ensures only one nav entry is active at a given point
+                otherButton.parentElement?.classList.remove("active");
             }
         });
     });
@@ -517,6 +525,10 @@ const commonHandler = {
         current.panel = panel;
         current.originalArea = new Area(panel.getPosition(), panel.getSize());
 
+        // // ? Move the panel to become the first dashboard child.
+        // // ! This is to avoid needing the non-baseline :has() selector in styling
+        // dashboard.prepend(panel);
+
         // ? Add the necessary classes - the manipulation type flag, and the general flag
         panel.classList.add(current.flag, "being-manipulated");
 
@@ -544,6 +556,11 @@ const commonHandler = {
 
         // ? Updates the preview with the panel being manipulated.
         panel.updatePreview();
+
+        // ? Reset the save timeout so that a save is not
+        // ? triggered while the user is still dragging
+        // ? around a panel/resizing it
+        dashboard.triggerDelayedSave();
     },
 };
 
@@ -679,22 +696,26 @@ deletePanelButton?.addEventListener("click", () => {
 hoverEntries.forEach((item) => {
     item.addEventListener("mouseenter", () => {
         item.classList.add("active");
+        contextMenu.dataset.focused = item.dataset.menu;
     });
 
     item.addEventListener("mouseleave", () => {
         item.classList.remove("active");
+        contextMenu.dataset.focused = "";
     });
 
     item.addEventListener("touchend", (e) => {
         if (e.target == item) item.classList.toggle("active");
+        if (!item.classList.contains("active"))
+            contextMenu.dataset.focused = "";
     });
 });
 
 // ? Handles spawning the context menu
-dashboard.addEventListener("contextmenu", spawnContextMenu);
+dashboard.addEventListener("contextmenu", contextMenuClickHandler);
 
 // ? Spawn the context menu when the Context nav entry is clicked/tapped (when visible)
-contextNavButton?.addEventListener("click", spawnContextMenu);
+contextNavButton?.addEventListener("click", contextMenuNavHandler);
 
 // ? Reset all the highlighted cells in the matrix when the mouse leaves
 matrix?.addEventListener("mouseleave", () => {
@@ -736,8 +757,10 @@ window.addEventListener("pointerdown", (e) => {
         !personalNavButton?.parentElement?.contains(
             e.target as HTMLElement | null,
         )
-    )
+    ) {
         personalNavButton?.classList.remove("active");
+        personalNavButton?.parentElement?.classList.remove("active");
+    }
 });
 
 // ~ Supabase Realtime and Auth Event handling
@@ -1052,6 +1075,7 @@ export {
     modalLayer,
     preview,
     refreshDimensions,
+    saveIcon,
     setDocumentHandlers,
     setFirstTime,
     setLocalChange,

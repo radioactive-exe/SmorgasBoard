@@ -17,7 +17,7 @@ user:
   | null = null;
 ```
 
-Defined in: [frontend/src/app.ts:71](https://github.com/radioactive-exe/SmorgasBoard/blob/cface3ffad0bcfe6eefa24c05c64a6dc1416d438/frontend/src/app.ts#L71)
+Defined in: [frontend/src/app.ts:73](https://github.com/radioactive-exe/SmorgasBoard/blob/33eed8942f295b0c4031e7847b84f067b2d59ff1/frontend/src/app.ts#L73)
 
 The current logged in user. This holds all relevant fields if a user is
 logged in, or is null if the dashboard is being used anonymously.

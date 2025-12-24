@@ -13,14 +13,6 @@
     "license": "ISC",
     "author": "Radioactive-exe",
     "type": "commonjs",
-    "findUnusedExports": {
-        "include": [
-            "**/*/src/**/*"
-        ],
-        "exclude": [
-            "**/*/node_modules/**/*"
-        ]
-    },
     "scripts": {
         "gen_docs": "npx typedoc --options ./typedoc.json",
         "client": "concurrently \"npm run watch -w frontend\" \"npm run dev -w frontend\"",

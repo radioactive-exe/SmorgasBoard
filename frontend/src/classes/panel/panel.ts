@@ -20,6 +20,7 @@ import {
     supabase,
 } from "../../app.js";
 
+import { previouslyFocusedSelector } from "../../elements/inputs.js";
 import * as get from "../../functions/accessors.js";
 
 import {
@@ -408,6 +409,11 @@ class Panel extends HTMLElement {
             // ? on this toggle
             menuButton.addEventListener("click", () => {
                 this.classList.toggle("configuring");
+
+                // ? Close any previously open dropdowns
+                if (previouslyFocusedSelector)
+                    previouslyFocusedSelector.classList.remove("open");
+
                 if (this.classList.contains("configuring")) {
                     current.panel = this;
                     this.moveToCentre();
@@ -1090,12 +1096,12 @@ class Panel extends HTMLElement {
         // ? The Preview's caller ID is the dashboard ID of the panel that triggered its call
         preview.dataset.callerId = this.dataset.panelId;
 
-        // ? Re-add the Preview to the dashboard and make it visible
-        dashboard.prepend(preview);
-        preview.classList.add("visible");
-
         // ? Immediately snap the Preview to the Panel's location, then update as usual
         snapElementToTarget(preview, this, false);
+
+        // ? Re-add the Preview to the dashboard and make it visible
+        dashboard.prepend(preview);
+        preview.classList.add("visible", "snapping");
         this.updatePreview();
     }
 

@@ -10,7 +10,7 @@
 function removeContextMenu(): void;
 ```
 
-Defined in: [frontend/src/elements/context_menu.ts:280](https://github.com/radioactive-exe/SmorgasBoard/blob/cface3ffad0bcfe6eefa24c05c64a6dc1416d438/frontend/src/elements/context_menu.ts#L280)
+Defined in: [frontend/src/elements/context_menu.ts:295](https://github.com/radioactive-exe/SmorgasBoard/blob/33eed8942f295b0c4031e7847b84f067b2d59ff1/frontend/src/elements/context_menu.ts#L295)
 
 Safely dismiss the context menu and make it invisible again, after a delay.
 

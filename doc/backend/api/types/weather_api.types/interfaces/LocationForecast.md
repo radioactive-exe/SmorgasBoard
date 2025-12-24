@@ -6,7 +6,7 @@
 
 # Interface: LocationForecast
 
-Defined in: backend/api/types/weather_api.types.ts:247
+Defined in: [backend/api/types/weather_api.types.ts:247](https://github.com/radioactive-exe/SmorgasBoard/blob/33eed8942f295b0c4031e7847b84f067b2d59ff1/backend/api/types/weather_api.types.ts#L247)
 
 The complete Forecast response from the API.
 
@@ -25,8 +25,8 @@ both for the day and the hours in the days requested.
 
 ## Properties
 
-| Property                         | Type                      | Inherited from                                                                    | Defined in                                 |
-| -------------------------------- | ------------------------- | --------------------------------------------------------------------------------- | ------------------------------------------ |
-| <a id="current"></a> `current`   | [`Current`](Current.md)   | [`LocationCurrent`](LocationCurrent.md).[`current`](LocationCurrent.md#current)   | backend/api/types/weather_api.types.ts:233 |
-| <a id="forecast"></a> `forecast` | [`Forecast`](Forecast.md) | -                                                                                 | backend/api/types/weather_api.types.ts:248 |
-| <a id="location"></a> `location` | [`Location`](Location.md) | [`LocationCurrent`](LocationCurrent.md).[`location`](LocationCurrent.md#location) | backend/api/types/weather_api.types.ts:232 |
+| Property                         | Type                      | Inherited from                                                                    | Defined in                                                                                                                                                                              |
+| -------------------------------- | ------------------------- | --------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| <a id="current"></a> `current`   | [`Current`](Current.md)   | [`LocationCurrent`](LocationCurrent.md).[`current`](LocationCurrent.md#current)   | [backend/api/types/weather_api.types.ts:233](https://github.com/radioactive-exe/SmorgasBoard/blob/33eed8942f295b0c4031e7847b84f067b2d59ff1/backend/api/types/weather_api.types.ts#L233) |
+| <a id="forecast"></a> `forecast` | [`Forecast`](Forecast.md) | -                                                                                 | [backend/api/types/weather_api.types.ts:248](https://github.com/radioactive-exe/SmorgasBoard/blob/33eed8942f295b0c4031e7847b84f067b2d59ff1/backend/api/types/weather_api.types.ts#L248) |
+| <a id="location"></a> `location` | [`Location`](Location.md) | [`LocationCurrent`](LocationCurrent.md).[`location`](LocationCurrent.md#location) | [backend/api/types/weather_api.types.ts:232](https://github.com/radioactive-exe/SmorgasBoard/blob/33eed8942f295b0c4031e7847b84f067b2d59ff1/backend/api/types/weather_api.types.ts#L232) |

@@ -10,7 +10,7 @@
 function initDropdownSelector(selector): void;
 ```
 
-Defined in: [frontend/src/elements/inputs.ts:47](https://github.com/radioactive-exe/SmorgasBoard/blob/cface3ffad0bcfe6eefa24c05c64a6dc1416d438/frontend/src/elements/inputs.ts#L47)
+Defined in: [frontend/src/elements/inputs.ts:47](https://github.com/radioactive-exe/SmorgasBoard/blob/33eed8942f295b0c4031e7847b84f067b2d59ff1/frontend/src/elements/inputs.ts#L47)
 
 Adds all relevant listeners and instantiates all necessary variables for the
 custom dropdown selectors.

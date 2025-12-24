@@ -6,7 +6,7 @@
 
 # Class: Dashboard
 
-Defined in: [frontend/src/classes/dashboard.ts:44](https://github.com/radioactive-exe/SmorgasBoard/blob/cface3ffad0bcfe6eefa24c05c64a6dc1416d438/frontend/src/classes/dashboard.ts#L44)
+Defined in: [frontend/src/classes/dashboard.ts:45](https://github.com/radioactive-exe/SmorgasBoard/blob/33eed8942f295b0c4031e7847b84f067b2d59ff1/frontend/src/classes/dashboard.ts#L45)
 
 The Dashboard class.
 
@@ -29,7 +29,7 @@ panels, setting the theme, and editing the layout of its contents.
 new Dashboard(): Dashboard;
 ```
 
-Defined in: [frontend/src/classes/dashboard.ts:94](https://github.com/radioactive-exe/SmorgasBoard/blob/cface3ffad0bcfe6eefa24c05c64a6dc1416d438/frontend/src/classes/dashboard.ts#L94)
+Defined in: [frontend/src/classes/dashboard.ts:95](https://github.com/radioactive-exe/SmorgasBoard/blob/33eed8942f295b0c4031e7847b84f067b2d59ff1/frontend/src/classes/dashboard.ts#L95)
 
 Creates a new Dashboard. Once created, the dashboard is filled with cells
 to indicate the different slots and dimensions of the Dashboard. A shadow
@@ -49,13 +49,13 @@ HTMLElement.constructor;
 
 | Property                                     | Modifier  | Type                                                               | Description                                                                                                                                                                                                                                                                                                                                                                                   | Defined in                                                                                                                                                                  |
 | -------------------------------------------- | --------- | ------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| <a id="cells"></a> `cells`                   | `private` | `HTMLElement`[]                                                    | The cells in the background of the dashboard, used as indicators for its dimensions, edit mode, and previewing dimension changes. **See** [populateCells()](#populatecells)                                                                                                                                                                                                                   | [frontend/src/classes/dashboard.ts:82](https://github.com/radioactive-exe/SmorgasBoard/blob/cface3ffad0bcfe6eefa24c05c64a6dc1416d438/frontend/src/classes/dashboard.ts#L82) |
-| <a id="currenttheme"></a> `currentTheme`     | `private` | [`Theme`](../../theme/classes/Theme.md)                            | The current Theme applied to the Dashboard.                                                                                                                                                                                                                                                                                                                                                   | [frontend/src/classes/dashboard.ts:63](https://github.com/radioactive-exe/SmorgasBoard/blob/cface3ffad0bcfe6eefa24c05c64a6dc1416d438/frontend/src/classes/dashboard.ts#L63) |
-| <a id="dimensions"></a> `dimensions`         | `private` | [`Size`](../../area/interfaces/Size.md)                            | The dimensions in Units of the Dashboard. This holds the number of Rows and Columns (cells) that the Dashboard is divided into. Any reference including "cell" or "fractional" is referring to these dimensions.                                                                                                                                                                              | [frontend/src/classes/dashboard.ts:75](https://github.com/radioactive-exe/SmorgasBoard/blob/cface3ffad0bcfe6eefa24c05c64a6dc1416d438/frontend/src/classes/dashboard.ts#L75) |
-| <a id="freeids"></a> `freeIds`               | `private` | `Set`\<`number`\>                                                  | The pool of Free ID numbers in the Dashboard. Once panels are deleted, their ID number is thrown into this Set to be later reused by the new panels.                                                                                                                                                                                                                                          | [frontend/src/classes/dashboard.ts:69](https://github.com/radioactive-exe/SmorgasBoard/blob/cface3ffad0bcfe6eefa24c05c64a6dc1416d438/frontend/src/classes/dashboard.ts#L69) |
-| <a id="panelinstances"></a> `panelInstances` | `private` | [`PanelInstance`](../../panel/panel/interfaces/PanelInstance.md)[] | The stored PanelInstances for the panels in the Dashboard. **Remarks** This is stored to facilitate saving locally and to the cloud, as well as checking received updates from the Supabase database for any differences with the local data before reloading, avoiding unnecessary reloads if an update was received in conflicting timing with resetting whether a change was local or not. | [frontend/src/classes/dashboard.ts:61](https://github.com/radioactive-exe/SmorgasBoard/blob/cface3ffad0bcfe6eefa24c05c64a6dc1416d438/frontend/src/classes/dashboard.ts#L61) |
-| <a id="panels"></a> `panels`                 | `private` | [`Panel`](../../panel/panel/classes/Panel.md)[]                    | The Panels stored in the dashboard/application. **See** [Panel](../../panel/panel/classes/Panel.md)                                                                                                                                                                                                                                                                                           | [frontend/src/classes/dashboard.ts:50](https://github.com/radioactive-exe/SmorgasBoard/blob/cface3ffad0bcfe6eefa24c05c64a6dc1416d438/frontend/src/classes/dashboard.ts#L50) |
-| <a id="savetimeout"></a> `saveTimeout`       | `private` | `Timeout`                                                          | The timeout/delay to trigger an autosave after a dashboard change or update is made.                                                                                                                                                                                                                                                                                                          | [frontend/src/classes/dashboard.ts:87](https://github.com/radioactive-exe/SmorgasBoard/blob/cface3ffad0bcfe6eefa24c05c64a6dc1416d438/frontend/src/classes/dashboard.ts#L87) |
+| <a id="cells"></a> `cells`                   | `private` | `HTMLElement`[]                                                    | The cells in the background of the dashboard, used as indicators for its dimensions, edit mode, and previewing dimension changes. **See** [populateCells()](#populatecells)                                                                                                                                                                                                                   | [frontend/src/classes/dashboard.ts:83](https://github.com/radioactive-exe/SmorgasBoard/blob/33eed8942f295b0c4031e7847b84f067b2d59ff1/frontend/src/classes/dashboard.ts#L83) |
+| <a id="currenttheme"></a> `currentTheme`     | `private` | [`Theme`](../../theme/classes/Theme.md)                            | The current Theme applied to the Dashboard.                                                                                                                                                                                                                                                                                                                                                   | [frontend/src/classes/dashboard.ts:64](https://github.com/radioactive-exe/SmorgasBoard/blob/33eed8942f295b0c4031e7847b84f067b2d59ff1/frontend/src/classes/dashboard.ts#L64) |
+| <a id="dimensions"></a> `dimensions`         | `private` | [`Size`](../../area/interfaces/Size.md)                            | The dimensions in Units of the Dashboard. This holds the number of Rows and Columns (cells) that the Dashboard is divided into. Any reference including "cell" or "fractional" is referring to these dimensions.                                                                                                                                                                              | [frontend/src/classes/dashboard.ts:76](https://github.com/radioactive-exe/SmorgasBoard/blob/33eed8942f295b0c4031e7847b84f067b2d59ff1/frontend/src/classes/dashboard.ts#L76) |
+| <a id="freeids"></a> `freeIds`               | `private` | `Set`\<`number`\>                                                  | The pool of Free ID numbers in the Dashboard. Once panels are deleted, their ID number is thrown into this Set to be later reused by the new panels.                                                                                                                                                                                                                                          | [frontend/src/classes/dashboard.ts:70](https://github.com/radioactive-exe/SmorgasBoard/blob/33eed8942f295b0c4031e7847b84f067b2d59ff1/frontend/src/classes/dashboard.ts#L70) |
+| <a id="panelinstances"></a> `panelInstances` | `private` | [`PanelInstance`](../../panel/panel/interfaces/PanelInstance.md)[] | The stored PanelInstances for the panels in the Dashboard. **Remarks** This is stored to facilitate saving locally and to the cloud, as well as checking received updates from the Supabase database for any differences with the local data before reloading, avoiding unnecessary reloads if an update was received in conflicting timing with resetting whether a change was local or not. | [frontend/src/classes/dashboard.ts:62](https://github.com/radioactive-exe/SmorgasBoard/blob/33eed8942f295b0c4031e7847b84f067b2d59ff1/frontend/src/classes/dashboard.ts#L62) |
+| <a id="panels"></a> `panels`                 | `private` | [`Panel`](../../panel/panel/classes/Panel.md)[]                    | The Panels stored in the dashboard/application. **See** [Panel](../../panel/panel/classes/Panel.md)                                                                                                                                                                                                                                                                                           | [frontend/src/classes/dashboard.ts:51](https://github.com/radioactive-exe/SmorgasBoard/blob/33eed8942f295b0c4031e7847b84f067b2d59ff1/frontend/src/classes/dashboard.ts#L51) |
+| <a id="savetimeout"></a> `saveTimeout`       | `private` | `Timeout`                                                          | The timeout/delay to trigger an autosave after a dashboard change or update is made.                                                                                                                                                                                                                                                                                                          | [frontend/src/classes/dashboard.ts:88](https://github.com/radioactive-exe/SmorgasBoard/blob/33eed8942f295b0c4031e7847b84f067b2d59ff1/frontend/src/classes/dashboard.ts#L88) |
 
 ## Methods
 
@@ -65,7 +65,7 @@ HTMLElement.constructor;
 clear(): void;
 ```
 
-Defined in: [frontend/src/classes/dashboard.ts:966](https://github.com/radioactive-exe/SmorgasBoard/blob/cface3ffad0bcfe6eefa24c05c64a6dc1416d438/frontend/src/classes/dashboard.ts#L966)
+Defined in: [frontend/src/classes/dashboard.ts:973](https://github.com/radioactive-exe/SmorgasBoard/blob/33eed8942f295b0c4031e7847b84f067b2d59ff1/frontend/src/classes/dashboard.ts#L973)
 
 Resets the Dashboard completely, removing all locally stored data and
 resetting the Theme to default, clearing out all Panels and stored IDs.
@@ -86,7 +86,7 @@ resetting the Theme to default, clearing out all Panels and stored IDs.
 clearPanelData(): void;
 ```
 
-Defined in: [frontend/src/classes/dashboard.ts:986](https://github.com/radioactive-exe/SmorgasBoard/blob/cface3ffad0bcfe6eefa24c05c64a6dc1416d438/frontend/src/classes/dashboard.ts#L986)
+Defined in: [frontend/src/classes/dashboard.ts:993](https://github.com/radioactive-exe/SmorgasBoard/blob/33eed8942f295b0c4031e7847b84f067b2d59ff1/frontend/src/classes/dashboard.ts#L993)
 
 Clears all Panel data for the Dashboard, removing all free IDs and stored
 Panels, as well as all Panels in the body, without replacing any
@@ -108,7 +108,7 @@ locally/remotely saved data.
 deletePanel(panel): void;
 ```
 
-Defined in: [frontend/src/classes/dashboard.ts:557](https://github.com/radioactive-exe/SmorgasBoard/blob/cface3ffad0bcfe6eefa24c05c64a6dc1416d438/frontend/src/classes/dashboard.ts#L557)
+Defined in: [frontend/src/classes/dashboard.ts:558](https://github.com/radioactive-exe/SmorgasBoard/blob/33eed8942f295b0c4031e7847b84f067b2d59ff1/frontend/src/classes/dashboard.ts#L558)
 
 Deleted a panel from the Dashboard.
 
@@ -144,7 +144,7 @@ case, the panel can be deleted directly.
 getCells(): HTMLElement[];
 ```
 
-Defined in: [frontend/src/classes/dashboard.ts:205](https://github.com/radioactive-exe/SmorgasBoard/blob/cface3ffad0bcfe6eefa24c05c64a6dc1416d438/frontend/src/classes/dashboard.ts#L205)
+Defined in: [frontend/src/classes/dashboard.ts:206](https://github.com/radioactive-exe/SmorgasBoard/blob/33eed8942f295b0c4031e7847b84f067b2d59ff1/frontend/src/classes/dashboard.ts#L206)
 
 Gets the background cells for the Dashboard.
 
@@ -162,7 +162,7 @@ The stored array of cells.
 getCurrentTheme(): Theme;
 ```
 
-Defined in: [frontend/src/classes/dashboard.ts:915](https://github.com/radioactive-exe/SmorgasBoard/blob/cface3ffad0bcfe6eefa24c05c64a6dc1416d438/frontend/src/classes/dashboard.ts#L915)
+Defined in: [frontend/src/classes/dashboard.ts:922](https://github.com/radioactive-exe/SmorgasBoard/blob/33eed8942f295b0c4031e7847b84f067b2d59ff1/frontend/src/classes/dashboard.ts#L922)
 
 Gets the current Theme set on the Dashboard.
 
@@ -185,7 +185,7 @@ The currently applied Theme.
 getDimensions(): Size;
 ```
 
-Defined in: [frontend/src/classes/dashboard.ts:217](https://github.com/radioactive-exe/SmorgasBoard/blob/cface3ffad0bcfe6eefa24c05c64a6dc1416d438/frontend/src/classes/dashboard.ts#L217)
+Defined in: [frontend/src/classes/dashboard.ts:218](https://github.com/radioactive-exe/SmorgasBoard/blob/33eed8942f295b0c4031e7847b84f067b2d59ff1/frontend/src/classes/dashboard.ts#L218)
 
 Gets the dimensions of the Dashboard.
 
@@ -208,7 +208,7 @@ type Size.
 getFreeIds(): Set<number>;
 ```
 
-Defined in: [frontend/src/classes/dashboard.ts:196](https://github.com/radioactive-exe/SmorgasBoard/blob/cface3ffad0bcfe6eefa24c05c64a6dc1416d438/frontend/src/classes/dashboard.ts#L196)
+Defined in: [frontend/src/classes/dashboard.ts:197](https://github.com/radioactive-exe/SmorgasBoard/blob/33eed8942f295b0c4031e7847b84f067b2d59ff1/frontend/src/classes/dashboard.ts#L197)
 
 Gets the Set of free IDs stored in the dashboard.
 
@@ -230,7 +230,7 @@ The set/pool of free IDs as a numerical Set.
 getImmediatePanelInstances(): PanelInstance[];
 ```
 
-Defined in: [frontend/src/classes/dashboard.ts:185](https://github.com/radioactive-exe/SmorgasBoard/blob/cface3ffad0bcfe6eefa24c05c64a6dc1416d438/frontend/src/classes/dashboard.ts#L185)
+Defined in: [frontend/src/classes/dashboard.ts:186](https://github.com/radioactive-exe/SmorgasBoard/blob/33eed8942f295b0c4031e7847b84f067b2d59ff1/frontend/src/classes/dashboard.ts#L186)
 
 Gets the immediate/current PanelInstance data for all Panels.
 
@@ -264,7 +264,7 @@ and <br/> (3) before the save on the current client instance.
 getPanelInstances(): PanelInstance[];
 ```
 
-Defined in: [frontend/src/classes/dashboard.ts:163](https://github.com/radioactive-exe/SmorgasBoard/blob/cface3ffad0bcfe6eefa24c05c64a6dc1416d438/frontend/src/classes/dashboard.ts#L163)
+Defined in: [frontend/src/classes/dashboard.ts:164](https://github.com/radioactive-exe/SmorgasBoard/blob/33eed8942f295b0c4031e7847b84f067b2d59ff1/frontend/src/classes/dashboard.ts#L164)
 
 Gets the stored PanelInstance data for all Panels from the last save.
 
@@ -289,7 +289,7 @@ as well as comparing incoming payloads for changes.
 getPanels(): Panel[];
 ```
 
-Defined in: [frontend/src/classes/dashboard.ts:149](https://github.com/radioactive-exe/SmorgasBoard/blob/cface3ffad0bcfe6eefa24c05c64a6dc1416d438/frontend/src/classes/dashboard.ts#L149)
+Defined in: [frontend/src/classes/dashboard.ts:150](https://github.com/radioactive-exe/SmorgasBoard/blob/33eed8942f295b0c4031e7847b84f067b2d59ff1/frontend/src/classes/dashboard.ts#L150)
 
 Gets the set of Panels currently in the dashboard.
 
@@ -307,7 +307,7 @@ The stored array of Panels in the dashboard.
 isEditing(): boolean;
 ```
 
-Defined in: [frontend/src/classes/dashboard.ts:386](https://github.com/radioactive-exe/SmorgasBoard/blob/cface3ffad0bcfe6eefa24c05c64a6dc1416d438/frontend/src/classes/dashboard.ts#L386)
+Defined in: [frontend/src/classes/dashboard.ts:387](https://github.com/radioactive-exe/SmorgasBoard/blob/33eed8942f295b0c4031e7847b84f067b2d59ff1/frontend/src/classes/dashboard.ts#L387)
 
 Whether we are currently in Edit Mode.
 
@@ -330,7 +330,7 @@ the Dashboard panels.
 load(): Promise<void>;
 ```
 
-Defined in: [frontend/src/classes/dashboard.ts:663](https://github.com/radioactive-exe/SmorgasBoard/blob/cface3ffad0bcfe6eefa24c05c64a6dc1416d438/frontend/src/classes/dashboard.ts#L663)
+Defined in: [frontend/src/classes/dashboard.ts:670](https://github.com/radioactive-exe/SmorgasBoard/blob/33eed8942f295b0c4031e7847b84f067b2d59ff1/frontend/src/classes/dashboard.ts#L670)
 
 Loads all data into the dashboard, sequentially loading each item.
 
@@ -355,7 +355,7 @@ A promise that resolves when all data has been loaded in.
 loadStoredDimensions(): Promise<void>;
 ```
 
-Defined in: [frontend/src/classes/dashboard.ts:689](https://github.com/radioactive-exe/SmorgasBoard/blob/cface3ffad0bcfe6eefa24c05c64a6dc1416d438/frontend/src/classes/dashboard.ts#L689)
+Defined in: [frontend/src/classes/dashboard.ts:696](https://github.com/radioactive-exe/SmorgasBoard/blob/33eed8942f295b0c4031e7847b84f067b2d59ff1/frontend/src/classes/dashboard.ts#L696)
 
 Load the stored Dashboard dimensions, either from local storage or the
 database.
@@ -382,7 +382,7 @@ dimensions are updated.
 private loadStoredPanels(): Promise<void>;
 ```
 
-Defined in: [frontend/src/classes/dashboard.ts:740](https://github.com/radioactive-exe/SmorgasBoard/blob/cface3ffad0bcfe6eefa24c05c64a6dc1416d438/frontend/src/classes/dashboard.ts#L740)
+Defined in: [frontend/src/classes/dashboard.ts:747](https://github.com/radioactive-exe/SmorgasBoard/blob/33eed8942f295b0c4031e7847b84f067b2d59ff1/frontend/src/classes/dashboard.ts#L747)
 
 Load the stored Panels, either from local storage or the database.
 
@@ -408,7 +408,7 @@ are loaded and spawned.
 loadStoredTheme(): Promise<void>;
 ```
 
-Defined in: [frontend/src/classes/dashboard.ts:877](https://github.com/radioactive-exe/SmorgasBoard/blob/cface3ffad0bcfe6eefa24c05c64a6dc1416d438/frontend/src/classes/dashboard.ts#L877)
+Defined in: [frontend/src/classes/dashboard.ts:884](https://github.com/radioactive-exe/SmorgasBoard/blob/33eed8942f295b0c4031e7847b84f067b2d59ff1/frontend/src/classes/dashboard.ts#L884)
 
 Loads the stored theme, either from local storage or the database.
 
@@ -433,7 +433,7 @@ A promise that resolves when the Theme is loaded and applied.
 organiseElements(): void;
 ```
 
-Defined in: [frontend/src/classes/dashboard.ts:584](https://github.com/radioactive-exe/SmorgasBoard/blob/cface3ffad0bcfe6eefa24c05c64a6dc1416d438/frontend/src/classes/dashboard.ts#L584)
+Defined in: [frontend/src/classes/dashboard.ts:585](https://github.com/radioactive-exe/SmorgasBoard/blob/33eed8942f295b0c4031e7847b84f067b2d59ff1/frontend/src/classes/dashboard.ts#L585)
 
 Snaps all elements into the grid properly, such as when resizing the
 window.
@@ -455,7 +455,7 @@ window.
 private populateCells(): void;
 ```
 
-Defined in: [frontend/src/classes/dashboard.ts:110](https://github.com/radioactive-exe/SmorgasBoard/blob/cface3ffad0bcfe6eefa24c05c64a6dc1416d438/frontend/src/classes/dashboard.ts#L110)
+Defined in: [frontend/src/classes/dashboard.ts:111](https://github.com/radioactive-exe/SmorgasBoard/blob/33eed8942f295b0c4031e7847b84f067b2d59ff1/frontend/src/classes/dashboard.ts#L111)
 
 Fills the Dashboard with cells. The Dashboard gets divided into a visual
 grid with cells for all the rows and columns, which are used to indicate
@@ -478,7 +478,7 @@ changing size.
 save(): void;
 ```
 
-Defined in: [frontend/src/classes/dashboard.ts:633](https://github.com/radioactive-exe/SmorgasBoard/blob/cface3ffad0bcfe6eefa24c05c64a6dc1416d438/frontend/src/classes/dashboard.ts#L633)
+Defined in: [frontend/src/classes/dashboard.ts:634](https://github.com/radioactive-exe/SmorgasBoard/blob/33eed8942f295b0c4031e7847b84f067b2d59ff1/frontend/src/classes/dashboard.ts#L634)
 
 Saves all data, either to local storage if not logged in, or to the
 database if logged in.
@@ -500,7 +500,7 @@ database if logged in.
 private saveToCloud(): void;
 ```
 
-Defined in: [frontend/src/classes/dashboard.ts:612](https://github.com/radioactive-exe/SmorgasBoard/blob/cface3ffad0bcfe6eefa24c05c64a6dc1416d438/frontend/src/classes/dashboard.ts#L612)
+Defined in: [frontend/src/classes/dashboard.ts:613](https://github.com/radioactive-exe/SmorgasBoard/blob/33eed8942f295b0c4031e7847b84f067b2d59ff1/frontend/src/classes/dashboard.ts#L613)
 
 Saves all the dashboard data/information to the database.
 
@@ -523,7 +523,7 @@ Saves all the dashboard data/information to the database.
 setCurrentTheme(theme, updateStored): void;
 ```
 
-Defined in: [frontend/src/classes/dashboard.ts:940](https://github.com/radioactive-exe/SmorgasBoard/blob/cface3ffad0bcfe6eefa24c05c64a6dc1416d438/frontend/src/classes/dashboard.ts#L940)
+Defined in: [frontend/src/classes/dashboard.ts:947](https://github.com/radioactive-exe/SmorgasBoard/blob/33eed8942f295b0c4031e7847b84f067b2d59ff1/frontend/src/classes/dashboard.ts#L947)
 
 Sets and applies an inputted Theme to the Dashboard.
 
@@ -563,7 +563,7 @@ setDimensions(
    updateStored): void;
 ```
 
-Defined in: [frontend/src/classes/dashboard.ts:331](https://github.com/radioactive-exe/SmorgasBoard/blob/cface3ffad0bcfe6eefa24c05c64a6dc1416d438/frontend/src/classes/dashboard.ts#L331)
+Defined in: [frontend/src/classes/dashboard.ts:332](https://github.com/radioactive-exe/SmorgasBoard/blob/33eed8942f295b0c4031e7847b84f067b2d59ff1/frontend/src/classes/dashboard.ts#L332)
 
 Updates/sets the Dashboard dimensions.
 
@@ -600,7 +600,7 @@ panels that would not fit and triggering a save.
 private spawnPanel(panel, updateStored): void;
 ```
 
-Defined in: [frontend/src/classes/dashboard.ts:529](https://github.com/radioactive-exe/SmorgasBoard/blob/cface3ffad0bcfe6eefa24c05c64a6dc1416d438/frontend/src/classes/dashboard.ts#L529)
+Defined in: [frontend/src/classes/dashboard.ts:530](https://github.com/radioactive-exe/SmorgasBoard/blob/33eed8942f295b0c4031e7847b84f067b2d59ff1/frontend/src/classes/dashboard.ts#L530)
 
 Spawns an inputted Panel.
 
@@ -643,7 +643,7 @@ dashboard ID of 4 and the default config for its PanelType.
 spawnPanelOfType(panelType): void;
 ```
 
-Defined in: [frontend/src/classes/dashboard.ts:441](https://github.com/radioactive-exe/SmorgasBoard/blob/cface3ffad0bcfe6eefa24c05c64a6dc1416d438/frontend/src/classes/dashboard.ts#L441)
+Defined in: [frontend/src/classes/dashboard.ts:442](https://github.com/radioactive-exe/SmorgasBoard/blob/33eed8942f295b0c4031e7847b84f067b2d59ff1/frontend/src/classes/dashboard.ts#L442)
 
 Spawns a Panel of an inputted Type.
 
@@ -689,7 +689,7 @@ The above attempts to spawn a new Clock panel.
 toggleEditMode(): boolean;
 ```
 
-Defined in: [frontend/src/classes/dashboard.ts:397](https://github.com/radioactive-exe/SmorgasBoard/blob/cface3ffad0bcfe6eefa24c05c64a6dc1416d438/frontend/src/classes/dashboard.ts#L397)
+Defined in: [frontend/src/classes/dashboard.ts:398](https://github.com/radioactive-exe/SmorgasBoard/blob/33eed8942f295b0c4031e7847b84f067b2d59ff1/frontend/src/classes/dashboard.ts#L398)
 
 Toggles Edit mode for the Dashboard.
 
@@ -711,7 +711,7 @@ The current editing status after the toggle.
 triggerDelayedSave(): void;
 ```
 
-Defined in: [frontend/src/classes/dashboard.ts:597](https://github.com/radioactive-exe/SmorgasBoard/blob/cface3ffad0bcfe6eefa24c05c64a6dc1416d438/frontend/src/classes/dashboard.ts#L597)
+Defined in: [frontend/src/classes/dashboard.ts:598](https://github.com/radioactive-exe/SmorgasBoard/blob/33eed8942f295b0c4031e7847b84f067b2d59ff1/frontend/src/classes/dashboard.ts#L598)
 
 Triggers a delayed save after 2 seconds of being called. Repeated calls
 will clear and reset the Timeout, ensuring the save is triggered 2
@@ -733,7 +733,7 @@ seconds after the last call.
 static getCols(): number;
 ```
 
-Defined in: [frontend/src/classes/dashboard.ts:249](https://github.com/radioactive-exe/SmorgasBoard/blob/cface3ffad0bcfe6eefa24c05c64a6dc1416d438/frontend/src/classes/dashboard.ts#L249)
+Defined in: [frontend/src/classes/dashboard.ts:250](https://github.com/radioactive-exe/SmorgasBoard/blob/33eed8942f295b0c4031e7847b84f067b2d59ff1/frontend/src/classes/dashboard.ts#L250)
 
 Get the number of columns in the Dashboard.
 
@@ -761,7 +761,7 @@ and post-construction.
 static getFractionalHeight(): number;
 ```
 
-Defined in: [frontend/src/classes/dashboard.ts:281](https://github.com/radioactive-exe/SmorgasBoard/blob/cface3ffad0bcfe6eefa24c05c64a6dc1416d438/frontend/src/classes/dashboard.ts#L281)
+Defined in: [frontend/src/classes/dashboard.ts:282](https://github.com/radioactive-exe/SmorgasBoard/blob/33eed8942f295b0c4031e7847b84f067b2d59ff1/frontend/src/classes/dashboard.ts#L282)
 
 Gets the height of one row/unit.
 
@@ -789,7 +789,7 @@ post-construction.
 static getFractionalWidth(): number;
 ```
 
-Defined in: [frontend/src/classes/dashboard.ts:265](https://github.com/radioactive-exe/SmorgasBoard/blob/cface3ffad0bcfe6eefa24c05c64a6dc1416d438/frontend/src/classes/dashboard.ts#L265)
+Defined in: [frontend/src/classes/dashboard.ts:266](https://github.com/radioactive-exe/SmorgasBoard/blob/33eed8942f295b0c4031e7847b84f067b2d59ff1/frontend/src/classes/dashboard.ts#L266)
 
 Gets the width of one column/unit in pixels.
 
@@ -817,7 +817,7 @@ post-construction.
 static getMaxDimensions(): Size;
 ```
 
-Defined in: [frontend/src/classes/dashboard.ts:301](https://github.com/radioactive-exe/SmorgasBoard/blob/cface3ffad0bcfe6eefa24c05c64a6dc1416d438/frontend/src/classes/dashboard.ts#L301)
+Defined in: [frontend/src/classes/dashboard.ts:302](https://github.com/radioactive-exe/SmorgasBoard/blob/33eed8942f295b0c4031e7847b84f067b2d59ff1/frontend/src/classes/dashboard.ts#L302)
 
 Gets the maximum potential dimensions that the dashboard can have at the
 current size.
@@ -849,7 +849,7 @@ dashboard content.
 static getRows(): number;
 ```
 
-Defined in: [frontend/src/classes/dashboard.ts:233](https://github.com/radioactive-exe/SmorgasBoard/blob/cface3ffad0bcfe6eefa24c05c64a6dc1416d438/frontend/src/classes/dashboard.ts#L233)
+Defined in: [frontend/src/classes/dashboard.ts:234](https://github.com/radioactive-exe/SmorgasBoard/blob/33eed8942f295b0c4031e7847b84f067b2d59ff1/frontend/src/classes/dashboard.ts#L234)
 
 Get the number of rows in the Dashboard.
 

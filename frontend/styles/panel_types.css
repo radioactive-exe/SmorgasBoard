@@ -5,7 +5,10 @@ panel-element[data-panel-type="NOTEPAD"] {
     }
 
     & textarea {
+        width: 100%;
+        min-width: 100%;
         height: 100%;
+        min-height: 100%;
         padding: 1rem;
         border: none;
         border-radius: var(--small-border-radius);
@@ -13,15 +16,14 @@ panel-element[data-panel-type="NOTEPAD"] {
         color: var(--text-primary);
         outline: none;
         font-size: var(--font-inputs);
-        font-family: inherit;
-        resize: none;
+        font-family: var(--theme-font);
         transition-timing-function: ease;
-        transition-duration: var(--med-transition-time);
-        transition-property: background, color;
+        transition-duration: var(--quick-transition-time);
+        transition-property: filter;
     }
 
     & textarea:focus {
-        background: hsl(from var(--textarea-bg) h s calc(l * 0.9));
+        filter: contrast(1.06);
     }
 
     & textarea::placeholder {
@@ -48,7 +50,7 @@ panel-element[data-panel-type="CLOCK"] {
         border-radius: var(--panel-border-radius);
         font-weight: bold;
         text-align: center;
-        resize: horizontal;
+        container-type: inline-size;
         transform-style: preserve-3d;
 
         & .time {
@@ -89,10 +91,9 @@ panel-element[data-panel-type="PHOTO"] {
         outline: 0.8rem dashed var(--input-secondary);
         text-align: center;
         filter: drop-shadow(0 0 0 var(--input-secondary));
-        resize: horizontal;
         transition-timing-function: ease;
         transition-duration: var(--quick-transition-time);
-        transition-property: border-radius, filter, outline-offset, height, width;
+        transition-property: filter, outline-offset;
 
         & input[type="file"] {
             display: none;
@@ -111,7 +112,6 @@ panel-element[data-panel-type="PHOTO"] {
             cursor: pointer;
             transition-timing-function: ease;
             transition-duration: var(--quick-transition-time);
-            transition-property: height, width;
 
             & .image-drop-icon {
                 width: 100%;
@@ -130,11 +130,11 @@ panel-element[data-panel-type="PHOTO"] {
 
             &.drop-area-info {
                 font-style: italic;
-                font-size: clamp(calc(var(--font-s) * 0.7), var(--font-s), 10cqw);
+                font-size: var(--font-s);
             }
 
             &.drop-area-subinfo {
-                font-size: clamp(calc(var(--font-xs) * 0.7), var(--font-xs), 10cqw);
+                font-size: var(--font-xs);
                 text-align: left;
             }
         }
@@ -147,17 +147,8 @@ panel-element[data-panel-type="PHOTO"] {
         }
 
         &.active {
-            border-radius: calc(var(--small-border-radius) * 3);
             outline-offset: -0.5rem;
             filter: drop-shadow(0 0 1rem var(--input-secondary));
-        }
-
-        /* &:is(panel-element:hover .drop-area) {
-            outline-offset: -0.3rem;
-        } */
-
-        &:has(~ .panel-image.filled) {
-            opacity: 0;
         }
     }
 
@@ -168,10 +159,15 @@ panel-element[data-panel-type="PHOTO"] {
         width: 100%;
         height: 100%;
         border-radius: calc(0.7 * var(--panel-border-radius));
+        opacity: 0;
         pointer-events: none;
 
-        &:not(.filled) {
-            opacity: 0;
+        &.filled {
+            opacity: 1;
+
+            & ~ .drop-area {
+                opacity: 0;
+            }
         }
     }
 }
@@ -185,7 +181,6 @@ panel-element[data-panel-type="TODO"] {
         width: 100%;
         height: 100%;
         border-radius: var(--small-border-radius);
-        background: var(--panel-bg);
 
         & .todo-list-title-bar,
         & .todo-list-add-bar {
@@ -211,16 +206,29 @@ panel-element[data-panel-type="TODO"] {
                     cursor: pointer;
 
                     & .add-icon {
+                        --target-bg: var(--input-accent);
+                        z-index: 1;
                         background: var(--input-bg);
+                    }
+
+                    &::after {
+                        content: '';
+                        position: absolute;
+                        inset: 0;
+                        z-index: 0;
+                        border-radius: inherit;
+                        background: var(--input-bg);
+                        box-shadow: inset 0.1rem 0.1rem 0.2rem 0 hsl(from var(--input-secondary) h s calc(l*1.5)), inset -0.1rem -0.1rem 0.2rem 0 hsl(from var(--input-secondary) h s calc(l*0.4)), 0.2rem 0.2rem 0.2rem 0 var(--shadow-col);
+                        opacity: 0;
                         transition: inherit;
                     }
 
                     &:hover {
-                        background: var(--input-bg);
-                        box-shadow: inset 0.2rem 0.2rem 0.2rem 0 hsl(from var(--input-secondary) h s calc(l*1.5)), inset -0.2rem -0.2rem 0.2rem 0 hsl(from var(--input-secondary) h s calc(l*0.4)), 0.3rem 0.3rem 0.2rem 0 var(--shadow-col);
+                        &::after {
+                            opacity: 1;
+                        }
 
                         & .add-icon {
-                            background: var(--input-accent);
                             transform: rotate(90deg);
                         }
                     }
@@ -233,10 +241,6 @@ panel-element[data-panel-type="TODO"] {
 
                     &.string-selector-input {
                         padding-right: calc(var(--input-height) + var(--input-padding));
-                    }
-
-                    & .string-selector-label-text {
-                        top: calc(50% - 0.6 * var(--font-s));
                     }
                 }
 
@@ -260,10 +264,11 @@ panel-element[data-panel-type="TODO"] {
                 user-select: none;
                 transition-timing-function: ease;
                 transition-duration: var(--med-transition-time);
-                transition-property: width, color, opacity, background, padding, padding-right;
+                transition-property: opacity;
 
                 & .selector {
                     margin: 0;
+                    transition: inherit;
                 }
 
                 & .checkbox-label {
@@ -273,10 +278,9 @@ panel-element[data-panel-type="TODO"] {
 
                 & .todo-list-entry-text {
                     position: relative;
-                    max-width: calc(100% - 3rem);
+                    max-width: calc(100% - 3.8rem);
                     font-size: var(--font-s);
                     overflow-wrap: break-word;
-                    hyphens: auto;
                     transition: inherit;
                     transform: rotateZ(0deg);
                     backface-visibility: hidden;
@@ -286,10 +290,13 @@ panel-element[data-panel-type="TODO"] {
                         position: absolute;
                         top: 50%;
                         display: block;
-                        width: 0;
+                        width: 100%;
                         height: 0.2rem;
+                        border-radius: var(--tiny-border-radius);
                         background: currentcolor;
                         transition: inherit;
+                        transform: scaleX(0);
+                        transform-origin: left;
                     }
                 }
 
@@ -297,25 +304,12 @@ panel-element[data-panel-type="TODO"] {
                     border-top: none;
                 }
 
-                &:is(.in-edit-mode .todo-list-entry) {
-                    & .selector {
-                        padding-right: calc(var(--panel-content-padding) + 1.5rem);
-                    }
-
-                    & .x-icon {
-                        width: 2rem;
-                        min-width: 2rem;
-                        height: 2rem;
-                        min-height: 2rem;
-                    }
-                }
-
                 & .checkbox-input:checked {
                     & ~ .todo-list-entry-text {
-                        color: var(--cell-bg);
+                        opacity: 0.4;
 
                         &::before {
-                            width: 100%;
+                            transform: scaleX(1);
                         }
                     }
                 }
@@ -330,7 +324,6 @@ panel-element[data-panel-type="WEATHER"] {
         position: relative;
         display: flex;
         flex-flow: column;
-        gap: 1rem;
         width: 100%;
         height: 100%;
         isolation: isolate;
@@ -341,22 +334,67 @@ panel-element[data-panel-type="WEATHER"] {
             gap: 2rem;
             align-items: center;
 
-            & .location-search-button:hover .search-icon {
-                transform: scale(1.2);
-            }
-
-            & .location-search-button:not(.location-search-button:hover, .location-search-selector.visible ~ .location-search-button) {
-                width: 2rem;
+            & .location-search-button {
                 background: none;
                 box-shadow: none;
 
                 & .search-icon {
-                    width: 1.5rem;
-                    height: 1.5rem;
-                    margin-top: 100%;
-                    background: var(--input-accent);
+                    z-index: 1;
+                }
+
+                &::before,
+                &::after {
+                    content: '';
+                    position: absolute;
+                    inset: 0;
+                    z-index: 0;
+                    border-radius: inherit;
+                    box-shadow: inset 0 0.1rem 0.2rem 0 hsl(from var(--input-secondary) h s calc(l*1.5)), inset -0.1rem -0.1rem 0.2rem 0 hsl(from var(--input-secondary) h s calc(l*0.4)), 0.2rem 0.2rem 0.2rem 0 var(--shadow-col);
+                    transition: inherit;
+                }
+
+                &::before {
+                    background: var(--input-bg);
+                    transform: scale(0);
+                    transform-origin: calc(100% - 1rem) calc(100% - 1rem);
+                }
+
+                &::after {
+                    background: var(--input-secondary);
+                    opacity: 0;
+                }
+
+                &:hover {
+                    background: none;
+                    box-shadow: none;
+
+                    &::before {
+                        transform: scale(1);
+                    }
+
+                    & .search-icon {
+                        transform: scale(1.2);
+                    }
+                }
+
+                &:is(.location-search-selector.visible ~ .location-search-button):not(.location-search-button:hover) {
+                    &::before {
+                        transform: scale(1);
+                    }
+
+                    &::after {
+                        opacity: 1;
+                    }
+                }
+
+                &:not(.location-search-button:hover, .location-search-selector.visible ~ .location-search-button) {
+                    & .search-icon {
+                        background: var(--input-accent);
+                        transform: scale(0.8) translate(1rem, 1rem);
+                    }
                 }
             }
+
 
             &.weather-search-bar {
                 position: absolute;
@@ -365,40 +403,19 @@ panel-element[data-panel-type="WEATHER"] {
                 z-index: 1;
                 width: 100%;
                 height: var(--input-height);
-                transition: width var(--quick-transition-time) var(--bezier-function);
+                transition: transform var(--quick-transition-time) var(--bezier-function);
                 isolation: isolate;
-
-                &:has(.location-search-selector:not(.visible)) {
-                    width: 0;
-                }
 
                 & .location-search-selector {
                     position: absolute;
                     right: 0;
+                    transform-origin: 98%;
                     will-change: transform;
-
-                    & .string-selector-label,
-                    & .location-search-input {
-                        transform-origin: 100% 50%;
-                    }
-
-                    & .string-selector-label-text {
-                        filter: drop-shadow(0 0 0.5rem var(--shadow-col));
-                        clip-path: inset(-100% -100% -30% -100%);
-                    }
                 }
 
                 & .location-search-selector:not(.visible) {
-                    width: 3rem;
-
-                    & .location-search-input {
-                        padding: 0;
-                        transform: translate(-1rem);
-                    }
-
-                    & .string-selector-label-text {
-                        clip-path: inset(0 140% -30% 0);
-                    }
+                    pointer-events: none;
+                    transform: scaleX(0);
                 }
 
                 & .location-search-results {
@@ -412,13 +429,14 @@ panel-element[data-panel-type="WEATHER"] {
                     background: var(--input-bg);
                     list-style: none;
                     filter: drop-shadow(0 0.2rem 0.2rem var(--shadow-col));
-                    will-change: transform;
 
                     & .location-search-result {
+                        position: relative;
                         padding: calc(var(--panel-content-padding) * 0.7) var(--panel-content-padding);
                         border-top: 0.1rem solid var(--cell-bg);
+                        background: inherit;
                         cursor: pointer;
-                        transition: background var(--med-transition-time) ease;
+                        transition: filter var(--med-transition-time) ease;
 
                         &:first-of-type {
                             border-top: none;
@@ -433,7 +451,7 @@ panel-element[data-panel-type="WEATHER"] {
                         }
 
                         &:hover {
-                            background: var(--cell-bg);
+                            filter: brightness(1.3);
                         }
                     }
                 }
@@ -447,8 +465,8 @@ panel-element[data-panel-type="WEATHER"] {
             width: calc(100% + 1rem);
             height: calc(100% + 1rem);
             background: var(--panel-bg);
-            transition: clip-path var(--med-transition-time) ease;
-            clip-path: circle(0% at center);
+            transition: transform var(--med-transition-time) ease;
+            transform: scale(0);
 
             & .weather-info-section {
                 display: flex;
@@ -472,7 +490,7 @@ panel-element[data-panel-type="WEATHER"] {
                 display: flex;
                 flex-flow: column nowrap;
                 justify-content: flex-start;
-                overflow: hidden auto;
+                overflow: auto;
                 width: 100%;
                 height: 100%;
             }
@@ -488,28 +506,20 @@ panel-element[data-panel-type="WEATHER"] {
             }
 
             &.visible {
-                clip-path: circle(100% at center);
+                transform: scale(1);
             }
 
             & .preview-header {
                 display: none;
                 justify-content: space-between;
                 align-items: center;
-                width: calc(100% - 3rem);
-                margin-bottom: 1rem;
-                margin-left: auto;
+                margin: 0 2.5rem 0.4rem;
                 padding: 0.4rem 1rem;
                 border-radius: var(--small-border-radius);
                 background: var(--shadow-col);
-                transition: margin var(--quick-transition-time) ease, width var(--quick-transition-time) ease;
 
                 &.visible {
                     display: flex;
-
-                    &:is(.in-edit-mode .preview-header.visible) {
-                        width: calc(100% - 6rem);
-                        margin-right: 3rem;
-                    }
                 }
             }
 
@@ -520,16 +530,16 @@ panel-element[data-panel-type="WEATHER"] {
                 justify-content: space-between;
                 align-items: center;
                 max-width: 100%;
+                container-type: inline-size;
 
                 & .location-info {
                     max-width: 50%;
 
                     & .location-city {
-                        margin-bottom: 0;
+                        margin-bottom: 1rem;
                         color: var(--text-accent);
-                        font-size: var(--font-sm);
+                        font-size: clamp(var(--font-s), var(--font-sm), 6cqw);
                         overflow-wrap: break-word;
-                        hyphens: auto;
                     }
 
                     & .location-subtitle {
@@ -547,9 +557,10 @@ panel-element[data-panel-type="WEATHER"] {
                     flex-flow: column nowrap;
                     align-items: center;
                     width: 100%;
+                    max-width: 50cqw;
 
                     & .temperature {
-                        font-size: calc(0.75 * var(--font-m));
+                        font-size: clamp(var(--font-s), var(--font-m), 12cqw);
                     }
 
                     & .condition {
@@ -563,7 +574,7 @@ panel-element[data-panel-type="WEATHER"] {
 
                 &:not(.preview-header.visible ~ .info-header) > .location-info > .location-city,
                 &:not(.preview-header.visible ~ .info-header) {
-                    margin-top: 1.6rem;
+                    margin-top: 1rem;
                 }
             }
 
@@ -672,7 +683,8 @@ panel-element[data-panel-type="WEATHER"] {
             display: flex;
             flex-flow: column;
             justify-content: flex-start;
-            overflow-y: auto;
+            overflow: visible auto;
+            padding-top: 1rem;
             list-style-type: none;
 
             &::-webkit-scrollbar-track {
@@ -686,15 +698,26 @@ panel-element[data-panel-type="WEATHER"] {
                 gap: 1rem;
                 justify-content: space-between;
                 align-items: center;
+                overflow: visible;
                 padding: 1rem;
                 border-radius: var(--small-border-radius);
                 cursor: pointer;
                 transition-timing-function: ease;
                 transition-duration: var(--med-transition-time);
-                transition-property: width, color, opacity, background, padding, padding-right;
+                transition-property: opacity;
+
+                &::before {
+                    content: '';
+                    position: absolute;
+                    inset: 0;
+                    z-index: -1;
+                    border-radius: inherit;
+                    background: var(--cell-bg);
+                    opacity: 0;
+                    transition: inherit;
+                }
 
                 & .location-title {
-                    margin-right: auto;
                     color: var(--text-secondary);
                     font-size: var(--font-s);
                 }
@@ -726,19 +749,23 @@ panel-element[data-panel-type="WEATHER"] {
                     }
                 }
 
-                &:hover {
-                    background: var(--cell-bg);
+                & .remove-location-icon-container {
+                    position: relative;
+                    width: 0;
+                    height: 100%;
+                    margin-right: auto;
+                    margin-left: 1.5rem;
                 }
 
-                &:is(.in-edit-mode .saved-location) {
-                    padding-right: calc(var(--panel-content-padding) + 2.5rem);
+                & .x-icon {
+                    position: absolute;
+                    top: calc(50% - 1rem);
+                    right: 0;
+                    left: 0;
+                }
 
-                    & .x-icon {
-                        width: 2rem;
-                        min-width: 2rem;
-                        height: 2rem;
-                        min-height: 2rem;
-                    }
+                &:hover::before {
+                    opacity: 0.7;
                 }
             }
         }

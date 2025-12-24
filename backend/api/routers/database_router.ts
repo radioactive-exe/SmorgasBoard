@@ -30,9 +30,14 @@ const _fetchHandler = databaseRouter.get(
         const target = req.query.target;
 
         if (!target)
-            res.status(400).send(
-                "Please enter the target column(s) to fetch from the database",
-            );
+            res.setHeader(
+                "Access-Control-Allow-Origin",
+                process.env.ORIGIN_URL ?? "",
+            )
+                .status(400)
+                .send(
+                    "Please enter the target column(s) to fetch from the database",
+                );
 
         // ? Forward the request to the Supabase database, along with all necessary
         // ? Authorisation and headers.
@@ -52,7 +57,10 @@ const _fetchHandler = databaseRouter.get(
         const data = await fetched.json();
 
         // ? Send the obtained data to the front end.
-        res.json(data);
+        res.setHeader(
+            "Access-Control-Allow-Origin",
+            process.env.ORIGIN_URL ?? "",
+        ).json(data);
     },
 );
 
@@ -80,9 +88,14 @@ const _updateHandler = databaseRouter.patch(
             // ? If the user ID could not be obtained
         } catch {
             userId = "";
-            res.status(401).send(
-                "Not a valid authorised user. Please check that you are sending the proper authorisation header from the Smorgasboard frontend.",
-            );
+            res.setHeader(
+                "Access-Control-Allow-Origin",
+                process.env.ORIGIN_URL ?? "",
+            )
+                .status(401)
+                .send(
+                    "Not a valid authorised user. Please check that you are sending the proper authorisation header from the Smorgasboard frontend.",
+                );
         }
 
         // ? Forward the request to the database, along with the payload (updated column value(s)),
@@ -106,7 +119,10 @@ const _updateHandler = databaseRouter.patch(
         const data = await fetched.json();
 
         // ? Send the updated/new record back to the frontend
-        res.json(data);
+        res.setHeader(
+            "Access-Control-Allow-Origin",
+            process.env.ORIGIN_URL ?? "",
+        ).json(data);
     },
 );
 
