@@ -335,11 +335,15 @@ panel-element[data-panel-type="WEATHER"] {
             align-items: center;
 
             & .location-search-button {
+                left: 0;
                 background: none;
                 box-shadow: none;
+                transition-delay: var(--quick-transition-time);
 
                 & .search-icon {
+                    --target-bg: var(--input-accent);
                     z-index: 1;
+                    background: var(--input-bg);
                 }
 
                 &::before,
@@ -356,7 +360,7 @@ panel-element[data-panel-type="WEATHER"] {
                 &::before {
                     background: var(--input-bg);
                     transform: scale(0);
-                    transform-origin: calc(100% - 1rem) calc(100% - 1rem);
+                    transform-origin: 1rem calc(100% - 1rem);
                 }
 
                 &::after {
@@ -367,6 +371,7 @@ panel-element[data-panel-type="WEATHER"] {
                 &:hover {
                     background: none;
                     box-shadow: none;
+                    transition-delay: 0s;
 
                     &::before {
                         transform: scale(1);
@@ -374,6 +379,16 @@ panel-element[data-panel-type="WEATHER"] {
 
                     & .search-icon {
                         transform: scale(1.2);
+                    }
+                }
+
+                &:not(.location-search-button:hover, .location-search-selector.visible ~ .location-search-button) {
+                    & .search-icon {
+                        transform: scale(0.8) translate(-1rem, 1rem);
+
+                        &::after {
+                            opacity: 1;
+                        }
                     }
                 }
 
@@ -385,12 +400,9 @@ panel-element[data-panel-type="WEATHER"] {
                     &::after {
                         opacity: 1;
                     }
-                }
 
-                &:not(.location-search-button:hover, .location-search-selector.visible ~ .location-search-button) {
-                    & .search-icon {
-                        background: var(--input-accent);
-                        transform: scale(0.8) translate(1rem, 1rem);
+                    & .search-icon::after {
+                        opacity: 0;
                     }
                 }
             }
@@ -408,9 +420,17 @@ panel-element[data-panel-type="WEATHER"] {
 
                 & .location-search-selector {
                     position: absolute;
-                    right: 0;
-                    transform-origin: 98%;
+                    left: 0;
+                    transform-origin: 2% 100%;
                     will-change: transform;
+
+                    & .location-search-input {
+                        padding-left: calc(var(--input-padding) + var(--input-height));
+                    }
+
+                    & .selector-bar-label-text {
+                        left: var(--input-height);
+                    }
                 }
 
                 & .location-search-selector:not(.visible) {
