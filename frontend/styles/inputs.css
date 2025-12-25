@@ -461,8 +461,8 @@
 
                 &:focus,
                 &:hover,
-                &:valid,
-                &:is(input[type="email"], input[type="password"]):not(:placeholder-shown) {
+                &:not(:empty),
+                &:not(:placeholder-shown) {
                     box-shadow: inset 0 0 0 0 transparent,
                         0.1rem 0.1rem 1rem 0.1rem var(--shadow-col),
                         inset 0.2rem 0.2rem 0.2rem 0 hsl(from var(--input-bg) h s calc(l * 2) / 0.6),
@@ -714,11 +714,11 @@ button {
     cursor: pointer;
     transition-timing-function: var(--bezier-function);
     transition-duration: var(--quick-transition-time);
-    transition-property: filter, letter-spacing, transform, opacity;
+    transition-property: filter, scale, transform, opacity;
 
     &:hover {
-        letter-spacing: 0.4rem;
         filter: brightness(1.1);
+        scale: 1.02;
     }
 
     &:active {

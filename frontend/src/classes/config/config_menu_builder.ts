@@ -326,6 +326,7 @@ function buildStringEntrySelector(entry: ConfigEntry.String): HTMLElement {
                 class="string-selector-input"
                 type="text"
                 required
+                placeholder=" "
                 value="${entry.value}"
             />
             <span class="string-selector-label-text">${entry.placeholder}</span>
