@@ -675,8 +675,8 @@ class Dashboard extends HTMLElement {
 
         // ? Load the theme, panels, and dimensions, lastly hiding the loader again
         return this.loadStoredTheme()
-            .then(() => this.loadStoredPanels())
             .then(() => this.loadStoredDimensions())
+            .then(() => this.loadStoredPanels())
             .then(() => refreshDimensions())
             .then(() => finishLoading());
     }
