@@ -597,8 +597,9 @@ function releaseHandler(): void {
     if (areaChanged) dashboard.triggerDelayedSave();
 
     // ? Remove the document listeners
-    document.removeEventListener("pointerup", documentPointerHandlers.release);
     document.removeEventListener("pointermove", documentPointerHandlers.drag);
+    document.removeEventListener("pointerup", documentPointerHandlers.release);
+    document.removeEventListener("touchend", documentPointerHandlers.release);
 }
 
 /**
@@ -608,6 +609,7 @@ function releaseHandler(): void {
 function setDocumentHandlers(): void {
     document.addEventListener("pointermove", documentPointerHandlers.drag);
     document.addEventListener("pointerup", documentPointerHandlers.release);
+    document.addEventListener("touchend", documentPointerHandlers.release);
 }
 
 /**

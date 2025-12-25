@@ -11,6 +11,7 @@ smorgas-board panel-element {
     border-radius: var(--panel-border-radius);
     transform: translate(var(--x), var(--y));
     transform-origin: center;
+    touch-action: none;
 
     &.final-preview {
         background: var(--preview-bg);
@@ -127,6 +128,8 @@ smorgas-board panel-element {
 
     &::part(drag-handle) {
         position: absolute;
+        top: 0;
+        left: 0;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -141,7 +144,6 @@ smorgas-board panel-element {
         transition-duration: var(--quick-transition-time);
         transition-property: transform, opacity, mask-size;
         transform: scale(0);
-        transform-origin: top left;
         touch-action: none;
     }
 

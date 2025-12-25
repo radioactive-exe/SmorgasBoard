@@ -67,14 +67,14 @@
 }
 
 html {
-    overscroll-behavior: none;
+    overscroll-behavior: contain;
 }
 
 body {
     overflow: hidden;
     background: var(--dashboard-bg);
     color: var(--text-primary);
-    overscroll-behavior: none;
+    overscroll-behavior: contain;
 }
 
 a {

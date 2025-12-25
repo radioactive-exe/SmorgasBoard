@@ -127,10 +127,7 @@
             cursor: pointer;
             transition: inherit;
 
-            &:hover .icon,
-            &:hover .menu-icon,
-            &:hover .menu-icon .top,
-            &:hover .menu-icon .bottom {
+            &:hover {
                 filter: brightness(1.2);
             }
 
