@@ -29,12 +29,14 @@ smorgas-board panel-element {
     &::before {
         content: '';
         position: absolute;
-        inset: 0;
+        inset: var(--panel-body-inset);
         border-radius: var(--panel-border-radius);
         opacity: 0;
         pointer-events: none;
-        transition: transform var(--panel-transition-time) ease;
-        backdrop-filter: url("#glass-distortion") blur(0.1rem);
+        transition-timing-function: ease;
+        transition-duration: var(--panel-transition-time);
+        transition-property: transform, opacity;
+        backdrop-filter: blur(0.1rem) contrast(80%) saturate(120%) url("#glass-distortion");
     }
 
 
@@ -318,7 +320,6 @@ smorgas-board panel-element.being-manipulated {
     cursor: grabbing;
 
     &::before {
-        inset: var(--panel-body-inset);
         opacity: 1;
     }
 

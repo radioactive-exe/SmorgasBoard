@@ -10,7 +10,7 @@
 function buildListEntrySelector(entry): HTMLElement;
 ```
 
-Defined in: [frontend/src/classes/config/config_menu_builder.ts:384](https://github.com/radioactive-exe/SmorgasBoard/blob/33eed8942f295b0c4031e7847b84f067b2d59ff1/frontend/src/classes/config/config_menu_builder.ts#L384)
+Defined in: [frontend/src/classes/config/config_menu_builder.ts:385](https://github.com/radioactive-exe/SmorgasBoard/blob/b7e70e00b8d9b893db79f710da3fcc31dd37ee28/frontend/src/classes/config/config_menu_builder.ts#L385)
 
 The builder function for a List Config Entry selector, called from the base
 redirector function.

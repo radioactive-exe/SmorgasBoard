@@ -10,7 +10,7 @@
 function execute(panel): void;
 ```
 
-Defined in: [frontend/src/classes/panel/panel_behaviour/notepad_panel.ts:29](https://github.com/radioactive-exe/SmorgasBoard/blob/33eed8942f295b0c4031e7847b84f067b2d59ff1/frontend/src/classes/panel/panel_behaviour/notepad_panel.ts#L29)
+Defined in: [frontend/src/classes/panel/panel_behaviour/notepad_panel.ts:29](https://github.com/radioactive-exe/SmorgasBoard/blob/b7e70e00b8d9b893db79f710da3fcc31dd37ee28/frontend/src/classes/panel/panel_behaviour/notepad_panel.ts#L29)
 
 The main function called upon behaviour execution after the Panel template,
 base, and config setup, for the Notepad PanelType.

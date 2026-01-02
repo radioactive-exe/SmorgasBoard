@@ -1066,6 +1066,8 @@ document.addEventListener("keydown", async (e) => {
     }
 });
 
+// TODO: Lessons learnt - How supabase helped with the auth and database. How vite helped with module resolution, Screenshots of whole dashboard. Screenshots on mobile. Installation instructions in the readme - npm i then npm run_local. Huge difficulties were supabase realtime changes, and panel movement breaking.
+
 export {
     commonHandler,
     contextNavButton,

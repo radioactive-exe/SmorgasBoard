@@ -10,7 +10,7 @@
 function rotatePanel(e): void;
 ```
 
-Defined in: [frontend/src/functions/manip.ts:184](https://github.com/radioactive-exe/SmorgasBoard/blob/33eed8942f295b0c4031e7847b84f067b2d59ff1/frontend/src/functions/manip.ts#L184)
+Defined in: [frontend/src/functions/manip.ts:184](https://github.com/radioactive-exe/SmorgasBoard/blob/b7e70e00b8d9b893db79f710da3fcc31dd37ee28/frontend/src/functions/manip.ts#L184)
 
 Rotates the panel targeted by the input event in the 3-dimensional X and Y
 axes controlled by the hover/move event.

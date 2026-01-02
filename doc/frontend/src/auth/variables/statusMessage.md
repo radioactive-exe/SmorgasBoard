@@ -10,7 +10,7 @@
 statusMessage: object;
 ```
 
-Defined in: [frontend/src/auth.ts:94](https://github.com/radioactive-exe/SmorgasBoard/blob/33eed8942f295b0c4031e7847b84f067b2d59ff1/frontend/src/auth.ts#L94)
+Defined in: [frontend/src/auth.ts:94](https://github.com/radioactive-exe/SmorgasBoard/blob/b7e70e00b8d9b893db79f710da3fcc31dd37ee28/frontend/src/auth.ts#L94)
 
 This variable will hold the status message as either an error or a success
 message.

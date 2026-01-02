@@ -6,7 +6,7 @@
 
 # Enumeration: PanelTypeId
 
-Defined in: [frontend/src/classes/panel/panel_type_properties/panel_type_id.ts:17](https://github.com/radioactive-exe/SmorgasBoard/blob/33eed8942f295b0c4031e7847b84f067b2d59ff1/frontend/src/classes/panel/panel_type_properties/panel_type_id.ts#L17)
+Defined in: [frontend/src/classes/panel/panel_type_properties/panel_type_id.ts:17](https://github.com/radioactive-exe/SmorgasBoard/blob/b7e70e00b8d9b893db79f710da3fcc31dd37ee28/frontend/src/classes/panel/panel_type_properties/panel_type_id.ts#L17)
 
 The IDs of different PanelTypes, the keys of the entries being the type of
 panel, and the values being their respective ID.
@@ -15,10 +15,10 @@ panel, and the values being their respective ID.
 
 | Enumeration Member             | Value | Defined in                                                                                                                                                                                                                                  |
 | ------------------------------ | ----- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| <a id="clock"></a> `CLOCK`     | `3`   | [frontend/src/classes/panel/panel_type_properties/panel_type_id.ts:22](https://github.com/radioactive-exe/SmorgasBoard/blob/33eed8942f295b0c4031e7847b84f067b2d59ff1/frontend/src/classes/panel/panel_type_properties/panel_type_id.ts#L22) |
-| <a id="default"></a> `DEFAULT` | `0`   | [frontend/src/classes/panel/panel_type_properties/panel_type_id.ts:19](https://github.com/radioactive-exe/SmorgasBoard/blob/33eed8942f295b0c4031e7847b84f067b2d59ff1/frontend/src/classes/panel/panel_type_properties/panel_type_id.ts#L19) |
-| <a id="notepad"></a> `NOTEPAD` | `1`   | [frontend/src/classes/panel/panel_type_properties/panel_type_id.ts:20](https://github.com/radioactive-exe/SmorgasBoard/blob/33eed8942f295b0c4031e7847b84f067b2d59ff1/frontend/src/classes/panel/panel_type_properties/panel_type_id.ts#L20) |
-| <a id="photo"></a> `PHOTO`     | `2`   | [frontend/src/classes/panel/panel_type_properties/panel_type_id.ts:21](https://github.com/radioactive-exe/SmorgasBoard/blob/33eed8942f295b0c4031e7847b84f067b2d59ff1/frontend/src/classes/panel/panel_type_properties/panel_type_id.ts#L21) |
-| <a id="preview"></a> `PREVIEW` | `-1`  | [frontend/src/classes/panel/panel_type_properties/panel_type_id.ts:18](https://github.com/radioactive-exe/SmorgasBoard/blob/33eed8942f295b0c4031e7847b84f067b2d59ff1/frontend/src/classes/panel/panel_type_properties/panel_type_id.ts#L18) |
-| <a id="todo"></a> `TODO`       | `4`   | [frontend/src/classes/panel/panel_type_properties/panel_type_id.ts:23](https://github.com/radioactive-exe/SmorgasBoard/blob/33eed8942f295b0c4031e7847b84f067b2d59ff1/frontend/src/classes/panel/panel_type_properties/panel_type_id.ts#L23) |
-| <a id="weather"></a> `WEATHER` | `5`   | [frontend/src/classes/panel/panel_type_properties/panel_type_id.ts:24](https://github.com/radioactive-exe/SmorgasBoard/blob/33eed8942f295b0c4031e7847b84f067b2d59ff1/frontend/src/classes/panel/panel_type_properties/panel_type_id.ts#L24) |
+| <a id="clock"></a> `CLOCK`     | `3`   | [frontend/src/classes/panel/panel_type_properties/panel_type_id.ts:22](https://github.com/radioactive-exe/SmorgasBoard/blob/b7e70e00b8d9b893db79f710da3fcc31dd37ee28/frontend/src/classes/panel/panel_type_properties/panel_type_id.ts#L22) |
+| <a id="default"></a> `DEFAULT` | `0`   | [frontend/src/classes/panel/panel_type_properties/panel_type_id.ts:19](https://github.com/radioactive-exe/SmorgasBoard/blob/b7e70e00b8d9b893db79f710da3fcc31dd37ee28/frontend/src/classes/panel/panel_type_properties/panel_type_id.ts#L19) |
+| <a id="notepad"></a> `NOTEPAD` | `1`   | [frontend/src/classes/panel/panel_type_properties/panel_type_id.ts:20](https://github.com/radioactive-exe/SmorgasBoard/blob/b7e70e00b8d9b893db79f710da3fcc31dd37ee28/frontend/src/classes/panel/panel_type_properties/panel_type_id.ts#L20) |
+| <a id="photo"></a> `PHOTO`     | `2`   | [frontend/src/classes/panel/panel_type_properties/panel_type_id.ts:21](https://github.com/radioactive-exe/SmorgasBoard/blob/b7e70e00b8d9b893db79f710da3fcc31dd37ee28/frontend/src/classes/panel/panel_type_properties/panel_type_id.ts#L21) |
+| <a id="preview"></a> `PREVIEW` | `-1`  | [frontend/src/classes/panel/panel_type_properties/panel_type_id.ts:18](https://github.com/radioactive-exe/SmorgasBoard/blob/b7e70e00b8d9b893db79f710da3fcc31dd37ee28/frontend/src/classes/panel/panel_type_properties/panel_type_id.ts#L18) |
+| <a id="todo"></a> `TODO`       | `4`   | [frontend/src/classes/panel/panel_type_properties/panel_type_id.ts:23](https://github.com/radioactive-exe/SmorgasBoard/blob/b7e70e00b8d9b893db79f710da3fcc31dd37ee28/frontend/src/classes/panel/panel_type_properties/panel_type_id.ts#L23) |
+| <a id="weather"></a> `WEATHER` | `5`   | [frontend/src/classes/panel/panel_type_properties/panel_type_id.ts:24](https://github.com/radioactive-exe/SmorgasBoard/blob/b7e70e00b8d9b893db79f710da3fcc31dd37ee28/frontend/src/classes/panel/panel_type_properties/panel_type_id.ts#L24) |

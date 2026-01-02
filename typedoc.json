@@ -44,5 +44,6 @@
     "classPropertiesFormat": "table",
     "typeAliasPropertiesFormat": "table",
     "enumMembersFormat": "table",
-    "formatWithPrettier": true
+    "formatWithPrettier": true,
+    "readme": "none"
 }

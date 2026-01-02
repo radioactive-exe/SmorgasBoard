@@ -667,18 +667,18 @@ class Dashboard extends HTMLElement {
      * @see {@link loadStoredPanels | loadStoredPanels()}
      * @see {@link save | save()}
      */
-    public load(): Promise<void> {
+    public async load(): Promise<void> {
         // ? Show the loader
         loader.classList.remove("despawning");
         // ? Stop any save timeout
         clearTimeout(this.saveTimeout);
 
         // ? Load the theme, panels, and dimensions, lastly hiding the loader again
-        return this.loadStoredTheme()
-            .then(() => this.loadStoredDimensions())
-            .then(() => this.loadStoredPanels())
-            .then(() => refreshDimensions())
-            .then(() => finishLoading());
+        await this.loadStoredTheme();
+        await this.loadStoredDimensions();
+        await this.loadStoredPanels();
+        refreshDimensions();
+        return finishLoading();
     }
 
     /**

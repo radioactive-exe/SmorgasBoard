@@ -10,7 +10,7 @@
 function processFile(file, panel, img): void;
 ```
 
-Defined in: [frontend/src/classes/panel/panel_behaviour/photo_panel.ts:126](https://github.com/radioactive-exe/SmorgasBoard/blob/33eed8942f295b0c4031e7847b84f067b2d59ff1/frontend/src/classes/panel/panel_behaviour/photo_panel.ts#L126)
+Defined in: [frontend/src/classes/panel/panel_behaviour/photo_panel.ts:126](https://github.com/radioactive-exe/SmorgasBoard/blob/b7e70e00b8d9b893db79f710da3fcc31dd37ee28/frontend/src/classes/panel/panel_behaviour/photo_panel.ts#L126)
 
 Handles a provided/inputted file, either accepting it and uploading it, or
 rejecting it and informing the user of the reason.

@@ -10,7 +10,7 @@
 type ListSelection = object;
 ```
 
-Defined in: [frontend/src/classes/config/config_entry.ts:149](https://github.com/radioactive-exe/SmorgasBoard/blob/33eed8942f295b0c4031e7847b84f067b2d59ff1/frontend/src/classes/config/config_entry.ts#L149)
+Defined in: [frontend/src/classes/config/config_entry.ts:149](https://github.com/radioactive-exe/SmorgasBoard/blob/b7e70e00b8d9b893db79f710da3fcc31dd37ee28/frontend/src/classes/config/config_entry.ts#L149)
 
 The inferred type of the List Selection Config Entry schema for use as a type
 directly.

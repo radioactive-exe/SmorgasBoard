@@ -10,7 +10,7 @@
 const spawnablePanelTypes: [string, PanelType][];
 ```
 
-Defined in: [frontend/src/app.ts:635](https://github.com/radioactive-exe/SmorgasBoard/blob/33eed8942f295b0c4031e7847b84f067b2d59ff1/frontend/src/app.ts#L635)
+Defined in: [frontend/src/app.ts:637](https://github.com/radioactive-exe/SmorgasBoard/blob/b7e70e00b8d9b893db79f710da3fcc31dd37ee28/frontend/src/app.ts#L637)
 
 An array of all possible PanelTypes that are spawnable by the general user.
 

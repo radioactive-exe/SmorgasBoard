@@ -6,7 +6,7 @@
 
 # Interface: LocationCurrent
 
-Defined in: [frontend/src/types/weather_api.types.ts:232](https://github.com/radioactive-exe/SmorgasBoard/blob/33eed8942f295b0c4031e7847b84f067b2d59ff1/frontend/src/types/weather_api.types.ts#L232)
+Defined in: [frontend/src/types/weather_api.types.ts:232](https://github.com/radioactive-exe/SmorgasBoard/blob/b7e70e00b8d9b893db79f710da3fcc31dd37ee28/frontend/src/types/weather_api.types.ts#L232)
 
 The complete current response from the API.
 
@@ -25,5 +25,5 @@ and the current weather information for said location (in the form of a
 
 | Property                         | Type                      | Defined in                                                                                                                                                                                |
 | -------------------------------- | ------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| <a id="current"></a> `current`   | [`Current`](Current.md)   | [frontend/src/types/weather_api.types.ts:234](https://github.com/radioactive-exe/SmorgasBoard/blob/33eed8942f295b0c4031e7847b84f067b2d59ff1/frontend/src/types/weather_api.types.ts#L234) |
-| <a id="location"></a> `location` | [`Location`](Location.md) | [frontend/src/types/weather_api.types.ts:233](https://github.com/radioactive-exe/SmorgasBoard/blob/33eed8942f295b0c4031e7847b84f067b2d59ff1/frontend/src/types/weather_api.types.ts#L233) |
+| <a id="current"></a> `current`   | [`Current`](Current.md)   | [frontend/src/types/weather_api.types.ts:234](https://github.com/radioactive-exe/SmorgasBoard/blob/b7e70e00b8d9b893db79f710da3fcc31dd37ee28/frontend/src/types/weather_api.types.ts#L234) |
+| <a id="location"></a> `location` | [`Location`](Location.md) | [frontend/src/types/weather_api.types.ts:233](https://github.com/radioactive-exe/SmorgasBoard/blob/b7e70e00b8d9b893db79f710da3fcc31dd37ee28/frontend/src/types/weather_api.types.ts#L233) |
