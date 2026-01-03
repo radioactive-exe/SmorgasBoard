@@ -2,7 +2,7 @@
 
 Named as a portmanteau of "Smorgasbord" 🥪 and "Dashboard" 💻, this aims to be an all-you-can-pick dashboard application!
 
-Wanna run this app locally and work on it? Check out the [guide below](#️arrow_down-installation--running-instructions-for-developers-dev-guide).
+Wanna run this app locally and work on it? Check out the [guide below](https://github.com/radioactive-exe/SmorgasBoard?tab=readme-ov-file#arrow_down-installation--running-instructions-for-developers).
 
 ## :bulb: Features
 
