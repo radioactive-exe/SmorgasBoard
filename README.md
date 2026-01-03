@@ -246,7 +246,7 @@ While optional and won't change the behaviour of the website itself at all, you 
 ### IV – External/Debugging tool recommendations
 
 - _**[Playwright](https://playwright.dev/):**_ Through its CLI, this Microsoft-created tool allows installation and running of developmental builds of different browsers, including Webkit, Firefox, and Chromium/Chrome. See [this section of their docs](https://playwright.dev/docs/browsers), and [this main starting guide](https://playwright.dev/docs/intro). I recommend installing Playwright globally, after which you can install the browser builds you prefer (such as the latest Webkit dev. build) and test any web application, not just Smorgasboard.
-- _**[HimbeersaftLP/ios-safari-remote-debug-kit](https://github.com/HimbeersaftLP/ios-safari-remote-debug-kit):**_: A tool that allows you to debug iOS safari on a connected iOS device directly through developer tools on your desktop device. Highly recommended, as it makes debugging on specifically mobile devices and Webkit much easier. It includes things such as highlight selection, etc.
+- _**[HimbeersaftLP/ios-safari-remote-debug-kit](https://github.com/HimbeersaftLP/ios-safari-remote-debug-kit):**_ A tool that allows you to debug iOS safari on a connected iOS device directly through developer tools on your desktop device. Highly recommended, as it makes debugging on specifically mobile devices and Webkit much easier. It includes things such as highlight selection, etc.
 
 ---
 
