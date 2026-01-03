@@ -49,34 +49,6 @@ import { snapElementToTarget } from "./functions/manip.js";
 import * as utils from "./functions/util.js";
 import type { DashboardDataFetch } from "./querying.js";
 
-// ~ Supabase Client, and Authentication/Database related variables
-
-const supabaseUrl: string | undefined = import.meta.env.VITE_SUPABASE_URL;
-const supabaseKey: string | undefined = import.meta.env.VITE_SUPABASE_KEY;
-
-if (!supabaseUrl || !supabaseKey) {
-    throw new Error("Supabase environment variables not properly configured!");
-}
-
-/**
- * The Supabase client, defined here for use throughout the entirety of
- * Smorgasboard.
- *
- * @see {@link SupabaseClient}
- */
-const supabase: SupabaseClient = createClient(supabaseUrl, supabaseKey);
-
-/**
- * The current logged in user. This holds all relevant fields if a user is
- * logged in, or is null if the dashboard is being used anonymously.
- */
-let user: {
-    id: string;
-    email: string;
-    username: string;
-    access_token: string;
-} | null = null;
-
 /**
  * Whether or not the login was the first register or a returning user. This is
  * utilised in the `auth` file when registering and logging in.
@@ -264,6 +236,37 @@ const anonAuthMenu: HTMLElement | null = document.querySelector(
 const loggedInAuthMenu: HTMLElement | null = document.querySelector(
     ".personal-nav .logged-in-options",
 );
+
+// ~ Supabase Client, and Authentication/Database related variables
+
+const supabaseUrl: string = import.meta.env.VITE_SUPABASE_URL ?? "no_url";
+const supabaseKey: string = import.meta.env.VITE_SUPABASE_KEY ?? "no_key";
+
+if (supabaseUrl == "no_url" || supabaseKey == "no_key") {
+    spawnAlert(
+        "Supabase environment variables not properly configured! All authentication, storage, and database functionality will be unavailable as long as this is the case.",
+        AlertLevel.ERROR,
+    );
+}
+
+/**
+ * The Supabase client, defined here for use throughout the entirety of
+ * Smorgasboard.
+ *
+ * @see {@link SupabaseClient}
+ */
+const supabase: SupabaseClient = createClient(supabaseUrl, supabaseKey);
+
+/**
+ * The current logged in user. This holds all relevant fields if a user is
+ * logged in, or is null if the dashboard is being used anonymously.
+ */
+let user: {
+    id: string;
+    email: string;
+    username: string;
+    access_token: string;
+} | null = null;
 
 // ~ The dashboard dimensions handlers, overlays, etc.
 
