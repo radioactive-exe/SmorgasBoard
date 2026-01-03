@@ -2,7 +2,7 @@
 
 Named as a portmanteau of "Smorgasbord" 🥪 and "Dashboard" 💻, this aims to be an all-you-can-pick dashboard application!
 
-Wanna run this app locally and work on it? Check out the [guide below](#dev-guide).
+Wanna run this app locally and work on it? Check out the [guide below](#️-installation--running-instructions-for-developers-dev-guide).
 
 ## :bulb: Features
 
@@ -26,7 +26,7 @@ Panels have different minimum sizes (that they have upon spawning), and some can
 
 ---
 
-## :arrow_down: Installation & Running instructions for Developers {#dev-guide}
+## :arrow_down: Installation & Running instructions for Developers
 
 If needed, this entire application can be installed and run in your own environment locally. This also includes a Supabase server for your own instance, etc. depending on your needs.
 
