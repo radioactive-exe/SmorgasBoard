@@ -138,7 +138,7 @@
                 inset: 0;
                 z-index: -1;
                 border-radius: inherit;
-                background: hsl(from var(--input-bg) h s l / 0.4);
+                background: hsl(from var(--input-bg) h s l / 0.6);
                 transition: inherit;
             }
 

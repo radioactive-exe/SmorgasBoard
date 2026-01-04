@@ -14,7 +14,6 @@
 import type { SupabaseClient } from "./declarations.js";
 
 import {
-    allowedOrigins,
     cors,
     createClient,
     dotenv,
@@ -24,6 +23,16 @@ import {
 } from "./declarations.js";
 
 dotenv.config();
+
+const app = express();
+const port = 3003;
+
+/** Implements CORS to only allow the origins in {@link allowedOrigins}. */
+const _corsHandler = app.use(
+    cors({
+        origin: process.env.ORIGIN_URL,
+    }),
+);
 
 import apiRouter from "./routers/api_router.js";
 import databaseRouter from "./routers/database_router.js";
@@ -39,19 +48,9 @@ const supabase: SupabaseClient = createClient(
     process.env.SUPABASE_KEY ?? "",
 );
 
-const app = express();
-const port = 3003;
-
 const __filename = url.fileURLToPath(import.meta.url);
 /** The current directory as a file path. */
 const __dirname = path.dirname(__filename);
-
-/** Implements CORS to only allow the origins in {@link allowedOrigins}. */
-const _corsHandler = app.use(
-    cors({
-        origin: allowedOrigins,
-    }),
-);
 
 app.use(express.json());
 

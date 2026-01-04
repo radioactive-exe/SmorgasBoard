@@ -30,11 +30,7 @@ const _fetchHandler = databaseRouter.get(
         const target = req.query.target;
 
         if (!target)
-            res.setHeader(
-                "Access-Control-Allow-Origin",
-                process.env.ORIGIN_URL ?? "",
-            )
-                .status(400)
+            res.status(400)
                 .send(
                     "Please enter the target column(s) to fetch from the database",
                 );
@@ -57,10 +53,7 @@ const _fetchHandler = databaseRouter.get(
         const data = await fetched.json();
 
         // ? Send the obtained data to the front end.
-        res.setHeader(
-            "Access-Control-Allow-Origin",
-            process.env.ORIGIN_URL ?? "",
-        ).json(data);
+        res.json(data);
     },
 );
 
@@ -88,11 +81,7 @@ const _updateHandler = databaseRouter.patch(
             // ? If the user ID could not be obtained
         } catch {
             userId = "";
-            res.setHeader(
-                "Access-Control-Allow-Origin",
-                process.env.ORIGIN_URL ?? "",
-            )
-                .status(401)
+            res.status(401)
                 .send(
                     "Not a valid authorised user. Please check that you are sending the proper authorisation header from the Smorgasboard frontend.",
                 );
@@ -119,10 +108,7 @@ const _updateHandler = databaseRouter.patch(
         const data = await fetched.json();
 
         // ? Send the updated/new record back to the frontend
-        res.setHeader(
-            "Access-Control-Allow-Origin",
-            process.env.ORIGIN_URL ?? "",
-        ).json(data);
+        res.json(data);
     },
 );
 

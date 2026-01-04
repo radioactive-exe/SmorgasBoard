@@ -27,11 +27,7 @@ const _searchHandler = weatherApiRouter.get(
     async (req: express.Request, res: express.Response) => {
         // ? If the query is empty
         if (!req.query.q)
-            res.setHeader(
-                "Access-Control-Allow-Origin",
-                process.env.ORIGIN_URL ?? "",
-            )
-                .status(400)
+            res.status(400)
                 .send('Please provide a query parameter "q" to search');
 
         // ? Forward the call to the Weather API
@@ -41,11 +37,7 @@ const _searchHandler = weatherApiRouter.get(
         const parsed = await data.json();
 
         // ? Package the response with the query and send it back as a response
-        res.setHeader(
-            "Access-Control-Allow-Origin",
-            process.env.ORIGIN_URL ?? "",
-        )
-            .status(200)
+        res.status(200)
             .send({
                 query: req.params.q,
                 results: parsed,
@@ -65,11 +57,7 @@ const _forecastHandler = weatherApiRouter.get(
         // ? If no latitude or longitude is passed.
         // ? This validates no wrong requests are sent to the Weather API.
         if (!req.params.lat || !req.params.lon)
-            res.setHeader(
-                "Access-Control-Allow-Origin",
-                process.env.ORIGIN_URL ?? "",
-            )
-                .status(400)
+            res.status(400)
                 .send(
                     "Please enter a latitude and longitude to get its forecast.",
                 );
@@ -83,10 +71,7 @@ const _forecastHandler = weatherApiRouter.get(
         const parsed = await data.json();
 
         // ? Send the response to the frontend
-        res.setHeader(
-            "Access-Control-Allow-Origin",
-            process.env.ORIGIN_URL ?? "",
-        ).send(parsed);
+        res.send(parsed);
     },
 );
 
