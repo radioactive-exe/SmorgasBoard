@@ -1,5 +1,7 @@
 # ![The Smorgasboard Logo](https://bvrmyobereaeybqpatjg.supabase.co/storage/v1/object/public/Assets/Smorgasboard%20Logo%20Full.png)
 
+_Copyright (C) 2025-2026, Radioactive.exe_
+
 Named as a portmanteau of "Smorgasbord" 🥪 and "Dashboard" 💻, this aims to be an all-you-can-pick dashboard application!
 
 Wanna run this app locally and work on it? Check out the [guide below](https://github.com/radioactive-exe/SmorgasBoard?tab=readme-ov-file#arrow_down-installation--running-instructions-for-developers).
