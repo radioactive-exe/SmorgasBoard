@@ -16,11 +16,14 @@ import {
     current,
     dashboard,
     documentPointerHandlers,
+    hideModal,
     preview,
+    showModal,
     supabase,
 } from "../../app.js";
 
 import { previouslyFocusedSelector } from "../../elements/inputs.js";
+import { spawnPopup } from "../../elements/popup.js";
 import * as get from "../../functions/accessors.js";
 
 import {
@@ -191,9 +194,13 @@ class Panel extends HTMLElement {
             .then(() => this.initMenu(existentConfig))
             // ? (5) Bind any key elements for the PanelType
             .then(() => this.bindKeyElements())
-            // ? (6) Dispatch the event signaling that the Panel has finished loading,
+            // ? (6) Add the listener to update the current panel when you hover on this one,
+            // ?     dispatch the event signaling that the Panel has finished loading,
             // ?     then populate the body if one is passed in, and begin the behaviour!
             .then(() => {
+                this.addEventListener("mouseenter", () => {
+                    current.panel = this;
+                });
                 this.dispatchEvent(new CustomEvent("finished-loading"));
                 if (body) this.setContent(body);
                 this.beginBehaviour();
@@ -417,6 +424,9 @@ class Panel extends HTMLElement {
                 if (this.classList.contains("configuring")) {
                     current.panel = this;
                     this.moveToCentre();
+                    showModal();
+                } else {
+                    hideModal();
                 }
             });
 
@@ -1045,8 +1055,15 @@ class Panel extends HTMLElement {
         this.shadowRoot
             ?.querySelector<HTMLElement>(".delete-button")
             ?.addEventListener("click", () => {
-                // ? Delete if clicked on. Pretty self explanatory
-                dashboard.deletePanel(this);
+                // ? Prompt for deletion
+                spawnPopup(
+                    "Delete Panel?",
+                    undefined,
+                    () => {
+                        dashboard.deletePanel(this);
+                    },
+                    "This cannot be undone!",
+                );
             });
     }
 

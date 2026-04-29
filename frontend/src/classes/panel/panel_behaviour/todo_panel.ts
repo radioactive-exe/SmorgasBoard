@@ -10,10 +10,14 @@
 /** File Header Delimiter. */
 
 import { AlertLevel, spawnAlert } from "../../../elements/alert.js";
+import { spawnPopup } from "../../../elements/popup.js";
 import type { Config, ConfigChangeEventDetail } from "../../config/config.js";
 import type * as ConfigEntry from "../../config/config_entry.js";
+import { createStringSelector } from "../../config/config_menu_builder.js";
 import type { Panel } from "../panel.js";
 import { PanelType } from "../panel_type.js";
+
+// TODO: Update documentation
 
 // eslint-disable-next-line jsdoc/require-example
 /**
@@ -168,47 +172,94 @@ function addEntry(
     // ? Update the class to reflect that the entry is checked/completed, matching with the input
     if (isChecked) newEntry.classList.add("checked");
 
-    // * The button/icon to delete/remove a task
-    const deleteIcon = document.createElement("div");
-    deleteIcon.classList.add("icon", "x-icon");
+    // * The button/icon to edit a task
+    const editIcon = document.createElement("div");
+    editIcon.classList.add("icon", "pen-icon");
 
     // ? Create a checkbox container element.
     const checkboxSelector = document.createElement("div");
     checkboxSelector.classList.add("selector", "checkbox-selector");
 
-    // ? Populate the checkbox container, including the checked status and the value of the task.
-    checkboxSelector.innerHTML = `<label class="checkbox-label">
-                    <input type="checkbox" class="checkbox-input" ${isChecked ? "checked" : ""}/>
+    // ? Populate the checkbox label, including the checked status and the value of the task.
+    const checkboxLabel = document.createElement("label");
+    checkboxLabel.classList.add("checkbox-label");
+    checkboxLabel.innerHTML += `<input type="checkbox" class="checkbox-input" ${isChecked ? "checked" : ""}/>
                     <div class="checkbox-tick">
                         <svg class="checkbox-tick-svg" width="20px" height="20px">
                             <polyline points="4 9 7 13 13 4"></polyline>
                         </svg>
-                    </div>
-                    <span class="todo-list-entry-text">${value}</span>
-                </label>`;
+                    </div>`;
+
+    // * An explicit variable to store the task text to reference in the edit flow below
+    const task = document.createElement("span");
+    task.classList.add("todo-list-entry-text");
+    task.textContent = value;
+
+    // ? Append the actual text to the containing label
+    checkboxLabel.appendChild(task);
+
+    // ? Append the populated checkbox label to the container, later followed by the edit button
+    checkboxSelector.appendChild(checkboxLabel);
 
     // ? Handle checking/unchecking a task
     newEntry.addEventListener("click", () => {
         panel.triggerSave();
     });
 
-    // ? Handle removing a listed task
-    deleteIcon.addEventListener("click", (e) => {
+    // ? The reusable string selector to populate the popup
+    const taskEditSelector: HTMLElement = createStringSelector(
+        task.textContent,
+        "Task",
+    );
+    const taskEditInput: HTMLInputElement | null =
+        taskEditSelector.querySelector(".string-selector-input");
+
+    // ? Handle clicking the edit button
+    editIcon.addEventListener("click", (e) => {
         e.stopPropagation();
-        newEntry.remove();
-        panel.triggerSave();
+
+        if (taskEditInput) taskEditInput.value = task.textContent;
+
+        // ? Populate and spawn the popup with relevant callbacks
+        spawnPopup(
+            "Edit Task",
+            // ? If we click done, either update the task or prompt for deletion if empty
+            () => {
+                if (taskEditInput?.value) {
+                    task.textContent = taskEditInput.value;
+                    panel.triggerSave();
+                } else triggerTaskDeletion(newEntry, panel);
+            },
+            // ? If we click delete, simply prompt for deletion
+            () => {
+                triggerTaskDeletion(newEntry, panel);
+            },
+            taskEditSelector,
+        );
     });
 
     // ? Add the checkbox container (with the task in the label)
-    // ? and the delete icon to the new task entry
+    // ? and the buttons to the new task entry
     newEntry.appendChild(checkboxSelector);
-    newEntry.appendChild(deleteIcon);
+    newEntry.appendChild(editIcon);
 
     // ? Then append the new task entry into the list
     todoList.appendChild(newEntry);
 
     // ? If needed, trigger a save
     if (updateStored) panel.triggerSave();
+}
+
+function triggerTaskDeletion(entry: HTMLElement, panel: Panel): void {
+    spawnPopup(
+        "Delete Task?",
+        undefined,
+        () => {
+            entry.remove();
+            panel.triggerSave();
+        },
+        "This cannot be undone!",
+    );
 }
 
 export { addEntry, execute };

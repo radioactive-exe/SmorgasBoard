@@ -111,6 +111,14 @@ function setLocalChange(val: boolean): void {
     wasLocalChange = val;
 }
 
+function exitFocusHandler(e: MouseEvent | KeyboardEvent): void {
+    if (e instanceof MouseEvent && e.target == modalLayer) {
+        hideModal(current.modal);
+    } else if (e instanceof KeyboardEvent && e.key == "Escape") {
+        hideModal(current.modal);
+    }
+}
+
 // ~ Dashboard-related constants, panels, and other variables
 
 /** The animated loader for the application. */
@@ -142,7 +150,16 @@ const current = {
      * panel being spawned, or even the panel targeted when the context menu was
      * spawned, etc. The use depends on the context.
      */
-    panel: preview,
+    _panel: preview,
+    set panel(nextPanel: Panel) {
+        this._panel.classList.remove("last-focused-panel");
+        this._panel = nextPanel;
+        this._panel.classList.add("last-focused-panel");
+    },
+    get panel(): Panel {
+        return this._panel;
+    },
+    modal: null as HTMLElement | null,
     /**
      * The original area as soon as the current Panel was being manipulated
      * (dragged or resized).
@@ -422,9 +439,9 @@ function refreshDimensions(): void {
     if (
         Dashboard.getFractionalWidth() < 100
         || Dashboard.getFractionalHeight() < 100
-    ) {
-        sizeWarningOverlay?.classList.add("visible");
-    } else sizeWarningOverlay?.classList.remove("visible");
+    )
+        showModal(sizeWarningOverlay);
+    else hideModal(sizeWarningOverlay);
 
     // ? If for whatever reason the modal layer did not exist on querying,
     // ? then add the ID to the fallback DIV created and append it to the document
@@ -480,7 +497,12 @@ const overlayDismissButtons: NodeListOf<HTMLButtonElement> | null =
 // ? Handle dismissing the warning/info overlays by clicking the button
 overlayDismissButtons?.forEach((button) => {
     button.addEventListener("click", () => {
-        button.closest(".warning-overlay")?.classList.remove("visible");
+        hideModal(
+            button.closest(".warning-overlay") as
+                | HTMLElement
+                | null
+                | undefined,
+        );
     });
 });
 
@@ -624,6 +646,38 @@ function finishLoading(): void {
     dashboard.dispatchEvent(
         new CustomEvent("dashboard-loaded", { bubbles: true }),
     );
+}
+
+function showModal(modal: HTMLElement | null = null): void {
+    if (modal) {
+        current.modal = modal;
+        modal?.classList.add("visible");
+    }
+
+    current.panel = preview;
+    modalLayer.classList.add("blurred");
+    document.addEventListener("click", exitFocusHandler);
+    document.addEventListener("keydown", exitFocusHandler);
+}
+
+function hideModal(modal: HTMLElement | null = null): void {
+    if (!modal) {
+        // ? If there was no modal passed, then it was a panel being configured, so
+        // ? close the panel menu
+        current.panel.classList.remove("configuring");
+        modalLayer.classList.remove("blurred");
+        document.removeEventListener("click", exitFocusHandler);
+        document.removeEventListener("keydown", exitFocusHandler);
+    } else {
+        modal.classList.remove("visible");
+        // ? If there are no other popups left
+        if (modalLayer.querySelectorAll(".popup.visible").length == 0) {
+            current.modal = null;
+            modalLayer.classList.remove("blurred");
+            document.removeEventListener("click", exitFocusHandler);
+            document.removeEventListener("keydown", exitFocusHandler);
+        }
+    }
 }
 
 // ~ Initialising context menu and its listeners and submenus
@@ -1069,15 +1123,15 @@ document.addEventListener("keydown", async (e) => {
     }
 });
 
-// TODO: Lessons learnt - How supabase helped with the auth and database. How vite helped with module resolution, Screenshots of whole dashboard. Screenshots on mobile. Installation instructions in the readme - npm i then npm run_local. Huge difficulties were supabase realtime changes, and panel movement breaking.
-
 export {
     commonHandler,
     contextNavButton,
     current,
     dashboard,
     documentPointerHandlers,
+    exitFocusHandler,
     finishLoading,
+    hideModal,
     loader,
     modalLayer,
     preview,
@@ -1086,6 +1140,8 @@ export {
     setDocumentHandlers,
     setFirstTime,
     setLocalChange,
+    showModal,
+    sizeWarningOverlay,
     spawnablePanelTypes,
     supabase,
     user,

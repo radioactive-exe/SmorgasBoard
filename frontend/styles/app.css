@@ -1,12 +1,13 @@
-@import url("./inputs.css");
-@import url("./auth.css");
-@import url("./loader.css");
-@import url("./context_menu.css");
-@import url("./animations.css");
 @import url("./alert.css");
+@import url("./animations.css");
+@import url("./auth.css");
+@import url("./context_menu.css");
+@import url("./inputs.css");
+@import url("./loader.css");
+@import url("./nav.css");
 @import url("./panel.css");
 @import url("./panel_types.css");
-@import url("./nav.css");
+@import url("./modal.css");
 
 :root {
 
@@ -71,7 +72,20 @@ html {
 }
 
 body {
+    position: fixed;
     overflow: hidden;
+    width: 100vw;
+    width: 100svw;
+    min-width: 100vw;
+    min-width: 100svw;
+    max-width: 100vw;
+    max-width: 100svw;
+    height: 100vh;
+    height: 100svh;
+    min-height: 100vh;
+    min-height: 100svh;
+    max-height: 100vh;
+    max-height: 100svh;
     background: var(--dashboard-bg);
     color: var(--text-primary);
     overscroll-behavior: contain;
@@ -191,7 +205,29 @@ a {
                 transform: scale(1.2);
             }
         }
+    }
 
+    &.pen-icon {
+        --icon-svg: url("../public/assets/graphics/pencil.svg");
+        --target-bg: var(--input-accent);
+        position: absolute;
+        right: 0.75rem;
+        width: 2rem;
+        min-width: 2rem;
+        height: 2rem;
+        min-height: 2rem;
+        margin-left: auto;
+        cursor: pointer;
+        pointer-events: all;
+        transform: scale(0);
+
+        &:is(.in-edit-mode .pen-icon) {
+            transform: scale(1);
+
+            &:hover {
+                transform: scale(1.2);
+            }
+        }
     }
 
     &.weather-icon {
@@ -252,21 +288,12 @@ a {
 }
 
 smorgas-board {
-    position: fixed;
-    overflow: hidden;
-    width: 100vw;
-    width: 100svw;
-    min-width: 100vw;
-    min-width: 100svw;
-    max-width: 100vw;
-    max-width: 100svw;
-    height: 100vh;
-    height: 100svh;
-    min-height: 100vh;
-    min-height: 100svh;
-    max-height: 100vh;
-    max-height: 100svh;
-    isolation: isolate;
+    width: 100%;
+    min-width: 100%;
+    max-width: 100%;
+    height: 100%;
+    min-height: 100%;
+    max-height: 100%;
 
     &::part(cell-container) {
         position: absolute;
@@ -307,7 +334,7 @@ smorgas-board {
 
     &.in-edit-mode {
         & ::part(drag-handle) {
-            transform: scale(0.4);
+            transform: translateX(-50%) scale(0.4);
         }
 
         & ::part(resize-handle) {
@@ -318,7 +345,7 @@ smorgas-board {
             transform: scale(1);
         }
 
-        & panel-element:not(panel-element.configuring, panel-element.snapping, panel-element.being-manipulated):hover {
+        & panel-element:not(panel-element.configuring, panel-element.snapping, panel-element.being-manipulated, panel-element.disappearing):hover {
             &::part(panel-content) {
                 transform: scale(calc(1 / 1.03));
             }
@@ -454,117 +481,6 @@ input:-webkit-autofill:active {
             opacity: 1;
             transition-duration: var(--quick-transition-time);
         }
-    }
-}
-
-#modal-layer {
-    position: fixed;
-    inset: 0;
-    z-index: 5;
-    pointer-events: none;
-    isolation: isolate;
-
-    & .warning-overlay {
-        position: fixed;
-        inset: 0;
-        display: flex;
-        flex-flow: column nowrap;
-        gap: 3rem;
-        justify-content: center;
-        align-items: center;
-        overflow-y: auto;
-        background: hsl(from var(--dashboard-bg) h s l / 0.6);
-        opacity: 0;
-        pointer-events: none;
-        transition: opacity var(--med-transition-time) ease, pointer-events 0s ease var(--med-transition-time);
-        backdrop-filter: blur(0.8rem);
-
-        & .warning-title {
-            font-size: var(--font-m);
-        }
-
-
-        & .warning-description {
-            position: relative;
-            max-width: 60vw;
-            font-size: var(--font-s);
-            text-align: justify;
-        }
-
-        & .warning-solution-steps,
-        & .warning-solution-steps .solution-step {
-            max-width: 60vw;
-            font-size: var(--font-s);
-        }
-
-        &.visible {
-            opacity: 1;
-            pointer-events: all;
-        }
-    }
-
-    & .off-screen-arrows {
-        pointer-events: none;
-
-        & .icon {
-            position: absolute;
-            width: 8rem;
-            height: 8rem;
-            background: var(--input-accent);
-            opacity: 0;
-            filter: drop-shadow(0 0 0.5rem var(--shadow-col));
-            transition: opacity var(--quick-transition-time) ease;
-            animation-duration: 0.5s;
-            animation-play-state: paused;
-            animation-timing-function: ease;
-            animation-iteration-count: infinite;
-            animation-direction: alternate-reverse;
-
-            &#off-screen-right {
-                top: calc(50% - 4rem);
-                right: 2rem;
-                animation-name: arrow-bounce;
-            }
-
-            &#off-screen-down {
-                bottom: 2rem;
-                left: calc(50% - 4rem);
-                transform: rotate(90deg);
-                animation-name: arrow-bounce-down;
-            }
-
-            &.visible {
-                opacity: 1;
-            }
-        }
-    }
-
-    & #save-icon-container {
-        position: fixed;
-        inset: 0;
-        filter: drop-shadow(0 0 0.5rem var(--shadow-col));
-    }
-
-    & #dashboard-save-icon {
-        position: absolute;
-        bottom: var(--panel-content-padding);
-        left: var(--panel-content-padding);
-        width: 5rem;
-        height: 5rem;
-        background: var(--input-accent);
-        pointer-events: none;
-        transition-timing-function: var(--bezier-function);
-        transform: scale(0);
-
-        &.visible {
-            transform: scale(1);
-        }
-    }
-
-    &::after {
-        content: '';
-        position: fixed;
-        inset: 0;
     }
 }
 

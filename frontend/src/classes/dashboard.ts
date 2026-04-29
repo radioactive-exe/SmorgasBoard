@@ -12,9 +12,11 @@
 import {
     current,
     finishLoading,
+    hideModal,
     loader,
     refreshDimensions,
     saveIcon,
+    sizeWarningOverlay,
     spawnablePanelTypes,
     user,
 } from "../app.js";
@@ -357,6 +359,7 @@ class Dashboard extends HTMLElement {
                 )
                     this.deletePanel(panel);
             });
+            hideModal(sizeWarningOverlay);
         }
 
         // ? Once here (either fitting all the panels or by forcing a change), update the size
@@ -559,9 +562,10 @@ class Dashboard extends HTMLElement {
         // ? Check if the panel is a child
         if (!this.contains(panel)) return;
 
-        // ? Remove the Panel from the stored array and the body
+        // ? Remove the Panel from the stored array and the body, making it pop out of existence
         this.panels.splice(this.panels.indexOf(panel), 1);
-        this.removeChild(panel);
+        panel.classList.add("disappearing");
+        utils.deleteAfterTransition(panel, this);
 
         // ? Add the Panel's ID to the pool of free IDs
         this.freeIds.add(panel.getId());

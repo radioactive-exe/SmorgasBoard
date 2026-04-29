@@ -446,7 +446,7 @@ async function focusOnLocation(
     // ? with the location city, region, and time, all accounting for the
     // ? current config settings and the location timezone
     focusedLocationInfoElements.city.textContent = data.location.name;
-    focusedLocationInfoElements.regionAndCountry.textContent = `${data.location.region}, ${data.location.country}`;
+    focusedLocationInfoElements.regionAndCountry.textContent = `${data.location.region ? data.location.region + ", " : ""}${data.location.country}`;
     focusedLocationInfoElements.time.textContent = `${now.toLocaleTimeString(
         "en-US",
         {

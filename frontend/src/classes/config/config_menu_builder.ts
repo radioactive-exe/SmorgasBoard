@@ -19,6 +19,8 @@
 
 /** File Header Delimiter. */
 
+// TODO: Update documentation
+
 import {
     initDropdownSelector,
     initRangeSelector,
@@ -129,10 +131,10 @@ function configMenu(config: Config): HTMLUListElement {
  * appends it to the config menu line.
  *
  * @see {@link ConfigEntry.Entry | ConfigEntry}
- * @see {@link buildBooleanEntrySelector | Boolean Entry selector builder function}
- * @see {@link buildNumberEntrySelector | Number Entry selector builder function}
- * @see {@link buildStringEntrySelector | String Entry selector builder function}
- * @see {@link buildListEntrySelector | List Entry selector builder function}
+ * @see {@link buildBooleanConfigEntrySelector | Boolean Entry selector builder function}
+ * @see {@link buildNumberConfigEntrySelector | Number Entry selector builder function}
+ * @see {@link buildStringConfigEntrySelector | String Entry selector builder function}
+ * @see {@link buildListConfigEntrySelector | List Entry selector builder function}
  */
 function builtEntrySelector(entry: [string, ConfigEntry.Entry]): HTMLElement {
     // * The empty box to start building into
@@ -140,18 +142,24 @@ function builtEntrySelector(entry: [string, ConfigEntry.Entry]): HTMLElement {
 
     // ? If it is a Boolean/Toggle Config entry
     if (ConfigEntry.BooleanObject.safeParse(entry[1]).success)
-        builtInput = buildBooleanEntrySelector(entry[1] as ConfigEntry.Boolean);
+        builtInput = buildBooleanConfigEntrySelector(
+            entry[1] as ConfigEntry.Boolean,
+        );
     // ? If it is a Number/Range Config entry
     else if (ConfigEntry.NumberObject.safeParse(entry[1]).success)
-        builtInput = buildNumberEntrySelector(entry[1] as ConfigEntry.Number);
+        builtInput = buildNumberConfigEntrySelector(
+            entry[1] as ConfigEntry.Number,
+        );
     // ? If it is a List/Dropdown Config entry
     else if (ConfigEntry.ListSelectionObject.safeParse(entry[1]).success)
-        builtInput = buildListEntrySelector(
+        builtInput = buildListConfigEntrySelector(
             entry[1] as ConfigEntry.ListSelection,
         );
     // ? If it is a String/Text Config entry
     else if (ConfigEntry.StringObject.safeParse(entry[1]).success)
-        builtInput = buildStringEntrySelector(entry[1] as ConfigEntry.String);
+        builtInput = buildStringConfigEntrySelector(
+            entry[1] as ConfigEntry.String,
+        );
     // ? If it is somehow none of the above
     else
         throw new Error(
@@ -187,39 +195,41 @@ function builtEntrySelector(entry: [string, ConfigEntry.Entry]): HTMLElement {
  * Builds the appropriate Boolean selector for the `use24Hr` Config option.
  *
  * @see {@link builtEntrySelector | The base Builder redirector function}
- * @see {@link buildNumberEntrySelector | Number Entry selector builder function}
- * @see {@link buildStringEntrySelector | String Entry selector builder function}
- * @see {@link buildListEntrySelector | List Entry selector builder function}
+ * @see {@link buildNumberConfigEntrySelector | Number Entry selector builder function}
+ * @see {@link buildStringConfigEntrySelector | String Entry selector builder function}
+ * @see {@link buildListConfigEntrySelector | List Entry selector builder function}
  */
-function buildBooleanEntrySelector(entry: ConfigEntry.Boolean): HTMLElement {
+function buildBooleanConfigEntrySelector(
+    entry: ConfigEntry.Boolean,
+): HTMLElement {
+    // * The created and filled toggle selector
+    const toggleSelector: HTMLElement = createToggleSelector(entry.value);
+
+    // ? Calls the function that initiates all listeners and config change events
+    // ? for the Toggle/Boolean selector.
+    initToggleSelector(toggleSelector);
+
+    return toggleSelector;
+}
+
+function createToggleSelector(checked: boolean): HTMLElement {
     // ? Creating the container element
     const toggleSelector: HTMLDivElement = document.createElement("div");
     toggleSelector.classList.add("toggle-selector", "selector");
 
-    // ? Filling out the selector container
+    // ? Add the relevant class if the checkbox is checked - helps eliminate :has()
+    if (checked) toggleSelector.classList.add("checked");
+
+    // ? Filling out the selector container, checking the checkbox if needed
     toggleSelector.innerHTML = `
         <label class="toggle-checkbox-background">
-            <input type="checkbox" class="toggle-checkbox" />
+            <input type="checkbox" class="toggle-checkbox" ${checked ? "checked" : ""}/>
             <div class="toggle-checkbox-button">
             <div class="toggle-p1"></div>
             <div class="toggle-p2"></div>
             </div>
         </label>
     `;
-
-    const checkbox: HTMLInputElement = toggleSelector.querySelector(
-        ".toggle-checkbox",
-    ) as HTMLInputElement;
-
-    // ? Setting the checkbox to reflect the config option value
-    checkbox.checked = entry.value;
-
-    // ? And the parent class
-    if (entry.value) toggleSelector.classList.add("checked");
-
-    // ? Calls the function that initiates all listeners and config change events
-    // ? for the Toggle/Boolean selector.
-    initToggleSelector(toggleSelector);
 
     return toggleSelector;
 }
@@ -252,11 +262,34 @@ function buildBooleanEntrySelector(entry: ConfigEntry.Boolean): HTMLElement {
  * Builds the appropriate Number selector for the `decimalPlaces` Config option.
  *
  * @see {@link builtEntrySelector | The base Builder redirector function}
- * @see {@link buildBooleanEntrySelector | Boolean Entry selector builder function}
- * @see {@link buildStringEntrySelector | String Entry selector builder function}
- * @see {@link buildListEntrySelector | List Entry selector builder function}
+ * @see {@link buildBooleanConfigEntrySelector | Boolean Entry selector builder function}
+ * @see {@link buildStringConfigEntrySelector | String Entry selector builder function}
+ * @see {@link buildListConfigEntrySelector | List Entry selector builder function}
  */
-function buildNumberEntrySelector(entry: ConfigEntry.Number): HTMLElement {
+function buildNumberConfigEntrySelector(
+    entry: ConfigEntry.Number,
+): HTMLElement {
+    // * The created and filled range selector
+    const rangeSelector: HTMLElement = createRangeSelector(
+        entry.range.min,
+        entry.range.max,
+        entry.value,
+        entry.range.step,
+    );
+
+    // ? Calls the function that initiates all listeners and config change events
+    // ? for the Range/Number selector.
+    initRangeSelector(rangeSelector);
+
+    return rangeSelector;
+}
+
+function createRangeSelector(
+    min: number,
+    max: number,
+    value: number,
+    step?: number,
+): HTMLElement {
     // ? Creating the container element
     const rangeSelector: HTMLDivElement = document.createElement("div");
     rangeSelector.classList.add("range-selector", "selector");
@@ -270,17 +303,13 @@ function buildNumberEntrySelector(entry: ConfigEntry.Number): HTMLElement {
             <input
                 class="range-slider"
                 type="range"
-                min="${entry.range.min}"
-                max="${entry.range.max}"
-                value="${entry.value}"
-                step="${entry.range.step ?? 0.05}"
+                min="${min}"
+                max="${max}"
+                step="${step ?? 0.05}"
+                value="${value}"
             />
         </label>
     `;
-
-    // ? Calls the function that initiates all listeners and config change events
-    // ? for the Range/Number selector.
-    initRangeSelector(rangeSelector);
 
     return rangeSelector;
 }
@@ -309,17 +338,33 @@ function buildNumberEntrySelector(entry: ConfigEntry.Number): HTMLElement {
  * Builds the appropriate String selector for the `listTitle` Config option.
  *
  * @see {@link builtEntrySelector | The base Builder redirector function}
- * @see {@link buildBooleanEntrySelector | Boolean Entry selector builder function}
- * @see {@link buildNumberEntrySelector | Number Entry selector builder function}
- * @see {@link buildListEntrySelector | List Entry selector builder function}
+ * @see {@link buildBooleanConfigEntrySelector | Boolean Entry selector builder function}
+ * @see {@link buildNumberConfigEntrySelector | Number Entry selector builder function}
+ * @see {@link buildListConfigEntrySelector | List Entry selector builder function}
  */
-function buildStringEntrySelector(entry: ConfigEntry.String): HTMLElement {
+function buildStringConfigEntrySelector(
+    entry: ConfigEntry.String,
+): HTMLElement {
+    // * The created and filled string selector element
+    const stringSelector: HTMLElement = createStringSelector(
+        entry.value,
+        entry.placeholder,
+    );
+
+    // ? Calls the function that initiates all listeners and config change events
+    // ? for the Text/String selector.
+    initStringSelector(stringSelector);
+
+    return stringSelector;
+}
+
+function createStringSelector(value: string, placeholder: string): HTMLElement {
     // ? Creating the container element
     const stringSelector: HTMLDivElement = document.createElement("div");
     stringSelector.classList.add("string-selector", "selector");
 
     // ? Filling out the selector container, along with the placeholder and
-    // ? current config option value.
+    // ? any current value.
     stringSelector.innerHTML = `
         <label class="string-selector-label">
             <input
@@ -327,15 +372,11 @@ function buildStringEntrySelector(entry: ConfigEntry.String): HTMLElement {
                 type="text"
                 required
                 placeholder=" "
-                value="${entry.value}"
+                value="${value}"
             />
-            <span class="string-selector-label-text">${entry.placeholder}</span>
+            <span class="string-selector-label-text">${placeholder}</span>
         </label>
     `;
-
-    // ? Calls the function that initiates all listeners and config change events
-    // ? for the Text/String selector.
-    initStringSelector(stringSelector);
 
     return stringSelector;
 }
@@ -378,11 +419,30 @@ function buildStringEntrySelector(entry: ConfigEntry.String): HTMLElement {
  * Builds the appropriate List selector for the `dateFormat` Config option.
  *
  * @see {@link builtEntrySelector | The base Builder redirector function}
- * @see {@link buildBooleanEntrySelector | Boolean Entry selector builder function}
- * @see {@link buildNumberEntrySelector | Number Entry selector builder function}
- * @see {@link buildStringEntrySelector | String Entry selector builder function}
+ * @see {@link buildBooleanConfigEntrySelector | Boolean Entry selector builder function}
+ * @see {@link buildNumberConfigEntrySelector | Number Entry selector builder function}
+ * @see {@link buildStringConfigEntrySelector | String Entry selector builder function}
  */
-function buildListEntrySelector(entry: ConfigEntry.ListSelection): HTMLElement {
+function buildListConfigEntrySelector(
+    entry: ConfigEntry.ListSelection,
+): HTMLElement {
+    // * The created and filled list entry selector
+    const dropdownSelector = createListSelector(
+        entry.value,
+        entry.possibleOptions,
+    );
+
+    // ? Calls the function that initiates all listeners and config change events
+    // ? for the List/Dropdown selector.
+    initDropdownSelector(dropdownSelector);
+
+    return dropdownSelector;
+}
+
+function createListSelector(
+    current: string,
+    options: ConfigEntry.ListSelectionOption[],
+): HTMLElement {
     // ? Creating the selector container
     const dropdownSelector: HTMLDivElement = document.createElement("div");
     dropdownSelector.classList.add("dropdown-selector", "selector");
@@ -391,7 +451,7 @@ function buildListEntrySelector(entry: ConfigEntry.ListSelection): HTMLElement {
     // ? selected option from the potential options in the list
     dropdownSelector.innerHTML = `
         <div class="selection">
-            <p><span class="selection-text">${getOptionLabelFromList(entry.possibleOptions, entry.value)}</span></p>
+            <p><span class="selection-text">${getOptionLabelFromList(options, current)}</span></p>
             <div class="menu-caret icon"></div>
         </div>
         <ul class="dropdown-list">
@@ -404,9 +464,9 @@ function buildListEntrySelector(entry: ConfigEntry.ListSelection): HTMLElement {
     ) as HTMLElement;
 
     // ? Iterating over each option in the potential options
-    entry.possibleOptions.forEach((option) => {
+    options.forEach((option) => {
         // ? Checking if the current option is the selected one (1/2)
-        const isSelected: boolean = option.optionValue == entry.value;
+        const isSelected: boolean = option.optionValue == current;
 
         // ? Adding a LI element to the dropdown UList element with the option value and label set,
         // ? as well as utilising the check mentioned above to set the LI's `selected` class and
@@ -421,11 +481,13 @@ function buildListEntrySelector(entry: ConfigEntry.ListSelection): HTMLElement {
         `;
     });
 
-    // ? Calls the function that initiates all listeners and config change events
-    // ? for the List/Dropdown selector.
-    initDropdownSelector(dropdownSelector);
-
     return dropdownSelector;
 }
 
-export { configMenu };
+export {
+    configMenu,
+    createListSelector,
+    createRangeSelector,
+    createStringSelector,
+    createToggleSelector,
+};

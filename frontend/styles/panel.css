@@ -9,8 +9,10 @@ smorgas-board panel-element {
     width: var(--width);
     height: var(--height);
     border-radius: var(--panel-border-radius);
+    transition: var(--panel-transition-time) scale ease;
     transform: translate(var(--x), var(--y));
     transform-origin: center;
+    scale: 1;
     touch-action: none;
 
     &.final-preview {
@@ -49,7 +51,7 @@ smorgas-board panel-element {
         background: var(--panel-bg);
         transition-timing-function: ease;
         transition-duration: var(--panel-transition-time);
-        transition-property: opacity, transform, filter, width, height;
+        transition-property: opacity, transform, filter, width, height, scale;
         transform: perspective(200rem) scale(1) rotateZ(0deg);
         transform-origin: center;
         transform-style: preserve-3d;
@@ -131,12 +133,12 @@ smorgas-board panel-element {
     &::part(drag-handle) {
         position: absolute;
         top: 0;
-        left: 0;
+        left: 50%;
         display: flex;
         justify-content: center;
         align-items: center;
         box-sizing: border-box;
-        width: var(--square-handle-full-side);
+        width: 80%;
         height: var(--square-handle-full-side);
         border-radius: var(--panel-border-radius);
         background: hsl(from var(--panel-handle-bg) h s l / 0.6);
@@ -145,7 +147,8 @@ smorgas-board panel-element {
         transition-timing-function: ease;
         transition-duration: var(--quick-transition-time);
         transition-property: transform, opacity, mask-size;
-        transform: scale(0);
+        transform: translateX(-50%) scale(0);
+        transform-origin: center 1rem;
         touch-action: none;
     }
 
@@ -159,11 +162,11 @@ smorgas-board panel-element {
     }
 
     &::part(drag-handle):hover {
-        transform: scale(1);
+        transform: translateX(-50%) scale(1);
     }
 
     &::part(drag-icon):hover {
-        mask-size: 70%;
+        mask-size: 18%;
     }
 
     &::part(handle):active {
@@ -218,7 +221,7 @@ smorgas-board panel-element {
     &::part(menu) {
         position: absolute;
         inset: 0;
-        z-index: 2;
+        z-index: 3;
         display: flex;
         flex-flow: column nowrap;
         gap: 2rem;
@@ -242,7 +245,7 @@ smorgas-board panel-element {
 
     &::part(icon-button) {
         position: absolute;
-        z-index: 3;
+        z-index: 4;
         box-sizing: border-box;
         width: 3rem;
         height: 3rem;
@@ -310,8 +313,15 @@ smorgas-board panel-element {
         opacity: 1;
     }
 
-    &:hover {
-        z-index: 2;
+    &.last-focused-panel {
+        z-index: 1;
+    }
+
+    &.disappearing::part(panel-body) {
+        transition-timing-function: ease-in;
+        transition-duration: var(--quick-transition-time);
+        scale: 0;
+        rotate: -360deg;
     }
 }
 
@@ -352,11 +362,7 @@ smorgas-board panel-element.being-manipulated {
     &.being-dragged {
         &::part(drag-handle) {
             opacity: var(--panel-manip-opacity);
-            transform: scale(1);
-        }
-
-        &::part(drag-icon) {
-            mask-size: 70%;
+            transform: translateX(-50%) scale(1);
         }
 
         &::part(resize-handle) {
@@ -378,13 +384,13 @@ smorgas-board panel-element.being-manipulated {
         }
 
         &::part(drag-handle) {
-            transform: scale(0);
+            transform: translateX(-50%) scale(0);
         }
     }
 }
 
 smorgas-board panel-element.configuring {
-    z-index: 6;
+    pointer-events: none;
 
     &::part(handle) {
         width: 0;
@@ -437,9 +443,12 @@ smorgas-board panel-element.snapping {
         transition-timing-function: ease;
     }
 
-    &::part(drag-handle),
     &::part(delete-button) {
         transform: scale(0);
+    }
+
+    &::part(drag-handle) {
+        transform: translateX(-50%) scale(0);
     }
 
     &::part(resize-handle) {
@@ -448,7 +457,7 @@ smorgas-board panel-element.snapping {
 }
 
 @media (hover: hover) {
-    smorgas-board panel-element:not(.configuring):hover::part(panel-body) {
+    smorgas-board panel-element:not(.configuring, .disappearing):hover::part(panel-body) {
         transform: perspective(200rem) rotateX(var(--rotate-x, 0)) rotateY(var(--rotate-y, 0)) rotateZ(0deg);
     }
 }

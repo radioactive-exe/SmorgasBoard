@@ -12,6 +12,7 @@
         "noImplicitReturns": true,
         "strict": true,
         "sourceMap": true,
+        "rootDir": "./src",
         "outDir": "build/dist",
         "declaration": true,
         "declarationDir": "build/dist/lib/types",

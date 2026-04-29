@@ -1,0 +1,157 @@
+#modal-layer {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    pointer-events: none;
+
+    & .warning-overlay {
+        position: fixed;
+        inset: 0;
+        z-index: 5;
+        display: flex;
+        flex-flow: column nowrap;
+        gap: 3rem;
+        justify-content: center;
+        align-items: center;
+        overflow-y: auto;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity var(--med-transition-time) ease, pointer-events 0s ease var(--med-transition-time);
+        backdrop-filter: blur(0.8rem) brightness(0.8);
+
+        & .warning-title {
+            font-size: var(--font-m);
+        }
+
+
+        & .warning-description {
+            position: relative;
+            max-width: 60vw;
+            font-size: var(--font-s);
+            text-align: justify;
+        }
+
+        & .warning-solution-steps,
+        & .warning-solution-steps .solution-step {
+            max-width: 60vw;
+            font-size: var(--font-s);
+        }
+
+        &.visible {
+            opacity: 1;
+            pointer-events: all;
+        }
+    }
+
+    & .off-screen-arrows {
+        pointer-events: none;
+
+        & .icon {
+            position: absolute;
+            width: 8rem;
+            height: 8rem;
+            background: var(--input-accent);
+            opacity: 0;
+            filter: drop-shadow(0 0 0.5rem var(--shadow-col));
+            transition: opacity var(--quick-transition-time) ease;
+            animation-duration: 0.5s;
+            animation-play-state: paused;
+            animation-timing-function: ease;
+            animation-iteration-count: infinite;
+            animation-direction: alternate-reverse;
+
+            &#off-screen-right {
+                top: calc(50% - 4rem);
+                right: 2rem;
+                animation-name: arrow-bounce;
+            }
+
+            &#off-screen-down {
+                bottom: 2rem;
+                left: calc(50% - 4rem);
+                transform: rotate(90deg);
+                animation-name: arrow-bounce-down;
+            }
+
+            &.visible {
+                opacity: 1;
+            }
+        }
+    }
+
+    & .popup {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        display: flex;
+        flex-flow: column;
+        gap: 2rem;
+        justify-content: center;
+        align-items: center;
+        width: clamp(30rem, 50%, 45rem);
+        margin: auto;
+        padding: 4rem var(--panel-content-padding);
+        border: 0.2rem solid var(--border-subtle);
+        border-radius: var(--panel-border-radius);
+        background: var(--panel-bg);
+        pointer-events: all;
+        transition-timing-function: ease;
+        transition-duration: var(--quick-transition-time);
+        transition-property: transform, opacity;
+        transform: translate(-50%, -50%) scale(1);
+        isolation: isolate;
+
+        & .popup-title {
+            color: var(--text-accent);
+            font-size: var(--font-sm);
+        }
+
+        & .popup-text-content {
+            font-size: var(--font-s);
+        }
+
+        & .button-container {
+            flex-flow: row wrap;
+        }
+
+        &:not(.visible) {
+            transform: translate(-50%, -50%) scale(0);
+        }
+    }
+
+    & #save-icon-container {
+        position: fixed;
+        inset: 0;
+        filter: drop-shadow(0 0 0.5rem var(--shadow-col));
+    }
+
+    & #dashboard-save-icon {
+        position: absolute;
+        bottom: var(--panel-content-padding);
+        left: var(--panel-content-padding);
+        width: 5rem;
+        height: 5rem;
+        background: var(--input-accent);
+        pointer-events: none;
+        transition-timing-function: var(--bezier-function);
+        transform: scale(0);
+
+        &.visible {
+            transform: scale(1);
+        }
+    }
+
+    &::before {
+        content: '';
+        position: fixed;
+        inset: 0;
+        opacity: 0;
+        transition: opacity var(--quick-transition-time) ease;
+        backdrop-filter: blur(0.8rem) brightness(0.8);
+    }
+
+    &.blurred::before {
+        opacity: 1;
+        pointer-events: all;
+    }
+}

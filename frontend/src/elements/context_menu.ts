@@ -16,6 +16,7 @@
 /** File Header Delimiter. */
 
 import { contextNavButton, current } from "../app.js";
+import { Dashboard } from "../classes/dashboard.js";
 import { Panel } from "../classes/panel/panel.js";
 import * as get from "../functions/accessors.js";
 import * as math from "../functions/math.js";
@@ -148,93 +149,6 @@ function spawnContextMenu(posX = 0, posY = 0): void {
     )
         return;
     try {
-        // ? If we are trying to spawn the context menu too far down on the screen
-        // ? that the submenus would not fit/would go out of the screen on the bottom
-        if (posY > window.innerHeight - contextMenu.offsetHeight - 100) {
-            // * So we show the submenus above their hover entries.
-            themeMenu.style.top = "";
-            themeMenu.style.left = "0";
-            themeMenu.style.right = "";
-            themeMenu.style.bottom = "100%";
-            themeMenu.style.transformOrigin = "left";
-            panelMenu.style.top = "";
-            panelMenu.style.left = "0";
-            panelMenu.style.right = "";
-            panelMenu.style.bottom = "100%";
-            panelMenu.style.transformOrigin = "left";
-            dimensionsMenu.style.top = "";
-            dimensionsMenu.style.left = "0";
-            dimensionsMenu.style.right = "";
-            dimensionsMenu.style.bottom = "100%";
-            dimensionsMenu.style.transformOrigin = "left";
-
-            // ? If we are trying to spawn the context menu in a situation where (a) the window is too thin
-            // ? to fit the main menu and the submenu next to each other at all or (b) the position cannot fit
-            // ? both menus next to each other
-            // * (the submenus have the same width as the main menu)
-        } else if (
-            window.innerWidth < 2 * contextMenu.offsetWidth
-            || (posX > window.innerWidth - 2 * contextMenu.offsetWidth
-                && posX < contextMenu.offsetWidth)
-        ) {
-            // * So we show the submenus under their hover entries.
-            themeMenu.style.top = "100%";
-            themeMenu.style.left = "0";
-            themeMenu.style.right = "";
-            themeMenu.style.bottom = "";
-            themeMenu.style.transformOrigin = "left";
-            panelMenu.style.top = "100%";
-            panelMenu.style.left = "0";
-            panelMenu.style.right = "";
-            panelMenu.style.bottom = "";
-            panelMenu.style.transformOrigin = "left";
-            dimensionsMenu.style.top = "100%";
-            dimensionsMenu.style.left = "0";
-            dimensionsMenu.style.right = "";
-            dimensionsMenu.style.bottom = "";
-            dimensionsMenu.style.transformOrigin = "left";
-
-            // ? If we are trying to spawn the context menu so far right that the submenus
-            // ? cannot fit/would go off the screen on the right, but there is enough space
-            // ? on the left (due to the fact that it failed the previous check)
-        } else if (posX > window.innerWidth - 2 * contextMenu.offsetWidth) {
-            // * So we show the submenus to the left of their hover entries.
-            themeMenu.style.top = "";
-            themeMenu.style.left = "";
-            themeMenu.style.right = "100%";
-            themeMenu.style.bottom = "";
-            themeMenu.style.transformOrigin = "right";
-            panelMenu.style.top = "";
-            panelMenu.style.left = "";
-            panelMenu.style.right = "100%";
-            panelMenu.style.bottom = "";
-            panelMenu.style.transformOrigin = "right";
-            dimensionsMenu.style.top = "";
-            dimensionsMenu.style.left = "";
-            dimensionsMenu.style.right = "100%";
-            dimensionsMenu.style.bottom = "";
-            dimensionsMenu.style.transformOrigin = "right";
-
-            // ? If there is enough space on the right for the submenus to sit comfortably
-        } else {
-            // * So we show the submenus on the right regularly
-            themeMenu.style.top = "";
-            themeMenu.style.left = "100%";
-            themeMenu.style.right = "";
-            themeMenu.style.bottom = "";
-            themeMenu.style.transformOrigin = "left";
-            panelMenu.style.top = "";
-            panelMenu.style.left = "100%";
-            panelMenu.style.right = "";
-            panelMenu.style.bottom = "";
-            panelMenu.style.transformOrigin = "left";
-            dimensionsMenu.style.top = "";
-            dimensionsMenu.style.left = "100%";
-            dimensionsMenu.style.right = "";
-            dimensionsMenu.style.bottom = "";
-            dimensionsMenu.style.transformOrigin = "left";
-        }
-
         // ? Removes the `lerping` class placed when we are ensuring the context menu stays
         // ? on screen during changes, such as when we toggle edit mode, or right click on a panel.
         contextMenu.classList.remove("lerping");
@@ -254,6 +168,134 @@ function spawnContextMenu(posX = 0, posY = 0): void {
             0,
             window.innerHeight - innerMenu.offsetHeight - 10,
         );
+
+        // ? If we are trying to spawn the context menu too far down on the screen
+        // ? that the submenus would not fit/would go out of the screen on the bottom
+        if (y > window.innerHeight - contextMenu.offsetHeight - 100) {
+            // * So we show the submenus above their hover entries.
+            themeMenu.style.top = "";
+            themeMenu.style.left = "0";
+            themeMenu.style.right = "";
+            themeMenu.style.bottom = "100%";
+            themeMenu.style.transformOrigin = "left";
+            panelMenu.style.top = "";
+            panelMenu.style.left = "0";
+            panelMenu.style.right = "";
+            panelMenu.style.bottom = "100%";
+            panelMenu.style.transformOrigin = "left";
+
+            // ? If we are trying to spawn the context menu in a situation where (a) the window is too thin
+            // ? to fit the main menu and the submenu next to each other at all or (b) the position cannot fit
+            // ? both menus next to each other
+            // * (the submenus have the same width as the main menu)
+        } else if (
+            window.innerWidth < 2 * contextMenu.offsetWidth
+            || (x > window.innerWidth - 2 * contextMenu.offsetWidth
+                && x < contextMenu.offsetWidth)
+        ) {
+            // * So we show the submenus under their hover entries.
+            themeMenu.style.top = "100%";
+            themeMenu.style.left = "0";
+            themeMenu.style.right = "";
+            themeMenu.style.bottom = "";
+            themeMenu.style.transformOrigin = "left";
+            panelMenu.style.top = "100%";
+            panelMenu.style.left = "0";
+            panelMenu.style.right = "";
+            panelMenu.style.bottom = "";
+            panelMenu.style.transformOrigin = "left";
+
+            // ? If we are trying to spawn the context menu so far right that the submenus
+            // ? cannot fit/would go off the screen on the right, but there is enough space
+            // ? on the left (due to the fact that it failed the previous check)
+        } else if (x > window.innerWidth - 2 * contextMenu.offsetWidth) {
+            // * So we show the submenus to the left of their hover entries.
+            themeMenu.style.top = "";
+            themeMenu.style.left = "";
+            themeMenu.style.right = "100%";
+            themeMenu.style.bottom = "";
+            themeMenu.style.transformOrigin = "right";
+            panelMenu.style.top = "";
+            panelMenu.style.left = "";
+            panelMenu.style.right = "100%";
+            panelMenu.style.bottom = "";
+            panelMenu.style.transformOrigin = "right";
+
+            // ? If there is enough space on the right for the submenus to sit comfortably
+        } else {
+            // * So we show the submenus on the right regularly
+            themeMenu.style.top = "";
+            themeMenu.style.left = "100%";
+            themeMenu.style.right = "";
+            themeMenu.style.bottom = "";
+            themeMenu.style.transformOrigin = "left";
+            panelMenu.style.top = "";
+            panelMenu.style.left = "100%";
+            panelMenu.style.right = "";
+            panelMenu.style.bottom = "";
+            panelMenu.style.transformOrigin = "left";
+        }
+
+        const maxWidth = 15 * Dashboard.getMaxDimensions().width + 16;
+        const maxHeight = 15 * Dashboard.getMaxDimensions().height + 16;
+
+        // ? Now, special checks for the dimensions menu, as it is wider than the other menus
+
+        //? If there is no space to the bottom and right
+        if (
+            y
+                > window.innerHeight
+                    - Math.max(maxHeight, contextMenu.offsetHeight)
+                    - 100
+            && x
+                > window.innerWidth
+                    - Math.max(maxWidth, contextMenu.offsetWidth)
+                    - 100
+        ) {
+            dimensionsMenu.style.top = "";
+            dimensionsMenu.style.left = "";
+            dimensionsMenu.style.right = "0";
+            dimensionsMenu.style.bottom = "100%";
+            dimensionsMenu.style.transformOrigin = "right";
+
+            // ? If there is no space on the bottom, but normal space to the right
+        } else if (
+            y
+            > window.innerHeight
+                - Math.max(maxHeight, contextMenu.offsetHeight)
+                - 100
+        ) {
+            dimensionsMenu.style.top = "";
+            dimensionsMenu.style.left = "0";
+            dimensionsMenu.style.right = "";
+            dimensionsMenu.style.bottom = "100%";
+            dimensionsMenu.style.transformOrigin = "left";
+
+            // ? If there is comfortable space on the bottom and left but no space to the right
+        } else if (
+            y
+                <= window.innerHeight
+                    - Math.max(maxHeight, contextMenu.offsetHeight)
+                    - 100
+            && x > window.innerWidth - contextMenu.offsetWidth - maxWidth
+            && x > maxWidth
+        ) {
+            dimensionsMenu.style.top = "";
+            dimensionsMenu.style.left = "";
+            dimensionsMenu.style.right = "100%";
+            dimensionsMenu.style.bottom = "";
+            dimensionsMenu.style.transformOrigin = "right";
+
+            // ? Otherwise, spawn normally on the right
+        } else {
+            dimensionsMenu.style.top = "";
+            dimensionsMenu.style.left = "100%";
+            dimensionsMenu.style.right = "";
+            dimensionsMenu.style.bottom = "";
+            dimensionsMenu.style.transformOrigin = "left";
+
+            // ? If there is no space on the bottom and space on the right
+        }
 
         // ? We update the style of the context menu to move to the appropriate position,
         contextMenu.style.setProperty("--x", x + "px");
