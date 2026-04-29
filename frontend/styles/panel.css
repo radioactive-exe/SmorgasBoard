@@ -166,7 +166,7 @@ smorgas-board panel-element {
     }
 
     &::part(drag-icon):hover {
-        mask-size: 18%;
+        mask-size: 3.8rem;
     }
 
     &::part(handle):active {
