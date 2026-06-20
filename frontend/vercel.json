@@ -2,11 +2,11 @@
     "$schema": "https://openapi.vercel.sh/vercel.json",
     "buildCommand": "npm run build",
     "installCommand": "npm i -P",
-    "outputDirectory": "dist/",
-    "rewrites": [
-        {
-            "source": "/favicon.ico",
-            "destination": "/assets/meta/favicon-96x96.png"
-        }
-    ]
+    "outputDirectory": "dist/"
+    // "rewrites": [
+    //     {
+    //         "source": "/favicon.ico",
+    //         "destination": "/assets/meta/favicon-96x96.png"
+    //     }
+    // ]
 }
