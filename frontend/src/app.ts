@@ -679,7 +679,6 @@ function hideModal(modal: HTMLElement | null = null): void {
                 document.removeEventListener("click", exitFocusHandler);
                 document.removeEventListener("keydown", exitFocusHandler);
             }
-            console.log("All done", modal);
             current.modal = null;
             modalLayer.classList.remove("blurred");
         }
