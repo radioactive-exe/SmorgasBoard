@@ -22,21 +22,9 @@ class Theme {
      * accessed during runtime to switch themes and have any necessary info.
      */
 
-    static readonly DEFAULT = new Theme(
-        0,
-        "Default Theme",
-        "themes/default.css",
-    );
-    static readonly CONSOLE = new Theme(
-        1,
-        "Hacker-man Theme",
-        "themes/console.css",
-    );
-    static readonly PALENIGHT = new Theme(
-        2,
-        "Palenight Theme",
-        "themes/palenight.css",
-    );
+    static readonly DEFAULT = new Theme(0, "Default Theme", "");
+    static readonly CONSOLE = new Theme(1, "Hacker-man Theme", "console");
+    static readonly PALENIGHT = new Theme(2, "Palenight Theme", "palenight");
 
     // TODO Implement Mode preference themes like Light and Dark Mode
 
