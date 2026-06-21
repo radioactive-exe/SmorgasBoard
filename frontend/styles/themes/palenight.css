@@ -1,4 +1,4 @@
-:root {
+[data-theme="palenight"] {
     --panel-bg: #32374C;
     --dashboard-bg: #292D3E;
     --panel-handle-bg: hsl(from var(--panel-bg) h s calc(l * 1.6));

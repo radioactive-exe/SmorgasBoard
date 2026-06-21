@@ -47,10 +47,10 @@ class Theme {
      * This constructor is private so we cannot create any other themes during
      * runtime.
      *
-     * @param id   - The internal ID number for the Theme.
-     * @param name - The user-friendly client-facing name to be used for the
-     *   Theme in menus, UI, etc.
-     * @param url  - The relative URL of the Theme's CSS File.
+     * @param id        - The internal ID number for the Theme.
+     * @param name      - The user-friendly client-facing name to be used for
+     *   the Theme in menus, UI, etc.
+     * @param dataTheme - The dataset attribute value of the Theme.
      *
      * @example
      *
@@ -69,7 +69,7 @@ class Theme {
     private constructor(
         private readonly id: number,
         private readonly name: string,
-        private readonly url: string, // private readonly mode:
+        private readonly dataTheme: string, // private readonly mode:
     ) {}
 
     /**
@@ -98,17 +98,16 @@ class Theme {
     }
 
     /**
-     * Returns ths URL of the Theme.
+     * Returns ths dataset value of the Theme.
      *
      * @remarks
      * This method is called when setting themes, in order to change the theme
-     * link's `src` attribute.
+     * document's theme.
      *
-     * @returns The URL relative to the main `index.html` running the
-     *   application.
+     * @returns The dataset value of the Theme.
      */
-    public getUrl(): string {
-        return this.url;
+    public getDatasetValue(): string {
+        return this.dataTheme;
     }
 }
 

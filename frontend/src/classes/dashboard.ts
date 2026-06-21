@@ -952,17 +952,8 @@ class Dashboard extends HTMLElement {
         // ? Store the new theme
         this.currentTheme = theme;
 
-        // ? Validate that the Theme link file in the HTML head is present,
-        // ? and replace if needed/missing
-        let themeFileLink: HTMLElement | null =
-            document.querySelector("#app-theme");
-        if (themeFileLink == null) {
-            themeFileLink = document.createElement("link");
-            document.head.appendChild(themeFileLink);
-        }
-
-        // ? Update the CSS file that the Theme link uses
-        themeFileLink.setAttribute("href", theme.getUrl());
+        // ? Update the document's theme
+        document.documentElement.dataset["theme"] = theme.getDatasetValue();
 
         // ? If needed, save
         if (updateStored) this.triggerDelayedSave();

@@ -1,23 +1,23 @@
 :root {
-    --panel-bg: #282828;
-    --dashboard-bg: #181818;
+    --panel-bg: #00806b;
+    --dashboard-bg: #2b615f;
     --panel-handle-bg: hsl(from var(--panel-bg) h s calc(l * 1.6));
     --cell-bg: rgb(255 255 255 / 0.305);
     --textarea-bg: hsl(from var(--panel-bg) h s calc(l * 0.95));
     --preview-bg: lch(from var(--panel-bg) calc(l*0.6) c h);
-    --text-primary: #e7ffdc;
-    --text-secondary: #d0ffb0;
-    --text-subtle: #b7cfb3;
-    --text-placeholder: #8ea57e;
-    --text-accent: #0f0;
+    --text-primary: #b9fff4;
+    --text-secondary: #9ff;
+    --text-subtle: #92d0d3;
+    --text-placeholder: #92c7c7;
+    --text-accent: #3edf7b;
     --scrollbar-bg: hsl(from var(--panel-bg) h s calc(l * 0.7));
     --scrollbar-thumb-col: hsl(from var(--panel-bg) h s calc(l * 1.2));
     --alert-error-bg: #ff4a4a;
-    --alert-warning-bg: #b16942;
-    --alert-info-bg: #004158;
-    --input-bg: #3c3c3c;
+    --alert-warning-bg: #ff9e4a;
+    --alert-info-bg: #67d6ff;
+    --input-bg: #0c5549;
     --input-secondary: hsl(from var(--input-bg) h s calc(l*2.2));
-    --input-accent: #0f0;
-    --theme-font: "Google Sans Code", monospace;
+    --input-accent: #2bfff1;
+    --theme-font: "Libre Franklin", sans-serif;
     font-family: var(--theme-font);
 }
