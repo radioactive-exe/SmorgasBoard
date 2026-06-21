@@ -653,11 +653,11 @@ function showModal(modal: HTMLElement | null = null): void {
         current.modal = modal;
         modal?.classList.add("visible");
     }
-
-    current.panel = preview;
     modalLayer.classList.add("blurred");
-    document.addEventListener("click", exitFocusHandler);
-    document.addEventListener("keydown", exitFocusHandler);
+    if (!modal?.classList.contains("warning-overlay")) {
+        document.addEventListener("click", exitFocusHandler);
+        document.addEventListener("keydown", exitFocusHandler);
+    }
 }
 
 function hideModal(modal: HTMLElement | null = null): void {
@@ -671,11 +671,17 @@ function hideModal(modal: HTMLElement | null = null): void {
     } else {
         modal.classList.remove("visible");
         // ? If there are no other popups left
-        if (modalLayer.querySelectorAll(".popup.visible").length == 0) {
+        if (
+            modalLayer.querySelectorAll(".popup.visible").length == 0
+            && !current.panel.classList.contains("configuring")
+        ) {
+            if (!modal.classList.contains("warning-overlay")) {
+                document.removeEventListener("click", exitFocusHandler);
+                document.removeEventListener("keydown", exitFocusHandler);
+            }
+            console.log("All done", modal);
             current.modal = null;
             modalLayer.classList.remove("blurred");
-            document.removeEventListener("click", exitFocusHandler);
-            document.removeEventListener("keydown", exitFocusHandler);
         }
     }
 }

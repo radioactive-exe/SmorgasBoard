@@ -1,7 +1,4 @@
 #modal-layer {
-    position: fixed;
-    inset: 0;
-    display: flex;
     pointer-events: none;
 
     & .warning-overlay {
